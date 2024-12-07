@@ -66,5 +66,9 @@ namespace Constants {// 使用时要加命名空间
     //出售栈相关变量
     constexpr int maxnum = 200;
     constexpr int listInit = -1;
+
+    //角色相关变量
+    constexpr int OriginHealth = 100;
+    constexpr  float INTERACT_DISTANCE = 50.0f; 
 }
 #endif // CONSTANTS_H
