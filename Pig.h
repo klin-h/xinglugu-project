@@ -14,29 +14,29 @@
 class Pig : public Animal
 {
 public:
-    // ¹¹Ôìº¯Êı
+    // æ„é€ å‡½æ•°
     Pig();
 
-    // ĞéÎö¹¹º¯Êı
+    // è™šææ„å‡½æ•°
     virtual ~Pig();
 
     static Pig* create();
     virtual bool init() override;
 
-    // ÊµÏÖ²ú³ö·½·¨
+    // å®ç°äº§å‡ºæ–¹æ³•
     virtual void produce() override;
 
-    // ÖíµÄÌØÓĞ·½·¨
-    void oink(); // Öí½ĞÉù
+    // çŒªçš„ç‰¹æœ‰æ–¹æ³•
+    void oink(); // çŒªå«å£°
 
-    // ¶¯»­¿ØÖÆ
+    // åŠ¨ç”»æ§åˆ¶
     virtual void startWalkingAnimation() override;
     virtual void stopWalkingAnimation() override;
 
-    // ÖÎÁÆ·½·¨
+    // æ²»ç–—æ–¹æ³•
     void heal(int amount);
 
-    bool isWalking_ = false; // ÊÇ·ñÔÚÒÆ¶¯×´Ì¬
+    bool isWalking_ = false; // æ˜¯å¦åœ¨ç§»åŠ¨çŠ¶æ€
 };
 
 #endif // PIG_H
