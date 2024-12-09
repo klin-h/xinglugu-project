@@ -3,7 +3,7 @@
  * File Name:constants.h
  * File Function: const define
  * Author:Li Siyuan
- * Update Date:12.5
+ * Update Date:12.9
  * License:
  ****************************************************************/
 #ifndef __USABLE_H_
@@ -55,7 +55,7 @@ public:
 		return ret;
 	}
 
-	char* name;
+	std::string name;
 
 	int quantity;
 
@@ -65,17 +65,17 @@ public:
 
 	ItemType itemtype = ItemType::null;
 	Item() {
-		quantity = 0;
+		quantity=0;
 		name = "null";
 		pictureName = "null.png";
 	}
 
 	char const* filenameReturn();
 
-	void quantityChange(bool way, int amount);
+	void quantityChange(bool way,int amount);
 
-	virtual Item* create() {
-		Item* null = new Item();
+    virtual Item* create() {
+		Item* null=new Item();
 		return null;
 	}
 
@@ -102,17 +102,17 @@ public:
 		carp,//鲤鱼
 		catfish//鲶鱼
 	};
-
-	SeedKind currentSeed = SeedKind::null;
+	
+	SeedKind currentSeed=SeedKind::null;
 
 	void rightKeyFunction();
 
 	int moneyToSell();
 
-	Fish(char const* fishName)
+	Fish(std::string fishName)
 	{
 		itemtype = ItemType::fish;
-		name = (char*)fishName;
+		name=fishName;
 		quantity = 1;
 		const int qual = rand() % (100 - 1 + 1) + 1;
 		if (qual <= 70)
@@ -124,49 +124,49 @@ public:
 				quality = 3;
 		}
 
-		switch (hash_1(fishName)) {
-			case hash_compile_time("blowfish"):
-				currentSeed = SeedKind::blowfish;//确定具体物品
-				pictureName = "blowfish.png";//传入文件名
-				break;
-			case hash_compile_time("tuna"):
-				currentSeed = SeedKind::tuna;
-				pictureName = "tuna.png";
-				break;
-			case hash_compile_time("sardine"):
-				currentSeed = SeedKind::sardine;
-				pictureName = "sardine.png";
-				break;
-			case hash_compile_time("largemouthbass"):
-				currentSeed = SeedKind::largemouthbass;
-				pictureName = "largemouthbass.png";
-				break;
-			case hash_compile_time("smallmouthbass"):
-				currentSeed = SeedKind::smallmouthbass;
-				pictureName = "smallmouthbass.png";
-				break;
-			case hash_compile_time("salmon"):
-				currentSeed = SeedKind::salmon;
-				pictureName = "hoe.png";
-				break;
-			case hash_compile_time("sunfish"):
-				currentSeed = SeedKind::sunfish;
-				pictureName = "sunfish.png";
-				break;
-			case hash_compile_time("carp"):
-				currentSeed = SeedKind::carp;
-				pictureName = "carp.png";
-				break;
-			case hash_compile_time("catfish"):
-				currentSeed = SeedKind::catfish;
-				pictureName = "catfish.png";
-				break;
-			default:
-				break;
+		switch (hash_1(fishName.c_str())) {
+		case hash_compile_time("blowfish"):
+			currentSeed = SeedKind::blowfish;//确定具体物品
+			pictureName = "blowfish.png";//传入文件名
+			break;
+		case hash_compile_time("tuna"):
+			currentSeed = SeedKind::tuna;
+			pictureName = "tuna.png";
+			break;
+		case hash_compile_time("sardine"):
+			currentSeed = SeedKind::sardine;
+			pictureName = "sardine.png";
+			break;
+		case hash_compile_time("largemouthbass"):
+			currentSeed = SeedKind::largemouthbass;
+			pictureName = "largemouthbass.png";
+			break;
+		case hash_compile_time("smallmouthbass"):
+			currentSeed = SeedKind::smallmouthbass;
+			pictureName = "smallmouthbass.png";
+			break;
+		case hash_compile_time("salmon"):
+			currentSeed = SeedKind::salmon;
+			pictureName = "hoe.png";
+			break;
+		case hash_compile_time("sunfish"):
+			currentSeed = SeedKind::sunfish;
+			pictureName = "sunfish.png";
+			break;
+		case hash_compile_time("carp"):
+			currentSeed = SeedKind::carp;
+			pictureName = "carp.png";
+			break;
+		case hash_compile_time("catfish"):
+			currentSeed = SeedKind::catfish;
+			pictureName = "catfish.png";
+			break;
+		default:
+			break;
 		}
 	}
 
-	static Fish* create(char const* fishName) {
+	static Fish* create(std::string fishName) {
 		Fish* newFish = new Fish(fishName);
 		return newFish;
 	}
@@ -221,138 +221,138 @@ public:
 
 	int moneyToSell();
 
-	Seed(char const* fishName)
+	Seed(std::string fishName)
 	{
 		itemtype = ItemType::seed;
-		name = (char*)fishName;
+		name=fishName;
 		quantity = 1;
-		switch (hash_1(fishName)) {
-			case hash_compile_time("parsnipseed"):
-				currentSeed = SeedKind::parsnipseed;//确定具体物品
-				pictureName = "parsnipseed.png";//传入文件名
-				break;
-			case hash_compile_time("greenbeanseed"):
-				currentSeed = SeedKind::greenbeanseed;
-				pictureName = "greenbeanseed.png";
-				break;
-			case hash_compile_time("cauliflowerseed"):
-				currentSeed = SeedKind::cauliflowerseed;
-				pictureName = "cauliflowerseed.png";
-				break;
-			case hash_compile_time("potatoseed"):
-				currentSeed = SeedKind::potatoseed;
-				pictureName = "potatoseed.png";
-				break;
-			case hash_compile_time("tulipbulbsseed"):
-				currentSeed = SeedKind::tulipbulbsseed;
-				pictureName = "tulipbulbsseed.png";
-				break;
-			case hash_compile_time("cabbageseed"):
-				currentSeed = SeedKind::cabbageseed;
-				pictureName = "cabbageseed.png";
-				break;
-			case hash_compile_time("bluejazzseed"):
-				currentSeed = SeedKind::bluejazzseed;
-				pictureName = "bluejazzseed.png";
-				break;
-			case hash_compile_time("garlicseed"):
-				currentSeed = SeedKind::garlicseed;
-				pictureName = "garlicseed.png";
-				break;
-			case hash_compile_time("riceseedlingseed"):
-				currentSeed = SeedKind::riceseedlingseed;
-				pictureName = "riceseedlingseed.png";
-				break;
-			case hash_compile_time("melonseed"):
-				currentSeed = SeedKind::melonseed;
-				pictureName = "melonseed.png";
-				break;
-			case hash_compile_time("tomatoseed"):
-				currentSeed = SeedKind::tomatoseed;
-				pictureName = "tomatoseed.png";
-				break;
-			case hash_compile_time("blueburryseed"):
-				currentSeed = SeedKind::blueburryseed;
-				pictureName = "blueburryseed.png";
-				break;
-			case hash_compile_time("chilipepperseed"):
-				currentSeed = SeedKind::chilipepperseed;
-				pictureName = "chilipepperseed.png";
-				break;
-			case hash_compile_time("wheatseed"):
+		switch (hash_1(fishName.c_str())) {
+		case hash_compile_time("parsnipseed"):
+			currentSeed = SeedKind::parsnipseed;//确定具体物品
+			pictureName = "parsnipseed.png";//传入文件名
+			break;
+		case hash_compile_time("greenbeanseed"):
+			currentSeed = SeedKind::greenbeanseed;
+			pictureName = "greenbeanseed.png";
+			break;
+		case hash_compile_time("cauliflowerseed"):
+			currentSeed = SeedKind::cauliflowerseed;
+			pictureName = "cauliflowerseed.png";
+			break;
+		case hash_compile_time("potatoseed"):
+			currentSeed = SeedKind::potatoseed;
+			pictureName = "potatoseed.png";
+			break;
+		case hash_compile_time("tulipbulbsseed"):
+			currentSeed = SeedKind::tulipbulbsseed;
+			pictureName = "tulipbulbsseed.png";
+			break;
+		case hash_compile_time("cabbageseed"):
+			currentSeed = SeedKind::cabbageseed;
+			pictureName = "cabbageseed.png";
+			break;
+		case hash_compile_time("bluejazzseed"):
+			currentSeed = SeedKind::bluejazzseed;
+			pictureName = "bluejazzseed.png";
+			break;
+		case hash_compile_time("garlicseed"):
+			currentSeed = SeedKind::garlicseed;
+			pictureName = "garlicseed.png";
+			break;
+		case hash_compile_time("riceseedlingseed"):
+			currentSeed = SeedKind::riceseedlingseed;
+			pictureName = "riceseedlingseed.png";
+			break;
+		case hash_compile_time("melonseed"):
+			currentSeed = SeedKind::melonseed;
+			pictureName = "melonseed.png";
+			break;
+		case hash_compile_time("tomatoseed"):
+			currentSeed = SeedKind::tomatoseed;
+			pictureName = "tomatoseed.png";
+			break;
+		case hash_compile_time("blueburryseed"):
+			currentSeed = SeedKind::blueburryseed;
+			pictureName = "blueburryseed.png";
+			break;
+		case hash_compile_time("chilipepperseed"):
+			currentSeed = SeedKind::chilipepperseed;
+			pictureName = "chilipepperseed.png";
+			break; 
+		case hash_compile_time("wheatseed"):
 				currentSeed = SeedKind::wheatseed;
 				pictureName = "wheatseed.png";
 				break;
-			case hash_compile_time("turnipseed"):
-				currentSeed = SeedKind::turnipseed;
-				pictureName = "turnipseed.png";
-				break;
-			case hash_compile_time("poppiesseed"):
-				currentSeed = SeedKind::poppiesseed;
-				pictureName = "poppiesseed.png";
-				break;
-			case hash_compile_time("summersequinsseed"):
-				currentSeed = SeedKind::summersequinsseed;
-				pictureName = "summersequinsseed.png";
-				break;
-			case hash_compile_time("hopseed"):
-				currentSeed = SeedKind::hopseed;
-				pictureName = "hopseed.png";
-				break;
-			case hash_compile_time("cornseed"):
-				currentSeed = SeedKind::cornseed;
-				pictureName = "cornseed.png";
-				break;
-			case hash_compile_time("sunflowerseed"):
-				currentSeed = SeedKind::sunflowerseed;
-				pictureName = "sunflowerseed.png";
-				break;
-			case hash_compile_time("redleafcabbageseed"):
-				currentSeed = SeedKind::redleafcabbageseed;
-				pictureName = "redleafcabbageseed.png";
-				break;
-			case hash_compile_time("eggplantseed"):
-				currentSeed = SeedKind::eggplantseed;
-				pictureName = "eggplantseed.png";
-				break;
-			case hash_compile_time("pumpkinseed"):
-				currentSeed = SeedKind::pumpkinseed;
-				pictureName = "pumpkinseed.png";
-				break;
-			case hash_compile_time("chinesecabbageseed"):
-				currentSeed = SeedKind::chinesecabbageseed;
-				pictureName = "chinesecabbageseed.png";
-				break;
-			case hash_compile_time("yamseed"):
-				currentSeed = SeedKind::yamseed;
-				pictureName = "yamseed.png";
-				break;
-			case hash_compile_time("cranberriesseed"):
-				currentSeed = SeedKind::cranberriesseed;
-				pictureName = "cranberriesseed.png";
-				break;
-			case hash_compile_time("rosefairyseed"):
-				currentSeed = SeedKind::rosefairyseed;
-				pictureName = "rosefairyseed.png";
-				break;
-			case hash_compile_time("amaranthseed"):
-				currentSeed = SeedKind::amaranthseed;
-				pictureName = "amaranthseed.png";
-				break;
-			case hash_compile_time("grapeseed"):
-				currentSeed = SeedKind::grapeseed;
-				pictureName = "grapeseed.png";
-				break;
-			case hash_compile_time("artichokeseed"):
-				currentSeed = SeedKind::artichokeseed;
-				pictureName = "artichokeseed.png";
-				break;
-			default:
-				break;
+		case hash_compile_time("turnipseed"):
+			currentSeed = SeedKind::turnipseed;
+			pictureName = "turnipseed.png";
+			break;
+		case hash_compile_time("poppiesseed"):
+			currentSeed = SeedKind::poppiesseed;
+			pictureName = "poppiesseed.png";
+			break;
+		case hash_compile_time("summersequinsseed"):
+			currentSeed = SeedKind::summersequinsseed;
+			pictureName = "summersequinsseed.png";
+			break;
+		case hash_compile_time("hopseed"):
+			currentSeed = SeedKind::hopseed;
+			pictureName = "hopseed.png";
+			break;
+		case hash_compile_time("cornseed"):
+			currentSeed = SeedKind::cornseed;
+			pictureName = "cornseed.png";
+			break;
+		case hash_compile_time("sunflowerseed"):
+			currentSeed = SeedKind::sunflowerseed;
+			pictureName = "sunflowerseed.png";
+			break;
+		case hash_compile_time("redleafcabbageseed"):
+			currentSeed = SeedKind::redleafcabbageseed;
+			pictureName = "redleafcabbageseed.png";
+			break;
+		case hash_compile_time("eggplantseed"):
+			currentSeed = SeedKind::eggplantseed;
+			pictureName = "eggplantseed.png";
+			break;
+		case hash_compile_time("pumpkinseed"):
+			currentSeed = SeedKind::pumpkinseed;
+			pictureName = "pumpkinseed.png";
+			break;
+		case hash_compile_time("chinesecabbageseed"):
+			currentSeed = SeedKind::chinesecabbageseed;
+			pictureName = "chinesecabbageseed.png";
+			break;
+		case hash_compile_time("yamseed"):
+			currentSeed = SeedKind::yamseed;
+			pictureName = "yamseed.png";
+			break;
+		case hash_compile_time("cranberriesseed"):
+			currentSeed = SeedKind::cranberriesseed;
+			pictureName = "cranberriesseed.png";
+			break;
+		case hash_compile_time("rosefairyseed"):
+			currentSeed = SeedKind::rosefairyseed;
+			pictureName = "rosefairyseed.png";
+			break;
+		case hash_compile_time("amaranthseed"):
+			currentSeed = SeedKind::amaranthseed;
+			pictureName = "amaranthseed.png";
+			break;
+		case hash_compile_time("grapeseed"):
+			currentSeed = SeedKind::grapeseed;
+			pictureName = "grapeseed.png";
+			break;
+		case hash_compile_time("artichokeseed"):
+			currentSeed = SeedKind::artichokeseed;
+			pictureName = "artichokeseed.png";
+			break;
+		default:
+			break;
 		}
 	}
 
-	static Seed* create(char const* fishName) {
+	static Seed* create(std::string fishName) {
 		Seed* newSeed = new Seed(fishName);
 		return newSeed;
 	}
@@ -423,38 +423,38 @@ public:
 
 	void rightKeyFunction();
 
-	Tool(char const* toolName)
+	Tool(std::string toolName)
 	{
 		itemtype = ItemType::tool;
-		name = "null";
-		pictureName = "null.png";
+		name = toolName;
+		pictureName="null.png";
 		quantity = 1;
-		switch (hash_1(toolName)) {
-			case hash_compile_time("axe"):
-				currentSeed = ToolKind::axe;//确定具体物品
-				pictureName = "axe.png";//传入文件名
-				break;
-			case hash_compile_time("wateringcan"):
-				currentSeed = ToolKind::wateringcan;
-				pictureName = "wateringcan.png";
-				break;
-			case hash_compile_time("pickaxe"):
-				currentSeed = ToolKind::pickaxe;
-				pictureName = "pickaxe.png";
-				break;
-			case hash_compile_time("sickle"):
-				currentSeed = ToolKind::sickle;
-				pictureName = "sickle.png";
-				break;
-			case hash_compile_time("hoe"):
-				currentSeed = ToolKind::hoe;
-				pictureName = "hoe.png";
-				break;
-			default:
-				break;
+		switch (hash_1(toolName.c_str())) {
+		case hash_compile_time("axe"):
+			currentSeed = ToolKind::axe;//确定具体物品
+			pictureName = "axe.png";//传入文件名
+			break;
+		case hash_compile_time("wateringcan"):
+			currentSeed = ToolKind::wateringcan;
+			pictureName = "wateringcan.png";
+			break;
+		case hash_compile_time("pickaxe"):
+			currentSeed = ToolKind::pickaxe;
+			pictureName = "pickaxe.png";
+			break;
+		case hash_compile_time("sickle"):
+			currentSeed = ToolKind::sickle;
+			pictureName = "sickle.png";
+			break;
+		case hash_compile_time("hoe"):
+			currentSeed = ToolKind::hoe;
+			pictureName = "hoe.png";
+			break;
+		default:
+			break;
 		}
 	}
-	static Tool* create(char const* toolName) {
+	static Tool* create(std::string toolName) {
 		Tool* newTool = new Tool(toolName);
 		return newTool;
 	}
@@ -515,10 +515,10 @@ public:
 
 	int moneyToSell();
 
-	Fruit(char const* fishName)
+	Fruit(std::string fishName)
 	{
 		itemtype = ItemType::fruit;
-		name = (char*)fishName;
+		name = fishName;
 		quantity = 1;
 		int qual = rand() % (100 - 1 + 1) + 1;
 		if (qual <= 70)
@@ -529,9 +529,134 @@ public:
 			else
 				quality = 3;
 		}
+
+		switch (hash_1(fishName.c_str())) {
+		case hash_compile_time("parsnip"):
+			currentSeed = fruitKind::parsnip;//确定具体物品
+			pictureName = "parsnip.png";//传入文件名
+			break;
+		case hash_compile_time("greenbean"):
+			currentSeed = fruitKind::greenbean;
+			pictureName = "greenbean.png";
+			break;
+		case hash_compile_time("cauliflower"):
+			currentSeed = fruitKind::cauliflower;
+			pictureName = "cauliflower.png";
+			break;
+		case hash_compile_time("potato"):
+			currentSeed = fruitKind::potato;
+			pictureName = "potato.png";
+			break;
+		case hash_compile_time("tulipbulbs"):
+			currentSeed = fruitKind::tulipbulbs;
+			pictureName = "tulipbulbs.png";
+			break;
+		case hash_compile_time("cabbage"):
+			currentSeed = fruitKind::cabbage;
+			pictureName = "cabbage.png";
+			break;
+		case hash_compile_time("bluejazz"):
+			currentSeed = fruitKind::bluejazz;
+			pictureName = "bluejazz.png";
+			break;
+		case hash_compile_time("garlic"):
+			currentSeed = fruitKind::garlic;
+			pictureName = "garlic.png";
+			break;
+		case hash_compile_time("riceseedling"):
+			currentSeed = fruitKind::riceseedling;
+			pictureName = "riceseedling.png";
+			break;
+		case hash_compile_time("melon"):
+			currentSeed = fruitKind::melon;
+			pictureName = "melon.png";
+			break;
+		case hash_compile_time("tomato"):
+			currentSeed = fruitKind::tomato;
+			pictureName = "tomato.png";
+			break;
+		case hash_compile_time("blueburry"):
+			currentSeed = fruitKind::blueburry;
+			pictureName = "blueburry.png";
+			break;
+		case hash_compile_time("chilipepper"):
+			currentSeed = fruitKind::chilipepper;
+			pictureName = "chilipepper.png";
+			break;
+		case hash_compile_time("wheat"):
+			currentSeed = fruitKind::wheat;
+			pictureName = "wheat.png";
+			break;
+		case hash_compile_time("turnip"):
+			currentSeed = fruitKind::turnip;
+			pictureName = "turnip.png";
+			break;
+		case hash_compile_time("poppies"):
+			currentSeed = fruitKind::poppies;
+			pictureName = "poppies.png";
+			break;
+		case hash_compile_time("summersequins"):
+			currentSeed = fruitKind::summersequins;
+			pictureName = "summersequins.png";
+			break;
+		case hash_compile_time("hop"):
+			currentSeed = fruitKind::hop;
+			pictureName = "hop.png";
+			break;
+		case hash_compile_time("corn"):
+			currentSeed = fruitKind::corn;
+			pictureName = "corn.png";
+			break;
+		case hash_compile_time("sunflower"):
+			currentSeed = fruitKind::sunflower;
+			pictureName = "sunflower.png";
+			break;
+		case hash_compile_time("redleafcabbage"):
+			currentSeed = fruitKind::redleafcabbage;
+			pictureName = "redleafcabbage.png";
+			break;
+		case hash_compile_time("eggplant"):
+			currentSeed = fruitKind::eggplant;
+			pictureName = "eggplant.png";
+			break;
+		case hash_compile_time("pumpkin"):
+			currentSeed = fruitKind::pumpkin;
+			pictureName = "pumpkin.png";
+			break;
+		case hash_compile_time("chinesecabbage"):
+			currentSeed = fruitKind::chinesecabbage;
+			pictureName = "chinesecabbage.png";
+			break;
+		case hash_compile_time("yam"):
+			currentSeed = fruitKind::yam;
+			pictureName = "yam.png";
+			break;
+		case hash_compile_time("cranberries"):
+			currentSeed = fruitKind::cranberries;
+			pictureName = "cranberries.png";
+			break;
+		case hash_compile_time("rosefairy"):
+			currentSeed = fruitKind::rosefairy;
+			pictureName = "rosefairy.png";
+			break;
+		case hash_compile_time("amaranth"):
+			currentSeed = fruitKind::amaranth;
+			pictureName = "amaranth.png";
+			break;
+		case hash_compile_time("grape"):
+			currentSeed = fruitKind::grape;
+			pictureName = "grape.png";
+			break;
+		case hash_compile_time("artichoke"):
+			currentSeed = fruitKind::artichoke;
+			pictureName = "artichoke.png";
+			break;
+		default:
+			break;
+		}
 	}
 
-	static Fruit* create(char const* fishName) {
+	static Fruit* create(std::string fishName) {
 		Fruit* newFruit = new Fruit(fishName);
 		return newFruit;
 	}
@@ -566,14 +691,80 @@ public:
 
 	int moneyToSell();
 
-	AnimalProduct(char const* fishName)
+	AnimalProduct(std::string fishName)
 	{
 		itemtype = ItemType::animalproduct;
-		name = (char*)fishName;
+		name= fishName;
 		quantity = 1;
+		switch (hash_1(fishName.c_str())) {
+		case hash_compile_time("egg"):
+			currentProduct = AnimalProductKind::egg;//确定具体物品
+			pictureName = "egg.png";//传入文件名
+			break;
+		case hash_compile_time("bigegg"):
+			currentProduct = AnimalProductKind::bigegg;//确定具体物品
+			pictureName = "bigegg.png";//传入文件名
+			break;
+		case hash_compile_time("brownegg"):
+			currentProduct = AnimalProductKind::brownegg;//确定具体物品
+			pictureName = "brownegg.png";//传入文件名
+			break;
+		case hash_compile_time("brownbigegg"):
+			currentProduct = AnimalProductKind::brownbigegg;//确定具体物品
+			pictureName = "brownbigegg.png";//传入文件名
+			break;
+		case hash_compile_time("goldegg"):
+			currentProduct = AnimalProductKind::goldegg;//确定具体物品
+			pictureName = "goldegg.png";//传入文件名
+			break;
+		case hash_compile_time("duckegg"):
+			currentProduct = AnimalProductKind::duckegg;//确定具体物品
+			pictureName = "duckegg.png";//传入文件名
+			break;
+		case hash_compile_time("duckfeather"):
+			currentProduct = AnimalProductKind::duckfeather;//确定具体物品
+			pictureName = "duckfeather.png";//传入文件名
+			break;
+		case hash_compile_time("animalfeather"):
+			currentProduct = AnimalProductKind::animalfeather;//确定具体物品
+			pictureName = "animalfeather.png";//传入文件名
+			break;
+		case hash_compile_time("rabbitleg"):
+			currentProduct = AnimalProductKind::rabbitleg;//确定具体物品
+			pictureName = "rabbitleg.png";//传入文件名
+			break;
+		case hash_compile_time("milk"):
+			currentProduct = AnimalProductKind::milk;//确定具体物品
+			pictureName = "milk.png";//传入文件名
+			break;
+		case hash_compile_time("largemilk"):
+			currentProduct = AnimalProductKind::largemilk;//确定具体物品
+			pictureName = "largemilk.png";//传入文件名
+			break;
+		case hash_compile_time("goatmilk"):
+			currentProduct = AnimalProductKind::goatmilk;//确定具体物品
+			pictureName = "goatmilk.png";//传入文件名
+			break;
+		case hash_compile_time("largegoatmilk"):
+			currentProduct = AnimalProductKind::largegoatmilk;//确定具体物品
+			pictureName = "goatmilk.png";//传入文件名
+			break;
+		case hash_compile_time("Truffles"):
+			currentProduct = AnimalProductKind::Truffles;//确定具体物品
+			pictureName = "Truffles.png";//传入文件名
+			break;
+		case hash_compile_time("honey"):
+			currentProduct = AnimalProductKind::honey;//确定具体物品
+			pictureName = "honey.png";//传入文件名
+			break;
+		case hash_compile_time("bugmeat"):
+			currentProduct = AnimalProductKind::bugmeat;//确定具体物品
+			pictureName = "bugmeat.png";//传入文件名
+			break;
+		}
 	}
-
-	static AnimalProduct* create(char const* fishName) {
+	
+	static AnimalProduct* create(std::string fishName) {
 		AnimalProduct* newFruit = new AnimalProduct(fishName);
 		return newFruit;
 	}
@@ -601,13 +792,59 @@ public:
 
 	int moneyToSell();
 
-	terial(char const* fishName)
+	terial(std::string fishName)
 	{
 		itemtype = ItemType::terial;
-		name = (char*)fishName;
+		name=fishName;
 		quantity = 1;
+		switch (hash_1(fishName.c_str())) {
+		case hash_compile_time("wood"):
+			currentProduct = terialKind::wood;//确定具体物品
+			pictureName = "wood.png";//传入文件名
+			break;
+		case hash_compile_time("stone"):
+			currentProduct = terialKind::stone;//确定具体物品
+			pictureName = "stone.png";//传入文件名
+			break;
+		case hash_compile_time("sap"):
+			currentProduct = terialKind::sap;//确定具体物品
+			pictureName = "sap.png";//传入文件名
+			break;
+		case hash_compile_time("copperore"):
+			currentProduct = terialKind::copperore;//确定具体物品
+			pictureName = "copperore.png";//传入文件名
+			break;
+		case hash_compile_time("ironore"):
+			currentProduct = terialKind::ironore;//确定具体物品
+			pictureName = "ironoree.png";//传入文件名
+			break;
+		case hash_compile_time("goldore"):
+			currentProduct = terialKind::goldore;//确定具体物品
+			pictureName = "goldore.png";//传入文件名
+			break;
+		case hash_compile_time("copperbar"):
+			currentProduct = terialKind::copperbar;//确定具体物品
+			pictureName = "copperbar.png";//传入文件名
+			break;
+		case hash_compile_time("ironbar"):
+			currentProduct = terialKind::ironbar;//确定具体物品
+			pictureName = "ironbar.png";//传入文件名
+			break;
+		case hash_compile_time("goldbar"):
+			currentProduct = terialKind::goldbar;//确定具体物品
+			pictureName = "goldbar.png";//传入文件名
+			break;
+		case hash_compile_time("coal"):
+			currentProduct = terialKind::coal;//确定具体物品
+			pictureName = "coal.png";//传入文件名
+			break;
+		case hash_compile_time("fibre"):
+			currentProduct = terialKind::fibre;//确定具体物品
+			pictureName = "fibre.png";//传入文件名
+			break;
+		}
 	}
-
+	
 	static terial* create(char const* fishName) {
 		terial* newFruit = new terial(fishName);
 		return newFruit;
