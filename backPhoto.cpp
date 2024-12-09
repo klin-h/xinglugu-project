@@ -8,8 +8,8 @@
 USING_NS_CC;
 USING_NS_CC::ui;
 using namespace Constants;
-extern bool backIsOpen = BackOpen1;
-extern bool backIsProed = BackPro1;
+bool backIsOpen = BackOpen1;
+bool backIsProed = BackPro1;
 RadioButton* Inventory[backpackCapacity];
 Sprite* displayItem;
 bool isSelected = 0;
@@ -52,7 +52,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[0]->getContentSize().width / 1.3 / (newph->getContentSize().width));
                 newph->setScaleY(Inventory[0]->getContentSize().width / 1.3 / (newph->getContentSize().height));
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[0]->getContentSize().width / 2, Inventory[0]->getContentSize().width / 2));
                 Inventory[0]->addChild(newph, 1, 1);
                 displayItem->removeChildByTag(1);
@@ -99,7 +99,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[1]->getContentSize().width / 1.3 / newph->getContentSize().width);
                 newph->setScaleY(Inventory[1]->getContentSize().width / 1.3 / newph->getContentSize().height);
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[1]->getContentSize().width / 2, Inventory[1]->getContentSize().width / 2));
                 Inventory[1]->addChild(newph, 1, 1);
                 displayItem->removeChildByTag(1);
@@ -145,7 +145,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[2]->getContentSize().width / 1.3 / newph->getContentSize().width);
                 newph->setScaleY(Inventory[2]->getContentSize().width / 1.3 / newph->getContentSize().height);
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[2]->getContentSize().width / 2, Inventory[2]->getContentSize().width / 2));
                 Inventory[2]->addChild(newph, 1, 1);
 
@@ -192,7 +192,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[3]->getContentSize().width / 1.3 / newph->getContentSize().width);
                 newph->setScaleY(Inventory[3]->getContentSize().width / 1.3 / newph->getContentSize().height);
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[3]->getContentSize().width / 2, Inventory[3]->getContentSize().width / 2));
                 Inventory[3]->addChild(newph, 1, 1);
                 displayItem->removeChildByTag(1);
@@ -238,7 +238,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[4]->getContentSize().width / 1.3 / newph->getContentSize().width);
                 newph->setScaleY(Inventory[4]->getContentSize().width / 1.3 / newph->getContentSize().height);
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[4]->getContentSize().width / 2, Inventory[4]->getContentSize().width / 2));
                 Inventory[4]->addChild(newph, 1, 1);
                 displayItem->removeChildByTag(1);
@@ -285,7 +285,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[5]->getContentSize().width / 1.3 / newph->getContentSize().width);
                 newph->setScaleY(Inventory[5]->getContentSize().width / 1.3 / newph->getContentSize().height);
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[5]->getContentSize().width / 2, Inventory[5]->getContentSize().width / 2));
                 Inventory[5]->addChild(newph, 1, 1);
                 displayItem->removeChildByTag(1);
@@ -332,7 +332,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[6]->getContentSize().width / 1.3 / newph->getContentSize().width);
                 newph->setScaleY(Inventory[6]->getContentSize().width / 1.3 / newph->getContentSize().height);
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[6]->getContentSize().width / 2, Inventory[6]->getContentSize().width / 2));
                 Inventory[6]->addChild(newph, 1, 1);
                 displayItem->removeChildByTag(1);
@@ -378,7 +378,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[7]->getContentSize().width / 1.3 / newph->getContentSize().width);
                 newph->setScaleY(Inventory[7]->getContentSize().width / 1.3 / newph->getContentSize().height);
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[7]->getContentSize().width / 2, Inventory[7]->getContentSize().width / 2));
                 Inventory[7]->addChild(newph, 1, 1);
                 displayItem->removeChildByTag(1);
@@ -423,7 +423,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[8]->getContentSize().width / 1.3 / newph->getContentSize().width);
                 newph->setScaleY(Inventory[8]->getContentSize().width / 1.3 / newph->getContentSize().height);
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[8]->getContentSize().width / 2, Inventory[8]->getContentSize().width / 2));
                 Inventory[8]->addChild(newph, 1, 1);
                 displayItem->removeChildByTag(1);
@@ -468,7 +468,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[9]->getContentSize().width / 1.3 / newph->getContentSize().width);
                 newph->setScaleY(Inventory[9]->getContentSize().width / 1.3 / newph->getContentSize().height);
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[9]->getContentSize().width / 2, Inventory[9]->getContentSize().width / 2));
                 Inventory[9]->addChild(newph, 1, 1);
                 displayItem->removeChildByTag(1);
@@ -513,7 +513,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[10]->getContentSize().width / 1.3 / newph->getContentSize().width);
                 newph->setScaleY(Inventory[10]->getContentSize().width / 1.3 / newph->getContentSize().height);
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[10]->getContentSize().width / 2, Inventory[10]->getContentSize().width / 2));
                 Inventory[10]->addChild(newph, 1, 1);
             }
@@ -556,7 +556,7 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
                 newph->setScaleX(Inventory[11]->getContentSize().width / 1.3 / newph->getContentSize().width);
                 newph->setScaleY(Inventory[11]->getContentSize().width / 1.3 / newph->getContentSize().height);
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph->setPosition(Vec2(Inventory[11]->getContentSize().width / 2, Inventory[11]->getContentSize().width / 2));
                 Inventory[11]->addChild(newph, 1, 1);
                 displayItem->removeChildByTag(1);
@@ -606,11 +606,11 @@ keyListener->onKeyPressed = ([=](EventKeyboard::KeyCode code, Event* event)
 
 
 
-                        //ÎïÆ·¿òÄÚÎïÆ·³ß´çÉèÖÃ
+                        //ç‰©å“æ¡†å†…ç‰©å“å°ºå¯¸è®¾ç½®
                         packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
                         packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
 
-                        //Í¼Æ¬×ø±êÉèÖÃ
+                        //å›¾ç‰‡åæ ‡è®¾ç½®
                         packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
 
                         Inventory[i]->addChild(packItem, 1, 1);
@@ -628,11 +628,11 @@ keyListener->onKeyPressed = ([=](EventKeyboard::KeyCode code, Event* event)
                         Inventory->setPosition(Vec2(origin.x + tileWidth * (9 + i - 12) - Inventory->getContentSize().width / 2, origin.y + tileHeight * 12 + Inventory->getContentSize().height / 2));
                         auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
 
-                        //ÎïÆ·¿òÄÚÎïÆ·³ß´çÉèÖÃ
+                        //ç‰©å“æ¡†å†…ç‰©å“å°ºå¯¸è®¾ç½®
                         packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
                         packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
 
-                        //Í¼Æ¬×ø±êÉèÖÃ
+                        //å›¾ç‰‡åæ ‡è®¾ç½®
                         packItem->setPosition(Vec2(Inventory->getContentSize().width / 2, Inventory->getContentSize().width / 2));
 
                         Inventory->addChild(packItem);
@@ -647,11 +647,11 @@ keyListener->onKeyPressed = ([=](EventKeyboard::KeyCode code, Event* event)
                         Inventory->setPosition(Vec2(origin.x + tileWidth * (9 + i - 24) - Inventory->getContentSize().width / 2, origin.y + tileHeight * 11 + Inventory->getContentSize().height / 2));
                         auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
 
-                        //ÎïÆ·¿òÄÚÎïÆ·³ß´çÉèÖÃ
+                        //ç‰©å“æ¡†å†…ç‰©å“å°ºå¯¸è®¾ç½®
                         packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
                         packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
 
-                        //Í¼Æ¬×ø±êÉèÖÃ
+                        //å›¾ç‰‡åæ ‡è®¾ç½®
                         packItem->setPosition(Vec2(Inventory->getContentSize().width / 2, Inventory->getContentSize().width / 2));
 
                         Inventory->addChild(packItem);
@@ -730,13 +730,13 @@ keyListener->onKeyPressed = ([=](EventKeyboard::KeyCode code, Event* event)
     _eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, scene);
 }
 
-//µ¥Ñ¡°´Å¥¼¯ºÏ
+//å•é€‰æŒ‰é’®é›†åˆ
 auto ItemBot = RadioButtonGroup::create();
 
 void inventory(Scene* scene,backPack* pack1,const Size& visibleSize, Vec2 origin) {
 
-    float tileWidth = visibleSize.width / 28;  // Ã¿¿éÍÁµØµÄ¿í¶È
-    float tileHeight = tileWidth; // Ã¿¿éÍÁµØµÄ¸ß¶È
+    float tileWidth = visibleSize.width / 28;  // æ¯å—åœŸåœ°çš„å®½åº¦
+    float tileHeight = tileWidth; // æ¯å—åœŸåœ°çš„é«˜åº¦
     for (int i = 0; i < 12; i++) {
         auto Inventory = RadioButton::create("Inventory.png", "Inventory chosen.png");
 
@@ -757,11 +757,11 @@ void inventory(Scene* scene,backPack* pack1,const Size& visibleSize, Vec2 origin
 
         auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
 
-        //ÎïÆ·¿òÄÚÎïÆ·³ß´çÉèÖÃ
+        //ç‰©å“æ¡†å†…ç‰©å“å°ºå¯¸è®¾ç½®
         packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
         packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
 
-        //Í¼Æ¬×ø±êÉèÖÃ
+        //å›¾ç‰‡åæ ‡è®¾ç½®
         packItem->setPosition(Vec2(Inventory->getContentSize().width / 2, Inventory->getContentSize().width / 2));
         Inventory->addChild(packItem);
         ItemBot->addRadioButton(Inventory);
