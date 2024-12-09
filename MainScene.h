@@ -24,15 +24,14 @@ public:
     virtual bool init();
 
    
-    void inventory(const cocos2d::Size& visibleSize, cocos2d::Vec2 origin);
     void setupWalkingCharacter(const cocos2d::Size& visibleSize, cocos2d::Vec2 origin);
-    // ³õÊ¼»¯´¥Ãş¼àÌıÆ÷
+    // åˆå§‹åŒ–è§¦æ‘¸ç›‘å¬å™¨
     void initTouchListener();
     void onEnter();
-    // ÊµÏÖ CREATE_FUNC ºê
+    // å®ç° CREATE_FUNC å®
     CREATE_FUNC(MainScene);
 
-    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);// ´¥ÃşÊÂ¼ş¼àÌıÆ÷
+    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);// è§¦æ‘¸äº‹ä»¶ç›‘å¬å™¨
 
     cocos2d::EventListenerCustom* interactListener;
 
