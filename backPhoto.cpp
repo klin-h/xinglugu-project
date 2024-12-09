@@ -732,28 +732,177 @@ keyListener->onKeyPressed = ([=](EventKeyboard::KeyCode code, Event* event)
 
 //单选按钮集合
 auto ItemBot = RadioButtonGroup::create();
+RadioButton* ventory[backpackCapacity/3];
+
+void ventorySet() {
+    ventory[0]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(0);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+
+    ventory[1]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(1);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+
+    ventory[2]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(2);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+
+    ventory[3]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(3);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+
+    ventory[4]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(4);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+
+    ventory[5]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(5);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+
+    ventory[6]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(6);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+
+    ventory[7]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(7);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+
+    ventory[8]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(8);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+
+    ventory[9]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(9);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+
+    ventory[10]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(10);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+
+    ventory[11]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            pack1->sethandInItemOut(11);
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+}
 
 void inventory(Scene* scene,backPack* pack1,const Size& visibleSize, Vec2 origin) {
 
     float tileWidth = visibleSize.width / 28;  // 每块土地的宽度
     float tileHeight = tileWidth; // 每块土地的高度
     for (int i = 0; i < 12; i++) {
-        auto Inventory = RadioButton::create("Inventory.png", "Inventory chosen.png");
+        ventory[i] = RadioButton::create("Inventory.png", "Inventory chosen.png");
 
-        Inventory->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
-            switch (type)
-            {
-            case ui::Widget::TouchEventType::BEGAN:
-                break;
-            case ui::Widget::TouchEventType::ENDED:
-                break;
-            default:
-                break;
-            }
-            });
-        Inventory->setScaleX(tileWidth / Inventory->getContentSize().width);
-        Inventory->setScaleY(tileHeight / Inventory->getContentSize().height);
-        Inventory->setPosition(Vec2(origin.x + tileWidth * (9 + i) - Inventory->getContentSize().width / 2, origin.y + tileHeight / 5 + Inventory->getContentSize().height / 2));
+       
+        ventory[i]->setScaleX(tileWidth / ventory[i]->getContentSize().width);
+        ventory[i]->setScaleY(tileHeight / ventory[i]->getContentSize().height);
+        ventory[i]->setPosition(Vec2(origin.x + tileWidth * (9 + i) - ventory[i]->getContentSize().width / 2, origin.y + tileHeight / 5 + ventory[i]->getContentSize().height / 2));
 
         auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
 
@@ -762,11 +911,13 @@ void inventory(Scene* scene,backPack* pack1,const Size& visibleSize, Vec2 origin
         packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
 
         //图片坐标设置
-        packItem->setPosition(Vec2(Inventory->getContentSize().width / 2, Inventory->getContentSize().width / 2));
-        Inventory->addChild(packItem);
-        ItemBot->addRadioButton(Inventory);
-        scene->addChild(Inventory, invventoryTag, invventoryTag + i);
+        packItem->setPosition(Vec2(ventory[i]->getContentSize().width / 2, ventory[i]->getContentSize().width / 2));
+        ventory[i]->addChild(packItem);
+        ItemBot->addRadioButton(ventory[i]);
+        scene->addChild(ventory[i], invventoryTag, invventoryTag + i);
 
     }
     scene->addChild(ItemBot);
+    ventorySet();
 }
+
