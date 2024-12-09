@@ -15,3 +15,7 @@ WalkingCharacter.cpp和WalkingCharacter.h粗略对角色移动功能进行了实
 2024/12/6 Author Gao wenhao ，完善了动物类，实现了动物的随机移动（帧动画）、点击触发事件的反馈（目前log输出，提供接口） 注意拉取远仓后，记得把图片添加到resource里（目前我们的图片管理太乱了，等地图确定后统一要求）
 
 2023/12/7  Author Gao wenhao ，当前远仓版本是最新版本主要统一解决了远仓代码的的bug、版本不统一的等等问题。
+
+2024/12/8 Author Li Siyuan , 把usableItem文件中的常量转移至constants.h中。
+
+2024/12/9 Author Li Siyuan ，修改了back.cpp，back.h，mainscene.cpp与mainscene.h把原先处于mainscene.cpp的背包图形化部分删除，转移到新交的文件backphoto.cpp中,主要实现了背包图形化界面的问题。
