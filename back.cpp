@@ -3,7 +3,7 @@
  * File back.cpp
  * File Function:
  * Author:Li Siyuan
- * Update Date:2024.12.4
+ * Update Date:2024.12.8
  * License:
  ****************************************************************/
 #include"back.h"
@@ -15,47 +15,73 @@ using namespace Constants;
 
 //背包初始化
 void backPack::init() {//初始化
-	for (int i = 0; i < backpackCapacity / 3; i++) {
+	for (int i = 0; i < backpackCapacity/3; i++) {
 		positionIsAccessible[i] = 1;
 	}
-	for (int i = backpackCapacity / 3; i < backpackCapacity; i++) {
+	for (int i = backpackCapacity / 3; i < backpackCapacity ; i++) {
 		positionIsAccessible[i] = 0;
 	}
 
 }
 
 //物品转移的开始，选择物品
-void backPack::itemPositionChangeOn(bool isLeftKey, int position) {
-	if (isLeftKey == 1) {
-		numToTransmit = boxNum[position];
-		boxNum[position] = 0;
-		itemToTransmit = box[position];
-		box[position] = NULL;
-	}
+void backPack::itemPositionChangeOn(bool isLeftKey,int position) {
+	if (position < 0 || position >= 36)
+		return;
 	else {
-		numToTransmit++;
-		boxNum[position]--;
-		if (rightKeyCount == 0) {
+		if (isLeftKey == 1) {
+			numToTransmit = boxNum[position];
+			boxNum[position] = 0;
 			itemToTransmit = box[position];
-			rightKeyCount++;
+			Item* nullitem = new Item( );
+			box[position] = nullitem;
 		}
-		if (boxNum[position] == 0)
-			box[position] = NULL;
+		else {
+			numToTransmit++;
+			boxNum[position]--;
+			if (rightKeyCount == 0) {
+				itemToTransmit = box[position];
+				rightKeyCount++;
+			}
+			if (boxNum[position] == 0)
+			{
+				auto nullitem = new Item();
+				box[position] = nullitem;
+			}
+		}
 	}
 }
 
 //转移的结束，放置
 void backPack::itemPositionChangeOff(int position) {
-	rightKeyCount = 0;
-	box[position] = itemToTransmit;
-	boxNum[position] = numToTransmit;
-	itemToTransmit = NULL;
-	numToTransmit = 0;
+	if (position < 0 || position >= 36)
+		return;
+	else {
+		rightKeyCount = 0;
+		Item* sub1 = box[position];
+		int sub2 = boxNum[position];
+		box[position] = itemToTransmit;
+		boxNum[position] = numToTransmit;
+		itemToTransmit = sub1;
+		numToTransmit = sub2;
+	}
 }
 
+void backPack::itemChangeReset() {
+	Item* item0 = new Item();
+	itemToTransmit = item0;
+	numToTransmit = 0;
+}
 //返回特定位置的物品
 Item* backPack::bottomSelect(int NoX) {
-	return box[NoX];
+	if (NoX < 0 || NoX >= backpackCapacity)
+	{
+		Item* itemnull = new Item();
+		return itemnull;
+	}
+	else {
+		return box[NoX];
+	}
 }
 
 //背包升级
@@ -63,7 +89,7 @@ bool backPack::upgrade() {
 	if (grade == 0)
 	{
 		grade++;
-		for (int i = backpackCapacity / 3; i < backpackCapacity * 2 / 3; i++) {
+		for (int i = backpackCapacity / 3; i < backpackCapacity*2 / 3; i++) {
 			positionIsAccessible[i] = 1;
 		}
 		return 1;
@@ -72,7 +98,7 @@ bool backPack::upgrade() {
 		if (grade == 1)
 		{
 			grade++;
-			for (int i = backpackCapacity * 2 / 3; i < backpackCapacity; i++) {
+			for (int i = backpackCapacity * 2 / 3; i < backpackCapacity ; i++) {
 				positionIsAccessible[i] = 1;
 			}
 			return 1;
@@ -85,7 +111,7 @@ bool backPack::upgrade() {
 
 //物品的添加
 bool backPack::itemAdd(Item* itemIn) {
-	int ring = 0, posi = 0;
+	int ring = 0,posi=0;
 	bool isAlreadyInside = 0, isAlreadyFull = 0;
 	for (int i = 0; i < grade * (backpackCapacity / 3) + backpackCapacity / 3; i++) {
 		if (box[i]->name == itemIn->name) {
@@ -95,7 +121,7 @@ bool backPack::itemAdd(Item* itemIn) {
 		}
 	}
 	if (isAlreadyInside == 1) {
-		boxNum[posi] += itemIn->quantity;
+		boxNum[posi]+=itemIn->quantity;
 	}
 	else {
 		while (boxNum[ring] != 0) {
@@ -124,7 +150,7 @@ bool backPack::matchJudge(Item* itemToMatch, int numToMatch) {
 		else {
 			if (box[i]->name == itemToMatch->name)
 			{
-				if (boxNum[i] >= numToMatch)
+				if(boxNum[i]>=numToMatch)
 					isMatchAble = 1;
 			}
 		}
@@ -141,13 +167,13 @@ void backPack::itemReduce(Item* itemToMatch, int numToMatch) {
 		if (box[i]->name == itemToMatch->name)
 		{
 			boxNum[i] -= numToMatch;
-		}
+		 }
 	}
 }
 
 //钱的增减
 //ways：1--减 0--增
-void backPack::moneyChange(int addAmount, bool ways) {
+void backPack::moneyChange(int addAmount,bool ways) {
 	if (ways == wayOfAdd)
 		money += addAmount;
 	else
