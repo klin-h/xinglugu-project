@@ -56,7 +56,7 @@ bool MainScene::init() {
         (visibleSize.height - map->getContentSize().height) / 2
     ));
 
-    inventory(visibleSize, origin);
+    inventory(this,pack1,visibleSize, origin);
 
     setupAnimal(this);// 创建动物
 
