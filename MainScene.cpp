@@ -15,12 +15,14 @@
 #include "extensions/cocos-ext.h"
 #include "ui/CocosGUI.h"
 #include "back.h"
+#include "backPhoto.h"
 #include "Constants.h"
 USING_NS_CC;
 USING_NS_CC::ui;
 
-extern bool backIsOpen = BackOpen1;
-extern bool backIsProed = BackPro1;
+
+//背包创建
+backPack* pack1 = backPack::create();
 
 Scene* MainScene::createScene() {
     return MainScene::create();
@@ -67,118 +69,12 @@ bool MainScene::init() {
     return true;
 }
 
-//单选按钮集合
-auto ItemBot = RadioButtonGroup::create();
-
-//背包创建
-backPack* pack1 = backPack::create();
-
-void MainScene::inventory(const Size& visibleSize, Vec2 origin) {
-    float tileWidth = visibleSize.width / 28;  // 每块土地的宽度
-    float tileHeight = tileWidth; // 每块土地的高度
-    for (int i = 0; i < 12; i++) {
-        auto Inventory = Sprite::create("inventory.png");
-        Inventory->setScaleX(tileWidth / Inventory->getContentSize().width);
-        Inventory->setScaleY(tileHeight / Inventory->getContentSize().height);
-        Inventory->setPosition(Vec2(origin.x + tileWidth * (9 + i) - Inventory->getContentSize().width / 2, origin.y + tileHeight / 5 + Inventory->getContentSize().height / 2));
-        this->addChild(Inventory,100,100+i);
-    }
-}
 
 void MainScene::onEnter() {
     Scene::onEnter();
-
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    auto keyListener = EventListenerKeyboard::create();
-    keyListener->onKeyPressed = ([=](EventKeyboard::KeyCode code, Event* event)
-        {
-            switch (code)
-            {
-            case EventKeyboard::KeyCode::KEY_B:
-          
-            {
-                if (backIsOpen == 0) {
-                    backIsOpen = 1;
-                    if (backIsProed == 0) {
-                        backIsProed = 1;
-                        float tileWidth = visibleSize.width / 28;
-                        float tileHeight = tileWidth;
-                        for (int i = 0; i < 12; i++) {
-                            auto Inventory = Sprite::create("inventory.png");
-                            Inventory->setScaleX(tileWidth / Inventory->getContentSize().width);
-                            Inventory->setScaleY(tileHeight / Inventory->getContentSize().height);
-                            Inventory->setPosition(Vec2(origin.x + tileWidth * (9 + i) - Inventory->getContentSize().width / 2, origin.y + tileHeight * 13 + Inventory->getContentSize().height / 2));
-                            this->addChild(Inventory, 101 + i, i);
-                        }
-                        for (int i = 12; i < 24; i++) {
-                            auto Inventory = Sprite::create("inventory.png");
-                            Inventory->setScaleX(tileWidth / Inventory->getContentSize().width);
-                            Inventory->setScaleY(tileHeight / Inventory->getContentSize().height);
-                            Inventory->setPosition(Vec2(origin.x + tileWidth * (9 + i - 12) - Inventory->getContentSize().width / 2, origin.y + tileHeight * 12 + Inventory->getContentSize().height / 2));
-                            this->addChild(Inventory, 101 + i, i);
-                        }
-                        for (int i = 24; i < 36; i++) {
-                            auto Inventory = Sprite::create("inventory.png");
-                            Inventory->setScaleX(tileWidth / Inventory->getContentSize().width);
-                            Inventory->setScaleY(tileHeight / Inventory->getContentSize().height);
-                            Inventory->setPosition(Vec2(origin.x + tileWidth * (9 + i - 24) - Inventory->getContentSize().width / 2, origin.y + tileHeight * 11 + Inventory->getContentSize().height / 2));
-                            this->addChild(Inventory, 101 + i, i);
-                        }
-                        auto botlam = Sprite::create("inventory.png");
-                        botlam->setScaleX(tileWidth * 12 / botlam->getContentSize().width);
-                        botlam->setScaleY(tileWidth * 4 / botlam->getContentSize().height);
-                        botlam->setPosition(Vec2(origin.x + 14.5 * tileWidth - botlam->getContentSize().width / 2, origin.y + tileWidth * 8.5 + botlam->getContentSize().height / 2));
-                        this->addChild(botlam, 38, 36);
-                        for (int i = 0; i < 12; i++) {
-                            this->getChildByTag(100 + i)->setVisible(0);
-                        }
-                    }
-                    else {
-
-                        for (int i = 0; i < 12; i++) {
-                            this->getChildByTag(i)->setVisible(1);
-                        }
-                        for (int i = 12; i < 24; i++) {
-                            this->getChildByTag(i)->setVisible(1);
-                        }
-                        for (int i = 24; i < 36; i++) {
-                            this->getChildByTag(i)->setVisible(1);
-                        }
-                        this->getChildByTag(36)->setVisible(1);
-                        for (int i = 0; i < 12; i++) {
-                            this->getChildByTag(100 + i)->setVisible(0);
-                        }
-                    }
-                }
-                else {
-                    backIsOpen = 0;
-                    for (int i = 0; i < 12; i++) {
-                        this->getChildByTag(i)->setVisible(0);
-                    }
-                    for (int i = 12; i < 24; i++) {
-                        this->getChildByTag(i)->setVisible(0);
-                    }
-                    for (int i = 24; i < 36; i++) {
-                        this->getChildByTag(i)->setVisible(0);
-                    }
-                    this->getChildByTag(36)->setVisible(0);
-                    for (int i = 0; i < 12; i++) {
-                        this->getChildByTag(100 + i)->setVisible(1);
-                    }
-                }
-                break;
-            }
-            default:
-                break;
-            }
-        });
-
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
-
+    backPhoto(this,pack1,_eventDispatcher);
 }
+
 
 
 void MainScene::setupWalkingCharacter(const Size& visibleSize, Vec2 origin) {
