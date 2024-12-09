@@ -3,7 +3,7 @@
  * File back.cpp
  * File Function:
  * Author:Li Siyuan
- * Update Date:2024.12.8
+ * Update Date:2024.12.4
  * License:
  ****************************************************************/
 #include"back.h"
@@ -110,7 +110,7 @@ bool backPack::upgrade() {
 }
 
 //物品的添加
-bool backPack::itemAdd(Item* itemIn) {
+bool backPack::itemAdd(Item* itemIn,int num) {
 	int ring = 0,posi=0;
 	bool isAlreadyInside = 0, isAlreadyFull = 0;
 	for (int i = 0; i < grade * (backpackCapacity / 3) + backpackCapacity / 3; i++) {
@@ -121,7 +121,7 @@ bool backPack::itemAdd(Item* itemIn) {
 		}
 	}
 	if (isAlreadyInside == 1) {
-		boxNum[posi]+=itemIn->quantity;
+		boxNum[posi]+=itemIn->quantity*num;
 	}
 	else {
 		while (boxNum[ring] != 0) {
@@ -129,7 +129,7 @@ bool backPack::itemAdd(Item* itemIn) {
 		}
 		if (ring < grade * (backpackCapacity / 3) + backpackCapacity / 3) {
 			box[ring] = itemIn;
-			boxNum[ring] += itemIn->quantity;
+			boxNum[ring] += itemIn->quantity*num;
 		}
 		else
 			isAlreadyFull = 1;
@@ -183,4 +183,17 @@ void backPack::moneyChange(int addAmount,bool ways) {
 //返回钱的值
 int backPack::moneyOut() {
 	return money;
+}
+
+//返回手持物品的名称
+std::string backPack::handInItemOut() {
+	return handInItem->name;
+}
+
+void backPack::sethandInItemOut(int no) {
+	if (no < 0 || no >= grade * (backpackCapacity / 3) + backpackCapacity / 3)
+		return;
+	else {
+		handInItem = box[no];
+	}
 }
