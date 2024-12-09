@@ -47,6 +47,8 @@ private:
 	 
 	 //要转移的物品
 	 Item* itemToTransmit;
+
+	 Item* handInItem;
 public:
 	backPack() {//构造函数
 		packIsOpen = 0;
@@ -73,6 +75,7 @@ public:
 		boxNum[3] = 1;
 		box[4] = Tool::create("sickle");
 		boxNum[4] = 1;
+		handInItem = box[0];
 	}
     static backPack* create() {//创建背包
 		backPack* bPack=new backPack();
@@ -82,15 +85,18 @@ public:
 	bool display();
     void itemPositionChangeOn(bool isLeftKey,int position);
     void itemPositionChangeOff(int position);
-	void backPack::itemChangeReset();
+	void itemChangeReset();
 	void packDisplay();
 	Item* bottomSelect(int NoX);
 	bool upgrade();
-	bool itemAdd(Item* itemIn);
+	bool itemAdd(Item* itemIn,int num);
 	bool matchJudge(Item* itemToMatch,int numToMatch);
 	void itemReduce(Item* itemToMatch, int numToMatch);
 	void moneyChange(int addAmount,bool ways);
 	int moneyOut();
+	std::string handInItemOut(); 
+	void sethandInItemOut(int no);
+	
 };
 
 
