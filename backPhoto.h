@@ -8,7 +8,7 @@
 #include "back.h"
 #include "Constants.h"
 
-void listenSet(Scene* scene, backPack* pack1, const cocos2d::Size& visibleSize, float tileHeight, float tileWidth);
+void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight, float tileWidth);
 
 void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher);
 
