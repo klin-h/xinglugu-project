@@ -12,6 +12,8 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
 
 void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher);
 
+void ventorySet();
+
 void inventory(Scene* scene, backPack* pack1, const Size& visibleSize, Vec2 origin);
 
 #endif // !__BACKPHOTO_H_
