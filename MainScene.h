@@ -2,7 +2,7 @@
  * Project Name: xinglugu-project
  * File Name:MainScene.h
  * File Function: Main class define 
- * Author:Gao wenhao
+ * Author: All
  * Update Date:2024.12.3
  * License:
  ****************************************************************/
@@ -24,15 +24,14 @@ public:
     virtual bool init();
 
    
-    void inventory(const cocos2d::Size& visibleSize, cocos2d::Vec2 origin);
+   
     void setupWalkingCharacter(const cocos2d::Size& visibleSize, cocos2d::Vec2 origin);
     // 初始化触摸监听器
-    void initTouchListener();
-    void onEnter();
+    
     // 实现 CREATE_FUNC 宏
     CREATE_FUNC(MainScene);
 
-    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);// 触摸事件监听器
+    //bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);// 触摸事件监听器
 
     cocos2d::EventListenerCustom* interactListener;
 

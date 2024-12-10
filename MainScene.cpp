@@ -2,7 +2,7 @@
  * Project Name: xinglugu-project
  * File Name:MainScene.cpp
  * File Function: init the Scene
- * Author:Gao wenhao
+ * Author:All
  * Update Date:2024.12.3
  * License:
  ****************************************************************/
@@ -15,12 +15,15 @@
 #include "extensions/cocos-ext.h"
 #include "ui/CocosGUI.h"
 #include "back.h"
+#include "backPhoto.h"
+#include "SceneTouch.h"
 #include "Constants.h"
 USING_NS_CC;
 USING_NS_CC::ui;
 
-extern bool backIsOpen = BackOpen1;
-extern bool backIsProed = BackPro1;
+
+//背包创建
+backPack* pack1 = backPack::create();
 
 Scene* MainScene::createScene() {
     return MainScene::create();
@@ -28,157 +31,49 @@ Scene* MainScene::createScene() {
 
 
 bool MainScene::init() {
-    if (!Scene::init()) {
-        return false;
-    }
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    // 加载 TMX 地图
-   
-    //auto map = TMXTiledMap::create("farm_map03.tmx");
+  // 加载 TMX 地图
+
+    auto glview = Director::getInstance()->getOpenGLView();
+    glview->setDesignResolutionSize(Constants::kMapWidth, Constants::kMapLength, ResolutionPolicy::SHOW_ALL);
+
+    // 确保内容缩放因子为 1.0
+    Director::getInstance()->setContentScaleFactor(1.0f);
+
+    // 创建并添加地图
     auto map = TMXTiledMap::create("nf.tmx");
-    
+    map->setAnchorPoint(Vec2(0, 0)); // 左下角对齐
+    map->setPosition(Vec2(0, 0));
+    map->setScale(1.0f); // 确保地图未被缩放
+    this->addChild(map, Constants::MAP_BACKGROUND_LAYER_Z_ORDER, "map");
 
     if (!map) {
-        CCLOG("Failed to load TMX file:farm_map01.tmx");
+        CCLOG("Failed to load TMX map.tmx");
         return false;
     }
-   
-    // 将地图添加到场景
-    this->addChild(map, Constants:: MAP_BACKGROUND_LAYER_Z_ORDER, "map");
 
-    // 设置地图位置（让地图居中显示）
-   
-    map->setPosition(Vec2(
-        (visibleSize.width - map->getContentSize().width) / 2,
-        (visibleSize.height - map->getContentSize().height) / 2
-    ));
+    
+    inventory(this, pack1, visibleSize, origin);
 
-    inventory(visibleSize, origin);
-
-    setupAnimal(this);// 创建动物
-
+    //setupAnimal(this);// 创建动物
+    
     //setupWalkingCharacter(visibleSize, origin);
 
     auto touchListener = EventListenerTouchOneByOne::create();
-    touchListener->onTouchBegan = CC_CALLBACK_2(MainScene::onTouchBegan, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
+    
+   // backPack* localPack = pack1;
+    touchListener->onTouchBegan = [map](Touch* touch, Event* event) {
+        return onTouchBegan(touch, event, map, pack1);
+        };
+
+    // 将监听器添加到事件分发器中
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
     return true;
 }
 
 //单选按钮集合
-auto ItemBot = RadioButtonGroup::create();
-
-//背包创建
-backPack* pack1 = backPack::create();
-
-void MainScene::inventory(const Size& visibleSize, Vec2 origin) {
-    float tileWidth = visibleSize.width / 28;  // 每块土地的宽度
-    float tileHeight = tileWidth; // 每块土地的高度
-    for (int i = 0; i < 12; i++) {
-        auto Inventory = Sprite::create("inventory.png");
-        Inventory->setScaleX(tileWidth / Inventory->getContentSize().width);
-        Inventory->setScaleY(tileHeight / Inventory->getContentSize().height);
-        Inventory->setPosition(Vec2(origin.x + tileWidth * (9 + i) - Inventory->getContentSize().width / 2, origin.y + tileHeight / 5 + Inventory->getContentSize().height / 2));
-        this->addChild(Inventory,100,100+i);
-    }
-}
-
-void MainScene::onEnter() {
-    Scene::onEnter();
-
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    auto keyListener = EventListenerKeyboard::create();
-    keyListener->onKeyPressed = ([=](EventKeyboard::KeyCode code, Event* event)
-        {
-            switch (code)
-            {
-            case EventKeyboard::KeyCode::KEY_B:
-          
-            {
-                if (backIsOpen == 0) {
-                    backIsOpen = 1;
-                    if (backIsProed == 0) {
-                        backIsProed = 1;
-                        float tileWidth = visibleSize.width / 28;
-                        float tileHeight = tileWidth;
-                        for (int i = 0; i < 12; i++) {
-                            auto Inventory = Sprite::create("inventory.png");
-                            Inventory->setScaleX(tileWidth / Inventory->getContentSize().width);
-                            Inventory->setScaleY(tileHeight / Inventory->getContentSize().height);
-                            Inventory->setPosition(Vec2(origin.x + tileWidth * (9 + i) - Inventory->getContentSize().width / 2, origin.y + tileHeight * 13 + Inventory->getContentSize().height / 2));
-                            this->addChild(Inventory, 101 + i, i);
-                        }
-                        for (int i = 12; i < 24; i++) {
-                            auto Inventory = Sprite::create("inventory.png");
-                            Inventory->setScaleX(tileWidth / Inventory->getContentSize().width);
-                            Inventory->setScaleY(tileHeight / Inventory->getContentSize().height);
-                            Inventory->setPosition(Vec2(origin.x + tileWidth * (9 + i - 12) - Inventory->getContentSize().width / 2, origin.y + tileHeight * 12 + Inventory->getContentSize().height / 2));
-                            this->addChild(Inventory, 101 + i, i);
-                        }
-                        for (int i = 24; i < 36; i++) {
-                            auto Inventory = Sprite::create("inventory.png");
-                            Inventory->setScaleX(tileWidth / Inventory->getContentSize().width);
-                            Inventory->setScaleY(tileHeight / Inventory->getContentSize().height);
-                            Inventory->setPosition(Vec2(origin.x + tileWidth * (9 + i - 24) - Inventory->getContentSize().width / 2, origin.y + tileHeight * 11 + Inventory->getContentSize().height / 2));
-                            this->addChild(Inventory, 101 + i, i);
-                        }
-                        auto botlam = Sprite::create("inventory.png");
-                        botlam->setScaleX(tileWidth * 12 / botlam->getContentSize().width);
-                        botlam->setScaleY(tileWidth * 4 / botlam->getContentSize().height);
-                        botlam->setPosition(Vec2(origin.x + 14.5 * tileWidth - botlam->getContentSize().width / 2, origin.y + tileWidth * 8.5 + botlam->getContentSize().height / 2));
-                        this->addChild(botlam, 38, 36);
-                        for (int i = 0; i < 12; i++) {
-                            this->getChildByTag(100 + i)->setVisible(0);
-                        }
-                    }
-                    else {
-
-                        for (int i = 0; i < 12; i++) {
-                            this->getChildByTag(i)->setVisible(1);
-                        }
-                        for (int i = 12; i < 24; i++) {
-                            this->getChildByTag(i)->setVisible(1);
-                        }
-                        for (int i = 24; i < 36; i++) {
-                            this->getChildByTag(i)->setVisible(1);
-                        }
-                        this->getChildByTag(36)->setVisible(1);
-                        for (int i = 0; i < 12; i++) {
-                            this->getChildByTag(100 + i)->setVisible(0);
-                        }
-                    }
-                }
-                else {
-                    backIsOpen = 0;
-                    for (int i = 0; i < 12; i++) {
-                        this->getChildByTag(i)->setVisible(0);
-                    }
-                    for (int i = 12; i < 24; i++) {
-                        this->getChildByTag(i)->setVisible(0);
-                    }
-                    for (int i = 24; i < 36; i++) {
-                        this->getChildByTag(i)->setVisible(0);
-                    }
-                    this->getChildByTag(36)->setVisible(0);
-                    for (int i = 0; i < 12; i++) {
-                        this->getChildByTag(100 + i)->setVisible(1);
-                    }
-                }
-                break;
-            }
-            default:
-                break;
-            }
-        });
-
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, this);
-
-}
 
 
 void MainScene::setupWalkingCharacter(const Size& visibleSize, Vec2 origin) {
@@ -213,91 +108,6 @@ void MainScene::setupWalkingCharacter(const Size& visibleSize, Vec2 origin) {
     }
 }
 
-bool MainScene::onTouchBegan(Touch* touch, Event* event) {
-    // 获取触摸点的屏幕坐标
-    Vec2 touchLocation = touch->getLocation();
 
-    // 获取 TMX 地图
-    auto node = this->getChildByName("map");
-    auto map = dynamic_cast<cocos2d::TMXTiledMap*>(node); // 动态类型转换
-
-   
-    if (!map) {
-        CCLOG("TMX map not found!");
-        return false;
-    }
-
-    // 将触摸点从屏幕坐标转换为地图节点坐标
-    Vec2 mapLocation = map->convertToNodeSpace(touchLocation);
-
-    // 获取图块的网格坐标（基于图块尺寸）
-    int tileX = static_cast<int>(mapLocation.x / map->getTileSize().width);
-    int tileY = static_cast<int>((map->getMapSize().height * map->getTileSize().height - mapLocation.y) / map->getTileSize().height);
-
-    // 检查坐标是否超出地图范围
-    if (tileX < 0 || tileX >= map->getMapSize().width || tileY < 0 || tileY >= map->getMapSize().height) {
-        CCLOG("Touch is outside the map bounds!");
-        return false;
-    }
-
-    // dubug 工具，log当前tmx中包括的所有图层名字，解开注释就能用
-  /*  auto allLayers = map->getChildren();
-    for (const auto& child : allLayers) {
-        auto layer = dynamic_cast<TMXLayer*>(child);
-        if (layer) {
-            CCLOG("Found layer: %s", layer->getLayerName().c_str());
-        }
-    }*/
-
-    //*****************这里tmx文件里面读不到"soil"？*****************
-    
-    //遍历图块层，注意这里有顺序要求，先遍历的在前  
-    //auto layer = map->getLayer("soil");//获取图块层, "soil" 这里添加图层名
-    //if (!layer) {
-    //    CCLOG("Layer 'soil' not found!");
-    //    return false;
-    //}
-    //// 获取图块的 GID
-    //int gid = layer->getTileGIDAt(Vec2(tileX, tileY));// 获取图块的 GID,若无图块，返回0
-    //if (gid > 0) {
-    //    CCLOG("Touched tile GID: %d", gid); 
-    //    return true;     
-    //}
-    //else {
-    //    CCLOG("No tile at this location.");
-    //}
-   
-    auto layer = map->getLayer("basic");
-    if (!layer) {
-        CCLOG("Layer 'basic' not found!");
-        return false;
-    }
-   
-    int gid = layer->getTileGIDAt(Vec2(tileX, tileY));
-    if (gid > 0) {
-        CCLOG("Touched tile GID: %d", gid);
-        /****************************************************************
-       // 添加具体交互逻辑，通过上面得到的GID访问土块属性，当前只输出GID
-       如：
-      //auto properties = map->getPropertiesForGID(gid).asValueMap();// 获取图块的自定义属性
-      //CCLOG("Touched tile GID: %d", gid);
-      //if (!properties.empty()) {
-      //    CCLOG("Tile properties:");
-      //    for (const auto& property : properties) {
-      //        CCLOG("  %s: %s", property.first.c_str(), property.second.asString().c_str());
-      //    }
-      //}
-      //else {
-      //    CCLOG("No properties for this tile.");
-      //}
-     ****************************************************************/
-        return true;
-    }
-    else {
-        CCLOG("No tile at this location.");
-    }
-
-    return true;
-}
 
 
