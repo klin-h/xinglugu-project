@@ -10,7 +10,11 @@ USING_NS_CC::ui;
 using namespace Constants;
 bool backIsOpen = BackOpen1;
 bool backIsProed = BackPro1;
+
 RadioButton* Inventory[backpackCapacity];
+
+RadioButton* ventory[backpackCapacity / 3];
+
 Sprite* displayItem;
 bool isSelected = 0;
 
@@ -28,13 +32,16 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[0]->removeChildByTag(1);
+                ventory[0]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(0)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOn(1, 0);
-                auto newph = Sprite::create(pack1->bottomSelect(0)->filenameReturn());
-                Inventory[0]->addChild(newph, 1, 1);
+                auto newph1 = Sprite::create(pack1->bottomSelect(0)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(0)->filenameReturn());
+                Inventory[0]->addChild(newph1, 1, 1);
+                ventory[0]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
 
                 displayItem->addChild(exchangeItem, 1, 1);
@@ -42,19 +49,28 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             else {
 
                 Inventory[0]->removeChildByTag(1);
+                ventory[0]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(0)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(0);
 
-                auto newph = Sprite::create(pack1->bottomSelect(0)->filenameReturn());
-                newph->setScaleX(Inventory[0]->getContentSize().width / 1.3 / (newph->getContentSize().width));
-                newph->setScaleY(Inventory[0]->getContentSize().width / 1.3 / (newph->getContentSize().height));
+                auto newph1 = Sprite::create(pack1->bottomSelect(0)->filenameReturn());
+                newph1->setScaleX(Inventory[0]->getContentSize().width / 1.3 / (newph1->getContentSize().width));
+                newph1->setScaleY(Inventory[0]->getContentSize().width / 1.3 / (newph1->getContentSize().height));
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[0]->getContentSize().width / 2, Inventory[0]->getContentSize().width / 2));
-                Inventory[0]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[0]->getContentSize().width / 2, Inventory[0]->getContentSize().width / 2));
+
+                auto newph2 = Sprite::create(pack1->bottomSelect(0)->filenameReturn());
+                newph2->setScaleX(Inventory[0]->getContentSize().width / 1.3 / (newph2->getContentSize().width));
+                newph2->setScaleY(Inventory[0]->getContentSize().width / 1.3 / (newph2->getContentSize().height));
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[0]->getContentSize().width / 2, Inventory[0]->getContentSize().width / 2));
+                Inventory[0]->addChild(newph1, 1, 1);
+                ventory[0]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -76,32 +92,44 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[1]->removeChildByTag(1);
+                ventory[1]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(1)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOn(1, 1);
-                auto newph = Sprite::create(pack1->bottomSelect(1)->filenameReturn());
-                Inventory[1]->addChild(newph, 1, 1);
+                auto newph1 = Sprite::create(pack1->bottomSelect(1)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(1)->filenameReturn());
+                Inventory[1]->addChild(newph1, 1, 1);
+                ventory[1]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
             else {
 
                 Inventory[1]->removeChildByTag(1);
+                ventory[1]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(1)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(1);
 
-                auto newph = Sprite::create(pack1->bottomSelect(1)->filenameReturn());
-                newph->setScaleX(Inventory[1]->getContentSize().width / 1.3 / newph->getContentSize().width);
-                newph->setScaleY(Inventory[1]->getContentSize().width / 1.3 / newph->getContentSize().height);
+                auto newph1 = Sprite::create(pack1->bottomSelect(1)->filenameReturn());
+                newph1->setScaleX(Inventory[1]->getContentSize().width / 1.3 / newph1->getContentSize().width);
+                newph1->setScaleY(Inventory[1]->getContentSize().width / 1.3 / newph1->getContentSize().height);
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[1]->getContentSize().width / 2, Inventory[1]->getContentSize().width / 2));
-                Inventory[1]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[1]->getContentSize().width / 2, Inventory[1]->getContentSize().width / 2));
+             
+                auto newph2 = Sprite::create(pack1->bottomSelect(1)->filenameReturn());
+                newph2->setScaleX(Inventory[1]->getContentSize().width / 1.3 / newph2->getContentSize().width);
+                newph2->setScaleY(Inventory[1]->getContentSize().width / 1.3 / newph2->getContentSize().height);
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[1]->getContentSize().width / 2, Inventory[1]->getContentSize().width / 2));
+                Inventory[1]->addChild(newph1, 1, 1);
+                ventory[1]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -123,32 +151,44 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[2]->removeChildByTag(1);
+                ventory[2]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(2)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOn(1, 2);
-                auto newph = Sprite::create(pack1->bottomSelect(2)->filenameReturn());
-                Inventory[2]->addChild(newph);
+                auto newph1 = Sprite::create(pack1->bottomSelect(2)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(2)->filenameReturn());
+                Inventory[2]->addChild(newph1, 1, 1);
+                ventory[2]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
             else {
+
                 Inventory[2]->removeChildByTag(1);
+                ventory[2]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(2)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(2);
 
-                auto newph = Sprite::create(pack1->bottomSelect(2)->filenameReturn());
-                newph->setScaleX(Inventory[2]->getContentSize().width / 1.3 / newph->getContentSize().width);
-                newph->setScaleY(Inventory[2]->getContentSize().width / 1.3 / newph->getContentSize().height);
+                auto newph1 = Sprite::create(pack1->bottomSelect(2)->filenameReturn());
+                newph1->setScaleX(Inventory[2]->getContentSize().width / 1.3 / newph1->getContentSize().width);
+                newph1->setScaleY(Inventory[2]->getContentSize().width / 1.3 / newph1->getContentSize().height);
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[2]->getContentSize().width / 2, Inventory[2]->getContentSize().width / 2));
-                Inventory[2]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[2]->getContentSize().width / 2, Inventory[2]->getContentSize().width / 2));
 
+                auto newph2 = Sprite::create(pack1->bottomSelect(2)->filenameReturn());
+                newph2->setScaleX(Inventory[2]->getContentSize().width / 1.3 / newph2->getContentSize().width);
+                newph2->setScaleY(Inventory[2]->getContentSize().width / 1.3 / newph2->getContentSize().height);
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[2]->getContentSize().width / 2, Inventory[2]->getContentSize().width / 2));
+                Inventory[2]->addChild(newph1, 1, 1);
+                ventory[2]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -170,31 +210,44 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[3]->removeChildByTag(1);
+                ventory[3]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(3)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOn(1, 3);
-                auto newph = Sprite::create(pack1->bottomSelect(3)->filenameReturn());
-                Inventory[3]->addChild(newph);
+                auto newph1 = Sprite::create(pack1->bottomSelect(3)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(3)->filenameReturn());
+                Inventory[3]->addChild(newph1, 1, 1);
+                ventory[3]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
             else {
+
                 Inventory[3]->removeChildByTag(1);
+                ventory[3]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(3)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(3);
 
-                auto newph = Sprite::create(pack1->bottomSelect(3)->filenameReturn());
-                newph->setScaleX(Inventory[3]->getContentSize().width / 1.3 / newph->getContentSize().width);
-                newph->setScaleY(Inventory[3]->getContentSize().width / 1.3 / newph->getContentSize().height);
+                auto newph1 = Sprite::create(pack1->bottomSelect(3)->filenameReturn());
+                newph1->setScaleX(Inventory[3]->getContentSize().width / 1.3 / newph1->getContentSize().width);
+                newph1->setScaleY(Inventory[3]->getContentSize().width / 1.3 / newph1->getContentSize().height);
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[3]->getContentSize().width / 2, Inventory[3]->getContentSize().width / 2));
-                Inventory[3]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[3]->getContentSize().width / 2, Inventory[3]->getContentSize().width / 2));
+
+                auto newph2 = Sprite::create(pack1->bottomSelect(3)->filenameReturn());
+                newph2->setScaleX(Inventory[3]->getContentSize().width / 1.3 / newph2->getContentSize().width);
+                newph2->setScaleY(Inventory[3]->getContentSize().width / 1.3 / newph2->getContentSize().height);
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[3]->getContentSize().width / 2, Inventory[3]->getContentSize().width / 2));
+                Inventory[3]->addChild(newph1, 1, 1);
+                ventory[3]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -216,31 +269,44 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[4]->removeChildByTag(1);
+                ventory[4]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(4)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOn(1, 4);
-                auto newph = Sprite::create(pack1->bottomSelect(4)->filenameReturn());
-                Inventory[4]->addChild(newph);
+                auto newph1 = Sprite::create(pack1->bottomSelect(4)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(4)->filenameReturn());
+                Inventory[4]->addChild(newph1, 1, 1);
+                ventory[4]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
             else {
+
                 Inventory[4]->removeChildByTag(1);
+                ventory[4]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(4)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(4);
 
-                auto newph = Sprite::create(pack1->bottomSelect(4)->filenameReturn());
-                newph->setScaleX(Inventory[4]->getContentSize().width / 1.3 / newph->getContentSize().width);
-                newph->setScaleY(Inventory[4]->getContentSize().width / 1.3 / newph->getContentSize().height);
+                auto newph1 = Sprite::create(pack1->bottomSelect(4)->filenameReturn());
+                newph1->setScaleX(Inventory[4]->getContentSize().width / 1.3 / newph1->getContentSize().width);
+                newph1->setScaleY(Inventory[4]->getContentSize().width / 1.3 / newph1->getContentSize().height);
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[4]->getContentSize().width / 2, Inventory[4]->getContentSize().width / 2));
-                Inventory[4]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[4]->getContentSize().width / 2, Inventory[4]->getContentSize().width / 2));
+
+                auto newph2 = Sprite::create(pack1->bottomSelect(4)->filenameReturn());
+                newph2->setScaleX(Inventory[4]->getContentSize().width / 1.3 / newph2->getContentSize().width);
+                newph2->setScaleY(Inventory[4]->getContentSize().width / 1.3 / newph2->getContentSize().height);
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[4]->getContentSize().width / 2, Inventory[4]->getContentSize().width / 2));
+                Inventory[4]->addChild(newph1, 1, 1);
+                ventory[4]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -262,32 +328,44 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[5]->removeChildByTag(1);
+                ventory[5]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(5)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOn(1, 5);
-                auto newph = Sprite::create(pack1->bottomSelect(5)->filenameReturn());
-                Inventory[5]->addChild(newph);
+                auto newph1 = Sprite::create(pack1->bottomSelect(5)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(5)->filenameReturn());
+                Inventory[5]->addChild(newph1, 1, 1);
+                ventory[5]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
             else {
 
                 Inventory[5]->removeChildByTag(1);
+                ventory[5]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(5)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(5);
 
-                auto newph = Sprite::create(pack1->bottomSelect(5)->filenameReturn());
-                newph->setScaleX(Inventory[5]->getContentSize().width / 1.3 / newph->getContentSize().width);
-                newph->setScaleY(Inventory[5]->getContentSize().width / 1.3 / newph->getContentSize().height);
+                auto newph1 = Sprite::create(pack1->bottomSelect(5)->filenameReturn());
+                newph1->setScaleX(Inventory[5]->getContentSize().width / 1.3 / newph1->getContentSize().width);
+                newph1->setScaleY(Inventory[5]->getContentSize().width / 1.3 / newph1->getContentSize().height);
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[5]->getContentSize().width / 2, Inventory[5]->getContentSize().width / 2));
-                Inventory[5]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[5]->getContentSize().width / 2, Inventory[5]->getContentSize().width / 2));
+
+                auto newph2 = Sprite::create(pack1->bottomSelect(5)->filenameReturn());
+                newph2->setScaleX(Inventory[5]->getContentSize().width / 1.3 / newph2->getContentSize().width);
+                newph2->setScaleY(Inventory[5]->getContentSize().width / 1.3 / newph2->getContentSize().height);
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[5]->getContentSize().width / 2, Inventory[5]->getContentSize().width / 2));
+                Inventory[5]->addChild(newph1, 1, 1);
+                ventory[5]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -309,32 +387,44 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[6]->removeChildByTag(1);
+                ventory[6]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(6)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOn(1, 6);
-                auto newph = Sprite::create(pack1->bottomSelect(6)->filenameReturn());
-                Inventory[6]->addChild(newph);
+                auto newph1 = Sprite::create(pack1->bottomSelect(6)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(6)->filenameReturn());
+                Inventory[6]->addChild(newph1, 1, 1);
+                ventory[6]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
             else {
 
                 Inventory[6]->removeChildByTag(1);
+                ventory[6]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(6)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(6);
 
-                auto newph = Sprite::create(pack1->bottomSelect(6)->filenameReturn());
-                newph->setScaleX(Inventory[6]->getContentSize().width / 1.3 / newph->getContentSize().width);
-                newph->setScaleY(Inventory[6]->getContentSize().width / 1.3 / newph->getContentSize().height);
+                auto newph1 = Sprite::create(pack1->bottomSelect(6)->filenameReturn());
+                newph1->setScaleX(Inventory[6]->getContentSize().width / 1.3 / newph1->getContentSize().width);
+                newph1->setScaleY(Inventory[6]->getContentSize().width / 1.3 / newph1->getContentSize().height);
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[6]->getContentSize().width / 2, Inventory[6]->getContentSize().width / 2));
-                Inventory[6]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[6]->getContentSize().width / 2, Inventory[6]->getContentSize().width / 2));
+
+                auto newph2 = Sprite::create(pack1->bottomSelect(6)->filenameReturn());
+                newph2->setScaleX(Inventory[6]->getContentSize().width / 1.3 / newph2->getContentSize().width);
+                newph2->setScaleY(Inventory[6]->getContentSize().width / 1.3 / newph2->getContentSize().height);
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[6]->getContentSize().width / 2, Inventory[6]->getContentSize().width / 2));
+                Inventory[6]->addChild(newph1, 1, 1);
+                ventory[6]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -356,31 +446,44 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[7]->removeChildByTag(1);
+                ventory[7]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(7)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
-                pack1->itemPositionChangeOn(1, 1);
-                auto newph = Sprite::create(pack1->bottomSelect(7)->filenameReturn());
-                Inventory[7]->addChild(newph);
+                pack1->itemPositionChangeOn(1, 7);
+                auto newph1 = Sprite::create(pack1->bottomSelect(7)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(7)->filenameReturn());
+                Inventory[7]->addChild(newph1, 1, 1);
+                ventory[7]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
             else {
 
                 Inventory[7]->removeChildByTag(1);
+                ventory[7]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(7)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(7);
-                auto newph = Sprite::create(pack1->bottomSelect(7)->filenameReturn());
-                newph->setScaleX(Inventory[7]->getContentSize().width / 1.3 / newph->getContentSize().width);
-                newph->setScaleY(Inventory[7]->getContentSize().width / 1.3 / newph->getContentSize().height);
+
+                auto newph1 = Sprite::create(pack1->bottomSelect(7)->filenameReturn());
+                newph1->setScaleX(Inventory[7]->getContentSize().width / 1.3 / newph1->getContentSize().width);
+                newph1->setScaleY(Inventory[7]->getContentSize().width / 1.3 / newph1->getContentSize().height);
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[7]->getContentSize().width / 2, Inventory[7]->getContentSize().width / 2));
-                Inventory[7]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[7]->getContentSize().width / 2, Inventory[7]->getContentSize().width / 2));
+
+                auto newph2 = Sprite::create(pack1->bottomSelect(7)->filenameReturn());
+                newph2->setScaleX(Inventory[7]->getContentSize().width / 1.3 / newph2->getContentSize().width);
+                newph2->setScaleY(Inventory[7]->getContentSize().width / 1.3 / newph2->getContentSize().height);
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[7]->getContentSize().width / 2, Inventory[7]->getContentSize().width / 2));
+                Inventory[7]->addChild(newph1, 1, 1);
+                ventory[7]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -402,30 +505,44 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[8]->removeChildByTag(1);
+                ventory[8]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(8)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
-                pack1->itemPositionChangeOn(1, 8);
-                auto newph = Sprite::create(pack1->bottomSelect(8)->filenameReturn());
-                Inventory[8]->addChild(newph);
+                pack1->itemPositionChangeOn(1,8);
+                auto newph1 = Sprite::create(pack1->bottomSelect(8)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(8)->filenameReturn());
+                Inventory[8]->addChild(newph1, 1, 1);
+                ventory[8]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
             else {
+
                 Inventory[8]->removeChildByTag(1);
+                ventory[8]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(8)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(8);
-                auto newph = Sprite::create(pack1->bottomSelect(8)->filenameReturn());
-                newph->setScaleX(Inventory[8]->getContentSize().width / 1.3 / newph->getContentSize().width);
-                newph->setScaleY(Inventory[8]->getContentSize().width / 1.3 / newph->getContentSize().height);
+
+                auto newph1 = Sprite::create(pack1->bottomSelect(8)->filenameReturn());
+                newph1->setScaleX(Inventory[8]->getContentSize().width / 1.3 / newph1->getContentSize().width);
+                newph1->setScaleY(Inventory[8]->getContentSize().width / 1.3 / newph1->getContentSize().height);
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[8]->getContentSize().width / 2, Inventory[8]->getContentSize().width / 2));
-                Inventory[8]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[8]->getContentSize().width / 2, Inventory[8]->getContentSize().width / 2));
+
+                auto newph2 = Sprite::create(pack1->bottomSelect(8)->filenameReturn());
+                newph2->setScaleX(Inventory[8]->getContentSize().width / 1.3 / newph2->getContentSize().width);
+                newph2->setScaleY(Inventory[8]->getContentSize().width / 1.3 / newph2->getContentSize().height);
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[8]->getContentSize().width / 2, Inventory[8]->getContentSize().width / 2));
+                Inventory[8]->addChild(newph1, 1, 1);
+                ventory[8]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -447,30 +564,44 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[9]->removeChildByTag(1);
+                ventory[9]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(9)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOn(1, 9);
-                auto newph = Sprite::create(pack1->bottomSelect(9)->filenameReturn());
-                Inventory[9]->addChild(newph);
+                auto newph1 = Sprite::create(pack1->bottomSelect(9)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(9)->filenameReturn());
+                Inventory[9]->addChild(newph1, 1, 1);
+                ventory[9]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
             else {
+
                 Inventory[9]->removeChildByTag(1);
+                ventory[9]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(9)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(9);
-                auto newph = Sprite::create(pack1->bottomSelect(9)->filenameReturn());
-                newph->setScaleX(Inventory[9]->getContentSize().width / 1.3 / newph->getContentSize().width);
-                newph->setScaleY(Inventory[9]->getContentSize().width / 1.3 / newph->getContentSize().height);
+
+                auto newph1 = Sprite::create(pack1->bottomSelect(9)->filenameReturn());
+                newph1->setScaleX(Inventory[9]->getContentSize().width / 1.3 / newph1->getContentSize().width);
+                newph1->setScaleY(Inventory[9]->getContentSize().width / 1.3 / newph1->getContentSize().height);
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[9]->getContentSize().width / 2, Inventory[9]->getContentSize().width / 2));
-                Inventory[9]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[9]->getContentSize().width / 2, Inventory[9]->getContentSize().width / 2));
+
+                auto newph2 = Sprite::create(pack1->bottomSelect(9)->filenameReturn());
+                newph2->setScaleX(Inventory[9]->getContentSize().width / 1.3 / newph2->getContentSize().width);
+                newph2->setScaleY(Inventory[9]->getContentSize().width / 1.3 / newph2->getContentSize().height);
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[9]->getContentSize().width / 2, Inventory[9]->getContentSize().width / 2));
+                Inventory[9]->addChild(newph1, 1, 1);
+                ventory[9]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -492,30 +623,46 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[10]->removeChildByTag(1);
-                auto exchangeItem = Sprite::create(pack1->bottomSelect(0)->filenameReturn());
+                ventory[10]->removeChildByTag(1);
+                auto exchangeItem = Sprite::create(pack1->bottomSelect(10)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOn(1, 10);
-                auto newph = Sprite::create(pack1->bottomSelect(10)->filenameReturn());
-                Inventory[10]->addChild(newph);
+                auto newph1 = Sprite::create(pack1->bottomSelect(10)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(10)->filenameReturn());
+                Inventory[10]->addChild(newph1, 1, 1);
+                ventory[10]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
             else {
+
                 Inventory[10]->removeChildByTag(1);
+                ventory[10]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(10)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(10);
-                auto newph = Sprite::create(pack1->bottomSelect(10)->filenameReturn());
-                newph->setScaleX(Inventory[10]->getContentSize().width / 1.3 / newph->getContentSize().width);
-                newph->setScaleY(Inventory[10]->getContentSize().width / 1.3 / newph->getContentSize().height);
+
+                auto newph1 = Sprite::create(pack1->bottomSelect(10)->filenameReturn());
+                newph1->setScaleX(Inventory[10]->getContentSize().width / 1.3 / newph1->getContentSize().width);
+                newph1->setScaleY(Inventory[10]->getContentSize().width / 1.3 / newph1->getContentSize().height);
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[10]->getContentSize().width / 2, Inventory[10]->getContentSize().width / 2));
-                Inventory[10]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[10]->getContentSize().width / 2, Inventory[10]->getContentSize().width / 2));
+
+                auto newph2 = Sprite::create(pack1->bottomSelect(10)->filenameReturn());
+                newph2->setScaleX(Inventory[10]->getContentSize().width / 1.3 / newph2->getContentSize().width);
+                newph2->setScaleY(Inventory[10]->getContentSize().width / 1.3 / newph2->getContentSize().height);
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[10]->getContentSize().width / 2, Inventory[10]->getContentSize().width / 2));
+                Inventory[10]->addChild(newph1, 1, 1);
+                ventory[10]->addChild(newph2, 1, 1);
+                displayItem->removeChildByTag(1);
+                displayItem->addChild(exchangeItem, 1, 1);
             }
             break;
         }
@@ -535,30 +682,44 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
             {
                 isSelected = 1;
                 Inventory[11]->removeChildByTag(1);
+                ventory[11]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(11)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOn(1, 11);
-                auto newph = Sprite::create(pack1->bottomSelect(11)->filenameReturn());
-                Inventory[11]->addChild(newph);
+                auto newph1 = Sprite::create(pack1->bottomSelect(11)->filenameReturn());
+                auto newph2 = Sprite::create(pack1->bottomSelect(11)->filenameReturn());
+                Inventory[11]->addChild(newph1, 1, 1);
+                ventory[11]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
             else {
+
                 Inventory[11]->removeChildByTag(1);
+                ventory[11]->removeChildByTag(1);
                 auto exchangeItem = Sprite::create(pack1->bottomSelect(11)->filenameReturn());
                 exchangeItem->setScaleX(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().width);
                 exchangeItem->setScaleY(displayItem->getContentSize().width / 1.3 / exchangeItem->getContentSize().height);
                 exchangeItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
                 pack1->itemPositionChangeOff(11);
-                auto newph = Sprite::create(pack1->bottomSelect(1)->filenameReturn());
-                newph->setScaleX(Inventory[11]->getContentSize().width / 1.3 / newph->getContentSize().width);
-                newph->setScaleY(Inventory[11]->getContentSize().width / 1.3 / newph->getContentSize().height);
+
+                auto newph1 = Sprite::create(pack1->bottomSelect(11)->filenameReturn());
+                newph1->setScaleX(Inventory[11]->getContentSize().width / 1.3 / newph1->getContentSize().width);
+                newph1->setScaleY(Inventory[11]->getContentSize().width / 1.3 / newph1->getContentSize().height);
 
                 //图片坐标设置
-                newph->setPosition(Vec2(Inventory[11]->getContentSize().width / 2, Inventory[11]->getContentSize().width / 2));
-                Inventory[11]->addChild(newph, 1, 1);
+                newph1->setPosition(Vec2(Inventory[11]->getContentSize().width / 2, Inventory[11]->getContentSize().width / 2));
+
+                auto newph2 = Sprite::create(pack1->bottomSelect(11)->filenameReturn());
+                newph2->setScaleX(Inventory[11]->getContentSize().width / 1.3 / newph2->getContentSize().width);
+                newph2->setScaleY(Inventory[11]->getContentSize().width / 1.3 / newph2->getContentSize().height);
+
+                //图片坐标设置
+                newph2->setPosition(Vec2(Inventory[11]->getContentSize().width / 2, Inventory[11]->getContentSize().width / 2));
+                Inventory[11]->addChild(newph1, 1, 1);
+                ventory[11]->addChild(newph2, 1, 1);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -733,7 +894,7 @@ keyListener->onKeyPressed = ([=](EventKeyboard::KeyCode code, Event* event)
 
 //单选按钮集合
 auto ItemBot = RadioButtonGroup::create();
-RadioButton* ventory[backpackCapacity/3];
+
 
 void ventorySet() {
     ventory[0]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
@@ -915,11 +1076,21 @@ void inventory(Scene* scene,backPack* pack1,const Size& visibleSize, Vec2 origin
 
         //图片坐标设置
         packItem->setPosition(Vec2(ventory[i]->getContentSize().width / 2, ventory[i]->getContentSize().width / 2));
-        ventory[i]->addChild(packItem);
+        ventory[i]->addChild(packItem,1,1);
         ItemBot->addRadioButton(ventory[i]);
         scene->addChild(ventory[i], invventoryTag, invventoryTag + i);
 
     }
+    auto moneyboard = Sprite::create("moneyBoard.png");
+    moneyboard->setScaleX((tileWidth *6) / ( moneyboard->getContentSize().width));
+    moneyboard->setScaleY(tileHeight*4 / (3*moneyboard->getContentSize().height));
+    moneyboard->setPosition(Vec2(origin.x + tileWidth * 28 - moneyboard->getContentSize().width / 2, origin.y + tileHeight * 15 + moneyboard->getContentSize().height / 2));
+    
+    Label* money = Label::create(pack1->moneyStringOut(), "Comic Sans MS.ttf", 13);
+    money->setColor(Color3B::BLACK);
+    money->setPosition(Vec2(origin.x + tileWidth * 28 - moneyboard->getContentSize().width *1.3/ 4, origin.y + tileHeight * 15 + moneyboard->getContentSize().height / 2));
+    scene->addChild(moneyboard, invventoryTag);
+    scene->addChild(money, invventoryTag+1);
     scene->addChild(ItemBot);
     ventorySet();
 }

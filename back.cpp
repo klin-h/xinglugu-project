@@ -3,7 +3,7 @@
  * File back.cpp
  * File Function:
  * Author:Li Siyuan
- * Update Date:2024.12.4
+ * Update Date:2024.12.10
  * License:
  ****************************************************************/
 #include"back.h"
@@ -183,6 +183,54 @@ void backPack::moneyChange(int addAmount,bool ways) {
 //返回钱的值
 int backPack::moneyOut() {
 	return money;
+}
+
+//钱的string输出
+std::string backPack::moneyStringOut() {
+	std::string moneyout="";
+	int index = 10;
+	while ((money / index) >= 10) {
+		index *= 10;
+	}
+	while (index > 0) {
+		switch (money / index) {
+		case 0:
+			moneyout += "0";
+			break;
+		case 1:
+			moneyout += "1";
+			break;
+		case 2:
+			moneyout += "2";
+			break;
+		case 3:
+			moneyout += "3";
+			break;
+		case 4:
+			moneyout += "4";
+			break;
+		case 5:
+			moneyout += "5";
+			break;
+		case 6:
+			moneyout += "6";
+			break;
+		case 7:
+			moneyout += "7";
+			break;
+		case 8:
+			moneyout += "8";
+			break;
+		case 9:
+			moneyout += "9";
+			break;
+		default:
+			break;
+		}
+		money -= (money / index) * index;
+		index /= 10;
+	}
+	return moneyout;
 }
 
 //返回手持物品的名称

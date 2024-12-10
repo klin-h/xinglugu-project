@@ -3,7 +3,7 @@
  * File back.h
  * File Function:
  * Author:Li Siyuan
- * Update Date:2024.12.5
+ * Update Date:2024.12.10
  * License:
  ****************************************************************/
 #ifndef __BACKPACK_H__
@@ -94,6 +94,7 @@ public:
 	void itemReduce(Item* itemToMatch, int numToMatch);
 	void moneyChange(int addAmount,bool ways);
 	int moneyOut();
+	std::string moneyStringOut();
 	std::string handInItemOut(); 
 	void sethandInItemOut(int no);
 	
