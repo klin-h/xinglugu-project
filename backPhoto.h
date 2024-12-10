@@ -16,4 +16,5 @@ void ventorySet();
 
 void inventory(Scene* scene, backPack* pack1, const Size& visibleSize, Vec2 origin);
 
+void backItemAddDisplay(int no);
 #endif // !__BACKPHOTO_H_
