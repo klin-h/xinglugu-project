@@ -3,6 +3,7 @@
 #include "extensions/cocos-ext.h"
 #include "ui/CocosGUI.h"
 #include "back.h"
+#include "usableItem.h"
 #include "Constants.h"
 #include "backPhoto.h"
 USING_NS_CC;
@@ -14,6 +15,8 @@ bool backIsProed = BackPro1;
 RadioButton* Inventory[backpackCapacity];
 
 RadioButton* ventory[backpackCapacity / 3];
+
+
 
 Sprite* displayItem;
 bool isSelected = 0;
@@ -735,12 +738,35 @@ void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight,
 }
 
 void backPhoto(Scene* scene,backPack* pack1,EventDispatcher* _eventDispatcher){
-
 auto visibleSize = Director::getInstance()->getVisibleSize();
 
 Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 auto keyListener = EventListenerKeyboard::create();
+
+
+
+float tileWidth = visibleSize.width / 28;
+float tileHeight = tileWidth;
+
+for (int i = 0; i < backpackCapacity / 3; i++) {
+    Inventory[i] = RadioButton::create("Inventory.png", "Inventory.png");
+    Inventory[i]->setScaleX(tileWidth / Inventory[i]->getContentSize().width);
+    Inventory[i]->setScaleY(tileHeight / Inventory[i]->getContentSize().height);
+    Inventory[i]->setPosition(Vec2(origin.x + tileWidth * (9 + i) - Inventory[i]->getContentSize().width / 2, origin.y + tileHeight * 13 + Inventory[i]->getContentSize().height / 2));
+    auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
+
+
+
+    //物品框内物品尺寸设置
+    packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
+    packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
+
+    //图片坐标设置
+    packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
+
+    Inventory[i]->addChild(packItem, 1, 1);
+}
 
 keyListener->onKeyPressed = ([=](EventKeyboard::KeyCode code, Event* event)
     {
@@ -754,10 +780,9 @@ keyListener->onKeyPressed = ([=](EventKeyboard::KeyCode code, Event* event)
                 backIsOpen = BackOpen2;
                 if (backIsProed == BackPro1) {
                     auto group2 = RadioButtonGroup::create();
-                    backIsProed = BackPro2;
                     float tileWidth = visibleSize.width / 28;
                     float tileHeight = tileWidth;
-
+                    backIsProed = BackPro2;
 
                     for (int i = 0; i < backpackCapacity / 3; i++) {
                         Inventory[i] = RadioButton::create("Inventory.png", "Inventory.png");
@@ -1067,9 +1092,7 @@ void inventory(Scene* scene,backPack* pack1,const Size& visibleSize, Vec2 origin
         ventory[i]->setPosition(Vec2(origin.x + tileWidth * (9 + i) - ventory[i]->getContentSize().width / 2, origin.y + tileHeight / 5 + ventory[i]->getContentSize().height / 2));
 
         auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
-        if (!packItem) {
-            return;
-        }
+
         //物品框内物品尺寸设置
         packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
         packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
@@ -1093,5 +1116,29 @@ void inventory(Scene* scene,backPack* pack1,const Size& visibleSize, Vec2 origin
     scene->addChild(money, invventoryTag+1);
     scene->addChild(ItemBot);
     ventorySet();
+
 }
 
+void backItemAddDisplay(int no) {
+    if (no < 0 || no >= backpackCapacity) {
+        return;
+    }
+    else {
+        Inventory[no]->removeChildByTag(1);
+        ventory[no]->removeChildByTag(1);
+        
+        auto newph1 = Sprite::create(pack1->bottomSelect(no)->filenameReturn());
+        newph1->setScaleX(Inventory[no]->getContentSize().width / 1.3 / (newph1->getContentSize().width));
+        newph1->setScaleY(Inventory[no]->getContentSize().width / 1.3 / (newph1->getContentSize().height));
+        //图片坐标设置
+        newph1->setPosition(Vec2(Inventory[no]->getContentSize().width / 2, Inventory[no]->getContentSize().width / 2));
+
+        auto newph2 = Sprite::create(pack1->bottomSelect(no)->filenameReturn());
+        newph2->setScaleX(ventory[no]->getContentSize().width / 1.3 / (newph2->getContentSize().width));
+        newph2->setScaleY(ventory[no]->getContentSize().width / 1.3 / (newph2->getContentSize().height));
+        //图片坐标设置
+        newph2->setPosition(Vec2(ventory[no]->getContentSize().width / 2, ventory[no]->getContentSize().width / 2));
+        Inventory[no]->addChild(newph1, 1, 1);
+        ventory[no]->addChild(newph2, 1, 1);
+    }
+}
