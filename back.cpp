@@ -123,7 +123,6 @@ bool backPack::itemAdd(Item* itemIn,int num) {
 	}
 	if (isAlreadyInside == 1) {
 		boxNum[posi]+=itemIn->quantity*num;
-		backItemAddDisplay(posi);
 	}
 	else {
 		while (boxNum[ring] != 0) {
@@ -132,7 +131,6 @@ bool backPack::itemAdd(Item* itemIn,int num) {
 		if (ring < grade * (backpackCapacity / 3) + backpackCapacity / 3) {
 			box[ring] = itemIn;
 			boxNum[ring] += itemIn->quantity*num;
-			backItemAddDisplay(ring);
 		}
 		else
 			isAlreadyFull = 1;
