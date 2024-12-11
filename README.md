@@ -20,4 +20,6 @@ WalkingCharacter.cpp和WalkingCharacter.h粗略对角色移动功能进行了实
 
 2024/12/9 Author Li Siyuan ，修改了back.cpp，back.h，mainscene.cpp与mainscene.h把原先处于mainscene.cpp的背包图形化部分删除，转移到新交的文件backphoto.cpp中,主要实现了背包图形化界面的问题。
 
+2024/12/10 Author Li Siyuan , 实现了物品增加的实时显示功能以及钱币的增加。
+
 2024/12/10 Author Gao wenhao ，完善了土地交互逻辑，现在可以使用指定工具锄地/浇地/收集石头/木材等等了。注意本次resource一并更新，记得更新自己的resource文件
