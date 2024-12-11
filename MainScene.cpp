@@ -67,9 +67,17 @@ bool MainScene::init() {
     touchListener->onTouchBegan = [map](Touch* touch, Event* event) {
         return onTouchBegan(touch, event, map, pack1);
         };
-
+    //npc1可以用键盘控制，可看作玩家
+    auto npc1 = NPC_1::create();
+    if (npc1) {
+        this->addChild(npc1, INT_MAX);
+        // 通过创建好的npc1Obj对象来调用testAddNPC_1函数
+        npc1->testAddNPC_1(visibleSize, origin);
+    }
     // 将监听器添加到事件分发器中
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+
+    
     return true;
 }
 

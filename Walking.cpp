@@ -3,7 +3,7 @@
  * File Name:Walking.cpp
  * File Function: walk
  * Author:Sun Yining
- * Update Date:2024.12.5
+ * Update Date:2024.12.11
  * License:
  ****************************************************************/
 
@@ -17,8 +17,8 @@ Animate* Walking::createAnimation(const std::string& name, const std::string& di
 {
 	SpriteFrameCache* cache = SpriteFrameCache::getInstance();
 
-	std::string strPlistName = name + "/" + name + ".plist";
-	std::string strPhotoName = name + "/" + name + ".png";
+	std::string strPlistName = "resources/SYN/" + name + "/" + name + ".plist";
+	std::string strPhotoName = "resources/SYN/" + name + "/" + name + ".png";
 
 	cache->addSpriteFramesWithFile(strPlistName, strPhotoName);
 	Vector<SpriteFrame*> frameVec;
@@ -32,9 +32,10 @@ Animate* Walking::createAnimation(const std::string& name, const std::string& di
 			break;
 		}
 		frameVec.pushBack(frame);
-		
+
 	}
-	Animation* animation = Animation::createWithSpriteFrames(frameVec, 1.0f / 5, -1);//帧的更换速度为0.2秒
+	Animation* animation = Animation::createWithSpriteFrames(frameVec, 1.0f / 5, 1);//帧的更换速度为0.2秒
 	Animate* animate = Animate::create(animation);
+
 	return animate;
 }

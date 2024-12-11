@@ -16,7 +16,7 @@
 #include "WalkingCharacter.h"
 #include "Constants.h"
 #include"initAnimalScene.h"
-
+#include "NPC_1.h"
 class MainScene : public cocos2d::Scene {
 public:
     static cocos2d::Scene* createScene();
