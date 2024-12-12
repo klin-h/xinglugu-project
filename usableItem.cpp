@@ -1,9 +1,9 @@
 /****************************************************************
  * Project Name: xinglugu-project
- * File Name:constants.h
+ * File Name:usableItem.cpp
  * File Function: const define
  * Author:Li Siyuan
- * Update Date:12.8
+ * Update Date:12.12
  * License:
  ****************************************************************/
 #include"usableItem.h"
@@ -23,6 +23,14 @@ void Item::quantityChange(bool way,int amount) {
 //文件名返回
 char const* Item::filenameReturn() {
 	return pictureName;
+}
+
+//物品是否可卖
+bool Item::isSoldAble() {
+	if (itemtype == ItemType::null || itemtype == ItemType::tool)
+		return 0;
+	else
+		return 1;
 }
 
 //物品价值
