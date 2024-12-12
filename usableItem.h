@@ -1,9 +1,9 @@
 /****************************************************************
  * Project Name: xinglugu-project
- * File Name:constants.h
+ * File Name:usableItem.h
  * File Function: const define
  * Author:Li Siyuan
- * Update Date:12.9
+ * Update Date:12.12
  * License:
  ****************************************************************/
 #ifndef __USABLE_H_
@@ -74,6 +74,8 @@ public:
 
 	void quantityChange(bool way,int amount);
 
+	bool isSoldAble();
+
     virtual Item* create() {
 		Item* null=new Item();
 		return null;
@@ -86,7 +88,7 @@ public:
 	virtual void rightKeyFunction();
 };
 
-//子类----鱼类Fish
+//子类----鱼类Fishpotatoseed
 class Fish : public Item {
 public:
 	int quality;
@@ -393,7 +395,6 @@ public:
 		woodensign,//木牌
 		woodfence,//木栅栏
 		gate,//大门
-		grassstarter,//草籽
 		woodpath,//木径
 		cobblestonepath,//石径
 		torch,//火把
@@ -406,6 +407,7 @@ public:
 		cherrybomb,//樱桃炸弹
 		staircase,//楼梯
 		campfire,//篝火
+		grassseedformulation,
 		sugar,//糖
 		barleyflour,//大麦粉
 		oil,//油
