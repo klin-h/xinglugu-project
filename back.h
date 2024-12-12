@@ -3,7 +3,7 @@
  * File back.h
  * File Function:
  * Author:Li Siyuan
- * Update Date:2024.12.10
+ * Update Date:2024.12.12
  * License:
  ****************************************************************/
 #ifndef __BACKPACK_H__
@@ -85,9 +85,11 @@ public:
 	bool display();
     void itemPositionChangeOn(bool isLeftKey,int position);
     void itemPositionChangeOff(int position);
+	Item* itemOutSet();
 	void itemChangeReset();
 	void packDisplay();
 	Item* bottomSelect(int NoX);
+	int posiNumBack(int NoX);
 	bool upgrade();
 	bool itemAdd(Item* itemIn,int num);
 	bool matchJudge(Item* itemToMatch,int numToMatch);
@@ -102,3 +104,4 @@ public:
 
 
 #endif // __BACKPACK_H__
+
