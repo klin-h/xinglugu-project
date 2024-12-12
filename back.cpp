@@ -68,11 +68,24 @@ void backPack::itemPositionChangeOff(int position) {
 	}
 }
 
+//售出物品功能
+Item* backPack::itemOutSet() {
+	Item* item0;
+	item0 = itemToTransmit;
+	item0->quantity = numToTransmit;
+	Item* newitem = new Item();
+	itemToTransmit = newitem;
+	numToTransmit = 0;
+	return item0;
+}
+
+//物品情况重置
 void backPack::itemChangeReset() {
 	Item* item0 = new Item();
 	itemToTransmit = item0;
 	numToTransmit = 0;
 }
+
 //返回特定位置的物品
 Item* backPack::bottomSelect(int NoX) {
 	if (NoX < 0 || NoX >= backpackCapacity)
@@ -83,6 +96,17 @@ Item* backPack::bottomSelect(int NoX) {
 	else {
 		return box[NoX];
 	}
+}
+
+//特定位置的数量
+int backPack::posiNumBack(int NoX) {
+	if (NoX < 0 || NoX >= backpackCapacity)
+	{
+		CCLOG("Number is over field!");
+		return 0;
+	}
+	else
+		return boxNum[NoX];
 }
 
 //背包升级
@@ -169,8 +193,20 @@ void backPack::itemReduce(Item* itemToMatch, int numToMatch) {
 	for (int i = 0; i < grade * (backpackCapacity / 3) + backpackCapacity / 3; i++) {
 		if (box[i]->name == itemToMatch->name)
 		{
-			boxNum[i] -= numToMatch;
-		 }
+			if(numToMatch< boxNum[i])
+				boxNum[i] -= numToMatch;
+			else {
+				if (boxNum[i] == numToMatch) {
+					Item* nullitem = new Item();
+					box[i] = nullitem;
+					boxNum[i] = 0;
+				}
+				else {
+					CCLOG("The num is too large!");
+					return;
+				}
+			}
+		}
 	}
 }
 
@@ -241,6 +277,7 @@ std::string backPack::handInItemOut() {
 	return handInItem->name;
 }
 
+//设置手持物品
 void backPack::sethandInItemOut(int no) {
 	if (no < 0 || no >= grade * (backpackCapacity / 3) + backpackCapacity / 3)
 		return;
