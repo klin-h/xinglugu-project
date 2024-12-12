@@ -10,11 +10,14 @@
 
 void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight, float tileWidth);
 
-void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher);
+void backPhoto( Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher);
 
 void ventorySet();
 
 void inventory(Scene* scene, backPack* pack1, const Size& visibleSize, Vec2 origin);
 
 void backItemAddDisplay(int no);
+
+
+void storePhoto(Scene* scene);
 #endif // !__BACKPHOTO_H_
