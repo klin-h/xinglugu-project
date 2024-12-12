@@ -15,29 +15,43 @@
 USING_NS_CC;
 using namespace Constants;
 
-//ºÏ³ÉÌ¨µÄÊµÏÖÀà
+//åˆæˆå°çš„å®ç°ç±»
 class craftTable {
 public:
 	int grade;
 	craftTable(int yourGrade) {
 		grade = yourGrade;
 	}
+	void gradeExchange(int newGrade) {
+		grade = newGrade;
+	}
 	bool changeForCraft(backPack* Back, int itemToMake);
 	Item* getItem(backPack* Back, int itemToMake);
 };
 
-//PierreÉÌµêµÄÊµÏÖÀà
+//Pierreå•†åº—çš„å®ç°ç±»
 class Pierre {
 public:
-	bool isAffordable(backPack* Back, int itemToMake,int season);
-	Item* getItem(backPack* Back, int itemToMake,int season);
-};
+	Pierre() {
+		;
+	}
+	bool isAffordable(backPack* Back, int itemToMake, int season);
 
-//Ìú½³ÆÌµÄÊµÏÖÀà
+	std::string itemMoneyOut(int posi, int season);
+	
+	Item* getItem(backPack* Back, int itemToMake, int season);
+	
+	std::string itemNameOut(int no, int season, bool choise);
+};
+//é“åŒ é“ºçš„å®ç°ç±»
 class BlackSmith {
 public:
+	BlackSmith() {
+		;
+	}
 	bool isAffordable(backPack* Back, int itemToMaken);
 	Item* getItem(backPack* Back, int itemToMake);
 };
 
 #endif  
+
