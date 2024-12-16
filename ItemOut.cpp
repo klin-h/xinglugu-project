@@ -1,3 +1,11 @@
+/****************************************************************
+ * Project Name: xinglugu-project
+ * File Name:ItemOut.cpp
+ * File Function: const define
+ * Author:Li Siyuan
+ * Update Date:12.12
+ * License:
+ ****************************************************************/
 #include "ItemOut.h"
 #include "cocos2d.h"
 #include "Constants.h"
@@ -9,8 +17,9 @@ bool SoldBox::singleDayInput(Item* itemToSell, int num) {
 		return 0;
 	else {
 		singleDayProfit += num * itemToSell->moneyToSell();
-		itemInput[++itemList]=itemToSell;
-		itemnum[++numList]=num;
+		itemInput[++itemList] = itemToSell;
+		itemnum[++numList] = num;
+		return 1;
 	}
 }
 
@@ -21,12 +30,32 @@ Item* SoldBox::itemSingleOut() {
 		return item0;
 	}
 	else {
-		itemInput[itemList]->quantityChange(0,itemnum[numList]-1);
 		Item* list1 = itemInput[itemList];
+		singleDayProfit -= itemnum[numList] * itemInput[itemList]->moneyToSell();
 		itemList--;
 		numList--;
 		return list1;
 	}
+}
+
+//顶部数量
+int SoldBox::topNumOut() {
+	if (numList < 0) {
+		CCLOG("it is empty");
+		return 0;
+	}
+	else
+		return itemnum[numList];
+}
+
+//顶部物品
+Item* SoldBox::topItemOut() {
+	if (numList < 0) {
+		CCLOG("it is empty");
+		return 0;
+	}
+	else
+		return itemInput[itemList];
 }
 
 //每日总结,清空箱子
@@ -36,4 +65,12 @@ int SoldBox::dayProfitOut() {
 	itemList = listInit;
 	numList = listInit;
 	return DayOut;
+}
+
+//判断是否为空
+bool SoldBox::isBoxEmpty() {
+	if (numList == listInit)
+		return 0;
+	else
+		return 1;
 }

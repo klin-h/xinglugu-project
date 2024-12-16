@@ -52,6 +52,10 @@ static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 static cocos2d::Size myResolutionSize = cocos2d::Size(Constants::kMapWidth, Constants::kMapLength);
 //static cocos2d::Size myResolutionSize = cocos2d::Size(1280,1080);
 
+cocos2d::TMXTiledMap* g_sharedTMXtwo = nullptr;
+cocos2d::TMXTiledMap* g_sharedTMXthree = nullptr;
+cocos2d::TMXTiledMap* g_sharedTMXcurrent = nullptr;
+
 AppDelegate::AppDelegate()
 {
 }
@@ -119,16 +123,58 @@ bool AppDelegate::applicationDidFinishLaunching() {
     {        
         director->setContentScaleFactor(MIN(smallResolutionSize.height/designResolutionSize.height, smallResolutionSize.width/designResolutionSize.width));
     }
+   
+    glview->setDesignResolutionSize(Constants::kMapWidth, Constants::kMapLength, ResolutionPolicy::SHOW_ALL);
+    Director::getInstance()->setContentScaleFactor(1.0f);
+
+    g_sharedTMXone = TMXTiledMap::create("nf.tmx");
+    g_sharedTMXtwo = TMXTiledMap::create("mine.tmx");
+    g_sharedTMXthree = TMXTiledMap::create("forest01.tmx");
+
+    auto map = g_sharedTMXone;
+    CCLOG("g_sharedTMXone Anchor Point: %f, %f", map->getAnchorPoint().x, map->getAnchorPoint().y);
+    CCLOG("g_sharedTMXone Position: %f, %f", map->getPosition().x, map->getPosition().y);
+    CCLOG("g_sharedTMXone Scale: %f", map->getScale());
+    CCLOG("g_sharedTMXone Content Size: %f x %f", map->getContentSize().width, map->getContentSize().height);
+
+    
+    g_sharedTMXcurrent = g_sharedTMXone;
+    if (g_sharedTMXone) g_sharedTMXone->retain();
+    if (g_sharedTMXtwo) g_sharedTMXtwo->retain();
+    if (g_sharedTMXthree) g_sharedTMXthree->retain();
+
+    CCLOG("Initialized g_sharedTMXone: %p", g_sharedTMXone);
+    CCLOG("Initialized g_sharedTMXtwo: %p", g_sharedTMXtwo);
+    CCLOG("Initialized g_sharedTMXthree: %p", g_sharedTMXthree);
 
     register_all_packages();
 
     // create a scene. it's an autorelease object
     //auto scene = HelloWorld::createScene();
+  
     auto scene = MainScene::createScene();
     // run
+ 
     director->runWithScene(scene);
 
     return true;
+}
+
+void AppDelegate::applicationWillTerminate() {
+    // 释放全局变量
+    if (g_sharedTMXone) {
+        g_sharedTMXone->release();
+        g_sharedTMXone = nullptr;
+    }
+    if (g_sharedTMXtwo) {
+        g_sharedTMXtwo->release();
+        g_sharedTMXtwo = nullptr;
+    }
+    if (g_sharedTMXthree) {
+        g_sharedTMXthree->release();
+        g_sharedTMXthree = nullptr;
+    }
+    CCLOG("Released global TMXTiledMap objects.");
 }
 
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.

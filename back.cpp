@@ -14,8 +14,8 @@ USING_NS_CC;
 using namespace Constants;
 
 
-//èƒŒåŒ…åˆå§‹åŒ–
-void backPack::init() {//åˆå§‹åŒ–
+//±³°ü³õÊ¼»¯
+void backPack::init() {//³õÊ¼»¯
 	for (int i = 0; i < backpackCapacity/3; i++) {
 		positionIsAccessible[i] = 1;
 	}
@@ -25,7 +25,7 @@ void backPack::init() {//åˆå§‹åŒ–
 
 }
 
-//ç‰©å“è½¬ç§»çš„å¼€å§‹ï¼Œé€‰æ‹©ç‰©å“
+//ÎïÆ·×ªÒÆµÄ¿ªÊ¼£¬Ñ¡ÔñÎïÆ·
 void backPack::itemPositionChangeOn(bool isLeftKey,int position) {
 	if (position < 0 || position >= 36)
 		return;
@@ -53,7 +53,7 @@ void backPack::itemPositionChangeOn(bool isLeftKey,int position) {
 	}
 }
 
-//è½¬ç§»çš„ç»“æŸï¼Œæ”¾ç½®
+//×ªÒÆµÄ½áÊø£¬·ÅÖÃ
 void backPack::itemPositionChangeOff(int position) {
 	if (position < 0 || position >= 36)
 		return;
@@ -68,12 +68,25 @@ void backPack::itemPositionChangeOff(int position) {
 	}
 }
 
+//ÊÛ³öÎïÆ·¹¦ÄÜ
+Item* backPack::itemOutSet() {
+	Item* item0;
+	item0 = itemToTransmit;
+	item0->quantity = numToTransmit;
+	Item* newitem = new Item();
+	itemToTransmit = newitem;
+	numToTransmit = 0;
+	return item0;
+}
+
+//ÎïÆ·Çé¿öÖØÖÃ
 void backPack::itemChangeReset() {
 	Item* item0 = new Item();
 	itemToTransmit = item0;
 	numToTransmit = 0;
 }
-//è¿”å›ç‰¹å®šä½ç½®çš„ç‰©å“
+
+//·µ»ØÌØ¶¨Î»ÖÃµÄÎïÆ·
 Item* backPack::bottomSelect(int NoX) {
 	if (NoX < 0 || NoX >= backpackCapacity)
 	{
@@ -85,7 +98,18 @@ Item* backPack::bottomSelect(int NoX) {
 	}
 }
 
-//èƒŒåŒ…å‡çº§
+//ÌØ¶¨Î»ÖÃµÄÊıÁ¿
+int backPack::posiNumBack(int NoX) {
+	if (NoX < 0 || NoX >= backpackCapacity)
+	{
+		CCLOG("Number is over field!");
+		return 0;
+	}
+	else
+		return boxNum[NoX];
+}
+
+//±³°üÉı¼¶
 bool backPack::upgrade() {
 	if (grade == 0)
 	{
@@ -93,6 +117,7 @@ bool backPack::upgrade() {
 		for (int i = backpackCapacity / 3; i < backpackCapacity*2 / 3; i++) {
 			positionIsAccessible[i] = 1;
 		}
+		listenSet2();
 		return 1;
 	}
 	else {
@@ -102,15 +127,17 @@ bool backPack::upgrade() {
 			for (int i = backpackCapacity * 2 / 3; i < backpackCapacity ; i++) {
 				positionIsAccessible[i] = 1;
 			}
+			listenSet3();
 			return 1;
 		}
 		else {
+			CCLOG("is Already top");
 			return 0;
 		}
 	}
 }
 
-//ç‰©å“çš„æ·»åŠ 
+//ÎïÆ·µÄÌí¼Ó
 bool backPack::itemAdd(Item* itemIn,int num) {
 	int ring = 0,posi=0;
 	bool isAlreadyInside = 0, isAlreadyFull = 0;
@@ -123,6 +150,8 @@ bool backPack::itemAdd(Item* itemIn,int num) {
 	}
 	if (isAlreadyInside == 1) {
 		boxNum[posi]+=itemIn->quantity*num;
+		backItemAddDisplay(posi);
+		numlabel2(posi);
 	}
 	else {
 		while (boxNum[ring] != 0) {
@@ -131,6 +160,8 @@ bool backPack::itemAdd(Item* itemIn,int num) {
 		if (ring < grade * (backpackCapacity / 3) + backpackCapacity / 3) {
 			box[ring] = itemIn;
 			boxNum[ring] += itemIn->quantity*num;
+			backItemAddDisplay(ring);
+			numlabel(posi);
 		}
 		else
 			isAlreadyFull = 1;
@@ -141,7 +172,7 @@ bool backPack::itemAdd(Item* itemIn,int num) {
 		return 1;
 }
 
-//åˆ¤æ–­æ˜¯å¦æœ‰æŒ‡å®šæ•°é‡çš„æŒ‡å®šç‰©å“
+//ÅĞ¶ÏÊÇ·ñÓĞÖ¸¶¨ÊıÁ¿µÄÖ¸¶¨ÎïÆ·
 bool backPack::matchJudge(Item* itemToMatch, int numToMatch) {
 	bool isMatchAble = 0;
 	int ring = 0;
@@ -162,18 +193,31 @@ bool backPack::matchJudge(Item* itemToMatch, int numToMatch) {
 		return 1;
 }
 
-//ç‰©å“å‡å°‘
+//ÎïÆ·¼õÉÙ
 void backPack::itemReduce(Item* itemToMatch, int numToMatch) {
 	for (int i = 0; i < grade * (backpackCapacity / 3) + backpackCapacity / 3; i++) {
 		if (box[i]->name == itemToMatch->name)
 		{
-			boxNum[i] -= numToMatch;
-		 }
+			if (numToMatch < boxNum[i]) {
+				boxNum[i] -= numToMatch;			
+			}
+			else {
+					Item* nullitem = new Item();
+				if (boxNum[i] == numToMatch) {
+					box[i] = nullitem;
+					boxNum[i] = 0;
+				}
+				else {
+					CCLOG("The num is too large!");
+					return;
+				}
+			}
+		}
 	}
 }
 
-//é’±çš„å¢å‡
-//waysï¼š1--å‡ 0--å¢
+//Ç®µÄÔö¼õ
+//ways£º1--¼õ 0--Ôö
 void backPack::moneyChange(int addAmount,bool ways) {
 	if (ways == wayOfAdd)
 		money += addAmount;
@@ -181,15 +225,16 @@ void backPack::moneyChange(int addAmount,bool ways) {
 		money -= addAmount;
 }
 
-//è¿”å›é’±çš„å€¼
+//·µ»ØÇ®µÄÖµ
 int backPack::moneyOut() {
 	return money;
 }
 
-//é’±çš„stringè¾“å‡º
+//Ç®µÄstringÊä³ö
 std::string backPack::moneyStringOut() {
+	int money0 = money;
 	std::string moneyout="";
-	int index = 10;
+	int index = 1;
 	while ((money / index) >= 10) {
 		index *= 10;
 	}
@@ -231,14 +276,65 @@ std::string backPack::moneyStringOut() {
 		money -= (money / index) * index;
 		index /= 10;
 	}
+	money = money0;
 	return moneyout;
 }
 
-//è¿”å›æ‰‹æŒç‰©å“çš„åç§°
+std::string backPack::numStringOut(int posi) {
+	int money0 = boxNum[posi];
+	std::string moneyout = "";
+	int index = 1;
+	while ((boxNum[posi] / index) >= 10) {
+		index *= 10;
+	}
+	while (index > 0) {
+		switch (boxNum[posi] / index) {
+		case 0:
+			moneyout += "0";
+			break;
+		case 1:
+			moneyout += "1";
+			break;
+		case 2:
+			moneyout += "2";
+			break;
+		case 3:
+			moneyout += "3";
+			break;
+		case 4:
+			moneyout += "4";
+			break;
+		case 5:
+			moneyout += "5";
+			break;
+		case 6:
+			moneyout += "6";
+			break;
+		case 7:
+			moneyout += "7";
+			break;
+		case 8:
+			moneyout += "8";
+			break;
+		case 9:
+			moneyout += "9";
+			break;
+		default:
+			break;
+		}
+		boxNum[posi] -= (boxNum[posi] / index) * index;
+		index /= 10;
+	}
+	boxNum[posi] = money0;
+	return moneyout;
+}
+
+//·µ»ØÊÖ³ÖÎïÆ·µÄÃû³Æ
 std::string backPack::handInItemOut() {
 	return handInItem->name;
 }
 
+//ÉèÖÃÊÖ³ÖÎïÆ·
 void backPack::sethandInItemOut(int no) {
 	if (no < 0 || no >= grade * (backpackCapacity / 3) + backpackCapacity / 3)
 		return;

@@ -22,20 +22,41 @@ public:
 	craftTable(int yourGrade) {
 		grade = yourGrade;
 	}
+	void gradeExchange(int newGrade) {
+		grade = newGrade;
+	}
 	bool changeForCraft(backPack* Back, int itemToMake);
 	Item* getItem(backPack* Back, int itemToMake);
 };
 
 //Pierre商店的实现类
 class Pierre {
+private:
+	int season;
 public:
-	bool isAffordable(backPack* Back, int itemToMake,int season);
-	Item* getItem(backPack* Back, int itemToMake,int season);
-};
+	Pierre() {
+		season = 1;
+	}
+	bool isAffordable(backPack* Back, int itemToMake, int season);
 
+	std::string itemMoneyOut(int posi, int season);
+
+	int itemMoneyBack(int posi, int season);
+
+	Item* getItem(backPack* Back, int itemToMake, int season);
+
+	std::string itemNameOut(int no, int season, bool choise);
+
+	void seasonEx(int season);
+
+	int seasonOut();
+};
 //铁匠铺的实现类
 class BlackSmith {
 public:
+	BlackSmith() {
+		;
+	}
 	bool isAffordable(backPack* Back, int itemToMaken);
 	Item* getItem(backPack* Back, int itemToMake);
 };

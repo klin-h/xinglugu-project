@@ -18,8 +18,14 @@
 #include "backPhoto.h"
 #include "SceneTouch.h"
 #include "Constants.h"
+
+
 USING_NS_CC;
 USING_NS_CC::ui;
+
+cocos2d::Scene* g_sharedScene = nullptr;
+
+cocos2d::TMXTiledMap* g_sharedTMXone = nullptr;
 
 
 //背包创建
@@ -42,19 +48,46 @@ bool MainScene::init() {
     Director::getInstance()->setContentScaleFactor(1.0f);
 
     // 创建并添加地图
-    auto map = TMXTiledMap::create("nf.tmx");
+    //auto map = TMXTiledMap::create("nf.tmx");
+    auto map = g_sharedTMXone;
+    CCLOG("g_sharedTMXone Anchor Point: %f, %f", map->getAnchorPoint().x, map->getAnchorPoint().y);
+    CCLOG("g_sharedTMXone Position: %f, %f", map->getPosition().x, map->getPosition().y);
+    CCLOG("g_sharedTMXone Scale: %f", map->getScale());
+    CCLOG("g_sharedTMXone Content Size: %f x %f", map->getContentSize().width, map->getContentSize().height);
+
     map->setAnchorPoint(Vec2(0, 0)); // 左下角对齐
     map->setPosition(Vec2(0, 0));
-    map->setScale(1.0f); // 确保地图未被缩放
-    this->addChild(map, Constants::MAP_BACKGROUND_LAYER_Z_ORDER, "map");
+    map->setScale(Constants::kScale); // 确保地图未被缩放
+   
+    this->addChild(map, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE, "map01");
+    this->addChild(g_sharedTMXtwo, Constants::MAP_BACKGROUND_LAYER_Z_BASIC, "map02");
+    this->addChild(g_sharedTMXthree, Constants::MAP_BACKGROUND_LAYER_Z_MIDDLE, "map03");
 
+    if (g_sharedTMXone) {
+        auto mapSize = g_sharedTMXtwo->getMapSize();
+        auto tileSize = g_sharedTMXtwo->getTileSize();
+
+        CCLOG("Map Size: %f x %f, Tile Size: %f x %f", mapSize.width, mapSize.height, tileSize.width, tileSize.height);
+
+        auto layer = g_sharedTMXtwo->getLayer("someLayerName");
+        if (layer) {
+            CCLOG("Successfully accessed layer.");
+        }
+        else {
+            CCLOG("Failed to access layer. Map might not be fully initialized.");
+        }
+    }
+
+   
+   
+    g_sharedScene = this;
     if (!map) {
         CCLOG("Failed to load TMX map.tmx");
         return false;
     }
 
     
-    inventory(this, pack1, visibleSize, origin);
+    inventory(this, pack1, origin);
 
     //setupAnimal(this);// 创建动物
     
@@ -68,20 +101,39 @@ bool MainScene::init() {
         return onTouchBegan(touch, event, map, pack1);
         };
     //npc1可以用键盘控制，可看作玩家
+
     auto npc1 = NPC_1::create();
     if (npc1) {
-        this->addChild(npc1, INT_MAX);
+        this->addChild(npc1, Constants::MAP_BACKGROUND_LAYER_Z_ORDER+10);
         // 通过创建好的npc1Obj对象来调用testAddNPC_1函数
-        npc1->testAddNPC_1(visibleSize, origin);
+        npc1->testAddNPC_1(visibleSize, origin,map,this);
     }
     // 将监听器添加到事件分发器中
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
-    
-    return true;
+    //auto button = ui::Button::create("button_normal.png", "button_pressed.png");
+    //button->setTitleText("Switch Map?");
+    //button->setTitleFontSize(24);
+    //button->setPosition(Vec2(50, 50));
+    //this->addChild(button, 100);
+
+    //// 按钮点击事件
+    //button->addClickEventListener([=](Ref* sender) {
+    //    CCLOG("Press");
+    //    button->removeFromParent();
+    //    });
+    //return true;
 }
 
 //单选按钮集合
+
+void MainScene::onEnter() {
+    Scene::onEnter();
+    backPhoto(this, pack1, _eventDispatcher);
+    Item* newItem = terial::create("wood");
+    pack1->itemAdd(newItem, 1);
+
+}
 
 
 void MainScene::setupWalkingCharacter(const Size& visibleSize, Vec2 origin) {

@@ -1,9 +1,9 @@
 /****************************************************************
  * Project Name: xinglugu-project
- * File Name:constants.h
+ * File Name:usableItem.h
  * File Function: const define
  * Author:Li Siyuan
- * Update Date:12.9
+ * Update Date:12.12
  * License:
  ****************************************************************/
 #ifndef __USABLE_H_
@@ -20,7 +20,7 @@ typedef std::uint64_t hash_t;
 constexpr hash_t prime = primeZ;
 constexpr hash_t basis = basisZ;
 
-//è¿™é‡Œæ˜¯ä¸ºäº†å®ç°switchåˆ¤æ–­å­—ç¬¦ä¸²åŠ å…¥çš„åŠŸèƒ½
+//ÕâÀïÊÇÎªÁËÊµÏÖswitchÅĞ¶Ï×Ö·û´®¼ÓÈëµÄ¹¦ÄÜ
 
 
 constexpr hash_t hash_compile_time(char const* str, hash_t last_value = basis)
@@ -38,7 +38,7 @@ enum class ItemType {
 	animalproduct
 };
 
-//åŸºç±»----ç‰©å“æ€»ç±»Item
+//»ùÀà----ÎïÆ·×ÜÀàItem
 class Item {
 public:
 
@@ -65,17 +65,19 @@ public:
 
 	ItemType itemtype = ItemType::null;
 	Item() {
-		quantity=0;
+		quantity = 0;
 		name = "null";
 		pictureName = "null.png";
 	}
 
 	char const* filenameReturn();
 
-	void quantityChange(bool way,int amount);
+	void quantityChange(bool way, int amount);
 
-    virtual Item* create() {
-		Item* null=new Item();
+	bool isSoldAble();
+
+	virtual Item* create() {
+		Item* null = new Item();
 		return null;
 	}
 
@@ -86,24 +88,24 @@ public:
 	virtual void rightKeyFunction();
 };
 
-//å­ç±»----é±¼ç±»Fish
+//×ÓÀà----ÓãÀàFishpotatoseed
 class Fish : public Item {
 public:
 	int quality;
 	enum class SeedKind {
 		null,
-		blowfish,//æ²³è±š
-		tuna,//é‡‘æªé±¼
-		sardine,//æ²™ä¸é±¼
-		largemouthbass,//å¤§å£é²ˆé±¼
-		smallmouthbass,//å°å£é²ˆé±¼
-		salmon,//é²‘é±¼
-		sunfish,//ç¿»è½¦é±¼
-		carp,//é²¤é±¼
-		catfish//é²¶é±¼
+		blowfish,//ºÓëà
+		tuna,//½ğÇ¹Óã
+		sardine,//É³¶¡Óã
+		largemouthbass,//´ó¿ÚöÔÓã
+		smallmouthbass,//Ğ¡¿ÚöÔÓã
+		salmon,//öÙÓã
+		sunfish,//·­³µÓã
+		carp,//ÀğÓã
+		catfish//öóÓã
 	};
-	
-	SeedKind currentSeed=SeedKind::null;
+
+	SeedKind currentSeed = SeedKind::null;
 
 	void rightKeyFunction();
 
@@ -112,7 +114,7 @@ public:
 	Fish(std::string fishName)
 	{
 		itemtype = ItemType::fish;
-		name=fishName;
+		name = fishName;
 		quantity = 1;
 		const int qual = rand() % (100 - 1 + 1) + 1;
 		if (qual <= 70)
@@ -126,8 +128,8 @@ public:
 
 		switch (hash_1(fishName.c_str())) {
 		case hash_compile_time("blowfish"):
-			currentSeed = SeedKind::blowfish;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "blowfish.png";//ä¼ å…¥æ–‡ä»¶å
+			currentSeed = SeedKind::blowfish;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "blowfish.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("tuna"):
 			currentSeed = SeedKind::tuna;
@@ -172,49 +174,49 @@ public:
 	}
 };
 
-//å­ç±»----ç§å­ç±»Seed
+//×ÓÀà----ÖÖ×ÓÀàSeed
 class Seed : public Item {
 public:
 	enum class SeedKind {
 		null,
-		parsnipseed,//é˜²é£è‰ç§å­
-		greenbeanseed,//é’è±†ç§å­
-		cauliflowerseed,//èŠ±æ¤°èœç§å­
-		potatoseed,//åœŸè±†ç§å­
-		tulipbulbsseed,//é¹…æŒæ¥¸ç§å­
-		cabbageseed,//å·å¿ƒèœç±½
-		bluejazzseed,//è“çˆµå£«ç§å­
-		garlicseed,//å¤§è’œç§å­
-		riceseedlingseed,//ç¨»è‹—ç§å­
-		melonseed,//ç”œç“œç§å­
-		tomatoseed,//ç•ªèŒ„ç§å­
-		blueburryseed,//è“è“ç§å­
-		chilipepperseed,//è¾£æ¤’ç§å­
-		wheatseed,//å°éº¦ç§å­
-		turnipseed,//èåœç§å­
-		poppiesseed,//ç½‚ç²Ÿç§å­
-		summersequinsseed,//å¤å­£äº®ç‰‡ç§å­
-		hopseed,//å•¤é…’èŠ±ç§å­
-		cornseed,//ç‰ç±³ç§å­
-		sunflowerseed,//å‘æ—¥è‘µç§å­
-		redleafcabbageseed,//çº¢å¶å·å¿ƒèœç§å­
-		eggplantseed,//èŒ„å­ç§å­
-		pumpkinseed,//å—ç“œç§å­
-		chinesecabbageseed,//å°ç™½èœç§å­
-		yamseed,//å±±è¯ç§å­
-		cranberriesseed,//è”“è¶Šè“ç§å­
-		rosefairyseed,//ç«ç‘°ä»™å­ç§å­
-		amaranthseed,//è‹‹èœç§å­
-		grapeseed,//è‘¡è„ç§å­
-		artichokeseed, //æœé²œè“Ÿç§å­
-		cherrysaplings,//æ¨±æ¡ƒæ ‘ç§å­
-		apricotsaplings,//ææ ‘ç§å­
-		orangesaplings,//æ©™å­æ ‘ç§å­
-		peachsaplings,//æ¡ƒæ ‘ç§å­
-		pomegranatesaplings,//çŸ³æ¦´æ ‘ç§å­
-		applesaplings,//è‹¹æœæ ‘ç§å­
-		springseed,//æ˜¥å¤©æ‚ç§
-		grassseed,//è‰ç±½
+		parsnipseed,//·À·ç²İÖÖ×Ó
+		greenbeanseed,//Çà¶¹ÖÖ×Ó
+		cauliflowerseed,//»¨Ò¬²ËÖÖ×Ó
+		potatoseed,//ÍÁ¶¹ÖÖ×Ó
+		tulipbulbsseed,//¶ìÕÆé±ÖÖ×Ó
+		cabbageseed,//¾íĞÄ²Ë×Ñ
+		bluejazzseed,//À¶¾ôÊ¿ÖÖ×Ó
+		garlicseed,//´óËâÖÖ×Ó
+		riceseedlingseed,//µ¾ÃçÖÖ×Ó
+		melonseed,//Ìğ¹ÏÖÖ×Ó
+		tomatoseed,//·¬ÇÑÖÖ×Ó
+		blueburryseed,//À¶İ®ÖÖ×Ó
+		chilipepperseed,//À±½·ÖÖ×Ó
+		wheatseed,//Ğ¡ÂóÖÖ×Ó
+		turnipseed,//ÂÜ²·ÖÖ×Ó
+		poppiesseed,//ó¿ËÚÖÖ×Ó
+		summersequinsseed,//ÏÄ¼¾ÁÁÆ¬ÖÖ×Ó
+		hopseed,//Æ¡¾Æ»¨ÖÖ×Ó
+		cornseed,//ÓñÃ×ÖÖ×Ó
+		sunflowerseed,//ÏòÈÕ¿ûÖÖ×Ó
+		redleafcabbageseed,//ºìÒ¶¾íĞÄ²ËÖÖ×Ó
+		eggplantseed,//ÇÑ×ÓÖÖ×Ó
+		pumpkinseed,//ÄÏ¹ÏÖÖ×Ó
+		chinesecabbageseed,//Ğ¡°×²ËÖÖ×Ó
+		yamseed,//É½Ò©ÖÖ×Ó
+		cranberriesseed,//ÂûÔ½İ®ÖÖ×Ó
+		rosefairyseed,//Ãµ¹åÏÉ×ÓÖÖ×Ó
+		amaranthseed,//ÜÈ²ËÖÖ×Ó
+		grapeseed,//ÆÏÌÑÖÖ×Ó
+		artichokeseed, //³¯ÏÊ¼»ÖÖ×Ó
+		cherrysaplings,//Ó£ÌÒÊ÷ÖÖ×Ó
+		apricotsaplings,//ĞÓÊ÷ÖÖ×Ó
+		orangesaplings,//³È×ÓÊ÷ÖÖ×Ó
+		peachsaplings,//ÌÒÊ÷ÖÖ×Ó
+		pomegranatesaplings,//Ê¯ÁñÊ÷ÖÖ×Ó
+		applesaplings,//Æ»¹ûÊ÷ÖÖ×Ó
+		springseed,//´ºÌìÔÓÖÖ
+		grassseed,//²İ×Ñ
 	};
 
 	SeedKind currentSeed = SeedKind::null;
@@ -224,12 +226,12 @@ public:
 	Seed(std::string fishName)
 	{
 		itemtype = ItemType::seed;
-		name=fishName;
+		name = fishName;
 		quantity = 1;
 		switch (hash_1(fishName.c_str())) {
 		case hash_compile_time("parsnipseed"):
-			currentSeed = SeedKind::parsnipseed;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "parsnipseed.png";//ä¼ å…¥æ–‡ä»¶å
+			currentSeed = SeedKind::parsnipseed;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "parsnipseed.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("greenbeanseed"):
 			currentSeed = SeedKind::greenbeanseed;
@@ -278,11 +280,11 @@ public:
 		case hash_compile_time("chilipepperseed"):
 			currentSeed = SeedKind::chilipepperseed;
 			pictureName = "chilipepperseed.png";
-			break; 
+			break;
 		case hash_compile_time("wheatseed"):
-				currentSeed = SeedKind::wheatseed;
-				pictureName = "wheatseed.png";
-				break;
+			currentSeed = SeedKind::wheatseed;
+			pictureName = "wheatseed.png";
+			break;
 		case hash_compile_time("turnipseed"):
 			currentSeed = SeedKind::turnipseed;
 			pictureName = "turnipseed.png";
@@ -347,6 +349,30 @@ public:
 			currentSeed = SeedKind::artichokeseed;
 			pictureName = "artichokeseed.png";
 			break;
+		case hash_compile_time("cherrysaplings"):
+			currentSeed = SeedKind::cherrysaplings;
+			pictureName = "cherrysaplings.png";
+			break;
+		case hash_compile_time("apricotsaplings"):
+			currentSeed = SeedKind::apricotsaplings;
+			pictureName = "apricotsaplings.png";
+			break;
+		case hash_compile_time("orangesaplings"):
+			currentSeed = SeedKind::orangesaplings;
+			pictureName = "orangesaplings.png";
+			break;
+		case hash_compile_time("peachsaplings"):
+			currentSeed = SeedKind::peachsaplings;
+			pictureName = "peachsaplings.png";
+			break;
+		case hash_compile_time("pomegranatesaplings"):
+			currentSeed = SeedKind::pomegranatesaplings;
+			pictureName = "pomegranatesaplings.png";
+			break;
+		case hash_compile_time("applesaplings"):
+			currentSeed = SeedKind::applesaplings;
+			pictureName = "applesaplings.png";
+			break;
 		default:
 			break;
 		}
@@ -358,63 +384,56 @@ public:
 	}
 };
 
-//å­ç±»----å·¥å…·ç±»Tool
+//×ÓÀà----¹¤¾ßÀàTool
 class Tool : public Item {
 public:
 	enum class ToolKind {
 		null,
-		axe,//æ–§
-		wateringcan,//æµ‡æ°´å£¶
-		sickle,//é•°åˆ€
-		pickaxe,//é•
-		hoe,//é”„
-		copperaxe,//é“œæ–§
-		copperwateringcan,//é“œæµ‡æ°´å£¶
-		copperpickaxe,//é“œé•
-		copperhoe,//é“œé”„
-		ironaxe,//é“æ–§
-		ironwateringcan,//é“æµ‡æ°´å£¶
-		ironpickaxe,//é“é•
-		ironhoe,//é“é”„
-		goldaxe,//é‡‘æ–§
-		goldwateringcan,//é‡‘æµ‡æ°´å£¶
-		goldpickaxe,//é‡‘é•
-		goldhoe,//é‡‘é”„
-		iridiumaxe,//é“±æ–§
-		iridiumwateringcan,//é“±æµ‡æ°´å£¶
-		iridiumpickaxe,//é“±é•
-		iridiumhoe,//é“±é”„
-		rustysword,//ç”Ÿé”ˆçš„å‰‘
-		woodsword,//æœ¨å‰‘
-		machete,//å¼¯åˆ€
-		holysword,//åœ£å‰‘
-		bonesword,//éª¨å‰‘
-		infinitesword,//æ— å°½ä¹‹å‰‘
-		woodensign,//æœ¨ç‰Œ
-		woodfence,//æœ¨æ …æ 
-		gate,//å¤§é—¨
-		grassstarter,//è‰ç±½
-		woodpath,//æœ¨å¾„
-		cobblestonepath,//çŸ³å¾„
-		torch,//ç«æŠŠ
-		chest,//å®ç®±
-		furnace,//ç†”ç‚‰
-		stonesign,//çŸ³ç‰Œ
-		sprinkle,//æ°´é¾™å¤´
-		scarecrow,//ç¨»è‰äºº
-		bait,//é±¼é¥µ
-		cherrybomb,//æ¨±æ¡ƒç‚¸å¼¹
-		staircase,//æ¥¼æ¢¯
-		campfire,//ç¯ç«
-		sugar,//ç³–
-		barleyflour,//å¤§éº¦ç²‰
-		oil,//æ²¹
-		vinegar,//é†‹
-		flowers,//èŠ±
-		basicfertilizer,//åŸºç¡€è‚¥æ–™
-		seniorfertilizer,//è¿›é˜¶è‚¥æ–™
-		basicremainingsoil,//åŸºç¡€æ¹¿åœŸ
-		seniorremainingsoil,//è¿›é˜¶æ¹¿åœŸ
+		axe,//¸«
+		wateringcan,//½½Ë®ºø
+		sickle,//Á­µ¶
+		pickaxe,//¸ä
+		hoe,//³ú
+		copperaxe,//Í­¸«
+		copperwateringcan,//Í­½½Ë®ºø
+		copperpickaxe,//Í­¸ä
+		copperhoe,//Í­³ú
+		ironaxe,//Ìú¸«
+		ironwateringcan,//Ìú½½Ë®ºø
+		ironpickaxe,//Ìú¸ä
+		ironhoe,//Ìú³ú
+		goldaxe,//½ğ¸«
+		goldwateringcan,//½ğ½½Ë®ºø
+		goldpickaxe,//½ğ¸ä
+		goldhoe,//½ğ³ú
+		rustysword,//ÉúĞâµÄ½£
+		bonesword,//¹Ç½£
+		woodensign,//Ä¾ÅÆ
+		woodfence,//Ä¾Õ¤À¸
+		gate,//´óÃÅ
+		woodpath,//Ä¾¾¶
+		cobblestonepath,//Ê¯¾¶
+		torch,//»ğ°Ñ
+		chest,//±¦Ïä
+		furnace,//ÈÛÂ¯
+		stonesign,//Ê¯ÅÆ
+		sprinkle,//Ë®ÁúÍ·
+		scarecrow,//µ¾²İÈË
+		bait,//Óã¶ü
+		cherrybomb,//Ó£ÌÒÕ¨µ¯
+		staircase,//Â¥Ìİ
+		campfire,//óô»ğ
+		grassseedformulation,
+		rice,
+		sugar,//ÌÇ
+		barleyflour,//´óÂó·Û
+		oil,//ÓÍ
+		vinegar,//´×
+		flowers,//»¨
+		basicfertilizer,//»ù´¡·ÊÁÏ
+		seniorfertilizer,//½ø½×·ÊÁÏ
+		basicremainingsoil,//»ù´¡ÊªÍÁ
+		seniorremainingsoil,//½ø½×ÊªÍÁ
 	};
 
 	ToolKind currentSeed = ToolKind::null;
@@ -427,12 +446,12 @@ public:
 	{
 		itemtype = ItemType::tool;
 		name = toolName;
-		pictureName="null.png";
+		pictureName = "null.png";
 		quantity = 1;
 		switch (hash_1(toolName.c_str())) {
 		case hash_compile_time("axe"):
-			currentSeed = ToolKind::axe;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "axe.png";//ä¼ å…¥æ–‡ä»¶å
+			currentSeed = ToolKind::axe;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "axe.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("wateringcan"):
 			currentSeed = ToolKind::wateringcan;
@@ -450,6 +469,121 @@ public:
 			currentSeed = ToolKind::hoe;
 			pictureName = "hoe.png";
 			break;
+		case hash_compile_time("copperaxe"):
+			currentSeed = ToolKind::copperaxe;
+			pictureName = "copperaxe.png";
+			break;
+		case hash_compile_time("copperwateringcan"):
+			currentSeed = ToolKind::copperwateringcan;
+			pictureName = "copperwateringcan.png";
+			break;
+		case hash_compile_time("copperpickaxe"):
+			currentSeed = ToolKind::copperpickaxe;
+			pictureName = "copperpickaxe.png";
+			break;
+		case hash_compile_time("copperhoe"):
+			currentSeed = ToolKind::copperhoe;
+			pictureName = "copperhoe.png";
+			break;
+		case hash_compile_time("ironaxe"):
+			currentSeed = ToolKind::ironaxe;
+			pictureName = "ironaxe.png";
+			break;
+		case hash_compile_time("ironwateringcan"):
+			currentSeed = ToolKind::ironwateringcan;
+			pictureName = "ironwateringcan.png";
+			break;
+		case hash_compile_time("ironpickaxe"):
+			currentSeed = ToolKind::ironpickaxe;
+			pictureName = "ironpickaxe.png";
+		case hash_compile_time("ironhoe"):
+			currentSeed = ToolKind::ironhoe;
+			pictureName = "ironhoe.png";
+			break;
+		case hash_compile_time("goldaxe"):
+			currentSeed = ToolKind::goldaxe;
+			pictureName = "goldaxe.png";
+			break;
+		case hash_compile_time("goldwateringcan"):
+			currentSeed = ToolKind::goldwateringcan;
+			pictureName = "goldwateringcan.png";
+			break;
+		case hash_compile_time("goldhoe"):
+			currentSeed = ToolKind::goldhoe;
+			pictureName = "goldhoe.png";
+			break;
+		case hash_compile_time("goldpickaxe"):
+			currentSeed = ToolKind::goldpickaxe;
+			pictureName = "goldpickaxe.png";
+			break;
+		case hash_compile_time("rustysword"):
+			currentSeed = ToolKind::rustysword;
+			pictureName = "rustysword.png";
+			break;
+		case hash_compile_time("bonesword"):
+			currentSeed = ToolKind::bonesword;
+			pictureName = "bonesword.png";
+			break;
+		case hash_compile_time("woodensign"):
+			currentSeed = ToolKind::woodensign;
+			pictureName = "woodensign.png";
+			break;
+		case hash_compile_time("woodfence"):
+			currentSeed = ToolKind::woodfence;
+			pictureName = "woodfence.png";
+		break;
+		case hash_compile_time("gate"):
+				currentSeed = ToolKind::gate;
+			pictureName = "gate.png";
+			break;
+		case hash_compile_time("woodpath"):
+			currentSeed = ToolKind::woodpath;
+			pictureName = "woodpath.png";
+			break;
+		case hash_compile_time("grassseedformulation"):
+			currentSeed = ToolKind::grassseedformulation;
+			pictureName = "grassseedformulation.png";
+			break;
+		case hash_compile_time("rice"):
+			currentSeed = ToolKind::rice;
+			pictureName = "rice.png";
+			break;
+		case hash_compile_time("sugar"):
+			currentSeed = ToolKind::sugar;
+			pictureName = "sugar.png";
+			break;
+		case hash_compile_time("barleyflour"):
+			currentSeed = ToolKind::barleyflour;
+			pictureName = "barleyflour.png";
+			break;
+		case hash_compile_time("oil"):
+			currentSeed = ToolKind::oil;
+			pictureName = "oil.png";
+			break;
+		case hash_compile_time("vinegar"):
+			currentSeed = ToolKind::vinegar;
+			pictureName = "vinegar.png";
+			break;
+		case hash_compile_time("flowers"):
+			currentSeed = ToolKind::flowers;
+			pictureName = "flowers.png";
+			break;
+		case hash_compile_time("basicfertilizer"):
+			currentSeed = ToolKind::basicfertilizer;
+			pictureName = "basicfertilizer.png";
+			break;
+		case hash_compile_time("seniorfertilizer"):
+			currentSeed = ToolKind::seniorfertilizer;
+			pictureName = "seniorfertilizer.png";
+			break;
+		case hash_compile_time("basicremainingsoil"):
+			currentSeed = ToolKind::basicremainingsoil;
+			pictureName = "basicremainingsoil.png";
+			break;
+		case hash_compile_time("seniorremainingsoil"):
+			currentSeed = ToolKind::seniorremainingsoil;
+			pictureName = "seniorremainingsoil.png";
+			break;
 		default:
 			break;
 		}
@@ -460,53 +594,53 @@ public:
 	}
 };
 
-//å­ç±»----æœå®ç±»Fruit
+//×ÓÀà----¹ûÊµÀàFruit
 class Fruit : public Item {
 public:
 	int quality;
 	enum class fruitKind {
 		null,
-		parsnip,//é˜²é£è‰
-		greenbean,//é’è±†
-		cauliflower,//èŠ±æ¤°èœ
-		potato,//åœŸè±†
-		tulipbulbs,//é¹…æŒæ¥¸
-		cabbage,//å·å¿ƒèœ
-		bluejazz,//è“çˆµå£«
-		garlic,//å¤§è’œ
-		riceseedling,//æ°´ç¨»
-		melon,//ç”œç“œ
-		tomato,//ç•ªèŒ„
-		blueburry,//è“è“
-		chilipepper,//è¾£æ¤’
-		wheat,//å°éº¦
-		turnip,//èåœ
-		poppies,//ç½‚ç²Ÿ
-		summersequins,//å¤å­£äº®ç‰‡
-		hop,//å•¤é…’èŠ±
-		corn,//ç‰ç±³
-		sunflower,//å‘æ—¥è‘µ
-		redleafcabbage,//çº¢å¶å·å¿ƒèœ
-		eggplant,//èŒ„å­
-		pumpkin,//å—ç“œ
-		chinesecabbage,//å°ç™½èœ
-		yam,//å±±è¯
-		cranberries,//è”“è¶Šè“
-		rosefairy,//ç«ç‘°ä»™å­
+		parsnip,//·À·ç²İ
+		greenbean,//Çà¶¹
+		cauliflower,//»¨Ò¬²Ë
+		potato,//ÍÁ¶¹
+		tulipbulbs,//¶ìÕÆé±
+		cabbage,//¾íĞÄ²Ë
+		bluejazz,//À¶¾ôÊ¿
+		garlic,//´óËâ
+		riceseedling,//Ë®µ¾
+		melon,//Ìğ¹Ï
+		tomato,//·¬ÇÑ
+		blueburry,//À¶İ®
+		chilipepper,//À±½·
+		wheat,//Ğ¡Âó
+		turnip,//ÂÜ²·
+		poppies,//ó¿ËÚ
+		summersequins,//ÏÄ¼¾ÁÁÆ¬
+		hop,//Æ¡¾Æ»¨
+		corn,//ÓñÃ×
+		sunflower,//ÏòÈÕ¿û
+		redleafcabbage,//ºìÒ¶¾íĞÄ²Ë
+		eggplant,//ÇÑ×Ó
+		pumpkin,//ÄÏ¹Ï
+		chinesecabbage,//Ğ¡°×²Ë
+		yam,//É½Ò©
+		cranberries,//ÂûÔ½İ®
+		rosefairy,//Ãµ¹åÏÉ×Ó
 		amaranth,//
-		grape,//è‘¡è„
+		grape,//ÆÏÌÑ
 		artichoke,//
-		rice,//ç±³é¥­
-		cherry,//æ¨±æ¡ƒ
-		apricot,//æ
-		orange,//æ©™å­
-		peach,//æ¡ƒå­
-		pomegranate,//çŸ³æ¦´
-		apple,//è‹¹æœ
-		wildhorseradish,//é‡è¾£æ ¹
-		daffodil,//æ°´ä»™èŠ±
-		leek,//éŸ­èœ
-		Dandelion//è’²å…¬è‹±
+		rice,//Ã×·¹
+		cherry,//Ó£ÌÒ
+		apricot,//ĞÓ
+		orange,//³È×Ó
+		peach,//ÌÒ×Ó
+		pomegranate,//Ê¯Áñ
+		apple,//Æ»¹û
+		wildhorseradish,//Ò°À±¸ù
+		daffodil,//Ë®ÏÉ»¨
+		leek,//¾Â²Ë
+		Dandelion//ÆÑ¹«Ó¢
 	};
 
 	fruitKind currentSeed = fruitKind::null;
@@ -532,8 +666,8 @@ public:
 
 		switch (hash_1(fishName.c_str())) {
 		case hash_compile_time("parsnip"):
-			currentSeed = fruitKind::parsnip;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "parsnip.png";//ä¼ å…¥æ–‡ä»¶å
+			currentSeed = fruitKind::parsnip;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "parsnip.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("greenbean"):
 			currentSeed = fruitKind::greenbean;
@@ -662,27 +796,27 @@ public:
 	}
 };
 
-//å­ç±»----åŠ¨ç‰©äº§å“ç±»AnimalProduct
+//×ÓÀà----¶¯Îï²úÆ·ÀàAnimalProduct
 class AnimalProduct : public Item {
 public:
 	enum class AnimalProductKind {
 		null,
-		egg,//è›‹
-		bigegg,//å¤§è›‹
-		brownegg,//æ£•è›‹
-		brownbigegg,//å¤§æ£•è›‹
-		goldegg,//é‡‘è›‹
-		duckegg,//é¸­è›‹
-		duckfeather,//é¸­æ¯›
-		animalfeather,//åŠ¨ç‰©æ¯›
-		rabbitleg,//å…”è…¿
-		milk,//ç‰›å¥¶
-		largemilk,//å¤§ç“¶ç‰›å¥¶
-		goatmilk,//ç¾Šå¥¶
-		largegoatmilk,//å¤§ç“¶ç¾Šå¥¶
-		Truffles,//æ¾éœ²
-		honey,//èœ‚èœœ
-		bugmeat//è™«è‚‰
+		egg,//µ°
+		bigegg,//´óµ°
+		brownegg,//×Øµ°
+		brownbigegg,//´ó×Øµ°
+		goldegg,//½ğµ°
+		duckegg,//Ñ¼µ°
+		duckfeather,//Ñ¼Ã«
+		animalfeather,//¶¯ÎïÃ«
+		rabbitleg,//ÍÃÍÈ
+		milk,//Å£ÄÌ
+		largemilk,//´óÆ¿Å£ÄÌ
+		goatmilk,//ÑòÄÌ
+		largegoatmilk,//´óÆ¿ÑòÄÌ
+		truffles,//ËÉÂ¶
+		honey,//·äÃÛ
+		bugmeat//³æÈâ
 	};
 
 	AnimalProductKind currentProduct = AnimalProductKind::null;
@@ -694,98 +828,98 @@ public:
 	AnimalProduct(std::string fishName)
 	{
 		itemtype = ItemType::animalproduct;
-		name= fishName;
+		name = fishName;
 		quantity = 1;
 		switch (hash_1(fishName.c_str())) {
 		case hash_compile_time("egg"):
-			currentProduct = AnimalProductKind::egg;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "egg.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::egg;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "egg.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("bigegg"):
-			currentProduct = AnimalProductKind::bigegg;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "bigegg.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::bigegg;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "bigegg.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("brownegg"):
-			currentProduct = AnimalProductKind::brownegg;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "brownegg.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::brownegg;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "brownegg.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("brownbigegg"):
-			currentProduct = AnimalProductKind::brownbigegg;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "brownbigegg.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::brownbigegg;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "brownbigegg.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("goldegg"):
-			currentProduct = AnimalProductKind::goldegg;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "goldegg.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::goldegg;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "goldegg.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("duckegg"):
-			currentProduct = AnimalProductKind::duckegg;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "duckegg.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::duckegg;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "duckegg.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("duckfeather"):
-			currentProduct = AnimalProductKind::duckfeather;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "duckfeather.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::duckfeather;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "duckfeather.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("animalfeather"):
-			currentProduct = AnimalProductKind::animalfeather;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "animalfeather.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::animalfeather;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "animalfeather.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("rabbitleg"):
-			currentProduct = AnimalProductKind::rabbitleg;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "rabbitleg.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::rabbitleg;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "rabbitleg.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("milk"):
-			currentProduct = AnimalProductKind::milk;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "milk.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::milk;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "milk.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("largemilk"):
-			currentProduct = AnimalProductKind::largemilk;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "largemilk.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::largemilk;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "largemilk.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("goatmilk"):
-			currentProduct = AnimalProductKind::goatmilk;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "goatmilk.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::goatmilk;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "goatmilk.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("largegoatmilk"):
-			currentProduct = AnimalProductKind::largegoatmilk;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "goatmilk.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::largegoatmilk;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "goatmilk.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("Truffles"):
-			currentProduct = AnimalProductKind::Truffles;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "Truffles.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::truffles;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "Truffles.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("honey"):
-			currentProduct = AnimalProductKind::honey;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "honey.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::honey;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "honey.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("bugmeat"):
-			currentProduct = AnimalProductKind::bugmeat;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "bugmeat.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = AnimalProductKind::bugmeat;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "bugmeat.png";//´«ÈëÎÄ¼şÃû
 			break;
 		}
 	}
-	
+
 	static AnimalProduct* create(std::string fishName) {
 		AnimalProduct* newFruit = new AnimalProduct(fishName);
 		return newFruit;
 	}
 };
 
-//å­ç±»----ææ–™ç±»terial
+//×ÓÀà----²ÄÁÏÀàterial
 class terial : public Item {
 public:
 	enum class terialKind {
 		null,
-		wood,//æœ¨å¤´
-		stone,//çŸ³å¤´
-		sap,//æ ‘æ¶²
-		copperore,//é“œç²’
-		ironore,//é“ç²’
-		goldore,//é‡‘ç²’
-		copperbar,//é“œé”­
-		ironbar,//é“é”­
-		goldbar,//é‡‘é”­
-		coal,//ç…¤ç‚­
-		fibre,//çº¤ç»´
+		wood,//Ä¾Í·
+		stone,//Ê¯Í·
+		sap,//Ê÷Òº
+		copperore,//Í­Á£
+		ironore,//ÌúÁ£
+		goldore,//½ğÁ£
+		copperbar,//Í­¶§
+		ironbar,//Ìú¶§
+		goldbar,//½ğ¶§
+		coal,//ÃºÌ¿
+		fibre,//ÏËÎ¬
 	};
 
 	terialKind currentProduct = terialKind::null;
@@ -795,56 +929,56 @@ public:
 	terial(std::string fishName)
 	{
 		itemtype = ItemType::terial;
-		name=fishName;
+		name = fishName;
 		quantity = 1;
 		switch (hash_1(fishName.c_str())) {
 		case hash_compile_time("wood"):
-			currentProduct = terialKind::wood;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "wood.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = terialKind::wood;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "wood.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("stone"):
-			currentProduct = terialKind::stone;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "stone.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = terialKind::stone;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "stone.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("sap"):
-			currentProduct = terialKind::sap;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "sap.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = terialKind::sap;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "sap.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("copperore"):
-			currentProduct = terialKind::copperore;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "copperore.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = terialKind::copperore;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "copperore.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("ironore"):
-			currentProduct = terialKind::ironore;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "ironoree.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = terialKind::ironore;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "ironoree.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("goldore"):
-			currentProduct = terialKind::goldore;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "goldore.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = terialKind::goldore;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "goldore.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("copperbar"):
-			currentProduct = terialKind::copperbar;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "copperbar.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = terialKind::copperbar;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "copperbar.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("ironbar"):
-			currentProduct = terialKind::ironbar;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "ironbar.png";//ä¼ å…¥æ–‡ä»¶å
+			pictureName = "ironbar.png";//´«ÈëÎÄ¼şÃû
+			currentProduct = terialKind::ironbar;//È·¶¨¾ßÌåÎïÆ·
 			break;
 		case hash_compile_time("goldbar"):
-			currentProduct = terialKind::goldbar;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "goldbar.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = terialKind::goldbar;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "goldbar.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("coal"):
-			currentProduct = terialKind::coal;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "coal.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = terialKind::coal;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "coal.png";//´«ÈëÎÄ¼şÃû
 			break;
 		case hash_compile_time("fibre"):
-			currentProduct = terialKind::fibre;//ç¡®å®šå…·ä½“ç‰©å“
-			pictureName = "fibre.png";//ä¼ å…¥æ–‡ä»¶å
+			currentProduct = terialKind::fibre;//È·¶¨¾ßÌåÎïÆ·
+			pictureName = "fibre.png";//´«ÈëÎÄ¼şÃû
 			break;
 		}
 	}
-	
+
 	static terial* create(char const* fishName) {
 		terial* newFruit = new terial(fishName);
 		return newFruit;

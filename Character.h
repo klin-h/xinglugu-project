@@ -15,7 +15,7 @@
 class Player;
 
 
- // 方向的枚举
+// 方向的枚举
 enum class Direction {
     f,
     b,
@@ -33,7 +33,7 @@ enum class AnimationState {
 class Character : public Node
 {
 public:
-    
+
     Character()
         : name("DefaultCharacter"),
         health(Constants::OriginHealth),
@@ -46,19 +46,19 @@ public:
 
 
     //角色移动
-    void Moving();
-    
+    void Moving(Sprite* sprite, int direction);
+
     //角色停止移动
-    void stopMoving();
+    void stopMoving(Sprite* sprite);
 
     //角色停止一切动作
     void stop();
 
     // 获取角色名称
-    std::string getName()  { return name; }
+    std::string getName() { return name; }
 
     // 设置角色名称
-    void setName(int newName) { name= newName; }
+    void setName(int newName) { name = newName; }
 
     // 获取角色生命值
     int getHealth() const { return health; }
@@ -74,7 +74,7 @@ public:
 
 
     // 交互方法,虚函数
-    virtual void interact()=0;
+    virtual void interact() = 0;
 
 
 protected:

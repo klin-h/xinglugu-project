@@ -8,12 +8,29 @@
 #include "back.h"
 #include "Constants.h"
 
-void listenSet(Scene* scene, const cocos2d::Size& visibleSize, float tileHeight, float tileWidth);
+void listenSet();
+
+void listenSet2();
+
+void listenSet3();
 
 void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher);
 
 void ventorySet();
 
-void inventory(Scene* scene, backPack* pack1, const Size& visibleSize, Vec2 origin);
+void inventory(Scene* scene, backPack* pack1, Vec2 origin);
 
+void backItemAddDisplay(int no);
+
+
+void storePhoto(Scene* scene);
+
+void numlabel(int posi);
+
+void numlabel2(int posi);
+
+void labelDelete(int posi);
+
+void storeSeasonEx(int season);
 #endif // !__BACKPHOTO_H_
+

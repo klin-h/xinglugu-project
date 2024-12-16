@@ -11,10 +11,31 @@
 #include"back.h"
 #include"usableItem.h"
 #include"Constants.h"
+#include"backPhoto.h"
 USING_NS_CC;
 using namespace Constants;
 //ºÏ³ÉÌ¨²¿·Ö
 
+//ÎïÆ·¶ÔÓ¦Êı×Ö
+//0--Ä¾ÅÆ
+//1--Ä¾Õ¤À¸
+//2--´óÃÅ
+//3--²İ×Ñ
+//4--Ä¾¾¶
+//5--Ê¯¾¶
+//6--»ğ°Ñ
+//7--»ù´¡·ÊÁÏ
+//8--±¦Ïä
+//9--ÈÛÂ¯
+//10--Ê¯ÅÆ
+//11--Ë®ÁúÍ· 
+//12--»ù´¡ÊªÍÁ
+//13--µ¾²İÈË
+//14--Óã¶ü
+//15--Ó£ÌÒÕ¨µ¯
+//16--½×Ìİ
+//17--óô»ğ
+//18--´ºÈÕÒ°ÖÖ
 //¶ÔÎïÆ·ÊÇ·ñ¿ÉºÏ³ÉµÄÅĞ¶Ï
 bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 	switch (itemToMake) {
@@ -63,7 +84,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 5:
+	case 5://Ê¯¾¶
 	{
 		Item* CobblestonePath = terial::create("stone");
 		if (Back->matchJudge(CobblestonePath, amountOfStoneForCobblestonePath))
@@ -72,7 +93,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 6:
+	case 6://»ğ°Ñ
 	{
 		Item* Torch1 = terial::create("wood");
 		Item* Torch2 = terial::create("sap");
@@ -82,7 +103,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 7:
+	case 7://»ù´¡·ÊÁÏ
 	{
 		Item* BasicFertilizer = terial::create("sap");
 		if (Back->matchJudge(BasicFertilizer, amountOfSapForBasicFertilizer))
@@ -91,7 +112,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 8:
+	case 8://±¦Ïä
 	{
 		Item* Chest = terial::create("wood");
 		if (Back->matchJudge(Chest, amountOfWoodForChest))
@@ -100,7 +121,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 9:
+	case 9://ÈÛÂ¯
 	{
 		Item* Furnace1 = terial::create("stone");
 		Item* Furnace2 = terial::create("copperore");
@@ -110,7 +131,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 10:
+	case 10://Ê¯ÅÆ
 	{
 		Item* StoneSign = terial::create("stone");
 		if (Back->matchJudge(StoneSign, 25))
@@ -119,7 +140,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 11:
+	case 11://Ë®ÁúÍ· 
 	{
 		Item* Sprinkle1 = terial::create("ironbar");
 		Item* Sprinkle2 = terial::create("copperbar");
@@ -129,7 +150,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 12:
+	case 12://»ù´¡ÊªÍÁ
 	{
 		Item* BasicRetainingSoil = terial::create("stone");
 		if (Back->matchJudge(BasicRetainingSoil, 2))
@@ -138,7 +159,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 13:
+	case 13://µ¾²İÈË
 	{
 		Item* ScareCrow1 = terial::create("wood");
 		Item* ScareCrow2 = terial::create("coal");
@@ -149,7 +170,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 14:
+	case 14://Óã¶ü
 	{
 		Item* Bait = AnimalProduct::create("bugmeat");
 		if (Back->matchJudge(Bait, amountOfBugmeatForBait))
@@ -158,7 +179,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 15:
+	case 15://Ó£ÌÒÕ¨µ¯
 	{
 		Item* CherryBomb1 = terial::create("coal");
 		Item* CherryBomb2 = terial::create("copperore");
@@ -168,7 +189,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 16:
+	case 16://½×Ìİ
 	{
 		Item* StairCase = terial::create("stone");
 		if (Back->matchJudge(StairCase, 99))
@@ -177,7 +198,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 17:
+	case 17://óô»ğ
 	{
 		Item* CampFire1 = terial::create("stone");
 		Item* CampFire2 = terial::create("wood");
@@ -188,7 +209,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 18:
+	case 18://´ºÈÕÒ°ÖÖ
 	{
 		Item* SpringSeed1 = Fruit::create("wildhorseradish");
 		Item* SpringSeed2 = Fruit::create("daffodil");
@@ -332,143 +353,234 @@ Item* craftTable::getItem(backPack* Back, int itemToMake) {
 
 //PierreÉÌµê²¿·Ö
 
+//ÎïÆ·¶ÔÓ¦Êı×Ö
+// season 1£º
+//   0--·À·ç²İ
+//   1--Çà¶¹
+//   2--»¨Ò¬²Ë
+//   3--ÍÁ¶¹
+//   4--Óô½ğÏãÇò¾¥
+//   5--¸ÊÀ¶
+//   6--À¶¾ôÊ¿
+//   7--´óËâ
+//   8--µ¾Ãç  
+//   9--²İ×Ñ
+//   10--²İ×ÑÅä·½
+//   11--ÌÇ
+//   12--´óÂó·Û
+//   13--´óÃ×
+//   14--ÓÍ
+//   15--´×
+//   16--³õ¼¶·ÊÁÏ
+//   17--¸ß¼‰·ÊÁÏ
+//   18--³õ¼¶±£ÊªÍÁÈÀ
+//   19--¸ß¼¶±£ÊªÍÁÈÀ
+//   20--Ó£ÌÒÊ÷Ãç
+//   21--ĞÓ×ÓÊ÷Ãç
+//   22--³È×ÓÊ÷Ãç
+//   23--ÌÒ×ÓÊ÷Ãç
+//   24--Ê¯ÁñÊ÷Ãç
+//   25--Æ»¹ûÊ÷Ãç
+//   26--»¨Êø
+// season 2£º
+//   0--Ìğ¹Ï
+//   1--Î÷ºìÊÁ
+//   2--À¶İ®
+//   3--À±½·
+//   4--Ğ¡Âó
+//   5--ÂÜ²·
+//   6--ÓİÃÀÈË
+//   7--ÏÄ¼¾ÁÁÆ¬
+//   8--Æ¡¾Æ»¨
+//   9--ÓñÃ×
+//   10--ÏòÈÕ¿û
+//   11--ºìÒ¶¾íĞÄ²Ë
+//   12--²İ×Ñ
+//   13--²İ×ÑÅä·½
+//   14--ÌÇ
+//   15--´óÂó·Û
+//   16--´óÃ×
+//   17--ÓÍ
+//   18--´×
+//   19--³õ¼¶·ÊÁÏ
+//   20--¸ß¼‰·ÊÁÏ
+//   21--³õ¼¶±£ÊªÍÁÈÀ
+//   22--¸ß¼¶±£ÊªÍÁÈÀ
+//   23--Ó£ÌÒÊ÷Ãç
+//   24--ĞÓ×ÓÊ÷Ãç
+//   25--³È×ÓÊ÷Ãç
+//   26--ÌÒ×ÓÊ÷Ãç
+//   27--Ê¯ÁñÊ÷Ãç
+//   28--Æ»¹ûÊ÷Ãç
+//   29--»¨Êø
+// // season 3£º
+//   0--ÇÑ×Ó
+//   1--ÓñÃ×
+//   2--ÄÏ¹Ï
+//   3--Ğ¡°×²Ë
+//   4--É½Ò©
+//   5--ÂûÔ½İ®
+//   6--ÏòÈÕ¿û
+//   7--Ãµ¹åÏÉ×Ó
+//   8--ÜÈ²Ë
+//   9--ÆÏÌÑ
+//   10--Ğ¡Âó
+//   11--Ñó¼»
+//   12--²İ×Ñ
+//   13--²İ×ÑÅä·½
+//   14--ÌÇ
+//   15--´óÂó·Û
+//   16--´óÃ×
+//   17--ÓÍ
+//   18--´×
+//   19--³õ¼¶·ÊÁÏ
+//   20--¸ß¼‰·ÊÁÏ
+//   21--³õ¼¶±£ÊªÍÁÈÀ
+//   22--¸ß¼¶±£ÊªÍÁÈÀ
+//   23--Ó£ÌÒÊ÷Ãç
+//   24--ĞÓ×ÓÊ÷Ãç
+//   25--³È×ÓÊ÷Ãç
+//   26--ÌÒ×ÓÊ÷Ãç
+//   27--Ê¯ÁñÊ÷Ãç
+//   28--Æ»¹ûÊ÷Ãç
+//   29--»¨Êø
 //¶ÔÊÇ·ñÂòµÃÆğµÄÅĞ¶Ï
 bool Pierre::isAffordable(backPack* Back, int itemToMake,int season) {
 	switch (season) {
 	case 1:
 		switch (itemToMake) {
 			case 0://Parsnip·À·ç²İ
-				if (Back->moneyOut() >= 20)
+				if (Back->moneyOut() >= parsnipseed1)
 					return 1;
 				else
 					return 0;
 			case 1://GreenBeanÇà¶¹
-				if (Back->moneyOut() >= 60)
+				if (Back->moneyOut() >= greenbeanseed1)
 					return 1;
 				else
 					return 0;
 			case 2://cauliflower»¨Ò¬²Ë
-				if (Back->moneyOut() >= 80)
+				if (Back->moneyOut() >= cauliflowerseed1)
 					return 1;
 				else
 					return 0;
 			case 3://potatoÍÁ¶¹
-				if (Back->moneyOut() >= 50)
+				if (Back->moneyOut() >= potatoseed1)
 					return 1;
 				else
 					return 0;
 			case 4://Tulip bulbsÓô½ğÏãÇò¾¥
-				if (Back->moneyOut() >= 20)
+				if (Back->moneyOut() >= tulipbulbsseed1)
 					return 1;
 				else
 					return 0;
 			case 5://cabbage¸ÊÀ¶
-				if (Back->moneyOut() >= 70)
+				if (Back->moneyOut() >= cabbageseed1)
 					return 1;
 				else
 					return 0;
 			case 6://Blue Jazz À¶¾ôÊ¿
-				if (Back->moneyOut() >= 30)
+				if (Back->moneyOut() >= bluejazzseed1)
 					return 1;
 				else
 					return 0;
 			case 7://Garlic´óËâ
-				if(Back->moneyOut() >= 40)
+				if(Back->moneyOut() >= garlicseed1)
 					return 1;
 				else
 					return 0;
 			case 8://rice seedlingµ¾Ãç
-				if (Back->moneyOut() >= 40)
+				if (Back->moneyOut() >= riceseedlingseed1)
 					return 1;
 				else
 					return 0;
 			case 9://grass seed²İ×Ñ
-				if (Back->moneyOut() >= 100)
+				if (Back->moneyOut() >= grassseed1)
 					return 1;
 				else
 					return 0;
 			case 10://grass seed formulation²İ×ÑÅä·½
-				if (Back->moneyOut() >= 1000)
+				if (Back->moneyOut() >= 5)
 					return 1;
 				else
 					return 0;
 			case 11://sugar ÌÇ
-				if (Back->moneyOut() >= 100)
+				if (Back->moneyOut() >= 20)
 					return 1;
 				else
 					return 0;
 			case 12://barley flour ´óÂó·Û
-				if (Back->moneyOut() >= 100)
+				if (Back->moneyOut() >= 25)
 					return 1;
 				else
 					return 0;
 			case 13://rice ´óÃ×
-				if (Back->moneyOut() >= 200)
+				if (Back->moneyOut() >= 50)
 					return 1;
 				else
 					return 0;
 			case 14://oil ÓÍ
-				if (Back->moneyOut() >= 200)
+				if (Back->moneyOut() >= 20)
 					return 1;
 				else
 					return 0;
 			case 15://vinegar ´×
-				if (Back->moneyOut() >= 200)
+				if (Back->moneyOut() >= 15)
 					return 1;
 				else
 					return 0;
 			case 16://Basic Fertilizer³õ¼¶·ÊÁÏ
-				if (Back->moneyOut() >= 100)
+				if (Back->moneyOut() >= 30)
 					return 1;
 				else
 					return 0;
 			case 17://Senior Fertilizer¸ß¼‰·ÊÁÏ
-				if (Back->moneyOut() >= 150)
+				if (Back->moneyOut() >= 50)
 					return 1;
 				else
 					return 0;
 			case 18://Basic remaining soil³õ¼¶±£ÊªÍÁÈÀ
-				if (Back->moneyOut() >= 100)
+				if (Back->moneyOut() >= 50)
 					return 1;
 				else
 					return 0;
 			case 19://Senior remaining soil¸ß¼¶±£ÊªÍÁÈÀ
-				if (Back->moneyOut() >= 150)
+				if (Back->moneyOut() >= 100)
 					return 1;
 				else
 					return 0;
 			case 20://Cherry saplingsÓ£ÌÒÊ÷Ãç
-				if (Back->moneyOut() >= 3400)
+				if (Back->moneyOut() >= cherrysaplings1)
 					return 1;
 				else
 					return 0;
 			case 21://Apricot saplingsĞÓ×ÓÊ÷Ãç
-				if (Back->moneyOut() >= 2000)
+				if (Back->moneyOut() >= apricotsaplings1)
 					return 1;
 				else
 					return 0;
 			case 22://Orange saplings³È×ÓÊ÷Ãç
-				if (Back->moneyOut() >= 4000)
+				if (Back->moneyOut() >= orangesaplings1)
 					return 1;
 				else
 					return 0;
 			case 23://Peach saplingsÌÒ×ÓÊ÷Ãç
-				if (Back->moneyOut() >= 6000)
+				if (Back->moneyOut() >= peachsaplings1)
 					return 1;
 				else
 					return 0;
 			case 24://Pomegranate saplingsÊ¯ÁñÊ÷Ãç
-				if (Back->moneyOut() >= 6000)
+				if (Back->moneyOut() >= pomegranatesaplings1)
 					return 1;
 				else
 					return 0;
 			case 25://Apple saplingsÆ»¹ûÊ÷Ãç
-				if (Back->moneyOut() >= 4000)
+				if (Back->moneyOut() >= applesaplings1)
 					return 1;
 				else
 					return 0;
 			case 26://flowers »¨Êø
-				if (Back->moneyOut() >= 200)
+				if (Back->moneyOut() >= 50)
 					return 1;
 				else
 					return 0;
@@ -790,6 +902,876 @@ bool Pierre::isAffordable(backPack* Back, int itemToMake,int season) {
 		break;
 	}
 	return 0;
+}
+
+std::string Pierre::itemMoneyOut(int posi,int season) {
+	switch (season) {
+	case 1:
+	{
+		switch (posi) {
+		case 0:
+			return "10";
+			break;
+		case 1:
+			return "30";
+			break;
+		case 2:
+			return "40";
+			break;
+		case 3:
+			return "20";
+			break;
+		case 4:
+			return "10";
+			break;
+		case 5:
+			return "50";
+			break;
+		case 6:
+			return "25";
+			break;
+		case 7:
+			return "30";
+			break;
+		case 8:
+			return "40";
+			break;
+		case 9:
+			return "5";
+			break;
+		case 10:
+			return "50";
+			break;
+		case 11:
+			return "20";
+			break;
+		case 12:
+			return "25";
+			break;
+		case 13:
+			return "50";
+			break;
+		case 14:
+			return "20";
+			break;
+		case 15:
+			return "15";
+			break;
+		case 16:
+			return "30";
+			break;
+		case 17:
+			return "50";
+			break;
+		case 18:
+			return "50";
+			break;
+		case 19:
+			return "100";
+			break;
+		case 20:
+			return "10";
+			break;
+		case 21:
+			return "15";
+			break;
+		case 22:
+			return "25";
+			break;
+		case 23:
+			return "35";
+			break;
+		case 24:
+			return "55";
+			break;
+		case 25:
+			return "55";
+			break;
+		case 26:
+			return "50";
+			break;
+		}
+	}
+	case 2: {
+		switch (posi) {
+		case 0://melonÌğ¹Ï
+			return "80";
+			break;
+		case 1://tomatoÎ÷ºìÊÁ
+			return "50";
+			break;
+		case 2://blueburryÀ¶İ®
+			return "80";
+			break;
+		case 3://chili pepperÀ±½·
+			return "40";
+			break;
+		case 4://wheatĞ¡Âó
+			return "10";
+			break;
+		case 5://turnipÂÜ²·
+			return "40";
+			break;
+		case 6://Poppies ÓİÃÀÈË
+			return "100";
+			break;
+		case 7://Summer sequinsÏÄ¼¾ÁÁÆ¬
+			return "50";
+			break;
+		case 8://hop Æ¡¾Æ»¨
+			return "60";
+			break;
+		case 9://cornÓñÃ×
+			return "150";
+			break;
+		case 10://sunflowerÏòÈÕ¿û
+			return "200";
+			break;
+		case 11://Red leaf cabbageºìÒ¶¾íĞÄ²Ë
+			return "50";
+			break;
+		case 12://grass seed²İ×Ñ
+			return "5";
+			break;
+		case 13://grass seed formulation²İ×ÑÅä·½
+			return "50";
+			break;
+		case 14://sugar ÌÇ
+			return "20";
+			break;
+		case 15://barley flour ´óÂó·Û
+			return "25";
+			break;
+		case 16://rice ´óÃ×
+			return "50";
+			break;
+		case 17://oil ÓÍ
+			return "20";
+			break;
+		case 18://vinegar ´×
+			return "15";
+			break;
+		case 19://Basic Fertilizer³õ¼¶·ÊÁÏ
+			return "30";
+			break;
+		case 20://Senior Fertilizer¸ß¼‰·ÊÁÏ
+			return "50";
+			break;
+		case 21://Basic remaining soil³õ¼¶±£ÊªÍÁÈÀ
+			return "50";
+			break;
+		case 22://Senior remaining soil¸ß¼¶±£ÊªÍÁÈÀ
+			return "100";
+			break;
+		case 23://Cherry saplingsÓ£ÌÒÊ÷Ãç
+			return "10";
+			break;
+		case 24://Apricot saplingsĞÓ×ÓÊ÷Ãç
+			return "15";
+			break;
+		case 25://Orange saplings³È×ÓÊ÷Ãç
+			return "25";
+			break;
+		case 26://Peach saplingsÌÒ×ÓÊ÷Ãç
+			return "35";
+			break;
+		case 27://Pomegranate saplingsÊ¯ÁñÊ÷Ãç
+			return "55";
+			break;
+		case 28://Apple saplingsÆ»¹ûÊ÷Ãç
+			return "55";
+			break;
+		case 29://flowers »¨Êø
+			return "50";
+			break;
+		default:
+			return 0;
+		}
+	}
+	case 3: {
+		switch (posi) {
+		case 0://eggplantÇÑ×Ó
+			return "20";
+			break;
+		case 1://cornÓñÃ×
+			return "150";
+			break;
+		case 2://pumpkinÄÏ¹Ï
+			return "100";
+			break;
+		case 3://Chinese cabbageĞ¡°×²Ë
+			return "50";
+			break;
+		case 4://yamÉ½Ò©
+			return "60";
+			break;
+		case 5://CranberriesÂûÔ½İ®
+			return "240";
+			break;
+		case 6://sunflower ÏòÈÕ¿û
+			return "200";
+			break;
+		case 7://Rose FairyÃµ¹åÏÉ×Ó
+			return "200";
+			break;
+		case 8://amaranthÜÈ²Ë
+			return "70";
+			break;
+		case 9://grapeÆÏÌÑ
+			return "60";
+			break;
+		case 10://wheatĞ¡Âó
+			return "10";
+			break;
+		case 11://artichokeÑó¼»
+			return "30";
+			break;
+		case 12://grass seed²İ×Ñ
+			return "5";
+			break;
+		case 13://grass seed formulation²İ×ÑÅä·½
+			return "50";
+			break;
+		case 14://sugar ÌÇ
+			return "20";
+			break;
+		case 15://barley flour ´óÂó·Û
+			return "25";
+			break;
+		case 16://rice ´óÃ×
+			return "50";
+			break;
+		case 17://oil ÓÍ
+			return "20";
+			break;
+		case 18://vinegar ´×
+			return "15";
+			break;
+		case 19://Basic Fertilizer³õ¼¶·ÊÁÏ
+			return "30";
+			break;
+		case 20://Senior Fertilizer¸ß¼‰·ÊÁÏ
+			return "50";
+			break;
+		case 21://Basic remaining soil³õ¼¶±£ÊªÍÁÈÀ
+			return "50";
+			break;
+		case 22://Senior remaining soil¸ß¼¶±£ÊªÍÁÈÀ
+			return "100";
+			break;
+		case 23://Cherry saplingsÓ£ÌÒÊ÷Ãç
+			return "10";
+			break;
+		case 24://Apricot saplingsĞÓ×ÓÊ÷Ãç
+			return "15";
+			break;
+		case 25://Orange saplings³È×ÓÊ÷Ãç
+			return "25";
+			break;
+		case 26://Peach saplingsÌÒ×ÓÊ÷Ãç
+			return "35";
+			break;
+		case 27://Pomegranate saplingsÊ¯ÁñÊ÷Ãç
+			return "55";
+			break;
+		case 28://Apple saplingsÆ»¹ûÊ÷Ãç
+			return "55";
+			break;
+		case 29://flowers »¨Êø
+			return "50";
+			break;
+		default:
+			return 0;
+		}
+	}
+
+	default:
+		return 0;
+		break;
+	}
+	return 0;
+}
+
+int Pierre::itemMoneyBack(int posi, int season) {
+	switch (season) {
+	case 1:
+	{
+		switch (posi) {
+		case 0:
+			return parsnipseed1;
+			break;
+		case 1:
+			return greenbeanseed1;
+			break;
+		case 2:
+			return cauliflowerseed1;
+			break;
+		case 3:
+			return potatoseed1;
+			break;
+		case 4:
+			return tulipbulbsseed1;
+			break;
+		case 5:
+			return cabbageseed1;
+			break;
+		case 6:
+			return bluejazzseed1;
+			break;
+		case 7:
+			return garlicseed1;
+			break;
+		case 8:
+			return riceseedlingseed1;
+			break;
+		case 9:
+			return grassseed1;
+			break;
+		case 10:
+			return 5;
+			break;
+		case 11:
+			return 20;
+			break;
+		case 12:
+			return 25;
+			break;
+		case 13:
+			return 50;
+			break;
+		case 14:
+			return 20;
+			break;
+		case 15:
+			return 15;
+			break;
+		case 16:
+			return 30;
+			break;
+		case 17:
+			return 50;
+			break;
+		case 18:
+			return 50;
+			break;
+		case 19:
+			return 100;
+			break;
+		case 20:
+			return cherrysaplings1;
+			break;
+		case 21:
+			return apricotsaplings1;
+			break;
+		case 22:
+			return orangesaplings1;
+			break;
+		case 23:
+			return peachsaplings1;
+			break;
+		case 24:
+			return pomegranatesaplings1;
+			break;
+		case 25:
+			return applesaplings1;
+			break;
+		case 26:
+			return 50;
+			break;
+		}
+	}
+	case 2:
+	{
+		switch (posi) {
+		case 0:
+			return melonseed1;
+			break;
+		case 1:
+			return tomatoseed1;
+			break;
+		case 2:
+			return blueburryseed1;
+			break;
+		case 3:
+			return chilipepperseed1;
+			break;
+		case 4:
+			return wheatseed1;
+			break;
+		case 5:
+			return turnipseed1;
+			break;
+		case 6:
+			return poppiesseed1;
+			break;
+		case 7:
+			return summersequinsseed1;
+			break;
+		case 8:
+			return hopseed1;
+			break; 
+		case 9:
+			return cornseed1;
+			break;
+		case 10:
+			return sunflowerseed1;
+			break;
+		case 11:
+			return redleafcabbageseed1;
+			break;
+		case 12:
+			return grassseed1;
+			break;
+		case 13:
+			return 5;
+			break;
+		case 14:
+			return 20;
+			break;
+		case 15:
+			return 25;
+			break;
+		case 16:
+			return 50;
+			break;
+		case 17:
+			return 20;
+			break;
+		case 18:
+			return 15;
+			break;
+		case 19:
+			return 30;
+			break;
+		case 20:
+			return 50;
+			break;
+		case 21:
+			return 50;
+			break;
+		case 22:
+			return 100;
+			break;
+		case 23:
+			return cherrysaplings1;
+			break;
+		case 24:
+			return apricotsaplings1;
+			break;
+		case 25:
+			return orangesaplings1;
+			break;
+		case 26:
+			return peachsaplings1;
+			break;
+		case 27:
+			return pomegranatesaplings1;
+			break;
+		case 28:
+			return applesaplings1;
+			break;
+		case 29:
+			return 50;
+			break;
+		}
+	}
+	case 3:
+	{
+		switch (posi) {
+		case 0:
+			return eggplant1;
+			break;
+		case 1:
+			return corn1;
+			break;
+		case 2:
+			return pumpkin1;
+			break;
+		case 3:
+			return chinesecabbage1;
+			break;
+		case 4:
+			return yam1;
+			break;
+		case 5:
+			return cranberries1;
+			break;
+		case 6:
+			return sunflower1;
+			break;
+		case 7:
+			return rosefairy1;
+			break;
+		case 8:
+			return amaranth1;
+			break;
+		case 9:
+			return grape1;
+			break;
+		case 10:
+			return wheat1;
+			break;
+		case 11:
+			return artichoke1;
+			break;
+		case 12:
+			return grassseed1;
+			break;
+		case 13:
+			return 5;
+			break;
+		case 14:
+			return 20;
+			break;
+		case 15:
+			return 25;
+			break;
+		case 16:
+			return 50;
+			break;
+		case 17:
+			return 20;
+			break;
+		case 18:
+			return 15;
+			break;
+		case 19:
+			return 30;
+			break;
+		case 20:
+			return 50;
+			break;
+		case 21:
+			return 50;
+			break;
+		case 22:
+			return 100;
+			break;
+		case 23:
+			return cherrysaplings1;
+			break;
+		case 24:
+			return apricotsaplings1;
+			break;
+		case 25:
+			return orangesaplings1;
+			break;
+		case 26:
+			return peachsaplings1;
+			break;
+		case 27:
+			return pomegranatesaplings1;
+			break;
+		case 28:
+			return applesaplings1;
+			break;
+		case 29:
+			return 50;
+			break;
+		}
+	}
+	default:
+		return 0;
+		break;
+	}
+	return 0;
+}
+
+std::string Pierre::itemNameOut(int no, int season,bool choise) {
+	std::string outItem;
+	switch (season) {
+	case 1: {
+		switch (no) {
+		case 0:
+			outItem="parsnipseed";
+			break;
+		case 1:
+			outItem = "greenbeanseed";
+			break;
+		case 2:
+			outItem = "cauliflowerseed";
+			break;
+		case 3:
+			outItem = "potatoseed";
+			break;
+		case 4:
+			outItem = "tulipbulbsseed";
+			break;
+		case 5:
+			outItem = "cabbageseed";
+			break;
+		case 6:
+			outItem = "bluejazzseed";
+			break;
+		case 7:
+			outItem = "garlicseed";
+			break;
+		case 8:
+			outItem = "riceseedlingseed";
+			break;
+		case 9:
+			outItem = "grassseed";
+			break;
+		case 10:
+			outItem = "grassseedformulation";
+			break;
+		case 11:
+			outItem = "sugar";
+			break;
+		case 12:
+			outItem = "barleyflour";
+			break;
+		case 13:
+			outItem = "rice";
+			break;
+		case 14:
+			outItem = "oil";
+			break;
+		case 15:
+			outItem = "vinegar";
+			break;
+		case 16:
+			outItem = "basicfertilizer";
+			break;
+		case 17:
+			outItem = "seniorfertilizer";
+			break;
+		case 18:
+			outItem = "basicremainingsoil";
+			break;
+		case 19:
+			outItem = "seniorremainingsoil";
+			break;
+		case 20:
+			outItem = "cherrysaplings";
+			break;
+		case 21:
+			outItem = "apricotsaplings";
+			break;
+		case 22:
+			outItem = "orangesaplings";
+			break;
+		case 23:
+			outItem = "peachsaplings";
+			break;
+		case 24:
+			outItem = "pomegranatesaplings";
+			break;
+		case 25:
+			outItem = "applesaplings";
+			break;
+		case 26:
+			outItem = "flowers";
+			break;
+		default:
+			outItem = "null";
+			break;
+		}
+		break;
+	}
+	case 2: {
+		switch (no) {
+		case 0:
+			outItem = "melonseed";
+			break;
+		case 1:
+			outItem = "tomatoseed";
+			break;
+		case 2:
+			outItem = "blueburryseed";
+			break;
+		case 3:
+			outItem = "chilipepperseed";
+			break;
+		case 4:
+			outItem = "wheatseed";
+			break;
+		case 5:
+			outItem = "turnipseed";
+			break;
+		case 6:
+			outItem = "poppiesseed";
+			break;
+		case 7:
+			outItem = "summersequinsseed";
+			break;
+		case 8:
+			outItem = "hopseed"; 
+			break;
+		case 9:
+			outItem = "cornseed";
+			break;
+		case 10:
+			outItem = "sunflowerseed";
+			break;
+		case 11:
+			outItem = "redleafcabbageseed";
+			break;
+		case 12:
+			outItem = "grassseed";
+			break;
+		case 13:
+			outItem = "grassseedformulation";
+			break;
+		case 14:
+			outItem = "sugar";
+			break;
+		case 15:
+			outItem = "barleyflour";
+			break;
+		case 16:
+			outItem = "rice";
+			break;
+		case 17:
+			outItem = "oil";
+			break;
+		case 18:
+			outItem = "vinegar";
+			break;
+		case 19:
+			outItem = "basicfertilizer";
+			break;
+		case 20:
+			outItem = "seniorfertilizer";
+			break;
+		case 21:
+			outItem = "basicremainingsoil";
+			break;
+		case 22:
+			outItem = "seniorremainingsoil";
+			break;
+		case 23:
+			outItem = "cherrysaplings";
+			break;
+		case 24:
+			outItem = "apricotsaplings";
+			break;
+		case 25:
+			outItem = "orangesaplings";
+			break;
+		case 26:
+			outItem = "peachsaplings";
+			break;
+		case 27:
+			outItem = "pomegranatesaplings";
+			break;
+		case 28:
+			outItem = "applesaplings";
+			break;
+		case 29:
+			outItem = "flowers";
+			break;
+		default:
+			outItem = "null";
+			break;
+		}
+		break;
+	}
+	case 3: {
+		switch (no) {
+		case 0:
+			outItem = "eggplantseed";
+			break;
+		case 1:
+			outItem = "cornseed";
+			break;
+		case 2:
+			outItem = "pumpkinseed";
+			break;
+		case 3:
+			outItem = "chinesecabbageseed";
+			break;
+		case 4:
+			outItem = "yamseed";
+			break;
+		case 5:
+			outItem = "cranberriesseed";
+			break;
+		case 6:
+			outItem = "sunflowerseed";
+			break;
+		case 7:
+			outItem = "rosefairyseed";
+			break;
+		case 8:
+			outItem = "amaranthseed";
+			break;
+		case 9:
+			outItem = "grapeseed";
+			break;
+		case 10:
+			outItem = "wheatseed";
+			break;
+		case 11:
+			outItem = "artichokeseed";
+			break;
+		case 12:
+			outItem = "grassseed";
+			break;
+		case 13:
+			outItem = "grassseedformulation";
+			break;
+		case 14:
+			outItem = "sugar";
+			break;
+		case 15:
+			outItem = "barleyflour";
+			break;
+		case 16:
+			outItem = "rice";
+			break;
+		case 17:
+			outItem = "oil";
+			break;
+		case 18:
+			outItem = "vinegar";
+			break;
+		case 19:
+			outItem = "basicfertilizer";
+			break;
+		case 20:
+			outItem = "seniorfertilizer";
+			break;
+		case 21:
+			outItem = "basicremainingsoil";
+			break;
+		case 22:
+			outItem = "seniorremainingsoil";
+			break;
+		case 23:
+			outItem = "cherrysaplings";
+			break;
+		case 24:
+			outItem = "apricotsaplings";
+			break;
+		case 25:
+			outItem = "orangesaplings";
+			break;
+		case 26:
+			outItem = "peachsaplings";
+			break;
+		case 27:
+			outItem = "pomegranatesaplings";
+			break;
+		case 28:
+			outItem = "applesaplings";
+			break;
+		case 29:
+			outItem = "flowers";
+			break;
+		default:
+			outItem = "null";
+			break;
+		}
+		break;
+	}
+	default:
+		break;
+	}
+	if (choise == 0)
+		return outItem;
+	else
+		return outItem + ".png";
 }
 
 //ÂòÏÂÎïÆ·
@@ -1253,8 +2235,38 @@ Item* Pierre::getItem(backPack* Back, int itemToMake, int season) {
 	return null;
 }
 
+void Pierre::seasonEx(int season0) {
+	season = season0;
+	storeSeasonEx( season0);
+}
+
+int Pierre::seasonOut() {
+	return season;
+}
+
 //Ìú½³ÆÌ²¿·Ö
 
+//ÎïÆ·¶ÔÓ¦Êı×Ö
+//  0--Í­¿óÊ¯
+//  1--Ìú¿óÊ¯
+//  2--ÃºÌ¿
+//  3--»Æ½ğ¿óÊ¯
+//  4--Í­¸«
+//  5--Í­Ë®ºø
+//  6--Í­¸ä
+//  7--Í­³ú
+//  8--Ìú¸«
+//  9--ÌúË®ºø
+//  10--Ìú¸ä
+//  11--Ìú³ú
+//  12--½ğ¸«
+//  13--½ğË®ºø
+//  14--½ğ¸ä
+//  15--½ğ³ú
+//  16--Ò¿¸«
+//  17--Ò¿Ë®ºø
+//  18--Ò¿¸ä
+//  19--Ò¿³ú
 //¶ÔÊÇ·ñÂòµÃÆğµÄÅĞ¶Ï
 bool BlackSmith::isAffordable(backPack* Back, int itemToMake) {
 	switch (itemToMake) {
@@ -1506,6 +2518,6 @@ Item* getItem(backPack* Back, int itemToMake) {
 		return IridiumHoe;
 	}
 	}
-	Item* null;
+	Item* null=new Item();
 	return null;
 }
