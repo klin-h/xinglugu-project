@@ -11,11 +11,14 @@
 
 #include "SceneTouch.h"
 #include "NPC.h"
+#include "NPC_2.h"
+#include "NPC_3.h"
 #include "cocos2d.h"
 #include "MapControl.h"
 
 USING_NS_CC;
-
+class NPC_2;
+class NPC_3;
 class NPC_1 : public NPC {
 public:
 
@@ -35,7 +38,10 @@ public:
     void checkAround(const Vec2& Endposition, TMXTiledMap* currentMap, MapControl* mapControl);
     MapControl* mapControl;
     Sprite* sprite;
+    //bool isNear(NPC_2* npc2);  // ÅÐ¶ÏÊÇ·ñ¿¿½ü NPC2
+   static bool isNear3();  // ÅÐ¶ÏÊÇ·ñ¿¿½ü NPC3
     void testAddNPC_1(const Size& visibleSize, Vec2 origin, TMXTiledMap* map, Scene* scene);
+    Vec2 mapposition;
 private:
     Scene* scene;
     Vec2 position;

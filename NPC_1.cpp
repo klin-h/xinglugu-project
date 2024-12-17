@@ -48,7 +48,7 @@ void NPC_1::moveUp(Vec2& Endposition, TMXTiledMap* map, float movelength, Sprite
     int gid = pathLayer->getTileGIDAt(targetTileCoord);
     if (gid <= 0) {
         CCLOG("GID is invalid or no tile at (%f, %f). Moving anyway.", targetTileCoord.x, targetTileCoord.y);
-        Character::Moving(sprite, 1);
+        Character::Moving(sprite, 1,0.5f);
         Endposition.y -= movelength;
         npc_1_d = 'b';
         return;
@@ -63,7 +63,7 @@ void NPC_1::moveUp(Vec2& Endposition, TMXTiledMap* map, float movelength, Sprite
             std::string walkableStr = walkableIter->second.asString();
             bool walkable = (walkableStr == "true");
             if (walkable) {
-                Character::Moving(sprite, 1);
+                Character::Moving(sprite, 1, 0.5f);
                 Endposition.y -= movelength;
                 npc_1_d = 'b';
             }
@@ -73,14 +73,14 @@ void NPC_1::moveUp(Vec2& Endposition, TMXTiledMap* map, float movelength, Sprite
         }
         else {
             CCLOG("No 'walkable' property. Moving anyway.");
-            Character::Moving(sprite, 1);
+            Character::Moving(sprite, 1, 0.5f);
             Endposition.y -= movelength;
             npc_1_d = 'b';
         }
     }
     else {
         CCLOG("No properties for GID %d. Moving anyway.", gid);
-        Character::Moving(sprite, 1);
+        Character::Moving(sprite, 1, 0.5f);
         Endposition.y -= movelength;
         npc_1_d = 'b';
     }
@@ -110,7 +110,7 @@ void NPC_1::moveDown(Vec2& Endposition, TMXTiledMap* map, float movelength, Spri
     int gid = pathLayer->getTileGIDAt(targetTileCoord);
     if (gid <= 0) {
         CCLOG("GID is invalid or no tile at (%f, %f). Moving anyway.", targetTileCoord.x, targetTileCoord.y);
-        Character::Moving(sprite, 0);
+        Character::Moving(sprite, 0, 0.5f);
         Endposition.y += movelength;
         npc_1_d = 'f';
         return;
@@ -125,7 +125,7 @@ void NPC_1::moveDown(Vec2& Endposition, TMXTiledMap* map, float movelength, Spri
             std::string walkableStr = walkableIter->second.asString();
             bool walkable = (walkableStr == "true");
             if (walkable) {
-                Character::Moving(sprite, 0);
+                Character::Moving(sprite, 0, 0.5f);
                 Endposition.y += movelength;
                 npc_1_d = 'f';
             }
@@ -135,14 +135,14 @@ void NPC_1::moveDown(Vec2& Endposition, TMXTiledMap* map, float movelength, Spri
         }
         else {
             CCLOG("No 'walkable' property. Moving anyway.");
-            Character::Moving(sprite, 0);
+            Character::Moving(sprite, 0, 0.5f);
             Endposition.y += movelength;
             npc_1_d = 'f';
         }
     }
     else {
         CCLOG("No properties for GID %d. Moving anyway.", gid);
-        Character::Moving(sprite, 0);
+        Character::Moving(sprite, 0, 0.5f);
         Endposition.y += movelength;
         npc_1_d = 'f';
     }
@@ -172,7 +172,7 @@ void NPC_1::moveLeft(Vec2& Endposition, TMXTiledMap* map, float movelength, Spri
     int gid = pathLayer->getTileGIDAt(targetTileCoord);
     if (gid <= 0) {
         CCLOG("GID is invalid or no tile at (%f, %f). Moving anyway.", targetTileCoord.x, targetTileCoord.y);
-        Character::Moving(sprite, 2);
+        Character::Moving(sprite, 2, 0.5f);
         Endposition.x -= movelength;
         npc_1_d = 'l';
         return;
@@ -187,7 +187,7 @@ void NPC_1::moveLeft(Vec2& Endposition, TMXTiledMap* map, float movelength, Spri
             std::string walkableStr = walkableIter->second.asString();
             bool walkable = (walkableStr == "true");
             if (walkable) {
-                Character::Moving(sprite, 2);
+                Character::Moving(sprite, 2, 0.5f);
                 Endposition.x -= movelength;
                 npc_1_d = 'l';
             }
@@ -197,14 +197,14 @@ void NPC_1::moveLeft(Vec2& Endposition, TMXTiledMap* map, float movelength, Spri
         }
         else {
             CCLOG("No 'walkable' property. Moving anyway.");
-            Character::Moving(sprite, 2);
+            Character::Moving(sprite, 2, 0.5f);
             Endposition.x -= movelength;
             npc_1_d = 'l';
         }
     }
     else {
         CCLOG("No properties for GID %d. Moving anyway.", gid);
-        Character::Moving(sprite, 2);
+        Character::Moving(sprite, 2, 0.5f);
         Endposition.x -= movelength;
         npc_1_d = 'l';
     }
@@ -234,7 +234,7 @@ void NPC_1::moveRight(Vec2& Endposition, TMXTiledMap* map, float movelength, Spr
     int gid = pathLayer->getTileGIDAt(targetTileCoord);
     if (gid <= 0) {
         CCLOG("GID is invalid or no tile at (%f, %f). Moving anyway.", targetTileCoord.x, targetTileCoord.y);
-        Character::Moving(sprite, 3);
+        Character::Moving(sprite, 3,0.5f);
         Endposition.x += movelength;
         npc_1_d = 'r';
         return;
@@ -249,7 +249,7 @@ void NPC_1::moveRight(Vec2& Endposition, TMXTiledMap* map, float movelength, Spr
             std::string walkableStr = walkableIter->second.asString();
             bool walkable = (walkableStr == "true");
             if (walkable) {
-                Character::Moving(sprite, 3);
+                Character::Moving(sprite, 3,0.5f);
                 Endposition.x += movelength;
                 npc_1_d = 'r';
             }
@@ -259,14 +259,14 @@ void NPC_1::moveRight(Vec2& Endposition, TMXTiledMap* map, float movelength, Spr
         }
         else {
             CCLOG("No 'walkable' property. Moving anyway.");
-            Character::Moving(sprite, 3);
+            Character::Moving(sprite, 3,0.5f);
             Endposition.x += movelength;
             npc_1_d = 'r';
         }
     }
     else {
         CCLOG("No properties for GID %d. Moving anyway.", gid);
-        Character::Moving(sprite, 3);
+        Character::Moving(sprite, 3,0.5f);
         Endposition.x += movelength;
         npc_1_d = 'r';
     }
@@ -529,6 +529,7 @@ void NPC_1::checkAround(const Vec2& Endposition, TMXTiledMap* currentMap, MapCon
 }
 
 Point Endposition;
+Vec2 WindowCoord_1= convertToScreenOrigin(Endposition, Director::getInstance()->getVisibleSize());
 char npc_1_d = 'f';
 void NPC_1::movebyfour(NPC_1* P, TMXTiledMap* map) {
     keyboardListener = EventListenerKeyboard::create();
@@ -611,4 +612,23 @@ cocos2d::Vec2 NPC_1::getPosition() {
 
 char NPC_1::getDirection() {
     return npc_1_d;
+}
+//bool NPC_1::isNear(NPC_2* npc2) {
+//    // 计算 NPC1 和 NPC2 之间的距离，这里简单地计算欧几里得距离
+//    cocos2d::Vec2 diff = this->getPosition() - npc2->getPosition();
+//    float distance = diff.length();
+//    return distance <= 16;  // 假设一格的距离对应 16 像素，可根据实际情况调整
+//}
+
+bool NPC_1::isNear3() {
+    
+    Vec2 screenCoord = convertToScreenOrigin(Endposition, Director::getInstance()->getVisibleSize());
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    
+    cocos2d::Vec2 npc3map;
+    npc3map.x = Constants::MAPNPC3_X;
+    npc3map.y = Constants::MAPNPC3_Y;
+    cocos2d::Vec2 diff = screenCoord - npc3map;
+    float distance = diff.length();
+    return distance <= Constants::InteractionDistance;
 }

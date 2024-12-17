@@ -46,8 +46,8 @@ public:
 
 
     //角色移动
-    void Moving(Sprite* sprite, int direction);
-
+    void Moving(Sprite* sprite, int direction, float t);
+    void MovingContenly(Sprite* sprite, int direction, float t);
     //角色停止移动
     void stopMoving(Sprite* sprite);
 
@@ -73,12 +73,11 @@ public:
     void setAnimationState(AnimationState newState) { animationState = newState; }
 
 
-    // 交互方法,虚函数
-    virtual void interact() = 0;
+  
 
-
-protected:
     std::string name;
+protected:
+    
     int health;
     AnimationState animationState;
 };

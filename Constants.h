@@ -290,6 +290,15 @@ namespace Constants {// 使用时要加命名空间
     constexpr int copperbar1 = 80;
     constexpr int ironbar1 = 120;
     constexpr int goldbar1 = 140;
-    constexpr int ironore1 = 30;
+    constexpr int ironore1 = 30; 
+
+
+    constexpr float HARVEYx = 300.0f;
+    constexpr float HARVEYy = 445.0f;
+    constexpr float HARVEY_width = 16.0f;
+    constexpr float HARVEY_height = 40.0f;
+    constexpr float MAPNPC3_X = 312.0f;
+    constexpr float MAPNPC3_Y = 408.0f;
+    constexpr int InteractionDistance = 32;
 }
 #endif // CONSTANTS_H

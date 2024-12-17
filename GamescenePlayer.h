@@ -11,7 +11,6 @@
 
 
 #include "cocos2d.h"
-#include "Player.h"
 #include "NPC.h"
 class Player;
 class NPC;

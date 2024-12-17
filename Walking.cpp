@@ -39,3 +39,17 @@ Animate* Walking::createAnimation(const std::string& name, const std::string& di
 
 	return animate;
 }
+
+Action* Walking::walkingContently(Sprite* targetSprite, const std::string& name, const std::string& direction) {
+	if (targetSprite) {
+		// 先调用createAnimation函数获取动画动作
+		Animate* animate = Walking::createAnimation(name, direction);
+		if (animate) {
+			// 使用RepeatForever将动画动作包装成可无限循环的动作
+			auto repeatForever = RepeatForever::create(animate);
+			// 返回这个可无限循环的动作，类型为Action*，符合函数定义要求
+			return repeatForever;
+		}
+	}
+	return nullptr;
+}

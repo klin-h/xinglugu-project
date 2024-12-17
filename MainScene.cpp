@@ -104,10 +104,27 @@ bool MainScene::init() {
 
     auto npc1 = NPC_1::create();
     if (npc1) {
-        this->addChild(npc1, Constants::MAP_BACKGROUND_LAYER_Z_ORDER+10);
+        
+       g_sharedScene->addChild(npc1, Constants::MAP_BACKGROUND_LAYER_Z_ORDER+10);
         // 通过创建好的npc1Obj对象来调用testAddNPC_1函数
         npc1->testAddNPC_1(visibleSize, origin,map,this);
+        CCLOG("NPC_1 position: (%f, %f)", npc1->getPosition().x, npc1->getPosition().y);
     }
+   
+
+    auto npc3 = NPC_3::create();
+    if (npc3) {
+        g_sharedScene->addChild(npc3, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
+        
+        npc3->testAddNPC_3(visibleSize, origin);
+       
+       
+    }
+   
+
+
+
+    
     // 将监听器添加到事件分发器中
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 

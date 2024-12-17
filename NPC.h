@@ -11,7 +11,7 @@
 
 
 #include "Character.h"
-#include "player.h"
+
 #include "GameScenePlayer.h"
 #include "ui/CocosGUI.h"
 #include <vector>
@@ -23,25 +23,16 @@ class NPC : public Character {
 public:
     NPC();
     virtual ~NPC();
-    Player *getInteractingPlayer();
+   
     NPC(const std::string& name, int health);
-    /*Player *getPlayerFromTouchEvent(cocos2d::Touch* touch);*/
-
-    // 重写交互方法，实现NPC特有的交互逻辑，比如对话、给予任务等，这里详细扩展相关逻辑
-    void interact() override;
-
+   
     // NPC提供对话内容的方法
     std::string getDialogue();
 
-    // NPC给予任务的方法
-    void giveQuest(Player *player);
-
-    bool shouldGiveQuest();
-
 private:
-    Player *interactingPlayer;
+   
     bool isPlayerInRange;
-    void checkPlayerInRange();
+   
     
     std::string dialogueText;  // 记录对话内容的字符串变量
 
