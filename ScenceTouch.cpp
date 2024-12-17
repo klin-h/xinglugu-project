@@ -21,33 +21,33 @@ void cultivateLand(const Vec2& tileCoord, TMXTiledMap* map, const std::string& l
 void waterLand(const Vec2& tileCoord, TMXTiledMap* map, const std::string& layerName);
 
 Vec2 calculateTileCoordinate(const Vec2& touchLocation, TMXTiledMap* map) {
-    // »ñÈ¡µØÍ¼µÄÆğÊ¼Î»ÖÃ
+    // è·å–åœ°å›¾çš„èµ·å§‹ä½ç½®
     CCLOG(" calculateTileCoordinate::Current screen position: (%f, %f)", touchLocation.x, touchLocation.y);
     Vec2 mapStartPosition = map->getPosition();
 
-    // µØÍ¼µÄËõ·Å±ÈÀı
+    // åœ°å›¾çš„ç¼©æ”¾æ¯”ä¾‹
     float mapScale = map->getScale();
 
-    // »ñÈ¡µØÍ¼ÍßÆ¬´óĞ¡ºÍµØÍ¼³ß´ç
+    // è·å–åœ°å›¾ç“¦ç‰‡å¤§å°å’Œåœ°å›¾å°ºå¯¸
     Size tileSize = map->getTileSize();
     Size mapSize = map->getMapSize();
 
-    // ¼ÆËãÍßÆ¬´óĞ¡µÄÊµ¼ÊäÖÈ¾³ß´ç£¨¿¼ÂÇËõ·Å±ÈÀı£©
+    // è®¡ç®—ç“¦ç‰‡å¤§å°çš„å®é™…æ¸²æŸ“å°ºå¯¸ï¼ˆè€ƒè™‘ç¼©æ”¾æ¯”ä¾‹ï¼‰
     float adjustedTileWidth = tileSize.width * mapScale;
     float adjustedTileHeight = tileSize.height * mapScale;
 
-    // ½«´¥Ãşµã´ÓÆÁÄ»×ø±ê×ª»»ÎªÏà¶ÔÓÚµØÍ¼µÄ×ø±ê
+    // å°†è§¦æ‘¸ç‚¹ä»å±å¹•åæ ‡è½¬æ¢ä¸ºç›¸å¯¹äºåœ°å›¾çš„åæ ‡
     Vec2 mapLocation = touchLocation - mapStartPosition;
 
-    // È·±£´¥ÃşµãÔÚµØÍ¼·¶Î§ÄÚ
+    // ç¡®ä¿è§¦æ‘¸ç‚¹åœ¨åœ°å›¾èŒƒå›´å†…
     if (mapLocation.x < 0 || mapLocation.y < 0 ||
         mapLocation.x >= mapSize.width * adjustedTileWidth ||
         mapLocation.y >= mapSize.height * adjustedTileHeight) {
         CCLOG("Touch location is outside the map.");
-        return Vec2(-1, -1); // ·µ»Ø·Ç·¨×ø±ê
+        return Vec2(-1, -1); // è¿”å›éæ³•åæ ‡
     }
 
-    // ¼ÆËã´¥ÃşµãËùÔÚµÄÍßÆ¬×ø±ê
+    // è®¡ç®—è§¦æ‘¸ç‚¹æ‰€åœ¨çš„ç“¦ç‰‡åæ ‡
     int tileX = static_cast<int>(mapLocation.x / adjustedTileWidth);
     int tileY = static_cast<int>((mapSize.height * adjustedTileHeight - mapLocation.y) / adjustedTileHeight);
 
@@ -59,21 +59,21 @@ Vec2 calculateTileCoordinate(const Vec2& touchLocation, TMXTiledMap* map) {
 //  
 //    Vec2 touchLocation = touch->getLocation();
 //
-//    // Ê¹ÓÃ·â×°µÄº¯Êı¼ÆËãÍßÆ¬×ø±ê
+//    // ä½¿ç”¨å°è£…çš„å‡½æ•°è®¡ç®—ç“¦ç‰‡åæ ‡
 //    Vec2 tileCoord = calculateTileCoordinate(touchLocation, map);
 //
-//    // ¼ì²éÊÇ·ñ·µ»ØÁË·Ç·¨×ø±ê
+//    // æ£€æŸ¥æ˜¯å¦è¿”å›äº†éæ³•åæ ‡
 //    if (tileCoord == Vec2(-1, -1)) {
 //        CCLOG("Touch is outside the map bounds.");
 //        return false;
 //    }
 //
-//    // ¼ÌĞø´¦ÀíÍßÆ¬Ïà¹ØµÄÂß¼­
+//    // ç»§ç»­å¤„ç†ç“¦ç‰‡ç›¸å…³çš„é€»è¾‘
 //    int tileX = tileCoord.x;
 //    int tileY = tileCoord.y;
 //
-//    // ÏÈ¼ì²éµã»÷ÊÂ¼şÊÇ·ñ·¢ÉúÔÚpath²ã£¨³¡¾°½»»¥¶ÔÏó²ã£©
-//    TMXLayer* layer = g_sharedTMXcurrent->getLayer("path"); // Ìæ»»ÎªÄãµÄÍ¼²ãÃû
+//    // å…ˆæ£€æŸ¥ç‚¹å‡»äº‹ä»¶æ˜¯å¦å‘ç”Ÿåœ¨pathå±‚ï¼ˆåœºæ™¯äº¤äº’å¯¹è±¡å±‚ï¼‰
+//    TMXLayer* layer = g_sharedTMXcurrent->getLayer("path"); // æ›¿æ¢ä¸ºä½ çš„å›¾å±‚å
 //    if (!layer) {
 //        CCLOG("Layer not found!");
 //        return false;
@@ -85,49 +85,49 @@ Vec2 calculateTileCoordinate(const Vec2& touchLocation, TMXTiledMap* map) {
 //        return false;
 //    }
 //    CCLOG("GID %d",gid );
-//    // Êä³öÍßÆ¬ÊôĞÔ
+//    // è¾“å‡ºç“¦ç‰‡å±æ€§
 //   
 //    Value propertiesValue = g_sharedTMXcurrent->getPropertiesForGID(gid);
 //  
 //    if (propertiesValue.getType() == Value::Type::MAP) {
 //        ValueMap properties = propertiesValue.asValueMap();
 //
-//        // ±éÀúÊôĞÔ²¢´òÓ¡µ÷ÊÔĞÅÏ¢
+//        // éå†å±æ€§å¹¶æ‰“å°è°ƒè¯•ä¿¡æ¯
 //        for (const auto& property : properties) {
 //            CCLOG("Property key: %s, value: %s", property.first.c_str(), property.second.asString().c_str());
 //        }
 //
-//        // »ñÈ¡ type ÊôĞÔ
+//        // è·å– type å±æ€§
 //        auto typeIter = properties.find("type");
 //        if (typeIter != properties.end() && typeIter->second.getType() == Value::Type::STRING) {
 //            std::string type = typeIter->second.asString();
 //
-//            // »ñÈ¡ walkable ÊôĞÔ (Èç¹ûĞèÒª¿ÉÒÔÌí¼Ó¶îÍâÂß¼­£¬µ±Ç°Ê¾ÀıÖĞÎ´ÓÃµ½)
+//            // è·å– walkable å±æ€§ (å¦‚æœéœ€è¦å¯ä»¥æ·»åŠ é¢å¤–é€»è¾‘ï¼Œå½“å‰ç¤ºä¾‹ä¸­æœªç”¨åˆ°)
 //            //auto walkableIter = properties.find("walkable");
-//            //bool walkable = false; // Ä¬ÈÏÖµ
+//            //bool walkable = false; // é»˜è®¤å€¼
 //            //if (walkableIter != properties.end() && walkableIter->second.getType() == Value::Type::BOOLEAN) {
 //            //    walkable = walkableIter->second.asBool();
 //            //}
 //
-//            // ÅĞ¶Ï¹¤¾ßºÍ type ÀàĞÍ
-//            std::string currentTool = pack->handInItemOut(); // »ñÈ¡µ±Ç°¹¤¾ß
+//            // åˆ¤æ–­å·¥å…·å’Œ type ç±»å‹
+//            std::string currentTool = pack->handInItemOut(); // è·å–å½“å‰å·¥å…·
 //            if (type == "stone" && currentTool == "pickaxe") {
 //                CCLOG("Breaking stone with pickaxe");
 //                replaceTileWithLand(tileCoord, map, "grb");
 //
-//                // Ïò±³°üÌí¼ÓÎïÆ·
+//                // å‘èƒŒåŒ…æ·»åŠ ç‰©å“
 //                return true;
 //            }
 //            else if (type == "branch" && currentTool == "axe") {
 //                CCLOG("Chopping branch with axe");
 //                replaceTileWithLand(tileCoord, map, "grb");
-//                // Ïò±³°üÌí¼ÓÎïÆ·
+//                // å‘èƒŒåŒ…æ·»åŠ ç‰©å“
 //                return true;
 //            }
 //            else if (type == "grass" && currentTool == "sickle") {
 //                CCLOG("Cutting grass with sickle");
 //                replaceTileWithLand(tileCoord, map, "grb");
-//                // Ïò±³°üÌí¼ÓÎïÆ·
+//                // å‘èƒŒåŒ…æ·»åŠ ç‰©å“
 //                return true;
 //            }
 //            else if (type == "empty" && currentTool == "hoe") {
@@ -151,13 +151,13 @@ Vec2 calculateTileCoordinate(const Vec2& touchLocation, TMXTiledMap* map) {
 //        CCLOG("Properties for GID %d are not of type MAP or do not exist", gid);
 //    }
 //   
-//    // ÔÚ¼ì²éµã»÷ÊÂ¼şÊÇ·ñ·¢ÉúÔÚÍÁµØ²ã
+//    // åœ¨æ£€æŸ¥ç‚¹å‡»äº‹ä»¶æ˜¯å¦å‘ç”Ÿåœ¨åœŸåœ°å±‚
 //    layer = g_sharedTMXcurrent->getLayer("farmland");
 //    if (!layer) {
 //        CCLOG("Layer farm land not found!");
 //        return false;
 //    }
-//    std::string currentTool = pack->handInItemOut(); // »ñÈ¡µ±Ç°¹¤¾ß
+//    std::string currentTool = pack->handInItemOut(); // è·å–å½“å‰å·¥å…·
 //    gid = layer->getTileGIDAt(Vec2(tileX, tileY));
 //
 //    if (gid <= 0) {
@@ -170,21 +170,21 @@ Vec2 calculateTileCoordinate(const Vec2& touchLocation, TMXTiledMap* map) {
 //    }
 //   
 //    Value propertiesValuetwo = g_sharedTMXcurrent->getPropertiesForGID(gid);
-//    // È·±£ÊôĞÔ´æÔÚ²¢ÇÒÊÇ ValueMap ÀàĞÍ
+//    // ç¡®ä¿å±æ€§å­˜åœ¨å¹¶ä¸”æ˜¯ ValueMap ç±»å‹
 //    if (propertiesValuetwo.getType() == Value::Type::MAP) {
 //        ValueMap properties = propertiesValuetwo.asValueMap();
 //
-//        // ±éÀúÊôĞÔ²¢´òÓ¡µ÷ÊÔĞÅÏ¢
+//        // éå†å±æ€§å¹¶æ‰“å°è°ƒè¯•ä¿¡æ¯
 //        for (const auto& property : properties) {
 //            CCLOG("Property key: %s, value: %s", property.first.c_str(), property.second.asString().c_str());
 //        }
 //
-//        // »ñÈ¡ type ÊôĞÔ
+//        // è·å– type å±æ€§
 //        auto typeIter = properties.find("type");
 //        if (typeIter != properties.end() && typeIter->second.getType() == Value::Type::STRING) {
 //            std::string type = typeIter->second.asString();
-//            // ÅĞ¶Ï¹¤¾ßºÍ type ÀàĞÍ
-//            //std::string currentTool = pack->handInItemOut(); // »ñÈ¡µ±Ç°¹¤¾ß
+//            // åˆ¤æ–­å·¥å…·å’Œ type ç±»å‹
+//            //std::string currentTool = pack->handInItemOut(); // è·å–å½“å‰å·¥å…·
 //            if (type == "farm_land_unwater" && currentTool == "wateringcan") {
 //                CCLOG("Watering land");
 //                waterLand(tileCoord, g_sharedTMXcurrent, "landmateri");
@@ -209,6 +209,7 @@ Vec2 calculateTileCoordinate(const Vec2& touchLocation, TMXTiledMap* map) {
 //    return true;
 //}
 
+
 bool checkPathLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, backPack* pack) {
     TMXLayer* pathLayer = map->getLayer("path");
     if (!pathLayer) {
@@ -231,41 +232,79 @@ bool checkPathLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, backPa
             std::string type = typeIter->second.asString();
             std::string currentTool = pack->handInItemOut();
 
-           /* if (type == "stone" && currentTool == "pickaxe") {
-                CCLOG("Breaking stone with pickaxe");
-                replaceTileWithLand(tileCoord, map, "grb");
-                return true;
-            }*/
             if (currentTool == "pickaxe") {
                 if (type == "stone") {
                     CCLOG("Breaking %s with pickaxe", type.c_str());
-                    replaceTileWithLand(tileCoord, map, "grb"); // Ìæ»»ÎªÊ¯Í·µØ¿é
+                    replaceTileWithLand(tileCoord, map, "grb"); // æ›¿æ¢ä¸ºçŸ³å¤´åœ°å—
+                    Item* newitem = terial::create("stone");
+                    if (newitem) {
+                        pack->itemAdd(newitem, 2);
+                    }
+                    else {
+                        CCLOG("Fail to create the item");
+                    }
                     return true;
                 }
                 else if (type == "iron") {
                     CCLOG("Breaking %s with pickaxe", type.c_str());
                     replaceTileinMine(tileCoord, map, "source"); 
+                    Item* newitem = terial::create("ironore");
+                    if (newitem) {
+                        pack->itemAdd(newitem, 1);
+                    }
+                    else {
+                        CCLOG("Fail to create the item");
+                    }
                     return true;
                 }
                 else if (type == "copper") {
                     CCLOG("Breaking %s with pickaxe", type.c_str());
                     replaceTileinMine(tileCoord, map, "source"); 
+                    Item* newitem = terial::create("copperbar");
+                    if (newitem) {
+                        pack->itemAdd(newitem, 1);
+                    }
+                    else {
+                        CCLOG("Fail to create the item");
+                    }
                     return true;
                 }
                 else if (type == "gold") {
                     CCLOG("Breaking %s with pickaxe", type.c_str());
                     replaceTileinMine(tileCoord, map, "source"); 
+                    Item* newitem = terial::create("ironbar");
+                    if (newitem) {
+                        pack->itemAdd(newitem, 1);
+                    }
+                    else {
+                        CCLOG("Fail to create the item");
+                    }
+                   
                     return true;
                 }
             }
             else if (type == "branch" && currentTool == "axe") {
                 CCLOG("Chopping branch with axe");
                 replaceTileWithLand(tileCoord, map, "grb");
+                Item* newitem = terial::create("wood");
+                if (newitem) {
+                    pack->itemAdd(newitem, 1);
+                }
+                else {
+                    CCLOG("Fail to create the item");
+                }
                 return true;
             }
             else if (type == "grass" && currentTool == "sickle") {
                 CCLOG("Cutting grass with sickle");
                 replaceTileWithLand(tileCoord, map, "grb");
+                Item* newitem = terial::create("parsnipseed");
+                if (newitem) {
+                    pack->itemAdd(newitem, 1);
+                }
+                else {
+                    CCLOG("Fail to create the item");
+                }
                 return true;
             }
             else if (type == "empty" && currentTool == "hoe") {
@@ -333,16 +372,16 @@ bool checkFarmlandLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, ba
 bool onTouchBegan(Touch* touch, Event* event, cocos2d::TMXTiledMap* map, backPack* pack) {
     Vec2 touchLocation = touch->getLocation();
 
-    // Ê¹ÓÃ·â×°µÄº¯Êı¼ÆËãÍßÆ¬×ø±ê
+    // ä½¿ç”¨å°è£…çš„å‡½æ•°è®¡ç®—ç“¦ç‰‡åæ ‡
     Vec2 tileCoord = calculateTileCoordinate(touchLocation, g_sharedTMXcurrent);
 
-    // ¼ì²éÊÇ·ñ·µ»ØÁË·Ç·¨×ø±ê
+    // æ£€æŸ¥æ˜¯å¦è¿”å›äº†éæ³•åæ ‡
     if (tileCoord == Vec2(-1, -1)) {
         CCLOG("Touch is outside the map bounds.");
         return false;
     }
 
-    // ÒÀ´Î¼ì²é Path ºÍ Farmland ²ã
+    // ä¾æ¬¡æ£€æŸ¥ Path å’Œ Farmland å±‚
     if (checkPathLayerInteraction(tileCoord, g_sharedTMXcurrent, pack)) {
         return true;
     }
@@ -356,7 +395,7 @@ bool onTouchBegan(Touch* touch, Event* event, cocos2d::TMXTiledMap* map, backPac
 }
 
 void replaceTileWithLand(const Vec2& tileCoord, TMXTiledMap* map, const std::string& layerName) {
-    // »ñÈ¡Òª±»Ìæ»»µÄÍ¼²ã£¨¹Ì¶¨Îª "path"£©
+    // è·å–è¦è¢«æ›¿æ¢çš„å›¾å±‚ï¼ˆå›ºå®šä¸º "path"ï¼‰
     Vec2 materialTileCoord(5,0);
     auto targetLayer = map->getLayer("path");
     if (!targetLayer) {
@@ -364,14 +403,14 @@ void replaceTileWithLand(const Vec2& tileCoord, TMXTiledMap* map, const std::str
         return;
     }
 
-    // »ñÈ¡Ìæ»»ËØ²ÄËùÔÚµÄÍ¼²ã
+    // è·å–æ›¿æ¢ç´ ææ‰€åœ¨çš„å›¾å±‚
     auto materialLayer = map->getLayer(layerName);
     if (!materialLayer) {
         CCLOG("Layer '%s' not found!", layerName.c_str());
         return;
     }
 
-    // ´ÓËØ²ÄÍ¼²ãÖĞ»ñÈ¡Ìæ»»ËØ²ÄµÄ GID
+    // ä»ç´ æå›¾å±‚ä¸­è·å–æ›¿æ¢ç´ æçš„ GID
     int materialGID = materialLayer->getTileGIDAt(materialTileCoord);
     if (materialGID == 0) {
         CCLOG("No tile found at (%d, %d) in layer '%s'",
@@ -379,7 +418,7 @@ void replaceTileWithLand(const Vec2& tileCoord, TMXTiledMap* map, const std::str
         return;
     }
 
-    // ÔÚÄ¿±êÍ¼²ãÖĞÉèÖÃĞÂµÄ GID
+    // åœ¨ç›®æ ‡å›¾å±‚ä¸­è®¾ç½®æ–°çš„ GID
     targetLayer->setTileGID(materialGID, tileCoord);
 
     CCLOG("Replaced tile at (%d, %d) in 'path' layer with tile from '%s' layer at (%d, %d), GID: %d",
@@ -388,10 +427,10 @@ void replaceTileWithLand(const Vec2& tileCoord, TMXTiledMap* map, const std::str
 
     targetLayer->setTileGID(materialGID, tileCoord);
 
-    // »ñÈ¡Ä¿±êÍ¼²ãÖĞ¶ÔÓ¦Î»ÖÃµÄ Sprite
+    // è·å–ç›®æ ‡å›¾å±‚ä¸­å¯¹åº”ä½ç½®çš„ Sprite
     auto tileSprite = targetLayer->getTileAt(tileCoord);
     if (tileSprite) {
-        // ÉèÖÃÍ¸Ã÷¶ÈÎª 0
+        // è®¾ç½®é€æ˜åº¦ä¸º 0
         tileSprite->setOpacity(0);
         CCLOG("Set opacity of tile at (%d, %d) to 0.",
             static_cast<int>(tileCoord.x), static_cast<int>(tileCoord.y));
@@ -407,7 +446,7 @@ void replaceTileWithLand(const Vec2& tileCoord, TMXTiledMap* map, const std::str
 }
 
 void replaceTileinMine(const Vec2& tileCoord, TMXTiledMap* map, const std::string& layerName) {
-    // »ñÈ¡Òª±»Ìæ»»µÄÍ¼²ã£¨¹Ì¶¨Îª "path"£©
+    // è·å–è¦è¢«æ›¿æ¢çš„å›¾å±‚ï¼ˆå›ºå®šä¸º "path"ï¼‰
     Vec2 materialTileCoord(4, 0);
     auto targetLayer = map->getLayer("path");
     if (!targetLayer) {
@@ -415,14 +454,14 @@ void replaceTileinMine(const Vec2& tileCoord, TMXTiledMap* map, const std::strin
         return;
     }
 
-    // »ñÈ¡Ìæ»»ËØ²ÄËùÔÚµÄÍ¼²ã
+    // è·å–æ›¿æ¢ç´ ææ‰€åœ¨çš„å›¾å±‚
     auto materialLayer = map->getLayer(layerName);
     if (!materialLayer) {
         CCLOG("Layer '%s' not found!", layerName.c_str());
         return;
     }
 
-    // ´ÓËØ²ÄÍ¼²ãÖĞ»ñÈ¡Ìæ»»ËØ²ÄµÄ GID
+    // ä»ç´ æå›¾å±‚ä¸­è·å–æ›¿æ¢ç´ æçš„ GID
     int materialGID = materialLayer->getTileGIDAt(materialTileCoord);
     if (materialGID == 0) {
         CCLOG("No tile found at (%d, %d) in layer '%s'",
@@ -430,7 +469,7 @@ void replaceTileinMine(const Vec2& tileCoord, TMXTiledMap* map, const std::strin
         return;
     }
 
-    // ÔÚÄ¿±êÍ¼²ãÖĞÉèÖÃĞÂµÄ GID
+    // åœ¨ç›®æ ‡å›¾å±‚ä¸­è®¾ç½®æ–°çš„ GID
     targetLayer->setTileGID(materialGID, tileCoord);
 
     CCLOG("Replaced tile at (%d, %d) in 'path' layer with tile from '%s' layer at (%d, %d), GID: %d",
@@ -439,10 +478,10 @@ void replaceTileinMine(const Vec2& tileCoord, TMXTiledMap* map, const std::strin
 
     targetLayer->setTileGID(materialGID, tileCoord);
 
-    // »ñÈ¡Ä¿±êÍ¼²ãÖĞ¶ÔÓ¦Î»ÖÃµÄ Sprite
+    // è·å–ç›®æ ‡å›¾å±‚ä¸­å¯¹åº”ä½ç½®çš„ Sprite
     auto tileSprite = targetLayer->getTileAt(tileCoord);
     if (tileSprite) {
-        // ÉèÖÃÍ¸Ã÷¶ÈÎª 0
+        // è®¾ç½®é€æ˜åº¦ä¸º 0
         tileSprite->setOpacity(0);
         CCLOG("Set opacity of tile at (%d, %d) to 0.",
             static_cast<int>(tileCoord.x), static_cast<int>(tileCoord.y));
@@ -466,14 +505,14 @@ void cultivateLand(const Vec2& tileCoord, TMXTiledMap* map, const std::string& l
         return;
     }
 
-    // »ñÈ¡ËØ²ÄÍ¼²ã
+    // è·å–ç´ æå›¾å±‚
     auto materialLayer = map->getLayer(layerName);
     if (!materialLayer) {
         CCLOG("Layer '%s' not found!", layerName.c_str());
         return;
     }
 
-    // ´ÓËØ²ÄÍ¼²ãÖĞ»ñÈ¡ (0, 0) µÄ GID
+    // ä»ç´ æå›¾å±‚ä¸­è·å– (0, 0) çš„ GID
     Vec2 materialTileCoord(0, 0);
     int materialGID = materialLayer->getTileGIDAt(materialTileCoord);
     if (materialGID == 0) {
@@ -482,7 +521,7 @@ void cultivateLand(const Vec2& tileCoord, TMXTiledMap* map, const std::string& l
         return;
     }
 
-    // ÔÚÄ¿±êÍ¼²ãÖĞÉèÖÃĞÂµÄ GID
+    // åœ¨ç›®æ ‡å›¾å±‚ä¸­è®¾ç½®æ–°çš„ GID
     targetLayer->setTileGID(materialGID, tileCoord);
 
     CCLOG("Cultivated land at (%d, %d) in 'path' layer with tile from '%s' layer at (0, 0), GID: %d",
@@ -498,14 +537,14 @@ void waterLand(const Vec2& tileCoord, TMXTiledMap* map, const std::string& layer
         return;
     }
 
-    // »ñÈ¡ËØ²ÄÍ¼²ã
+    // è·å–ç´ æå›¾å±‚
     auto materialLayer = map->getLayer(layerName);
     if (!materialLayer) {
         CCLOG("Layer '%s' not found!", layerName.c_str());
         return;
     }
 
-    // ´ÓËØ²ÄÍ¼²ãÖĞ»ñÈ¡ (0, 0) µÄ GID
+    // ä»ç´ æå›¾å±‚ä¸­è·å– (0, 0) çš„ GID
     Vec2 materialTileCoord(1, 0);
     int materialGID = materialLayer->getTileGIDAt(materialTileCoord);
     if (materialGID == 0) {
@@ -514,7 +553,7 @@ void waterLand(const Vec2& tileCoord, TMXTiledMap* map, const std::string& layer
         return;
     }
 
-    // ÔÚÄ¿±êÍ¼²ãÖĞÉèÖÃĞÂµÄ GID
+    // åœ¨ç›®æ ‡å›¾å±‚ä¸­è®¾ç½®æ–°çš„ GID
     targetLayer->setTileGID(materialGID, tileCoord);
 
     CCLOG("Water land at (%d, %d) in 'path' layer with tile from '%s' layer at (0, 0), GID: %d",
