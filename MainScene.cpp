@@ -9,7 +9,7 @@
 
 
 #include "MainScene.h"
- #include "simpleaudioengine.h"
+#include "simpleaudioengine.h"
 #include "Cow.h"
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
@@ -18,6 +18,7 @@
 #include "backPhoto.h"
 #include "SceneTouch.h"
 #include "Constants.h"
+#include"Fishing.h"
 
 
 USING_NS_CC;
@@ -81,7 +82,7 @@ bool MainScene::init() {
         }
     }
 
-
+    
 
     g_sharedScene = this;
     if (!map) {
@@ -92,11 +93,17 @@ bool MainScene::init() {
 
     inventory(this, pack1, origin);
 
+    auto layerfish = Layer::create();
+    map->addChild(layerfish,3);
+    // 添加钓鱼按钮
+    MainScene::addFishingButtonToScene(layerfish, visibleSize);
+
     //setupAnimal(this);// 创建动物
 
     //setupWalkingCharacter(visibleSize, origin);
 
     auto touchListener = EventListenerTouchOneByOne::create();
+
 
 
     // backPack* localPack = pack1;
@@ -114,6 +121,7 @@ bool MainScene::init() {
         CCLOG("NPC_1 position: (%f, %f)", npc1->getPosition().x, npc1->getPosition().y);
     }
 
+  
 
     auto npc3 = NPC_3::create();
     if (npc3) {
@@ -196,4 +204,29 @@ void MainScene::setupWalkingCharacter(const Size& visibleSize, Vec2 origin) {
     }
 }
 
+void MainScene::addFishingButtonToScene(Layer* layer, const Size& visibleSize) {
+    // 创建钓鱼按钮
+    auto fishingButton = MenuItemImage::create("fishing.png", "fishing.png",
+        CC_CALLBACK_1(MainScene::onFishingButtonClicked, this));
+    fishingButton->setPosition(32, visibleSize.height / 2); // 将按钮放在
+
+    // 创建菜单并将按钮添加到菜单中
+    auto menu = Menu::create(fishingButton, nullptr);
+    menu->setPosition(Vec2::ZERO);
+    layer->addChild(menu);
+}
+
+void MainScene::onFishingButtonClicked(Ref* sender) {
+    // 创建钓鱼层
+    auto fishingLayer = FishingLayer::createLayer();
+
+    // 获取当前场景并将钓鱼层添加到场景中
+    auto runningScene = Director::getInstance()->getRunningScene();
+    if (runningScene) {
+        runningScene->addChild(fishingLayer, 3); // 确保层级为3，使其显示在其他元素上方
+    }
+    else {
+        CCLOG("Failed to get running scene.");
+    }
+}
 
