@@ -15,7 +15,7 @@
 USING_NS_CC;
 using namespace Constants;
 
-//ºÏ³ÉÌ¨µÄÊµÏÖÀà
+//åˆæˆå°çš„å®ç°ç±»
 class craftTable {
 public:
 	int grade;
@@ -29,13 +29,13 @@ public:
 	Item* getItem(backPack* Back, int itemToMake);
 };
 
-//PierreÉÌµêµÄÊµÏÖÀà
+//Pierreå•†åº—çš„å®ç°ç±»
 class Pierre {
 private:
-	int season;
+	std::string season;
 public:
 	Pierre() {
-		season = 1;
+		season = "Spring";
 	}
 	bool isAffordable(backPack* Back, int itemToMake, int season);
 
@@ -47,11 +47,11 @@ public:
 
 	std::string itemNameOut(int no, int season, bool choise);
 
-	void seasonEx(int season);
+	void seasonEx(std::string season);
 
-	int seasonOut();
+	std::string seasonOut();
 };
-//Ìú½³ÆÌµÄÊµÏÖÀà
+//é“åŒ é“ºçš„å®ç°ç±»
 class BlackSmith {
 public:
 	BlackSmith() {
