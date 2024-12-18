@@ -613,22 +613,28 @@ cocos2d::Vec2 NPC_1::getPosition() {
 char NPC_1::getDirection() {
     return npc_1_d;
 }
-//bool NPC_1::isNear(NPC_2* npc2) {
-//    // 计算 NPC1 和 NPC2 之间的距离，这里简单地计算欧几里得距离
-//    cocos2d::Vec2 diff = this->getPosition() - npc2->getPosition();
-//    float distance = diff.length();
-//    return distance <= 16;  // 假设一格的距离对应 16 像素，可根据实际情况调整
-//}
 
-bool NPC_1::isNear3() {
+
+bool NPC_1::isNear3(std::string name) {
     
     Vec2 screenCoord = convertToScreenOrigin(Endposition, Director::getInstance()->getVisibleSize());
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    
-    cocos2d::Vec2 npc3map;
-    npc3map.x = Constants::MAPNPC3_X;
-    npc3map.y = Constants::MAPNPC3_Y;
-    cocos2d::Vec2 diff = screenCoord - npc3map;
+    cocos2d::Vec2 diff;
+    if (name== "Harvey") {
+        cocos2d::Vec2 Harveyinmap;
+        Harveyinmap.x = Constants::Harveyinmap_X;
+        Harveyinmap.y = Constants::Harveyinmap_Y;
+         diff = screenCoord - Harveyinmap;
+    }
+    else if (name == "Haley") {
+        cocos2d::Vec2 Haleyinmap;
+        Haleyinmap.x = Constants::Haleyinmap_X;
+        Haleyinmap.y = Constants::Haleyinmap_Y;
+         diff = screenCoord - Haleyinmap;
+    }
+    else{
+        CCLOG("wrong character");
+    }
     float distance = diff.length();
     return distance <= Constants::InteractionDistance;
 }

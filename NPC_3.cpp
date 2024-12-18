@@ -1,12 +1,15 @@
 #include "NPC_3.h"
 #include "NPC_1.h"
+#include "ui/CocosGUI.h"
 
-
-NPC_3::NPC_3() {
+NPC_3::NPC_3() : taskList() {
     friendshipLevel = 0;
     isFriendWithNPC_1 = false;
+    loveshipLevel = 0;
+    isLoveWithNPC_1 = false;
     sprite = nullptr;
-    mouseListener = nullptr;  // 初始化mouseListener指针为nullptr
+    ontask = false;
+    mouseListener = nullptr;  
 }
 
 NPC_3::~NPC_3() {
@@ -27,8 +30,9 @@ NPC_3* NPC_3::create() {
     return nullptr;
 }
 
-void NPC_3::setup(const Size& visibleSize, Vec2 origin) {
-    sprite = Sprite::create("resources/SYN/Abigailf1.png");  
+void NPC_3::setup(const Size& visibleSize, Vec2 origin, std::string name, Vec2 pos) {
+    
+    sprite = Sprite::create("resources/SYN/"+name+"f1.png");  
     if (sprite) {
         CCLOG("NPC_3 sprite loaded successfully");
     }
@@ -37,9 +41,6 @@ void NPC_3::setup(const Size& visibleSize, Vec2 origin) {
     }
     if (sprite) {
         // 设置初始位置
-        Vec2 pos;
-        pos.x = visibleSize.width / 4-8;
-        pos.y = 2 * visibleSize.height / 4-8;
         position = pos;
         sprite->setPosition(position);
         this->addChild(sprite);
@@ -71,41 +72,63 @@ void NPC_3::update(float dt) {
 }
 
 
-void NPC_3::testAddNPC_3(const Size& visibleSize, Vec2 origin) {
+void NPC_3::testAddNPC_3(const Size& visibleSize, Vec2 origin, std::string name, Vec2 pos) {
     auto myNpc = NPC_3::create();
     myNpc->setVisible(true);
     this->addChild(myNpc);
-    myNpc->setup(visibleSize, origin);
+    myNpc->setup(visibleSize, origin,name,pos);
     myNpc->updateFriendshipStatus();
 }
 
-Vec2 Endposition3;
+
 
 void NPC_3::onMouseClicked(cocos2d::Event* event) {
     auto touch = static_cast<cocos2d::EventMouse*>(event)->getMouseButton();
-    if (touch == cocos2d::EventMouse::MouseButton::BUTTON_LEFT) {  
-       
-       cocos2d::Vec2 screenLocation = static_cast<cocos2d::EventMouse*>(event)->getLocation();
-       CCLOG(": (%f, %f)", screenLocation.x, screenLocation.y);
-        cocos2d::Rect rect = cocos2d::Rect(Constants::HARVEYx, Constants::HARVEYy, Constants::HARVEY_width, Constants::HARVEY_height);
-       
-        if (rect.containsPoint(screenLocation)) {
-            CCLOG("NPC_3 instance has been clicked!");
-            if (NPC_1::isNear3()) {
-                friendshipLevel++;
-                CCLOG(": friendshipLevel added");
-                updateFriendshipStatus();
-                CCLOG(": friendshipLevel:(%d)",friendshipLevel);
-           }
+    if (touch == cocos2d::EventMouse::MouseButton::BUTTON_LEFT) {
+
+        cocos2d::Vec2 screenLocation = static_cast<cocos2d::EventMouse*>(event)->getLocation();
+        CCLOG(": (%f, %f)", screenLocation.x, screenLocation.y);
+        cocos2d::Rect rect_Harvey = cocos2d::Rect(Constants::HARVEYx, Constants::HARVEYy, Constants::Character_width, Constants::Character_height);
+        cocos2d::Rect rect_Haley = cocos2d::Rect(Constants::HALEYx, Constants::HALEYy, Constants::Character_width, Constants::Character_height);
+        if (rect_Harvey.containsPoint(screenLocation)) {
+            CCLOG("Harvey instance has been clicked!");
+            if (NPC_1::isNear3("Harvey")) {
+                if (!ontask) {
+                    generateTask();
+                    ontask = true;
+                }
+                else {
+                    checkTaskCompletion();
+                }
+            }
             else {
-                CCLOG(": not near");
+                CCLOG("not close enough");
+            }
+        }
+        else if (rect_Haley.containsPoint(screenLocation)) {
+            CCLOG("Haley instance has been clicked!");
+            if (NPC_1::isNear3("Haley")) {
+                if (!ontask) {
+                    generateTask();
+                    ontask = true;
+                }
+                else {
+                    checkTaskCompletion();
+                }
+            }
+            else {
+                CCLOG("not close enough");
             }
         }
         else {
-            CCLOG("Mouse click is outside of NPC_3's bounds.");
+            CCLOG("Mouse click is outside of NPC's bounds.");
         }
 
     }
+    else if (touch == cocos2d::EventMouse::MouseButton::BUTTON_RIGHT) {
+        //送花，浪漫关系
+    }
+
 }
 
 
@@ -130,14 +153,13 @@ void NPC_3::updateFriendshipStatus() {
         }
     }
 }
-// 生成任务函数
+// 生成收集物品（土豆为例）任务
 void NPC_3::generateTask() {
     
     Task newTask;
-    newTask.taskDescription = "收集 10 个苹果";
+    newTask.taskDescription = "TEN POTATOES";
     newTask.targetItemCount = 10;
-    newTask.currentItemCount = 0;
-    newTask.rewardDescription = "50 金币和一把新锄头";
+    newTask.rewardDescription = "50";
     newTask.completed = false;
     taskList.push_back(newTask);
    
@@ -146,20 +168,25 @@ void NPC_3::generateTask() {
     
     auto taskDescriptionLabel = cocos2d::Label::createWithTTF(newTask.taskDescription, "fonts/arial.ttf", 24);
     taskDescriptionLabel->setPosition(cocos2d::Vec2(bulletinBoardLayer->getContentSize().width / 2, bulletinBoardLayer->getContentSize().height * 0.6));
+    
+    auto backgroundSprite = cocos2d::Sprite::create("background_image.png");
+    if (backgroundSprite) {
+      
+        backgroundSprite->setPosition(taskDescriptionLabel->getPosition());
+        bulletinBoardLayer->addChild(backgroundSprite, -1);
+    }
+
     bulletinBoardLayer->addChild(taskDescriptionLabel);
 
     
-    auto acceptButton = cocos2d::ui::Button::create("buttons/accept_normal.png", "buttons/accept_pressed.png");
-    acceptButton->setTitleText("接受任务");
+    auto acceptButton = cocos2d::ui::Button::create("button_normal.png", "button_pressed.png");
+    acceptButton->setTitleText("ACCEPT");
     acceptButton->setTitleFontSize(18);
     acceptButton->setPosition(cocos2d::Vec2(bulletinBoardLayer->getContentSize().width / 2, bulletinBoardLayer->getContentSize().height * 0.3));
     acceptButton->addTouchEventListener([this, &newTask, bulletinBoardLayer](cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType event) {
         if (event == cocos2d::ui::Widget::TouchEventType::ENDED) {
-           
-            taskList.push_back(newTask);
-            
             bulletinBoardLayer->removeFromParent();
-        }
+             }
         });
     bulletinBoardLayer->addChild(acceptButton);
 
@@ -167,28 +194,37 @@ void NPC_3::generateTask() {
     g_sharedScene->addChild(bulletinBoardLayer, INT_MAX);
 }
 
-// 检查任务完成情况函数
-bool NPC_3::checkTaskCompletion(int itemCount) {
+// 检查任务完成情况
+bool NPC_3::checkTaskCompletion() {
     for (auto& task : taskList) {
-        if (task.taskDescription.find("收集苹果") != std::string::npos) {
-            task.currentItemCount += itemCount;
-            if (task.currentItemCount >= task.targetItemCount) {
+        if (task.taskDescription.find("TEN POTATOES") != std::string::npos) {
+            backPack myBackPack;
+            Item* PATATOES = Fruit::create("potato");
+            if (myBackPack.matchJudge(PATATOES, task.targetItemCount)) {
+                myBackPack.itemReduce(PATATOES, task.targetItemCount);
                 task.completed = true;
+                giveReward(myBackPack);
                 return true;
+            }
+            else {
+                CCLOG("Task is not completed.");
+                break;
             }
         }
     }
     return false;
 }
 
-// 给予任务奖励函数
-void NPC_3::giveReward() {
+// 给予任务奖励
+void NPC_3::giveReward(backPack myBackPack) {
     for (auto& task : taskList) {
         if (task.completed) {
-            // 添加奖励物品
-            
-            CCLOG("NPC_1 获得奖励: %s", task.rewardDescription.c_str());
-            
+            friendshipLevel += 2;
+            myBackPack.moneyChange(50, 0);
+            CCLOG("friendshipLevel added");
+            ontask = false;
         }
     }
 }
+
+//修建筑任务

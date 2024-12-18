@@ -17,6 +17,8 @@
 #include "Constants.h"
 #include"initAnimalScene.h"
 #include "NPC_1.h"
+#include "NPC_3.h"
+#include "startScene.h"
 class MainScene : public cocos2d::Scene {
 public:
     static cocos2d::Scene* createScene();

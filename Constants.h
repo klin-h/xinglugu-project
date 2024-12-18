@@ -294,11 +294,15 @@ namespace Constants {// 使用时要加命名空间
 
 
     constexpr float HARVEYx = 300.0f;
-    constexpr float HARVEYy = 445.0f;
-    constexpr float HARVEY_width = 16.0f;
-    constexpr float HARVEY_height = 40.0f;
-    constexpr float MAPNPC3_X = 312.0f;
-    constexpr float MAPNPC3_Y = 408.0f;
+    constexpr float HARVEYy = 440.0f;
+    constexpr float HALEYx = 940.0f;
+    constexpr float HALEYy = 668.0f;
+    constexpr float Character_width = 20.0f;
+    constexpr float Character_height = 30.0f;
+    constexpr float Harveyinmap_X = 312.0f;
+    constexpr float Harveyinmap_Y = 408.0f;
+    constexpr float Haleyinmap_X = 952.0f;
+    constexpr float Haleyinmap_Y = 200.0f;
     constexpr int InteractionDistance = 32;
 }
 #endif // CONSTANTS_H

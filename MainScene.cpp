@@ -9,7 +9,7 @@
 
 
 #include "MainScene.h"
-//#include "SimpleAudioEngine.h"
+ #include "simpleaudioengine.h"
 #include "Cow.h"
 #include "cocos2d.h"
 #include "extensions/cocos-ext.h"
@@ -22,7 +22,7 @@
 
 USING_NS_CC;
 USING_NS_CC::ui;
-
+using namespace CocosDenshion;
 cocos2d::Scene* g_sharedScene = nullptr;
 
 cocos2d::TMXTiledMap* g_sharedTMXone = nullptr;
@@ -37,9 +37,12 @@ Scene* MainScene::createScene() {
 
 
 bool MainScene::init() {
+    auto audio = SimpleAudioEngine::getInstance();
+    // set the background music and continuously play it.
+    audio->playBackgroundMusic("background.mp3", true);
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-  // 加载 TMX 地图
+    // 加载 TMX 地图
 
     auto glview = Director::getInstance()->getOpenGLView();
     glview->setDesignResolutionSize(Constants::kMapWidth, Constants::kMapLength, ResolutionPolicy::SHOW_ALL);
@@ -58,7 +61,7 @@ bool MainScene::init() {
     map->setAnchorPoint(Vec2(0, 0)); // 左下角对齐
     map->setPosition(Vec2(0, 0));
     map->setScale(Constants::kScale); // 确保地图未被缩放
-   
+
     this->addChild(map, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE, "map01");
     this->addChild(g_sharedTMXtwo, Constants::MAP_BACKGROUND_LAYER_Z_BASIC, "map02");
     this->addChild(g_sharedTMXthree, Constants::MAP_BACKGROUND_LAYER_Z_MIDDLE, "map03");
@@ -78,25 +81,25 @@ bool MainScene::init() {
         }
     }
 
-   
-   
+
+
     g_sharedScene = this;
     if (!map) {
         CCLOG("Failed to load TMX map.tmx");
         return false;
     }
 
-    
+
     inventory(this, pack1, origin);
 
     //setupAnimal(this);// 创建动物
-    
+
     //setupWalkingCharacter(visibleSize, origin);
 
     auto touchListener = EventListenerTouchOneByOne::create();
 
-    
-   // backPack* localPack = pack1;
+
+    // backPack* localPack = pack1;
     touchListener->onTouchBegan = [map](Touch* touch, Event* event) {
         return onTouchBegan(touch, event, map, pack1);
         };
@@ -104,27 +107,35 @@ bool MainScene::init() {
 
     auto npc1 = NPC_1::create();
     if (npc1) {
-        
-       g_sharedScene->addChild(npc1, Constants::MAP_BACKGROUND_LAYER_Z_ORDER+10);
+
+        g_sharedScene->addChild(npc1, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
         // 通过创建好的npc1Obj对象来调用testAddNPC_1函数
-        npc1->testAddNPC_1(visibleSize, origin,map,this);
+        npc1->testAddNPC_1(visibleSize, origin, map, this);
         CCLOG("NPC_1 position: (%f, %f)", npc1->getPosition().x, npc1->getPosition().y);
     }
-   
+
 
     auto npc3 = NPC_3::create();
     if (npc3) {
         g_sharedScene->addChild(npc3, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
-        
-        npc3->testAddNPC_3(visibleSize, origin);
-       
-       
+        Vec2 pos;
+        pos.x = visibleSize.width / 4 - 8;
+        pos.y =  visibleSize.height / 2 - 8;
+        npc3->testAddNPC_3(visibleSize, origin,"Harvey",pos);
     }
-   
+    auto npc2 = NPC_3::create();
+    if (npc2) {
+        g_sharedScene->addChild(npc2, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
+        Vec2 pos;
+        pos.x = 3*visibleSize.width / 4 - 8;
+        pos.y =  visibleSize.height/4 -8;
+        npc2->testAddNPC_3(visibleSize, origin, "Haley", pos);
+    }
 
 
 
-    
+
+
     // 将监听器添加到事件分发器中
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
@@ -154,7 +165,7 @@ void MainScene::onEnter() {
 
 
 void MainScene::setupWalkingCharacter(const Size& visibleSize, Vec2 origin) {
-  
+
     // 创建WalkingCharacter实例并添加到当前场景中
     auto walkingCharacterNode = WalkingCharacter::create();
     walkingCharacterNode->setVisible(true);  // 确保节点可见
@@ -172,8 +183,8 @@ void MainScene::setupWalkingCharacter(const Size& visibleSize, Vec2 origin) {
 
     // 获取角色精灵（假设WalkingCharacter类中有获取精灵的方法）
     auto characterSprite = walkingCharacterNode->getCharacterSprite();
-        if (characterSprite) {
-      // 创建移动动作，让角色先向右移动200像素，用时3秒
+    if (characterSprite) {
+        // 创建移动动作，让角色先向右移动200像素，用时3秒
         auto moveRightAction = MoveBy::create(3.0f, Vec2(200, 0));
         // 再向下移动100像素，用时2秒
         auto moveDownAction = MoveBy::create(2.0f, Vec2(0, -100));
@@ -184,7 +195,5 @@ void MainScene::setupWalkingCharacter(const Size& visibleSize, Vec2 origin) {
 
     }
 }
-
-
 
 
