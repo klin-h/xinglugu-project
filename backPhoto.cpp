@@ -16,6 +16,7 @@
 #include "usableItem.h"
 #include "Constants.h"
 #include "backPhoto.h"
+#include "Timer.h"
 USING_NS_CC;
 USING_NS_CC::ui;
 using namespace Constants;
@@ -48,11 +49,13 @@ Layer* packLayer;
 
 ScrollView* scrollview;
 
+Sprite* moneyboard;
+
 extern backPack* pack1;
 
 Pierre* storeItem = new Pierre();
 
-//ÊÛÂôÏä²Ù×÷
+//å”®å–ç®±æ“ä½œ
 void soldPerform(int posi) {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     float tileWidth = visibleSize.width / 28;
@@ -78,11 +81,11 @@ void soldPerform(int posi) {
     newitem->setScaleX(tileWidth / (newitem->getContentSize().width));
     newitem->setScaleY(tileHeight / (newitem->getContentSize().height));
 
-    //Í¼Æ¬×ø±êÉèÖÃ
+    //å›¾ç‰‡åæ ‡è®¾ç½®
     newitem->setPosition(Vec2(soldPosi->getContentSize().width / 2, soldPosi->getContentSize().width / 2));
     Inventory[posi]->addChild(newitem, 1, 1);
-    if (posi < backpackCapacity / 3 && posi >= 0) {
-
+    if (posi < backpackCapacity / 3&&posi>=0) {
+        
         ventory[posi]->removeChildByTag(1);
         auto sinitem = Sprite::create(pack1->bottomSelect(posi)->filenameReturn());
         sinitem->setScaleX(tileWidth / (sinitem->getContentSize().width));
@@ -90,12 +93,12 @@ void soldPerform(int posi) {
         sinitem->setPosition(Vec2(soldPosi->getContentSize().width / 2, soldPosi->getContentSize().width / 2));
         ventory[posi]->addChild(sinitem, 1, 1);
     }
-    soldbox->singleDayInput(item0, num);
+    soldbox->singleDayInput(item0,num );
     soldPosi->removeChildByTag(1);
     soldPosi->addChild(solditem, 1, 1);
 }
 
-//Âô¸ñ¹¦ÄÜÉè¼Æ
+//å–æ ¼åŠŸèƒ½è®¾è®¡
 void soldposiSet() {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     float tileWidth = visibleSize.width / 28;
@@ -128,14 +131,14 @@ void soldposiSet() {
         default:
             break;
         }
-
-
+       
+        
         }
-    );
+        );
 }
 
-//±³°üÀ¸¹¦ÄÜÌæ´ú
-void substitute(Widget::TouchEventType type, int posi) {
+//èƒŒåŒ…æ åŠŸèƒ½æ›¿ä»£
+void substitute(Widget::TouchEventType type,int posi) {
     switch (type)
     {
     case ui::Widget::TouchEventType::BEGAN:
@@ -143,9 +146,9 @@ void substitute(Widget::TouchEventType type, int posi) {
         if (solditemchosen == 1) {
             if (pack1->posiNumBack(posi) != 0)
             {
-                if (pack1->bottomSelect(posi)->isSoldAble())
+                if(pack1->bottomSelect(posi)->isSoldAble())
                     soldPerform(posi);
-
+               
             }
         }
         else {
@@ -190,7 +193,7 @@ void substitute(Widget::TouchEventType type, int posi) {
                 newph1->setScaleY(Inventory[posi]->getContentSize().width / 1.3 / (newph1->getContentSize().height));
                 if (newph1 == nullptr)
                     return;
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph1->setPosition(Vec2(Inventory[posi]->getContentSize().width / 2, Inventory[posi]->getContentSize().width / 2));
 
                 auto newph2 = Sprite::create(pack1->bottomSelect(posi)->filenameReturn());
@@ -199,10 +202,11 @@ void substitute(Widget::TouchEventType type, int posi) {
                 newph2->setScaleX(Inventory[posi]->getContentSize().width / 1.3 / (newph2->getContentSize().width));
                 newph2->setScaleY(Inventory[posi]->getContentSize().width / 1.3 / (newph2->getContentSize().height));
 
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph2->setPosition(Vec2(Inventory[posi]->getContentSize().width / 2, Inventory[posi]->getContentSize().width / 2));
                 Inventory[posi]->addChild(newph1, 1, 1);
                 ventory[posi]->addChild(newph2, 1, 1);
+                numlabel2(posi);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -266,9 +270,10 @@ void substitute2(Widget::TouchEventType type, int posi) {
                 newph1->setScaleY(Inventory[posi]->getContentSize().width / 1.3 / (newph1->getContentSize().height));
                 if (newph1 == nullptr)
                     return;
-                //Í¼Æ¬×ø±êÉèÖÃ
+                //å›¾ç‰‡åæ ‡è®¾ç½®
                 newph1->setPosition(Vec2(Inventory[posi]->getContentSize().width / 2, Inventory[posi]->getContentSize().width / 2));
                 Inventory[posi]->addChild(newph1, 1, 1);
+                numlabel2(posi);
                 displayItem->removeChildByTag(1);
                 displayItem->addChild(exchangeItem, 1, 1);
             }
@@ -282,8 +287,8 @@ void substitute2(Widget::TouchEventType type, int posi) {
     }
 }
 
-//±³°üÀ¸¹¦ÄÜÊµÏÖ
-void listenSet() {
+//èƒŒåŒ…æ åŠŸèƒ½å®ç°
+void listenSet( ) {
 
     Inventory[0]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
         substitute(type, 0);
@@ -334,7 +339,7 @@ void listenSet() {
 
 }
 
-//±³°üÀ¸¹¦ÄÜÊµÏÖ
+//èƒŒåŒ…æ åŠŸèƒ½å®ç°
 void listenSet2() {
     for (int i = 0; i < backpackCapacity / 3; i++) {
         if (Inventory[i + backpackCapacity / 3] == nullptr)
@@ -389,10 +394,10 @@ void listenSet2() {
 
 }
 
-//±³°üÀ¸¹¦ÄÜÊµÏÖ
+//èƒŒåŒ…æ åŠŸèƒ½å®ç°
 void listenSet3() {
 
-    Inventory[0 + backpackCapacity * 2 / 3]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+    Inventory[0 + backpackCapacity*2/ 3]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
         substitute2(type, 0 + backpackCapacity * 2 / 3);
         });
 
@@ -442,7 +447,7 @@ void listenSet3() {
 
 }
 
-//¸Ä±ä±³°ü²ãµÄÎ»ÖÃ
+//æ”¹å˜èƒŒåŒ…å±‚çš„ä½ç½®
 void setScroVisi(bool Set) {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     float tileWidth = visibleSize.width / 28;
@@ -467,9 +472,13 @@ void numberSet(int posi) {
 
 }
 
-//¸÷¼ü¹¦ÄÜÉè¶¨
-void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher) {
+void sethand(int posi) {
+    pack1->sethandInItemOut(posi);
+}
 
+//å„é”®åŠŸèƒ½è®¾å®š
+void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher) {
+   
 
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -481,7 +490,7 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
 
     for (int i = 0; i < backpackCapacity / 3; i++) {
         Inventory[i] = RadioButton::create("Inventory.png", "Inventory.png");
-
+        
         Inventory[i]->setScaleX(tileWidth / Inventory[i]->getContentSize().width);
         Inventory[i]->setScaleY(tileHeight / Inventory[i]->getContentSize().height);
         Inventory[i]->setPosition(Vec2(origin.x + tileWidth * (9 + i) - Inventory[i]->getContentSize().width / 2, origin.y + tileHeight * 13 + Inventory[i]->getContentSize().height / 2));
@@ -489,11 +498,11 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
 
 
 
-        //ÎïÆ·¿òÄÚÎïÆ·³ß´çÉèÖÃ
+        //ç‰©å“æ¡†å†…ç‰©å“å°ºå¯¸è®¾ç½®
         packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
         packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
 
-        //Í¼Æ¬×ø±êÉèÖÃ
+        //å›¾ç‰‡åæ ‡è®¾ç½®
         packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
 
         Inventory[i]->addChild(packItem, 1, 1);
@@ -525,21 +534,20 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                             packLayer->addChild(Inventory[i]);
                             Inventory[i]->setScaleX(tileWidth / Inventory[i]->getContentSize().width);
                             Inventory[i]->setScaleY(tileHeight / Inventory[i]->getContentSize().height);
-                            Inventory[i]->setPosition(Vec2(tileWidth * (i)-Inventory[i]->getContentSize().width / 2, tileHeight * 2 + Inventory[i]->getContentSize().height / 2));
+                            Inventory[i]->setPosition(Vec2( tileWidth * (i) - Inventory[i]->getContentSize().width / 2,tileHeight * 2 + Inventory[i]->getContentSize().height / 2));
                             auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
 
 
 
-                            //ÎïÆ·¿òÄÚÎïÆ·³ß´çÉèÖÃ
-                            packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
-                            packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
+                            //ç‰©å“æ¡†å†…ç‰©å“å°ºå¯¸è®¾ç½®
+                            packItem->setScaleX(tileWidth /1.3/ (packItem->getContentSize().width));
+                            packItem->setScaleY(tileHeight /1.3/ (packItem->getContentSize().height));
 
-                            //Í¼Æ¬×ø±êÉèÖÃ
+                            //å›¾ç‰‡åæ ‡è®¾ç½®
                             packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
-
                             Inventory[i]->addChild(packItem, 1, 1);
                             group2->addRadioButton(Inventory[i]);
-
+                            
 
 
                         }
@@ -550,14 +558,14 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                             packLayer->addChild(Inventory[i]);
                             Inventory[i]->setScaleX(tileWidth / Inventory[i]->getContentSize().width);
                             Inventory[i]->setScaleY(tileHeight / Inventory[i]->getContentSize().height);
-                            Inventory[i]->setPosition(Vec2(tileWidth * ((i + 1) % (backpackCapacity / 3)) - Inventory[i]->getContentSize().width / 2, tileHeight + Inventory[i]->getContentSize().height / 2));
+                            Inventory[i]->setPosition(Vec2(tileWidth * ((i + 1)% (backpackCapacity / 3)) - Inventory[i]->getContentSize().width / 2, tileHeight + Inventory[i]->getContentSize().height / 2));
                             auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
 
-                            //ÎïÆ·¿òÄÚÎïÆ·³ß´çÉèÖÃ
+                            //ç‰©å“æ¡†å†…ç‰©å“å°ºå¯¸è®¾ç½®
                             packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
                             packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
 
-                            //Í¼Æ¬×ø±êÉèÖÃ
+                            //å›¾ç‰‡åæ ‡è®¾ç½®
                             packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
 
                             Inventory[i]->addChild(packItem);
@@ -571,23 +579,23 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                             Inventory[i]->setPosition(Vec2(tileWidth * ((i + 1) % (backpackCapacity / 3)) - Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().height / 2));
                             auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
 
-                            //ÎïÆ·¿òÄÚÎïÆ·³ß´çÉèÖÃ
+                            //ç‰©å“æ¡†å†…ç‰©å“å°ºå¯¸è®¾ç½®
                             packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
                             packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
 
-                            //Í¼Æ¬×ø±êÉèÖÃ
+                            //å›¾ç‰‡åæ ‡è®¾ç½®
                             packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
 
                             Inventory[i]->addChild(packItem);
                             group2->addRadioButton(Inventory[i]);
                             packLayer->addChild(Inventory[i]);
                         }
-
+                        
                         displayItem = Sprite::create("Inventory.png");
                         packLayer->addChild(displayItem);
                         displayItem->setScaleX(tileWidth / displayItem->getContentSize().width);
                         displayItem->setScaleY(tileHeight / displayItem->getContentSize().height);
-                        displayItem->setPosition(Vec2(tileWidth * (1 + backpackCapacity / 3) - Inventory[1]->getContentSize().width / 2, tileHeight * 2 + Inventory[1]->getContentSize().height / 2));
+                        displayItem->setPosition(Vec2(tileWidth* (1+backpackCapacity/3)-Inventory[1]->getContentSize().width / 2, tileHeight*2  + Inventory[1]->getContentSize().height / 2));
 
                         auto addItem = Sprite::create("null.png");
                         addItem->setScaleX(tileWidth / (addItem->getContentSize().width));
@@ -595,11 +603,11 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                         addItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
 
                         displayItem->addChild(addItem, 1, 1);
-
+                        
 
                         scene->addChild(group2);
-                        packLayer->setPosition(Vec2(visibleSize.width / 3, visibleSize.height / 2));
-                        scene->addChild(packLayer, 50, 30);
+                        packLayer->setPosition(Vec2(visibleSize.width/3,visibleSize.height/2));
+                        scene->addChild(packLayer,50,30);
                         for (int i = 0; i < 12; i++) {
                             scene->getChildByTag(100 + i)->setVisible(0);
                         }
@@ -607,7 +615,7 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                     else {
 
                         scene->getChildByTag(30)->setVisible(1);
-
+                        
                         for (int i = 0; i < backpackCapacity / 3; i++) {
                             scene->getChildByTag(invventoryTag + i)->setVisible(0);
                         }
@@ -618,7 +626,7 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                     pack1->itemChangeReset();
                     isSelected = 0;
                     scene->getChildByTag(30)->setVisible(0);
-
+                  
                     for (int i = 0; i < backpackCapacity / 3; i++) {
                         scene->getChildByTag(100 + i)->setVisible(1);
                     }
@@ -626,10 +634,15 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                 break;
             }
             case EventKeyboard::KeyCode::KEY_S: {
+                Timer1* time1 = new Timer1();
+                if (storeItem->seasonOut() == time1->getSeason())
+                    ;
+                else
+                    storeItem->seasonEx(time1->getSeason());
                 if (storeIsStart == 0) {
                     storeIsStart = 1;
                     storeIsOpen = 1;
-
+                   
                     storePhoto(scene);
                 }
                 else {
@@ -651,8 +664,20 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                 break;
             }
             case EventKeyboard::KeyCode::KEY_T: {
-                storeItem->seasonEx(2);
                 if (solditemchosen == 0) {
+                    if (soldPosi == nullptr)
+                        ;
+                    else
+                        soldPosi->removeChildByTag(1);
+                    pack1->moneyChange(soldbox->dayProfitOut(),0);
+                    if (moneyboard->getChildByTag(1) == nullptr)
+                        ;
+                    else
+                        moneyboard->removeChildByTag(1);
+                    Label* money = Label::create(pack1->moneyStringOut(), "Comic Sans MS.ttf", 40);
+                    money->setColor(Color3B::BLACK);
+                    money->setPosition(Vec2(moneyboard->getContentSize().width * 7 / 8 - money->getContentSize().width / 2, money->getContentSize().height / 2));
+                    moneyboard->addChild(money, 1, 1);
                     for (int i = 0; i < backpackCapacity / 3; i++)
                     {
                         if (!pack1->bottomSelect(i)->isSoldAble())
@@ -676,67 +701,78 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
             }
             case EventKeyboard::KeyCode::KEY_1: {
                 numberSet(0);
+                sethand(0);
                 break;
             }
             case EventKeyboard::KeyCode::KEY_2: {
                 numberSet(1);
+                sethand(1);
                 break;
             }
             case EventKeyboard::KeyCode::KEY_3: {
                 numberSet(2);
+                sethand(2);
                 break;
             }
             case EventKeyboard::KeyCode::KEY_4: {
                 numberSet(3);
+                sethand(3);
                 break;
             }
             case EventKeyboard::KeyCode::KEY_5: {
                 numberSet(4);
+                sethand(4);
                 break;
             }
             case EventKeyboard::KeyCode::KEY_6: {
                 numberSet(5);
+                sethand(5);
                 break;
             }
             case EventKeyboard::KeyCode::KEY_7: {
                 numberSet(6);
+                sethand(6);
                 break;
             }
             case EventKeyboard::KeyCode::KEY_8: {
                 numberSet(7);
+                sethand(7);
                 break;
             }
             case EventKeyboard::KeyCode::KEY_9: {
                 numberSet(8);
+                sethand(8);
                 break;
             }
             case EventKeyboard::KeyCode::KEY_0: {
                 numberSet(9);
+                sethand(9);
                 break;
             }
             case EventKeyboard::KeyCode::KEY_MINUS: {
                 numberSet(10);
+                sethand(10);
                 break;
             }
             case EventKeyboard::KeyCode::KEY_EQUAL: {
                 numberSet(11);
+                sethand(11);
                 break;
             }
             default:
                 break;
             }
         });
-
+        
     _eventDispatcher->addEventListenerWithSceneGraphPriority(keyListener, scene);
 
 }
 
-//µ¥Ñ¡°´Å¥¼¯ºÏ
+//å•é€‰æŒ‰é’®é›†åˆ
 auto ItemBot = RadioButtonGroup::create();
 
-//ÎïÆ·À¸¹¦ÄÜÌæ´ú
-void ventoryFor(Widget::TouchEventType type, int posi)
-{
+void ventoryFor(Widget::TouchEventType type,int posi)
+ {
     switch (type)
     {
     case ui::Widget::TouchEventType::BEGAN:
@@ -748,8 +784,9 @@ void ventoryFor(Widget::TouchEventType type, int posi)
         break;
     }
 }
+//ç‰©å“æ åŠŸèƒ½æ›¿ä»£
 
-//ÎïÆ·À¸¹¦ÄÜÉè¶¨
+//ç‰©å“æ åŠŸèƒ½è®¾å®š
 void ventorySet() {
     ventory[0]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
         ventoryFor(type, 0);
@@ -812,51 +849,51 @@ void ventorySet() {
         });
 }
 
-Sprite* moneyboard;
 
-//ÎïÆ·À¸ÏÔÊ¾
-void inventory(Scene* scene, backPack* pack1, Vec2 origin) {
+
+//ç‰©å“æ æ˜¾ç¤º
+void inventory(Scene* scene,backPack* pack1, Vec2 origin) {
     ItemBot = RadioButtonGroup::create();
     auto visibleSize = Director::getInstance()->getVisibleSize();
-    float tileWidth = visibleSize.width / 28;  // Ã¿¿éÍÁµØµÄ¿í¶È
-    float tileHeight = tileWidth; // Ã¿¿éÍÁµØµÄ¸ß¶È
-    for (int i = 0; i < backpackCapacity / 3; i++) {
+    float tileWidth = visibleSize.width / 28;  // æ¯å—åœŸåœ°çš„å®½åº¦
+    float tileHeight = tileWidth; // æ¯å—åœŸåœ°çš„é«˜åº¦
+    for (int i = 0; i < backpackCapacity/3; i++) {
         ventory[i] = RadioButton::create("Inventory.png", "Inventory chosen.png");
 
-
+       
         ventory[i]->setScaleX(tileWidth / ventory[i]->getContentSize().width);
         ventory[i]->setScaleY(tileHeight / ventory[i]->getContentSize().height);
         ventory[i]->setPosition(Vec2(origin.x + tileWidth * (9 + i) - ventory[i]->getContentSize().width / 2, origin.y + tileHeight / 5 + ventory[i]->getContentSize().height / 2));
 
         auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
 
-        //ÎïÆ·¿òÄÚÎïÆ·³ß´çÉèÖÃ
-        packItem->setScaleX(tileWidth / 1.3 / (packItem->getContentSize().width));
-        packItem->setScaleY(tileHeight / 1.3 / (packItem->getContentSize().height));
+        //ç‰©å“æ¡†å†…ç‰©å“å°ºå¯¸è®¾ç½®
+        packItem->setScaleX(tileWidth /1.3/(packItem->getContentSize().width));
+        packItem->setScaleY(tileHeight /1.3/(packItem->getContentSize().height));
 
-        //Í¼Æ¬×ø±êÉèÖÃ
+        //å›¾ç‰‡åæ ‡è®¾ç½®
         packItem->setPosition(Vec2(ventory[i]->getContentSize().width / 2, ventory[i]->getContentSize().width / 2));
-        ventory[i]->addChild(packItem, 1, 1);
+        ventory[i]->addChild(packItem,1,1);
         ItemBot->addRadioButton(ventory[i]);
         scene->addChild(ventory[i], invventoryTag, invventoryTag + i);
 
     }
     moneyboard = Sprite::create("moneyBoard.png");
-    moneyboard->setScaleX((tileWidth * 6) / (moneyboard->getContentSize().width));
-    moneyboard->setScaleY(tileHeight * 4 / (3 * moneyboard->getContentSize().height));
+    moneyboard->setScaleX((tileWidth *6) / ( moneyboard->getContentSize().width));
+    moneyboard->setScaleY(tileHeight*4 / (3*moneyboard->getContentSize().height));
     moneyboard->setPosition(Vec2(origin.x + tileWidth * 28 - moneyboard->getContentSize().width / 2, origin.y + tileHeight * 15 + moneyboard->getContentSize().height / 2));
-
+    
     Label* money = Label::create(pack1->moneyStringOut(), "Comic Sans MS.ttf", 40);
     money->setColor(Color3B::BLACK);
-    money->setPosition(Vec2(moneyboard->getContentSize().width * 7 / 8 - money->getContentSize().width / 2, money->getContentSize().height / 2));
-    scene->addChild(moneyboard, invventoryTag, 81);
+    money->setPosition(Vec2( moneyboard->getContentSize().width*7/8-money->getContentSize().width/2, money->getContentSize().height / 2));
+    scene->addChild(moneyboard, invventoryTag,81);
     moneyboard->addChild(money, 1, 1);
     scene->addChild(ItemBot);
     ventorySet();
 
 }
 
-//±³°üÎïÆ·¸üĞÂ
+//èƒŒåŒ…ç‰©å“æ›´æ–°
 void backItemAddDisplay(int no) {
     if (no < 0 || no >= backpackCapacity) {
         return;
@@ -864,13 +901,13 @@ void backItemAddDisplay(int no) {
     else {
         Inventory[no]->removeChildByTag(1);
         ventory[no]->removeChildByTag(1);
-
+        
         auto newph1 = Sprite::create(pack1->bottomSelect(no)->filenameReturn());
         if (newph1 == nullptr)
             return;
         newph1->setScaleX(Inventory[no]->getContentSize().width / 1.3 / (newph1->getContentSize().width));
         newph1->setScaleY(Inventory[no]->getContentSize().width / 1.3 / (newph1->getContentSize().height));
-        //Í¼Æ¬×ø±êÉèÖÃ
+        //å›¾ç‰‡åæ ‡è®¾ç½®
         newph1->setPosition(Vec2(Inventory[no]->getContentSize().width / 2, Inventory[no]->getContentSize().width / 2));
 
         auto newph2 = Sprite::create(pack1->bottomSelect(no)->filenameReturn());
@@ -878,17 +915,18 @@ void backItemAddDisplay(int no) {
             return;
         newph2->setScaleX(ventory[no]->getContentSize().width / 1.3 / (newph2->getContentSize().width));
         newph2->setScaleY(ventory[no]->getContentSize().width / 1.3 / (newph2->getContentSize().height));
-        //Í¼Æ¬×ø±êÉèÖÃ
+        //å›¾ç‰‡åæ ‡è®¾ç½®
         newph2->setPosition(Vec2(ventory[no]->getContentSize().width / 2, ventory[no]->getContentSize().width / 2));
         Inventory[no]->addChild(newph1, 1, 1);
         ventory[no]->addChild(newph2, 1, 1);
+
     }
 }
 
-//¼ıÍ·ÉèÖÃÉùÃ÷
+//ç®­å¤´è®¾ç½®å£°æ˜
 void arrowSet();
 
-//ÉÌµê¹¦ÄÜÉèÖÃ
+//å•†åº—åŠŸèƒ½è®¾ç½®
 void storeSoldSet(Scene* scene);
 
 RadioButton* commodity[30];
@@ -897,7 +935,7 @@ RadioButton* arrowBottom;
 
 RadioButton* arrowTop;
 
-//ÉÌµê½çÃæÉèÖÃ
+//å•†åº—ç•Œé¢è®¾ç½®
 void storePhoto(Scene* scene) {
     auto visibleSize = Director::getInstance()->getVisibleSize();
     float tileWidth = visibleSize.width / 28;
@@ -907,19 +945,19 @@ void storePhoto(Scene* scene) {
 
     scrollview->setContentSize(Size(750, 300));
     scrollview->setInnerContainerSize(Size(750, 2250));
-    scrollview->setPosition(Vec2(visibleSize.width / 3, visibleSize.height * 1.8 / 3));
+    scrollview->setPosition(Vec2(visibleSize.width/3,visibleSize.height*1.8/3));
 
     auto layout = Layout::create();
     layout->setContentSize(Size(750, 2250));
-    layout->setPosition(Vec2(0, 0));
+    layout->setPosition(Vec2(0,0));
     for (int i = 0; i < 27; i++) {
-        commodity[26 - i] = RadioButton::create("emptyBoard.png", "emptyBoard.png");
-        commodity[26 - i]->setScaleX(750 / commodity[26 - i]->getContentSize().width);
-        commodity[26 - i]->setScaleY(75 / commodity[26 - i]->getContentSize().height);
-        commodity[26 - i]->setPosition(Vec2(layout->getContentSize().width / 2, commodity[26 - i]->getContentSize().height / 4 + 10 + (i + 3) * 75));
+        commodity[26-i] = RadioButton::create("emptyBoard.png", "emptyBoard.png");
+        commodity[26-i]->setScaleX(750 / commodity[26-i]->getContentSize().width);
+        commodity[26-i]->setScaleY(75 / commodity[26-i]->getContentSize().height);
+        commodity[26-i]->setPosition(Vec2(layout->getContentSize().width / 2, commodity[26-i]->getContentSize().height / 4+10 + (i+3) * 75));
 
-        auto goods = Sprite::create(storeItem->itemNameOut(26 - i, 1, 1));
-        auto goodsLabel1 = Label::create(storeItem->itemNameOut(26 - i, 1, 0), "Comic Sans MS.ttf", 50);
+        auto goods = Sprite::create(storeItem->itemNameOut(26-i, 1,1));
+        auto goodsLabel1 = Label::create(storeItem->itemNameOut(26 - i, 1,0) , "Comic Sans MS.ttf", 50);
         auto moneyLabel = Label::create(storeItem->itemMoneyOut(26 - i, 1), "Comic Sans MS.ttf", 50);
         if (moneyLabel == nullptr)
             continue;
@@ -929,49 +967,49 @@ void storePhoto(Scene* scene) {
         moneyLabel->setColor(Color3B::BLACK);
         if (goods == nullptr)
             continue;
-        commodity[26 - i]->addChild(goods, 1, 1);
+        commodity[26-i]->addChild(goods,1,1);
         commodity[26 - i]->addChild(goodsLabel1, 1, 2);
         commodity[26 - i]->addChild(moneyLabel, 1, 3);
         goods->setPosition(Vec2(commodity[26 - i]->getContentSize().width / 20, commodity[26 - i]->getContentSize().height / 2));
-        goodsLabel1->setPosition(Vec2(commodity[26 - i]->getContentSize().width / 10 + goodsLabel1->getContentSize().width / 2, commodity[26 - i]->getContentSize().height / 2 + goodsLabel1->getContentSize().height / 5));
-        moneyLabel->setPosition(Vec2(commodity[26 - i]->getContentSize().width * 18.5 / 20 - moneyLabel->getContentSize().width / 2, commodity[26 - i]->getContentSize().height / 2 + moneyLabel->getContentSize().height / 5));
-        layout->addChild(commodity[26 - i]);
+        goodsLabel1->setPosition(Vec2(commodity[26 - i]->getContentSize().width / 10+goodsLabel1->getContentSize().width/2, commodity[26 - i]->getContentSize().height / 2 + goodsLabel1->getContentSize().height / 5));
+        moneyLabel->setPosition(Vec2(commodity[26 - i]->getContentSize().width*18.5/20-moneyLabel->getContentSize().width/2, commodity[26 - i]->getContentSize().height / 2+moneyLabel->getContentSize().height/5));
+        layout->addChild(commodity[26-i]);
 
     }
     for (int i = 27; i < 30; i++) {
-        commodity[i] = RadioButton::create("emptyBoard.png", "emptyBoard.png");
-        commodity[i]->setScaleX(750 / commodity[i]->getContentSize().width);
-        commodity[i]->setScaleY(75 / commodity[i]->getContentSize().height);
-        commodity[i]->setPosition(Vec2(layout->getContentSize().width / 2, commodity[i]->getContentSize().height / 4 + 10 + (i - 27) * 75));
+        commodity[ i] = RadioButton::create("emptyBoard.png", "emptyBoard.png");
+        commodity[ i]->setScaleX(750 / commodity[ i]->getContentSize().width);
+        commodity[ i]->setScaleY(75 / commodity[ i]->getContentSize().height);
+        commodity[ i]->setPosition(Vec2(layout->getContentSize().width / 2, commodity[ i]->getContentSize().height / 4 + 10 + (i-27) * 75));
         layout->addChild(commodity[i]);
     }
     arrowBottom = RadioButton::create("arrow1.png", "arrow1.png");
-    arrowTop = RadioButton::create("arrow2.png", "arrow2.png");
-    scene->addChild(arrowBottom, 150, 60);
-    scene->addChild(arrowTop, 150, 61);
-    arrowBottom->setPosition(Vec2(scrollview->getPositionX() + scrollview->getContentSize().width + arrowBottom->getContentSize().width / 2, scrollview->getPositionY()));
-    arrowTop->setPosition(Vec2(scrollview->getPositionX() + scrollview->getContentSize().width + arrowBottom->getContentSize().width / 2, scrollview->getPositionY() + scrollview->getContentSize().height));
+    arrowTop = RadioButton::create("arrow2.png","arrow2.png");
+    scene->addChild(arrowBottom,150,60);
+    scene->addChild(arrowTop,150,61);
+    arrowBottom->setPosition(Vec2(scrollview->getPositionX() + scrollview->getContentSize().width + arrowBottom->getContentSize().width/2, scrollview->getPositionY() ));
+    arrowTop->setPosition(Vec2(scrollview->getPositionX() + scrollview->getContentSize().width + arrowBottom->getContentSize().width / 2, scrollview->getPositionY()+scrollview->getContentSize().height));
     layout->setVisible(1);
     scrollview->getInnerContainer()->addChild(layout);
     scrollview->setScrollBarEnabled(1);
     scrollview->setDirection(ScrollView::Direction::VERTICAL);
-    scrollview->setScrollBarPositionFromCornerForVertical(Vec2(scrollview->getPositionX() + scrollview->getContentSize().width / 2, scrollview->getPositionY() + scrollview->getContentSize().height / 2));
-
-    scene->addChild(scrollview, 150);
+    scrollview->setScrollBarPositionFromCornerForVertical(Vec2(scrollview->getPositionX()+scrollview->getContentSize().width/2, scrollview->getPositionY() + scrollview->getContentSize().height / 2));
+    
+    scene->addChild(scrollview,150);
     arrowSet();
     storeSoldSet(scene);
-    packLayer->setPosition(scrollview->getPositionX() + 3 * tileWidth, scrollview->getPositionY() - scrollview->getContentSize().height / 2);
+    packLayer->setPosition(scrollview->getPositionX()+3*tileWidth, scrollview->getPositionY() - scrollview->getContentSize().height / 2 );
     packLayer->setVisible(1);
 }
 
 float moveMacket = 0.0;
 
-//¼ıÍ·ÉèÖÃ
+//ç®­å¤´è®¾ç½®
 void arrowSet() {
     arrowBottom->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
-        float alltime = 2600.0f;
+        float alltime=2600.0f;
         float block;
-        if (storeItem->seasonOut() == 1)
+        if (storeItem->seasonOut() == "Spring")
             block = 2300.0f;
         else
             block = 2600.0f;
@@ -980,7 +1018,7 @@ void arrowSet() {
         case ui::Widget::TouchEventType::BEGAN:
             if (moveMacket < block) {
                 moveMacket += 100;
-                scrollview->scrollToPercentVertical(moveMacket * 100.0 / alltime, 0.1, 0);
+                scrollview->scrollToPercentVertical(moveMacket*100.0 / alltime, 0.1, 0);   
             }
             else {
                 CCLOG("Already to the Bottom");
@@ -1013,26 +1051,39 @@ void arrowSet() {
         });
 }
 
-//ÉÌÆ·À¸Ìæ´ú
-void storeSoldFor(Widget::TouchEventType type, int posi, Scene* scene) {
+//å•†å“æ æ›¿ä»£
+void storeSoldFor(Widget::TouchEventType type,int posi, Scene* scene) {
+    int seasonNum = 0;
+    if (storeItem->seasonOut() == "Spring")
+        seasonNum = 1;
+    else {
+        if (storeItem->seasonOut() == "Summer")
+            seasonNum = 2;
+        else {
+            if (storeItem->seasonOut() == "Fall")
+                seasonNum = 3;
+            else
+                seasonNum = 4;
+        }
+    }
     switch (type)
     {
     case ui::Widget::TouchEventType::BEGAN: {
         Item* newitem;
-        if (storeItem->isAffordable(pack1, posi, storeItem->seasonOut())) {
-            if (storeItem->seasonOut() == 1) {
-                if ((posi >= 0 && posi <= 9) || (posi >= 20 && posi <= 25))
-                    newitem = Seed::create(storeItem->itemNameOut(posi, storeItem->seasonOut(), 0));
+        if (storeItem->isAffordable(pack1, posi, seasonNum)) {
+            if (seasonNum == 1) {
+                if((posi>=0&&posi<=9)||(posi>=20&&posi<=25))
+                    newitem = Seed::create(storeItem->itemNameOut(posi, seasonNum, 0));
                 else
-                    newitem = Tool::create(storeItem->itemNameOut(posi, storeItem->seasonOut(), 0));
+                    newitem = Tool::create(storeItem->itemNameOut(posi, seasonNum, 0));
             }
             else {
                 if ((posi >= 0 && posi <= 12) || (posi >= 23 && posi <= 28))
-                    newitem = Seed::create(storeItem->itemNameOut(posi, storeItem->seasonOut(), 0));
+                    newitem = Seed::create(storeItem->itemNameOut(posi, seasonNum, 0));
                 else
-                    newitem = Tool::create(storeItem->itemNameOut(posi, storeItem->seasonOut(), 0));
+                    newitem = Tool::create(storeItem->itemNameOut(posi, seasonNum, 0));
             }
-            pack1->moneyChange(storeItem->itemMoneyBack(posi, storeItem->seasonOut()), 1);
+            pack1->moneyChange(storeItem->itemMoneyBack(posi, seasonNum), 1);
             moneyboard->removeChildByTag(1);
             Label* money = Label::create(pack1->moneyStringOut(), "Comic Sans MS.ttf", 40);
             if (money == nullptr)
@@ -1053,16 +1104,16 @@ void storeSoldFor(Widget::TouchEventType type, int posi, Scene* scene) {
     }
 }
 
-//ÉÌµêÉÌÆ·À¸ÉèÖÃ
-void storeSoldSet(Scene* scene) {
+//å•†åº—å•†å“æ è®¾ç½®
+void storeSoldSet(Scene* scene){
     commodity[0]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
         storeSoldFor(type, 0, scene);
         });
     commodity[1]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
-        storeSoldFor(type, 1, scene);
+        storeSoldFor(type, 1,scene);
         });
     commodity[2]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
-        storeSoldFor(type, 2, scene);
+        storeSoldFor(type, 2,scene);
         });
     commodity[3]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
         storeSoldFor(type, 3, scene);
@@ -1071,7 +1122,7 @@ void storeSoldSet(Scene* scene) {
         storeSoldFor(type, 4, scene);
         });
     commodity[5]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
-        storeSoldFor(type, 5, scene);
+        storeSoldFor(type, 5,scene);
         });
     commodity[6]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
         storeSoldFor(type, 6, scene);
@@ -1101,7 +1152,7 @@ void storeSoldSet(Scene* scene) {
         storeSoldFor(type, 14, scene);
         });
     commodity[15]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
-        storeSoldFor(type, 1, scene);
+        storeSoldFor(type, 1,scene);
         });
     commodity[16]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
         storeSoldFor(type, 16, scene);
@@ -1138,19 +1189,19 @@ void storeSoldSet(Scene* scene) {
         });
 }
 
-//ÖÊÎïÀ¸ÏÔÊ¾
-void soldBox(Scene* scene) {
+//è´¨ç‰©æ æ˜¾ç¤º
+void soldBox(Scene* scene){
     auto visibleSize = Director::getInstance()->getVisibleSize();
     float tileWidth = visibleSize.width / 28;
     float tileHeight = tileWidth;
-    packLayer->setPosition(visibleSize.width / 3, visibleSize.height / 3);
+    packLayer->setPosition(visibleSize.width/3,visibleSize.height/3);
     packLayer->setVisible(1);
-    soldPosi = RadioButton::create("Inventory.png", "Inventory.png");
+    soldPosi = RadioButton::create("Inventory.png","Inventory.png");
     if (soldPosi == nullptr)
         return;
     soldPosi->setScaleX(tileWidth / soldPosi->getContentSize().width);
     soldPosi->setScaleY(tileHeight / soldPosi->getContentSize().height);
-    soldPosi->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 3 + 4 * tileHeight));
+    soldPosi->setPosition(Vec2(visibleSize.width/2, visibleSize.height / 3 + 4 * tileHeight));
 
     auto item0 = Sprite::create("null.png");
     if (item0 == nullptr)
@@ -1159,19 +1210,19 @@ void soldBox(Scene* scene) {
     item0->setScaleX(tileWidth / (item0->getContentSize().width));
     item0->setScaleY(tileHeight / (item0->getContentSize().height));
 
-    //Í¼Æ¬×ø±êÉèÖÃ
+    //å›¾ç‰‡åæ ‡è®¾ç½®
     item0->setPosition(Vec2(soldPosi->getContentSize().width / 2, soldPosi->getContentSize().width / 2));
 
     scene->addChild(soldPosi, 10, 62);
     soldposiSet();
-
+   
 }
 
 void numlabel(int posi) {
     auto number = Sprite::create("null.png");
     if (number == nullptr)
         return;
-    Inventory[posi]->getChildByTag(1)->addChild(number, 1, 2);
+    Inventory[posi]->getChildByTag(1)->addChild(number,1,2);
 
 }
 
@@ -1182,8 +1233,8 @@ void numlabel2(int posi) {
         return;
     Inventory[posi]->getChildByTag(1)->addChild(number, 1, 2);
     number->setColor(Color3B::BLACK);
-
-    number->setPosition(Vec2(Inventory[posi]->getContentSize().width * 0.8 + number->getContentSize().width / 2, number->getContentSize().height / 5));
+    
+    number->setPosition(Vec2(Inventory[posi]->getContentSize().width*0.8  + number->getContentSize().width / 2, number->getContentSize().height / 5));
     if (posi >= 0 && posi < backpackCapacity / 3) {
         ventory[posi]->getChildByTag(1)->removeChildByTag(2);
         auto number1 = Label::create(pack1->numStringOut(posi), "Comic Sans MS.ttf", 20);
@@ -1191,12 +1242,12 @@ void numlabel2(int posi) {
             return;
         ventory[posi]->getChildByTag(1)->addChild(number1, 1, 2);
         number1->setColor(Color3B::BLACK);
-        number1->setPosition(Vec2(ventory[posi]->getContentSize().width * 0.8 + number->getContentSize().width / 2, number->getContentSize().height / 5));
+        number1->setPosition(Vec2(ventory[posi]->getContentSize().width*0.8  + number->getContentSize().width / 2, number->getContentSize().height / 5));
     }
 }
 
-void storeSeasonEx(int season) {
-    if (season == 2) {
+void storeSeasonEx(std::string season) {
+    if (season == "Summer") {
         for (int i = 0; i < 27; i++) {
             commodity[i]->removeChildByTag(1);
             commodity[i]->removeChildByTag(2);
@@ -1229,9 +1280,9 @@ void storeSeasonEx(int season) {
                 ;
             else
                 commodity[i]->removeChildByTag(3);
-            auto goods = Sprite::create(storeItem->itemNameOut(56 - i, 2, 1));
-            auto goodsLabel1 = Label::create(storeItem->itemNameOut(56 - i, 2, 0), "Comic Sans MS.ttf", 50);
-            auto moneyLabel = Label::create(storeItem->itemMoneyOut(56 - i, 2), "Comic Sans MS.ttf", 50);
+            auto goods = Sprite::create(storeItem->itemNameOut(56-i, 2, 1));
+            auto goodsLabel1 = Label::create(storeItem->itemNameOut(56-i, 2, 0), "Comic Sans MS.ttf", 50);
+            auto moneyLabel = Label::create(storeItem->itemMoneyOut(56-i, 2), "Comic Sans MS.ttf", 50);
             if (moneyLabel == nullptr)
                 continue;
             if (goodsLabel1 == nullptr)
@@ -1248,7 +1299,7 @@ void storeSeasonEx(int season) {
             moneyLabel->setPosition(Vec2(commodity[i]->getContentSize().width * 18.5 / 20 - moneyLabel->getContentSize().width / 2, commodity[i]->getContentSize().height / 2 + moneyLabel->getContentSize().height / 5));
         }
     }
-    if (season == 3) {
+    if (season == "Fall") {
         for (int i = 0; i < 27; i++) {
             commodity[i]->removeChildByTag(1);
             commodity[i]->removeChildByTag(2);
@@ -1278,6 +1329,61 @@ void storeSeasonEx(int season) {
             auto goods = Sprite::create(storeItem->itemNameOut(56 - i, 2, 1));
             auto goodsLabel1 = Label::create(storeItem->itemNameOut(56 - i, 2, 0), "Comic Sans MS.ttf", 50);
             auto moneyLabel = Label::create(storeItem->itemMoneyOut(56 - i, 2), "Comic Sans MS.ttf", 50);
+            if (moneyLabel == nullptr)
+                continue;
+            if (goodsLabel1 == nullptr)
+                continue;
+            goodsLabel1->setColor(Color3B::BLACK);
+            moneyLabel->setColor(Color3B::BLACK);
+            if (goods == nullptr)
+                continue;
+            commodity[i]->addChild(goods, 1, 1);
+            commodity[i]->addChild(goodsLabel1, 1, 2);
+            commodity[i]->addChild(moneyLabel, 1, 3);
+            goods->setPosition(Vec2(commodity[i]->getContentSize().width / 20, commodity[i]->getContentSize().height / 2));
+            goodsLabel1->setPosition(Vec2(commodity[i]->getContentSize().width / 10 + goodsLabel1->getContentSize().width / 2, commodity[i]->getContentSize().height / 2 + goodsLabel1->getContentSize().height / 5));
+            moneyLabel->setPosition(Vec2(commodity[i]->getContentSize().width * 18.5 / 20 - moneyLabel->getContentSize().width / 2, commodity[i]->getContentSize().height / 2 + moneyLabel->getContentSize().height / 5));
+        }
+    }
+    if (season == "Winter") {
+        ;
+    }
+    if (season == "Spring") {
+        for (int i = 0; i < 27; i++) {
+            commodity[i]->removeChildByTag(1);
+            commodity[i]->removeChildByTag(2);
+            commodity[i]->removeChildByTag(3);
+            auto goods = Sprite::create(storeItem->itemNameOut(i, 1, 1));
+            auto goodsLabel1 = Label::create(storeItem->itemNameOut(i, 1, 0), "Comic Sans MS.ttf", 50);
+            auto moneyLabel = Label::create(storeItem->itemMoneyOut(i, 1), "Comic Sans MS.ttf", 50);
+            if (moneyLabel == nullptr)
+                continue;
+            if (goodsLabel1 == nullptr)
+                continue;
+            goodsLabel1->setColor(Color3B::BLACK);
+            moneyLabel->setColor(Color3B::BLACK);
+            if (goods == nullptr)
+                continue;
+            commodity[i]->addChild(goods, 1, 1);
+            commodity[i]->addChild(goodsLabel1, 1, 2);
+            commodity[i]->addChild(moneyLabel, 1, 3);
+            goods->setPosition(Vec2(commodity[i]->getContentSize().width / 20, commodity[i]->getContentSize().height / 2));
+            goodsLabel1->setPosition(Vec2(commodity[i]->getContentSize().width / 10 + goodsLabel1->getContentSize().width / 2, commodity[i]->getContentSize().height / 2 + goodsLabel1->getContentSize().height / 5));
+            moneyLabel->setPosition(Vec2(commodity[i]->getContentSize().width * 18.5 / 20 - moneyLabel->getContentSize().width / 2, commodity[i]->getContentSize().height / 2 + moneyLabel->getContentSize().height / 5));
+        }
+        for (int i = 27; i < 30; i++) {
+            commodity[i]->removeChildByTag(1);
+            if (commodity[i]->getChildByTag(2) == nullptr)
+                ;
+            else
+                commodity[i]->removeChildByTag(2);
+            if (commodity[i]->getChildByTag(3) == nullptr)
+                ;
+            else
+                commodity[i]->removeChildByTag(3);
+            auto goods = Sprite::create(storeItem->itemNameOut(56 - i, 1, 1));
+            auto goodsLabel1 = Label::create(storeItem->itemNameOut(56 - i, 1, 0), "Comic Sans MS.ttf", 50);
+            auto moneyLabel = Label::create(storeItem->itemMoneyOut(56 - i, 1), "Comic Sans MS.ttf", 50);
             if (moneyLabel == nullptr)
                 continue;
             if (goodsLabel1 == nullptr)
