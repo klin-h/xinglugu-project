@@ -8,11 +8,12 @@
  ****************************************************************/
 #include"usableItem.h"
 #include"Constants.h"
+#include"Timer.h"
 USING_NS_CC;
 using namespace Constants;
-//----ª˘¿‡Item
+//----Âü∫Á±ªItem
 
-// ˝¡ø∏¸∏ƒ∫Ø ˝
+//Êï∞ÈáèÊõ¥ÊîπÂáΩÊï∞
 void Item::quantityChange(bool way, int amount) {
 	if (way == wayOfAdd)
 		quantity += amount;
@@ -20,12 +21,12 @@ void Item::quantityChange(bool way, int amount) {
 		quantity -= amount;
 }
 
-//Œƒº˛√˚∑µªÿ
+//Êñá‰ª∂ÂêçËøîÂõû
 char const* Item::filenameReturn() {
 	return pictureName;
 }
 
-//ŒÔ∆∑ «∑Òø…¬Ù
+//Áâ©ÂìÅÊòØÂê¶ÂèØÂçñ
 bool Item::isSoldAble() {
 	if (itemtype == ItemType::null || itemtype == ItemType::tool)
 		return 0;
@@ -33,45 +34,51 @@ bool Item::isSoldAble() {
 		return 1;
 }
 
-//ŒÔ∆∑º€÷µ
+//Áâ©ÂìÅ‰ª∑ÂÄº
 int Item::moneyToSell() {
+
 	return 0;
 }
 
-//◊Ûº¸µƒ◊˜”√
+std::string Item::nameBack() {
+	return name;
+}
+
+//Â∑¶ÈîÆÁöÑ‰ΩúÁî®
 void Item::leftKeyFunction() {
 	;
 }
 
-//”“º¸µƒ◊˜”√
+//Âè≥ÈîÆÁöÑ‰ΩúÁî®
 void Item::rightKeyFunction() {
 	;
 }
 
-//----◊”¿‡Fish
+//----Â≠êÁ±ªFish
 
-//”“º¸ £®≥‘£©
+//Âè≥ÈîÆ ÔºàÂêÉÔºâ
 void Fish::rightKeyFunction() {
 	;
 }
 
-//¬Ù«Æ
-int Fish::moneyToSell() {
+//ÂçñÈí±
+int Fish::moneyToSell(std::string season) {
+	int outmoney = 0;
 	switch (currentSeed) {
 	case SeedKind::blowfish:
 	{
 		switch (quality) {
 		case 1:
-			return blowfish1;
+			outmoney = blowfish1;
 			break;
 		case 2:
-			return blowfish2;
+			outmoney = blowfish2;
 			break;
 		case 3:
-			return blowfish3;
+			outmoney = blowfish3;
 			break;
 		default:
-			return 0;
+			outmoney = 0;
 			break;
 		}
 		break;
@@ -80,16 +87,16 @@ int Fish::moneyToSell() {
 	{
 		switch (quality) {
 		case 1:
-			return tuna1;
+			outmoney = tuna1;
 			break;
 		case 2:
-			return tuna2;
+			outmoney = tuna2;
 			break;
 		case 3:
-			return tuna3;
+			outmoney = tuna3;
 			break;
 		default:
-			return 0;
+			outmoney = 0;
 			break;
 		}
 		break;
@@ -97,16 +104,16 @@ int Fish::moneyToSell() {
 	case SeedKind::sardine: {
 		switch (quality) {
 		case 1:
-			return sardine1;
+			outmoney = sardine1;
 			break;
 		case 2:
-			return sardine2;
+			outmoney = sardine2;
 			break;
 		case 3:
-			return sardine3;
+			outmoney = sardine3;
 			break;
 		default:
-			return 0;
+			outmoney = 0;
 			break;
 		}
 		break;
@@ -114,16 +121,16 @@ int Fish::moneyToSell() {
 	case SeedKind::largemouthbass: {
 		switch (quality) {
 		case 1:
-			return largemouthbass1;
+			outmoney = largemouthbass1;
 			break;
 		case 2:
-			return largemouthbass2;
+			outmoney = largemouthbass2;
 			break;
 		case 3:
-			return largemouthbass3;
+			outmoney = largemouthbass3;
 			break;
 		default:
-			return 0;
+			outmoney = 0;
 			break;
 		}
 		break;
@@ -131,16 +138,16 @@ int Fish::moneyToSell() {
 	case SeedKind::smallmouthbass: {
 		switch (quality) {
 		case 1:
-			return smallmouthbass1;
+			outmoney = smallmouthbass1;
 			break;
 		case 2:
-			return smallmouthbass2;
+			outmoney = smallmouthbass2;
 			break;
 		case 3:
-			return smallmouthbass3;
+			outmoney = smallmouthbass3;
 			break;
 		default:
-			return 0;
+			outmoney = 0;
 			break;
 		}
 		break;
@@ -148,16 +155,16 @@ int Fish::moneyToSell() {
 	case SeedKind::sunfish: {
 		switch (quality) {
 		case 1:
-			return sunfish1;
+			outmoney = sunfish1;
 			break;
 		case 2:
-			return sunfish2;
+			outmoney = sunfish2;
 			break;
 		case 3:
-			return sunfish3;
+			outmoney = sunfish3;
 			break;
 		default:
-			return 0;
+			outmoney = 0;
 			break;
 		}
 		break;
@@ -165,16 +172,16 @@ int Fish::moneyToSell() {
 	case SeedKind::salmon: {
 		switch (quality) {
 		case 1:
-			return salmon1;
+			outmoney = salmon1;
 			break;
 		case 2:
-			return salmon2;
+			outmoney = salmon2;
 			break;
 		case 3:
-			return salmon3;
+			outmoney = salmon3;
 			break;
 		default:
-			return 0;
+			outmoney = 0;
 			break;
 		}
 		break;
@@ -182,16 +189,16 @@ int Fish::moneyToSell() {
 	case SeedKind::catfish: {
 		switch (quality) {
 		case 1:
-			return catfish1;
+			outmoney = catfish1;
 			break;
 		case 2:
-			return catfish2;
+			outmoney = catfish2;
 			break;
 		case 3:
-			return catfish3;
+			outmoney = catfish3;
 			break;
 		default:
-			return 0;
+			outmoney = 0;
 			break;
 		}
 		break;
@@ -199,139 +206,450 @@ int Fish::moneyToSell() {
 	case SeedKind::carp: {
 		switch (quality) {
 		case 1:
-			return carp1;
+			outmoney = carp1;
 			break;
 		case 2:
-			return carp2;
+			outmoney = carp2;
 			break;
 		case 3:
-			return carp3;
+			outmoney = carp3;
 			break;
 		default:
-			return 0;
+			outmoney = 0;
 			break;
 		}
 	}
 	default:
-		return 0;
+		outmoney = 0;
 		break;
 	}
-	return 0;
+	if (season == "Spring")
+		outmoney *= 1;
+	else {
+		if (season == "Summer")
+			outmoney *= 0.6;
+		else {
+			if (season == "Fall")
+				outmoney *= 0.8;
+			else
+				outmoney *= 1.4;
+		}
+	}
+	return outmoney ;
 }
 
-//----◊”¿‡Seed
+//----Â≠êÁ±ªSeed
 
- //¬Ù«Æ
-int Seed::moneyToSell() {
+ //ÂçñÈí±
+int Seed::moneyToSell(std::string season) {
+	int sellmoney=0;
 	switch (currentSeed) {
 	case SeedKind::parsnipseed:
 	{
-		return parsnipseed1;
+		if(season=="Spring")
+			sellmoney = parsnipseed1;
+		else {
+			if (season == "Summer")
+				sellmoney = parsnipseed1*0.85;
+			else {
+				if (season == "Fall")
+					sellmoney = parsnipseed1 * 0.65;
+				else
+					sellmoney = parsnipseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::greenbeanseed:
 	{
-		return greenbeanseed1;
+		if (season == "Spring")
+			sellmoney = greenbeanseed1;
+		else {
+			if (season == "Summer")
+				sellmoney = greenbeanseed1 * 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney = greenbeanseed1 * 0.65;
+				else
+					sellmoney = greenbeanseed1 * 0.45;
+			}
+		}	
 		break;
 	}
 	case SeedKind::cauliflowerseed: {
-		return cauliflowerseed1;
+		if (season == "Spring")
+			sellmoney = cauliflowerseed1;
+		else {
+			if (season == "Summer")
+				sellmoney = cauliflowerseed1 * 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney = cauliflowerseed1 * 0.65;
+				else
+					sellmoney = cauliflowerseed1 * 0.45;
+			}
+		}
+		
 		break;
 	}
 	case SeedKind::potatoseed: {
-		return potatoseed1;
+		if (season == "Spring")
+			sellmoney = potatoseed1;
+		else {
+			if (season == "Summer")
+				sellmoney = potatoseed1 * 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney = potatoseed1 * 0.65;
+				else
+					sellmoney = potatoseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::tulipbulbsseed: {
-		return tulipbulbsseed1;
+		if (season == "Spring")
+			sellmoney = tulipbulbsseed1;
+		else {
+			if (season == "Summer")
+				sellmoney = tulipbulbsseed1 * 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney = tulipbulbsseed1 * 0.65;
+				else
+					sellmoney = tulipbulbsseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::cabbageseed: {
-		return cabbageseed1;
+		if (season == "Spring")
+			sellmoney = cabbageseed1;
+		else {
+			if (season == "Summer")
+				sellmoney = cabbageseed1 * 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney = cabbageseed1 * 0.65;
+				else
+					sellmoney = cabbageseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::bluejazzseed: {
-		return bluejazzseed1;
+		if (season == "Spring")
+			sellmoney = bluejazzseed1;
+		else {
+			if (season == "Summer")
+				sellmoney = bluejazzseed1 * 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney = bluejazzseed1 * 0.65;
+				else
+					sellmoney = bluejazzseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::garlicseed: {
-		return garlicseed1;
+		if (season == "Spring")
+			sellmoney = garlicseed1;
+		else {
+			if (season == "Summer")
+				sellmoney = garlicseed1 * 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney = garlicseed1 * 0.65;
+				else
+					sellmoney = garlicseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::riceseedlingseed: {
-		return riceseedlingseed1;
+		if (season == "Spring")
+			sellmoney = riceseedlingseed1;
+		else {
+			if (season == "Summer")
+				sellmoney = riceseedlingseed1 * 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney = riceseedlingseed1 * 0.65;
+				else
+					sellmoney = riceseedlingseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::melonseed: {
-		return melonseed1;
+		if (season == "Summer")
+			sellmoney = melonseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = melonseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = melonseed1 * 0.65;
+				else
+					sellmoney = melonseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::tomatoseed: {
-		return tomatoseed1;
+		if (season == "Summer")
+			sellmoney = tomatoseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = tomatoseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = tomatoseed1 * 0.65;
+				else
+					sellmoney = tomatoseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::blueburryseed: {
-		return blueburryseed1;
+		if (season == "Summer")
+			sellmoney = blueburryseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = blueburryseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = blueburryseed1 * 0.65;
+				else
+					sellmoney = blueburryseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::chilipepperseed: {
-		return chilipepperseed1;
+		if (season == "Summer")
+			sellmoney = chilipepperseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = chilipepperseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = chilipepperseed1 * 0.65;
+				else
+					sellmoney = chilipepperseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::wheatseed: {
-		return wheatseed1;
+		if (season == "Summer")
+			sellmoney = wheatseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = wheatseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = wheatseed1 * 0.65;
+				else
+					sellmoney = wheatseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::turnipseed: {
-		return turnipseed1;
+		if (season == "Summer")
+			sellmoney = turnipseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = turnipseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = turnipseed1 * 0.65;
+				else
+					sellmoney = turnipseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::poppiesseed: {
-		return poppiesseed1;
+		if (season == "Summer")
+			sellmoney = poppiesseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = poppiesseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = poppiesseed1 * 0.65;
+				else
+					sellmoney = poppiesseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::summersequinsseed: {
-		return summersequinsseed1;
+		if (season == "Summer")
+			sellmoney = summersequinsseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = summersequinsseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = summersequinsseed1 * 0.65;
+				else
+					sellmoney = summersequinsseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::hopseed: {
-		return hopseed1;
+		if (season == "Summer")
+			sellmoney = hopseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = hopseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = hopseed1 * 0.65;
+				else
+					sellmoney = hopseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::cornseed: {
-		return cornseed1;
+		if (season == "Summer")
+			sellmoney = cornseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = cornseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = cornseed1 * 0.65;
+				else
+					sellmoney = cornseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::sunflowerseed: {
-		return sunflowerseed1;
+		if (season == "Summer")
+			sellmoney = sunflowerseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = sunflowerseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = sunflowerseed1 * 0.65;
+				else
+					sellmoney = sunflowerseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::redleafcabbageseed: {
-		return redleafcabbageseed1;
+		if (season == "Summer")
+			sellmoney = redleafcabbageseed1;
+		else {
+			if (season == "Fall")
+				sellmoney = redleafcabbageseed1 * 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney = redleafcabbageseed1 * 0.65;
+				else
+					sellmoney = redleafcabbageseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::eggplantseed: {
-		return eggplantseed1;
+		if (season == "Fall")
+			sellmoney = eggplantseed1;
+		else {
+			if (season == "Spring")
+				sellmoney = eggplantseed1 * 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney = eggplantseed1 * 0.65;
+				else
+					sellmoney = eggplantseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::pumpkinseed: {
-		return pumpkinseed1;
+		if (season == "Fall")
+			sellmoney = pumpkinseed1;
+		else {
+			if (season == "Spring")
+				sellmoney = pumpkinseed1 * 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney = pumpkinseed1 * 0.65;
+				else
+					sellmoney = pumpkinseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::chinesecabbageseed: {
-		return chinesecabbageseed1;
+		if (season == "Fall")
+			sellmoney = chinesecabbageseed1;
+		else {
+			if (season == "Spring")
+				sellmoney = chinesecabbageseed1 * 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney = chinesecabbageseed1 * 0.65;
+				else
+					sellmoney = chinesecabbageseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::yamseed: {
-		return yamseed1;
+		if (season == "Fall")
+			sellmoney = yamseed1;
+		else {
+			if (season == "Spring")
+				sellmoney = yamseed1 * 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney = yamseed1 * 0.65;
+				else
+					sellmoney = yamseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::cranberriesseed: {
-		return cranberriesseed1;
+		if (season == "Fall")
+			sellmoney = cranberriesseed1;
+		else {
+			if (season == "Spring")
+				sellmoney = cranberriesseed1 * 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney = cranberriesseed1 * 0.65;
+				else
+					sellmoney = cranberriesseed1 * 0.45;
+			}
+		}
 		break;
 	}
 	case SeedKind::rosefairyseed: {
-		return rosefairyseed1;
+		if (season == "Fall")
+			sellmoney = rosefairyseed1;
+		else {
+			if (season == "Spring")
+				sellmoney = rosefairyseed1 * 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney = rosefairyseed1 * 0.65;
+				else
+					sellmoney = rosefairyseed1 * 0.45;
+			}
+		}
 		break;
 
 	case SeedKind::amaranthseed: {
@@ -379,46 +697,60 @@ int Seed::moneyToSell() {
 		break;
 	}
 	}
-								return 0;
+				
 	}
+	return sellmoney;
 }
-//----◊”¿‡Tool
+//----Â≠êÁ±ªTool
 
- //◊Ûº¸π¶ƒ‹
+ //Â∑¶ÈîÆÂäüËÉΩ
 void Tool::leftKeyFunction() {
 	;
 }
 
-//”“º¸π¶ƒ‹
+//Âè≥ÈîÆÂäüËÉΩ
 void Tool::rightKeyFunction() {
 
 }
 
-//----◊”¿‡Fruit
+//----Â≠êÁ±ªFruit
 
-//”“º¸£®≥‘£©
+//Âè≥ÈîÆÔºàÂêÉÔºâ
 void Fruit::rightKeyFunction() {
 	;
 }
 
-//¬Ù«Æ
-int Fruit::moneyToSell() {
+//ÂçñÈí±
+int Fruit::moneyToSell(std::string season) {
+	int sellmoney = 0;
 	switch (currentSeed) {
 	case fruitKind::parsnip:
 	{
 		switch (quality) {
 		case 1:
-			return parsnip1;
+			sellmoney = parsnip1;
 			break;
 		case 2:
-			return parsnip2;
+			sellmoney = parsnip2;
 			break;
 		case 3:
-			return parsnip3;
+			sellmoney = parsnip3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
+		}
+		if (season == "Spring")
+			sellmoney *=1;
+		else {
+			if (season == "Summer")
+				sellmoney  *= 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney  *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
 		}
 		break;
 	}
@@ -426,679 +758,1177 @@ int Fruit::moneyToSell() {
 	{
 		switch (quality) {
 		case 1:
-			return greenbean1;
+			sellmoney = greenbean1;
 			break;
 		case 2:
-			return greenbean2;
+			sellmoney = greenbean2;
 			break;
 		case 3:
-			return greenbean3;
+			sellmoney = greenbean3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
+		}
+		if (season == "Spring")
+			sellmoney *= 1;
+		else {
+			if (season == "Summer")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
 		}
 		break;
 	}
 	case fruitKind::cauliflower: {
 		switch (quality) {
 		case 1:
-			return cauliflower1;
+			sellmoney = cauliflower1;
 			break;
 		case 2:
-			return cauliflower2;
+			sellmoney = cauliflower2;
 			break;
 		case 3:
-			return cauliflower3;
+			sellmoney = cauliflower3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
+		}
+		if (season == "Spring")
+			sellmoney *= 1;
+		else {
+			if (season == "Summer")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
 		}
 		break;
 	}
 	case fruitKind::potato: {
 		switch (quality) {
 		case 1:
-			return potato1;
+			sellmoney = potato1;
 			break;
 		case 2:
-			return potato2;
+			sellmoney = potato2;
 			break;
 		case 3:
-			return potato3;
+			sellmoney = potato3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
+		}
+		if (season == "Spring")
+			sellmoney *= 1;
+		else {
+			if (season == "Summer")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
 		}
 		break;
 	}
 	case fruitKind::tulipbulbs: {
 		switch (quality) {
 		case 1:
-			return tulipbulbs1;
+			sellmoney = tulipbulbs1;
 			break;
 		case 2:
-			return tulipbulbs2;
+			sellmoney = tulipbulbs2;
 			break;
 		case 3:
-			return tulipbulbs3;
+			sellmoney = tulipbulbs3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
+		}
+		if (season == "Spring")
+			sellmoney *= 1;
+		else {
+			if (season == "Summer")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
 		}
 		break;
 	}
 	case fruitKind::cabbage: {
 		switch (quality) {
 		case 1:
-			return cabbage1;
+			sellmoney = cabbage1;
 			break;
 		case 2:
-			return cabbage2;
+			sellmoney = cabbage2;
 			break;
 		case 3:
-			return cabbage3;
+			sellmoney = cabbage3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
+		}
+		if (season == "Spring")
+			sellmoney *= 1;
+		else {
+			if (season == "Summer")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
 		}
 		break;
 	}
 	case fruitKind::bluejazz: {
 		switch (quality) {
 		case 1:
-			return bluejazz1;
+			sellmoney = bluejazz1;
 			break;
 		case 2:
-			return bluejazz2;
+			sellmoney = bluejazz2;
 			break;
 		case 3:
-			return bluejazz3;
+			sellmoney = bluejazz3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
+		}
+		if (season == "Spring")
+			sellmoney *= 1;
+		else {
+			if (season == "Summer")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
 		}
 		break;
 	}
 	case fruitKind::garlic: {
 		switch (quality) {
 		case 1:
-			return garlic1;
+			sellmoney = garlic1;
 			break;
 		case 2:
-			return garlic2;
+			sellmoney = garlic2;
 			break;
 		case 3:
-			return garlic3;
+			sellmoney = garlic3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
+		}
+		if (season == "Spring")
+			sellmoney *= 1;
+		else {
+			if (season == "Summer")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
 		}
 		break;
 	}
 	case fruitKind::riceseedling: {
 		switch (quality) {
 		case 1:
-			return riceseedling1;
+			sellmoney = riceseedling1;
 			break;
 		case 2:
-			return riceseedling2;
+			sellmoney = riceseedling2;
 			break;
 		case 3:
-			return riceseedling3;
+			sellmoney = riceseedling3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Spring")
+			sellmoney *= 1;
+		else {
+			if (season == "Summer")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::tomato: {
 		switch (quality) {
 		case 1:
-			return tomato1;
+			sellmoney = riceseedling1;
 			break;
 		case 2:
-			return tomato2;
+			sellmoney = riceseedling2;
 			break;
 		case 3:
-			return tomato3;
+			sellmoney = riceseedling3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
-
+		if (season == "Spring")
+			sellmoney *= 1;
+		else {
+			if (season == "Summer")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Fall")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
+	}
 	case fruitKind::melon: {
 		switch (quality) {
 		case 1:
-			return 30;
+			sellmoney = melon1;
 			break;
 		case 2:
-			return 37;
+			sellmoney = melon2;
 			break;
 		case 3:
-			return 45;
+			sellmoney = melon3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
-	}
-	default:
-		return 0;
+		if (season == "Summer")
+			sellmoney *= 1;
+		else {
+			if (season == "Fall")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
 		break;
 	}
 	case fruitKind::blueburry: {
 		switch (quality) {
 		case 1:
-			return blueburry1;
+			sellmoney = blueburry1;
 			break;
 		case 2:
-			return blueburry2;
+			sellmoney = blueburry2;
 			break;
 		case 3:
-			return blueburry3;
+			sellmoney = blueburry3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Summer")
+			sellmoney *= 1;
+		else {
+			if (season == "Fall")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::chilipepper: {
 		switch (quality) {
 		case 1:
-			return chilipepper1;
+			sellmoney = chilipepper1;
 			break;
 		case 2:
-			return chilipepper2;
+			sellmoney = chilipepper2;
 			break;
 		case 3:
-			return chilipepper3;
+			sellmoney = chilipepper3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Summer")
+			sellmoney *= 1;
+		else {
+			if (season == "Fall")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::wheat: {
 		switch (quality) {
 		case 1:
-			return wheat1;
+			sellmoney = wheat1;
 			break;
 		case 2:
-			return wheat2;
+			sellmoney = wheat2;
 			break;
 		case 3:
-			return wheat3;
+			sellmoney = wheat3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Summer")
+			sellmoney *= 1;
+		else {
+			if (season == "Fall")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::turnip: {
 		switch (quality) {
 		case 1:
-			return turnip1;
+			sellmoney = turnip1;
 			break;
 		case 2:
-			return turnip2;
+			sellmoney = turnip2;
 			break;
 		case 3:
-			return turnip3;
+			sellmoney = turnip3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Summer")
+			sellmoney *= 1;
+		else {
+			if (season == "Fall")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::poppies: {
 		switch (quality) {
 		case 1:
-			return poppies1;
+			sellmoney = poppies1;
 			break;
 		case 2:
-			return poppies2;
+			sellmoney = poppies2;
 			break;
 		case 3:
-			return poppies3;
+			sellmoney = poppies3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Summer")
+			sellmoney *= 1;
+		else {
+			if (season == "Fall")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::summersequins: {
 		switch (quality) {
 		case 1:
-			return summersequins1;
+			sellmoney = summersequins1;
 			break;
 		case 2:
-			return summersequins2;
+			sellmoney = summersequins2;
 			break;
 		case 3:
-			return summersequins3;
+			sellmoney = summersequins3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Summer")
+			sellmoney *= 1;
+		else {
+			if (season == "Fall")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::hop: {
 		switch (quality) {
 		case 1:
-			return hop1;
+			sellmoney = hop1;
 			break;
 		case 2:
-			return hop2;
+			sellmoney = hop2;
 			break;
 		case 3:
-			return hop3;
+			sellmoney = hop3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Summer")
+			sellmoney *= 1;
+		else {
+			if (season == "Fall")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::corn: {
 		switch (quality) {
 		case 1:
-			return corn1;
+			sellmoney = corn1;
 			break;
 		case 2:
-			return corn2;
+			sellmoney = corn2;
 			break;
 		case 3:
-			return corn3;
+			sellmoney = corn3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Summer")
+			sellmoney *= 1;
+		else {
+			if (season == "Fall")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::sunflower: {
 		switch (quality) {
 		case 1:
-			return sunflower1;
+			sellmoney = sunflower1;
 			break;
 		case 2:
-			return sunflower2;
+			sellmoney = sunflower2;
 			break;
 		case 3:
-			return sunflower3;
+			sellmoney = sunflower3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Summer")
+			sellmoney *= 1;
+		else {
+			if (season == "Fall")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::redleafcabbage: {
 		switch (quality) {
 		case 1:
-			return redleafcabbage1;
+			sellmoney = redleafcabbage1;
 			break;
 		case 2:
-			return redleafcabbage2;
+			sellmoney = redleafcabbage2;
 			break;
 		case 3:
-			return redleafcabbage3;
+			sellmoney = redleafcabbage3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Summer")
+			sellmoney *= 1;
+		else {
+			if (season == "Fall")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Spring")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::eggplant: {
 		switch (quality) {
 		case 1:
-			return eggplant1;
+			sellmoney = eggplant1;
 			break;
 		case 2:
-			return eggplant2;
+			sellmoney = eggplant2;
 			break;
 		case 3:
-			return eggplant3;
+			sellmoney = eggplant3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::pumpkin: {
 		switch (quality) {
 		case 1:
-			return pumpkin1;
+			sellmoney = pumpkin1;
 			break;
 		case 2:
-			return pumpkin2;
+			sellmoney = pumpkin2;
 			break;
 		case 3:
-			return pumpkin3;
+			sellmoney = pumpkin3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::chinesecabbage: {
 		switch (quality) {
 		case 1:
-			return chinesecabbage1;
+			sellmoney = chinesecabbage1;
 			break;
 		case 2:
-			return chinesecabbage2;
+			sellmoney = chinesecabbage2;
 			break;
 		case 3:
-			return chinesecabbage3;
+			sellmoney = chinesecabbage3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::yam: {
 		switch (quality) {
 		case 1:
-			return yam1;
+			sellmoney = yam1;
 			break;
 		case 2:
-			return yam2;
+			sellmoney = yam2;
 			break;
 		case 3:
-			return yam3;
+			sellmoney = yam3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::cranberries: {
-
 		switch (quality) {
 		case 1:
-			return cranberries1;
+			sellmoney = cranberries1;
 			break;
 		case 2:
-			return cranberries2;
+			sellmoney = cranberries2;
 			break;
 		case 3:
-			return cranberries3;
+			sellmoney = cranberries3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::rosefairy: {
-
 		switch (quality) {
 		case 1:
-			return rosefairy1;
+			sellmoney = rosefairy1;
 			break;
 		case 2:
-			return rosefairy2;
+			sellmoney = rosefairy2;
 			break;
 		case 3:
-			return rosefairy3;
+			sellmoney = rosefairy3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::amaranth: {
-
 		switch (quality) {
 		case 1:
-			return amaranth1;
+			sellmoney = amaranth1;
 			break;
 		case 2:
-			return amaranth2;
+			sellmoney = amaranth2;
 			break;
 		case 3:
-			return amaranth3;
+			sellmoney = amaranth3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::grape: {
-
 		switch (quality) {
 		case 1:
-			return grape1;
+			sellmoney = grape1;
 			break;
 		case 2:
-			return grape2;
+			sellmoney = grape2;
 			break;
 		case 3:
-			return grape3;
+			sellmoney = grape3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::artichoke: {
-
 		switch (quality) {
 		case 1:
-			return artichoke1;
+			sellmoney = artichoke1;
 			break;
 		case 2:
-			return artichoke2;
+			sellmoney = artichoke2;
 			break;
 		case 3:
-			return artichoke3;
+			sellmoney = artichoke3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::rice: {
-
 		switch (quality) {
 		case 1:
-			return rice1;
+			sellmoney = rice1;
 			break;
 		case 2:
-			return rice2;
+			sellmoney = rice2;
 			break;
 		case 3:
-			return rice3;
+			sellmoney = rice3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::cherry: {
-
 		switch (quality) {
 		case 1:
-			return cherry1;
+			sellmoney = cherry1;
 			break;
 		case 2:
-			return cherry2;
+			sellmoney = cherry2;
 			break;
 		case 3:
-			return cherry3;
+			sellmoney = cherry3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::apricot: {
-
 		switch (quality) {
 		case 1:
-			return apricot1;
+			sellmoney = apricot1;
 			break;
 		case 2:
-			return apricot2;
+			sellmoney = apricot2;
 			break;
 		case 3:
-			return apricot3;
+			sellmoney = apricot3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
-
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 
 	}
 	case fruitKind::orange: {
-
 		switch (quality) {
 		case 1:
-			return orange1;
+			sellmoney = orange1;
 			break;
 		case 2:
-			return orange2;
+			sellmoney = orange2;
 			break;
 		case 3:
-			return orange3;
+			sellmoney = orange3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 
 	}
 	case fruitKind::peach: {
-
 		switch (quality) {
 		case 1:
-			return peach1;
+			sellmoney = peach1;
 			break;
 		case 2:
-			return peach2;
+			sellmoney = peach2;
 			break;
 		case 3:
-			return peach3;
+			sellmoney = peach3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::pomegranate: {
 		switch (quality) {
 		case 1:
-			return pomegranate1;
+			sellmoney = pomegranate1;
 			break;
 		case 2:
-			return pomegranate2;
+			sellmoney = pomegranate2;
 			break;
 		case 3:
-			return pomegranate3;
+			sellmoney = pomegranate3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::apple: {
 		switch (quality) {
 		case 1:
-			return apple1;
+			sellmoney = apple1;
 			break;
 		case 2:
-			return apple2;
+			sellmoney = apple2;
 			break;
 		case 3:
-			return apple3;
+			sellmoney = apple3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::wildhorseradish: {
 		switch (quality) {
 		case 1:
-			return wildhorseradish1;
+			sellmoney = wildhorseradish1;
 			break;
 		case 2:
-			return wildhorseradish2;
+			sellmoney = wildhorseradish2;
 			break;
 		case 3:
-			return wildhorseradish3;
+			sellmoney = wildhorseradish3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::daffodil: {
 		switch (quality) {
 		case 1:
-			return daffodil1;
+			sellmoney = daffodil1;
 			break;
 		case 2:
-			return daffodil2;
+			sellmoney = daffodil2;
 			break;
 		case 3:
-			return daffodil3;
+			sellmoney = daffodil3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::leek: {
 		switch (quality) {
 		case 1:
-			return leek1;
+			sellmoney = leek1;
 			break;
 		case 2:
-			return leek2;
+			sellmoney = leek2;
 			break;
 		case 3:
-			return leek3;
+			sellmoney = leek3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	case fruitKind::Dandelion: {
 		switch (quality) {
 		case 1:
-			return Dandelion1;
+			sellmoney = Dandelion1;
 			break;
 		case 2:
-			return Dandelion2;
+			sellmoney = Dandelion2;
 			break;
 		case 3:
-			return Dandelion3;
+			sellmoney = Dandelion3;
 			break;
 		default:
-			return 0;
+			sellmoney = 0;
 			break;
 		}
+		if (season == "Fall")
+			sellmoney *= 1;
+		else {
+			if (season == "Spring")
+				sellmoney *= 0.85;
+			else {
+				if (season == "Summer")
+					sellmoney *= 0.65;
+				else
+					sellmoney *= 0.45;
+			}
+		}
+		break;
 	}
 	}
-	return 0;
+	return sellmoney;
 }
 
-//----◊”¿‡AnimalProduct
+//----Â≠êÁ±ªAnimalProduct
 
-//”“º¸ £®≥‘£©
+//Âè≥ÈîÆ ÔºàÂêÉÔºâ
 void AnimalProduct::rightKeyFunction() {
 	;
 }
 
-//¬Ù«Æ
+//ÂçñÈí±
 int AnimalProduct::moneyToSell() {
 	switch (currentProduct) {
 	case AnimalProductKind::egg:
@@ -1125,9 +1955,9 @@ int AnimalProduct::moneyToSell() {
 	return 0;
 }
 
-//----◊”¿‡terial
+//----Â≠êÁ±ªterial
 
-//¬Ù«Æ
+//ÂçñÈí±
 int terial::moneyToSell() {
 	switch (currentProduct) {
 	case terialKind::wood:
