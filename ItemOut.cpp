@@ -9,21 +9,43 @@
 #include "ItemOut.h"
 #include "cocos2d.h"
 #include "Constants.h"
+#include "Timer.h"
 USING_NS_CC;
 
-//把东西放入售卖箱
+//鎶婁笢瑗挎斁鍏ュ敭鍗栫
 bool SoldBox::singleDayInput(Item* itemToSell, int num) {
+
 	if (itemToSell->itemtype == ItemType::tool || itemToSell->itemtype == ItemType::null)
 		return 0;
 	else {
-		singleDayProfit += num * itemToSell->moneyToSell();
+		Timer1* season = new Timer1;
+		if(itemToSell->itemtype==ItemType::fish){
+			Fish* fish = Fish::create(itemToSell->nameBack());
+			singleDayProfit += num * fish->moneyToSell(season->getSeason());
+		}
+		if (itemToSell->itemtype == ItemType::seed) {
+			Seed* seed = Seed::create(itemToSell->nameBack());
+			singleDayProfit += num * seed->moneyToSell(season->getSeason());
+		}
+		if (itemToSell->itemtype == ItemType::fruit) {
+			Fruit* fruit = Fruit::create(itemToSell->nameBack());
+			singleDayProfit += num * fruit->moneyToSell(season->getSeason());
+		}
+		if (itemToSell->itemtype == ItemType::animalproduct) {
+			AnimalProduct* animal = AnimalProduct::create(itemToSell->nameBack());
+			singleDayProfit += num * animal->moneyToSell();
+		}
+		if (itemToSell->itemtype == ItemType::terial) {
+			terial* animal = terial::create(itemToSell->nameBack());
+			singleDayProfit += num * animal->moneyToSell();
+		}
 		itemInput[++itemList] = itemToSell;
 		itemnum[++numList] = num;
 		return 1;
 	}
 }
 
-//取出东西
+//鍙栧嚭涓滆タ
 Item* SoldBox::itemSingleOut() {
 	if (itemList < 0) {
 		Item* item0 = new Item();
@@ -31,14 +53,30 @@ Item* SoldBox::itemSingleOut() {
 	}
 	else {
 		Item* list1 = itemInput[itemList];
-		singleDayProfit -= itemnum[numList] * itemInput[itemList]->moneyToSell();
+		Timer1* season = new Timer1;
+		if (itemInput[itemList]->itemtype == ItemType::fish) {
+			Fish* fish = Fish::create(itemInput[itemList]->nameBack());
+			singleDayProfit -= itemnum[numList] * fish->moneyToSell(season->getSeason());
+		}
+		if (itemInput[itemList]->itemtype == ItemType::seed) {
+			Seed* seed = Seed::create(itemInput[itemList]->nameBack());
+			singleDayProfit -= itemnum[numList] * seed->moneyToSell(season->getSeason());
+		}
+		if (itemInput[itemList]->itemtype == ItemType::fruit) {
+			Fruit* fruit = Fruit::create(itemInput[itemList]->nameBack());
+			singleDayProfit -= itemnum[numList] * fruit->moneyToSell(season->getSeason());
+		}
+		if (itemInput[itemList]->itemtype == ItemType::animalproduct) {
+			AnimalProduct* animal = AnimalProduct::create(itemInput[itemList]->nameBack());
+			singleDayProfit -= itemnum[numList] * animal->moneyToSell();
+		}
 		itemList--;
 		numList--;
 		return list1;
 	}
 }
 
-//顶部数量
+//椤堕儴鏁伴噺
 int SoldBox::topNumOut() {
 	if (numList < 0) {
 		CCLOG("it is empty");
@@ -48,7 +86,7 @@ int SoldBox::topNumOut() {
 		return itemnum[numList];
 }
 
-//顶部物品
+//椤堕儴鐗╁搧
 Item* SoldBox::topItemOut() {
 	if (numList < 0) {
 		CCLOG("it is empty");
@@ -58,7 +96,7 @@ Item* SoldBox::topItemOut() {
 		return itemInput[itemList];
 }
 
-//每日总结,清空箱子
+//姣忔棩鎬荤粨,娓呯┖绠卞瓙
 int SoldBox::dayProfitOut() {
 	int DayOut = singleDayProfit;
 	singleDayProfit = 0;
@@ -67,7 +105,7 @@ int SoldBox::dayProfitOut() {
 	return DayOut;
 }
 
-//判断是否为空
+//鍒ゆ柇鏄惁涓虹┖
 bool SoldBox::isBoxEmpty() {
 	if (numList == listInit)
 		return 0;
