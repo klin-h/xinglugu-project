@@ -14,32 +14,32 @@
 #include"backPhoto.h"
 USING_NS_CC;
 using namespace Constants;
-//ºÏ³ÉÌ¨²¿·Ö
+//åˆæˆå°éƒ¨åˆ†
 
-//ÎïÆ·¶ÔÓ¦Êı×Ö
-//0--Ä¾ÅÆ
-//1--Ä¾Õ¤À¸
-//2--´óÃÅ
-//3--²İ×Ñ
-//4--Ä¾¾¶
-//5--Ê¯¾¶
-//6--»ğ°Ñ
-//7--»ù´¡·ÊÁÏ
-//8--±¦Ïä
-//9--ÈÛÂ¯
-//10--Ê¯ÅÆ
-//11--Ë®ÁúÍ· 
-//12--»ù´¡ÊªÍÁ
-//13--µ¾²İÈË
-//14--Óã¶ü
-//15--Ó£ÌÒÕ¨µ¯
-//16--½×Ìİ
-//17--óô»ğ
-//18--´ºÈÕÒ°ÖÖ
-//¶ÔÎïÆ·ÊÇ·ñ¿ÉºÏ³ÉµÄÅĞ¶Ï
+//ç‰©å“å¯¹åº”æ•°å­—
+//0--æœ¨ç‰Œ
+//1--æœ¨æ …æ 
+//2--å¤§é—¨
+//3--è‰ç±½
+//4--æœ¨å¾„
+//5--çŸ³å¾„
+//6--ç«æŠŠ
+//7--åŸºç¡€è‚¥æ–™
+//8--å®ç®±
+//9--ç†”ç‚‰
+//10--çŸ³ç‰Œ
+//11--æ°´é¾™å¤´ 
+//12--åŸºç¡€æ¹¿åœŸ
+//13--ç¨»è‰äºº
+//14--é±¼é¥µ
+//15--æ¨±æ¡ƒç‚¸å¼¹
+//16--é˜¶æ¢¯
+//17--ç¯ç«
+//18--æ˜¥æ—¥é‡ç§
+//å¯¹ç‰©å“æ˜¯å¦å¯åˆæˆçš„åˆ¤æ–­
 bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 	switch (itemToMake) {
-	case 0://Ä¾ÅÆ
+	case 0://æœ¨ç‰Œ
 	{
 		Item* WoodenSign = terial::create("wood");
 		if (Back->matchJudge(WoodenSign, amountOfWoodForWoodenSign))
@@ -48,7 +48,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 1://Ä¾Õ¤À¸
+	case 1://æœ¨æ …æ 
 	{
 		Item* WoodFence = terial::create("wood");
 		if (Back->matchJudge(WoodFence, amountOfWoodForWoodFence))
@@ -57,7 +57,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 2://´óÃÅ
+	case 2://å¤§é—¨
 	{
 		Item* Gate = terial::create("wood");
 		if (Back->matchJudge(Gate, amountOfWoodForGate))
@@ -66,7 +66,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 3://²İ×Ñ
+	case 3://è‰ç±½
 	{
 		Item* GrassStarter = terial::create("fibre");
 		if (Back->matchJudge(GrassStarter, amountOfFibreForGrassStarter))
@@ -75,7 +75,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 4://Ä¾¾¶
+	case 4://æœ¨å¾„
 	{
 		Item* WoodPath = terial::create("wood");
 		if (Back->matchJudge(WoodPath, amountOfWoodForWoodPath))
@@ -84,7 +84,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 5://Ê¯¾¶
+	case 5://çŸ³å¾„
 	{
 		Item* CobblestonePath = terial::create("stone");
 		if (Back->matchJudge(CobblestonePath, amountOfStoneForCobblestonePath))
@@ -93,7 +93,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 6://»ğ°Ñ
+	case 6://ç«æŠŠ
 	{
 		Item* Torch1 = terial::create("wood");
 		Item* Torch2 = terial::create("sap");
@@ -103,7 +103,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 7://»ù´¡·ÊÁÏ
+	case 7://åŸºç¡€è‚¥æ–™
 	{
 		Item* BasicFertilizer = terial::create("sap");
 		if (Back->matchJudge(BasicFertilizer, amountOfSapForBasicFertilizer))
@@ -112,7 +112,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 8://±¦Ïä
+	case 8://å®ç®±
 	{
 		Item* Chest = terial::create("wood");
 		if (Back->matchJudge(Chest, amountOfWoodForChest))
@@ -121,7 +121,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 9://ÈÛÂ¯
+	case 9://ç†”ç‚‰
 	{
 		Item* Furnace1 = terial::create("stone");
 		Item* Furnace2 = terial::create("copperore");
@@ -131,7 +131,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 10://Ê¯ÅÆ
+	case 10://çŸ³ç‰Œ
 	{
 		Item* StoneSign = terial::create("stone");
 		if (Back->matchJudge(StoneSign, 25))
@@ -140,7 +140,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 11://Ë®ÁúÍ· 
+	case 11://æ°´é¾™å¤´ 
 	{
 		Item* Sprinkle1 = terial::create("ironbar");
 		Item* Sprinkle2 = terial::create("copperbar");
@@ -150,7 +150,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 12://»ù´¡ÊªÍÁ
+	case 12://åŸºç¡€æ¹¿åœŸ
 	{
 		Item* BasicRetainingSoil = terial::create("stone");
 		if (Back->matchJudge(BasicRetainingSoil, 2))
@@ -159,7 +159,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 13://µ¾²İÈË
+	case 13://ç¨»è‰äºº
 	{
 		Item* ScareCrow1 = terial::create("wood");
 		Item* ScareCrow2 = terial::create("coal");
@@ -170,7 +170,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 14://Óã¶ü
+	case 14://é±¼é¥µ
 	{
 		Item* Bait = AnimalProduct::create("bugmeat");
 		if (Back->matchJudge(Bait, amountOfBugmeatForBait))
@@ -179,7 +179,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 15://Ó£ÌÒÕ¨µ¯
+	case 15://æ¨±æ¡ƒç‚¸å¼¹
 	{
 		Item* CherryBomb1 = terial::create("coal");
 		Item* CherryBomb2 = terial::create("copperore");
@@ -189,7 +189,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 16://½×Ìİ
+	case 16://é˜¶æ¢¯
 	{
 		Item* StairCase = terial::create("stone");
 		if (Back->matchJudge(StairCase, 99))
@@ -198,7 +198,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 17://óô»ğ
+	case 17://ç¯ç«
 	{
 		Item* CampFire1 = terial::create("stone");
 		Item* CampFire2 = terial::create("wood");
@@ -209,7 +209,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 18://´ºÈÕÒ°ÖÖ
+	case 18://æ˜¥æ—¥é‡ç§
 	{
 		Item* SpringSeed1 = Fruit::create("wildhorseradish");
 		Item* SpringSeed2 = Fruit::create("daffodil");
@@ -227,7 +227,7 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 	}
 }
 
-//ºÏ³ÉÎïÆ·
+//åˆæˆç‰©å“
 Item* craftTable::getItem(backPack* Back, int itemToMake) {
 	switch (itemToMake) {
 	case 0:
@@ -351,235 +351,235 @@ Item* craftTable::getItem(backPack* Back, int itemToMake) {
 	}
 }
 
-//PierreÉÌµê²¿·Ö
+//Pierreå•†åº—éƒ¨åˆ†
 
-//ÎïÆ·¶ÔÓ¦Êı×Ö
-// season 1£º
-//   0--·À·ç²İ
-//   1--Çà¶¹
-//   2--»¨Ò¬²Ë
-//   3--ÍÁ¶¹
-//   4--Óô½ğÏãÇò¾¥
-//   5--¸ÊÀ¶
-//   6--À¶¾ôÊ¿
-//   7--´óËâ
-//   8--µ¾Ãç  
-//   9--²İ×Ñ
-//   10--²İ×ÑÅä·½
-//   11--ÌÇ
-//   12--´óÂó·Û
-//   13--´óÃ×
-//   14--ÓÍ
-//   15--´×
-//   16--³õ¼¶·ÊÁÏ
-//   17--¸ß¼‰·ÊÁÏ
-//   18--³õ¼¶±£ÊªÍÁÈÀ
-//   19--¸ß¼¶±£ÊªÍÁÈÀ
-//   20--Ó£ÌÒÊ÷Ãç
-//   21--ĞÓ×ÓÊ÷Ãç
-//   22--³È×ÓÊ÷Ãç
-//   23--ÌÒ×ÓÊ÷Ãç
-//   24--Ê¯ÁñÊ÷Ãç
-//   25--Æ»¹ûÊ÷Ãç
-//   26--»¨Êø
-// season 2£º
-//   0--Ìğ¹Ï
-//   1--Î÷ºìÊÁ
-//   2--À¶İ®
-//   3--À±½·
-//   4--Ğ¡Âó
-//   5--ÂÜ²·
-//   6--ÓİÃÀÈË
-//   7--ÏÄ¼¾ÁÁÆ¬
-//   8--Æ¡¾Æ»¨
-//   9--ÓñÃ×
-//   10--ÏòÈÕ¿û
-//   11--ºìÒ¶¾íĞÄ²Ë
-//   12--²İ×Ñ
-//   13--²İ×ÑÅä·½
-//   14--ÌÇ
-//   15--´óÂó·Û
-//   16--´óÃ×
-//   17--ÓÍ
-//   18--´×
-//   19--³õ¼¶·ÊÁÏ
-//   20--¸ß¼‰·ÊÁÏ
-//   21--³õ¼¶±£ÊªÍÁÈÀ
-//   22--¸ß¼¶±£ÊªÍÁÈÀ
-//   23--Ó£ÌÒÊ÷Ãç
-//   24--ĞÓ×ÓÊ÷Ãç
-//   25--³È×ÓÊ÷Ãç
-//   26--ÌÒ×ÓÊ÷Ãç
-//   27--Ê¯ÁñÊ÷Ãç
-//   28--Æ»¹ûÊ÷Ãç
-//   29--»¨Êø
-// // season 3£º
-//   0--ÇÑ×Ó
-//   1--ÓñÃ×
-//   2--ÄÏ¹Ï
-//   3--Ğ¡°×²Ë
-//   4--É½Ò©
-//   5--ÂûÔ½İ®
-//   6--ÏòÈÕ¿û
-//   7--Ãµ¹åÏÉ×Ó
-//   8--ÜÈ²Ë
-//   9--ÆÏÌÑ
-//   10--Ğ¡Âó
-//   11--Ñó¼»
-//   12--²İ×Ñ
-//   13--²İ×ÑÅä·½
-//   14--ÌÇ
-//   15--´óÂó·Û
-//   16--´óÃ×
-//   17--ÓÍ
-//   18--´×
-//   19--³õ¼¶·ÊÁÏ
-//   20--¸ß¼‰·ÊÁÏ
-//   21--³õ¼¶±£ÊªÍÁÈÀ
-//   22--¸ß¼¶±£ÊªÍÁÈÀ
-//   23--Ó£ÌÒÊ÷Ãç
-//   24--ĞÓ×ÓÊ÷Ãç
-//   25--³È×ÓÊ÷Ãç
-//   26--ÌÒ×ÓÊ÷Ãç
-//   27--Ê¯ÁñÊ÷Ãç
-//   28--Æ»¹ûÊ÷Ãç
-//   29--»¨Êø
-//¶ÔÊÇ·ñÂòµÃÆğµÄÅĞ¶Ï
+//ç‰©å“å¯¹åº”æ•°å­—
+// season 1ï¼š
+//   0--é˜²é£è‰
+//   1--é’è±†
+//   2--èŠ±æ¤°èœ
+//   3--åœŸè±†
+//   4--éƒé‡‘é¦™çƒèŒ
+//   5--ç”˜è“
+//   6--è“çˆµå£«
+//   7--å¤§è’œ
+//   8--ç¨»è‹—  
+//   9--è‰ç±½
+//   10--è‰ç±½é…æ–¹
+//   11--ç³–
+//   12--å¤§éº¦ç²‰
+//   13--å¤§ç±³
+//   14--æ²¹
+//   15--é†‹
+//   16--åˆçº§è‚¥æ–™
+//   17--é«˜ç´šè‚¥æ–™
+//   18--åˆçº§ä¿æ¹¿åœŸå£¤
+//   19--é«˜çº§ä¿æ¹¿åœŸå£¤
+//   20--æ¨±æ¡ƒæ ‘è‹—
+//   21--æå­æ ‘è‹—
+//   22--æ©™å­æ ‘è‹—
+//   23--æ¡ƒå­æ ‘è‹—
+//   24--çŸ³æ¦´æ ‘è‹—
+//   25--è‹¹æœæ ‘è‹—
+//   26--èŠ±æŸ
+// season 2ï¼š
+//   0--ç”œç“œ
+//   1--è¥¿çº¢æŸ¿
+//   2--è“è“
+//   3--è¾£æ¤’
+//   4--å°éº¦
+//   5--èåœ
+//   6--è™ç¾äºº
+//   7--å¤å­£äº®ç‰‡
+//   8--å•¤é…’èŠ±
+//   9--ç‰ç±³
+//   10--å‘æ—¥è‘µ
+//   11--çº¢å¶å·å¿ƒèœ
+//   12--è‰ç±½
+//   13--è‰ç±½é…æ–¹
+//   14--ç³–
+//   15--å¤§éº¦ç²‰
+//   16--å¤§ç±³
+//   17--æ²¹
+//   18--é†‹
+//   19--åˆçº§è‚¥æ–™
+//   20--é«˜ç´šè‚¥æ–™
+//   21--åˆçº§ä¿æ¹¿åœŸå£¤
+//   22--é«˜çº§ä¿æ¹¿åœŸå£¤
+//   23--æ¨±æ¡ƒæ ‘è‹—
+//   24--æå­æ ‘è‹—
+//   25--æ©™å­æ ‘è‹—
+//   26--æ¡ƒå­æ ‘è‹—
+//   27--çŸ³æ¦´æ ‘è‹—
+//   28--è‹¹æœæ ‘è‹—
+//   29--èŠ±æŸ
+// // season 3ï¼š
+//   0--èŒ„å­
+//   1--ç‰ç±³
+//   2--å—ç“œ
+//   3--å°ç™½èœ
+//   4--å±±è¯
+//   5--è”“è¶Šè“
+//   6--å‘æ—¥è‘µ
+//   7--ç«ç‘°ä»™å­
+//   8--è‹‹èœ
+//   9--è‘¡è„
+//   10--å°éº¦
+//   11--æ´‹è“Ÿ
+//   12--è‰ç±½
+//   13--è‰ç±½é…æ–¹
+//   14--ç³–
+//   15--å¤§éº¦ç²‰
+//   16--å¤§ç±³
+//   17--æ²¹
+//   18--é†‹
+//   19--åˆçº§è‚¥æ–™
+//   20--é«˜ç´šè‚¥æ–™
+//   21--åˆçº§ä¿æ¹¿åœŸå£¤
+//   22--é«˜çº§ä¿æ¹¿åœŸå£¤
+//   23--æ¨±æ¡ƒæ ‘è‹—
+//   24--æå­æ ‘è‹—
+//   25--æ©™å­æ ‘è‹—
+//   26--æ¡ƒå­æ ‘è‹—
+//   27--çŸ³æ¦´æ ‘è‹—
+//   28--è‹¹æœæ ‘è‹—
+//   29--èŠ±æŸ
+//å¯¹æ˜¯å¦ä¹°å¾—èµ·çš„åˆ¤æ–­
 bool Pierre::isAffordable(backPack* Back, int itemToMake,int season) {
 	switch (season) {
 	case 1:
 		switch (itemToMake) {
-			case 0://Parsnip·À·ç²İ
+			case 0://Parsnipé˜²é£è‰
 				if (Back->moneyOut() >= parsnipseed1)
 					return 1;
 				else
 					return 0;
-			case 1://GreenBeanÇà¶¹
+			case 1://GreenBeané’è±†
 				if (Back->moneyOut() >= greenbeanseed1)
 					return 1;
 				else
 					return 0;
-			case 2://cauliflower»¨Ò¬²Ë
+			case 2://cauliflowerèŠ±æ¤°èœ
 				if (Back->moneyOut() >= cauliflowerseed1)
 					return 1;
 				else
 					return 0;
-			case 3://potatoÍÁ¶¹
+			case 3://potatoåœŸè±†
 				if (Back->moneyOut() >= potatoseed1)
 					return 1;
 				else
 					return 0;
-			case 4://Tulip bulbsÓô½ğÏãÇò¾¥
+			case 4://Tulip bulbséƒé‡‘é¦™çƒèŒ
 				if (Back->moneyOut() >= tulipbulbsseed1)
 					return 1;
 				else
 					return 0;
-			case 5://cabbage¸ÊÀ¶
+			case 5://cabbageç”˜è“
 				if (Back->moneyOut() >= cabbageseed1)
 					return 1;
 				else
 					return 0;
-			case 6://Blue Jazz À¶¾ôÊ¿
+			case 6://Blue Jazz è“çˆµå£«
 				if (Back->moneyOut() >= bluejazzseed1)
 					return 1;
 				else
 					return 0;
-			case 7://Garlic´óËâ
+			case 7://Garlicå¤§è’œ
 				if(Back->moneyOut() >= garlicseed1)
 					return 1;
 				else
 					return 0;
-			case 8://rice seedlingµ¾Ãç
+			case 8://rice seedlingç¨»è‹—
 				if (Back->moneyOut() >= riceseedlingseed1)
 					return 1;
 				else
 					return 0;
-			case 9://grass seed²İ×Ñ
+			case 9://grass seedè‰ç±½
 				if (Back->moneyOut() >= grassseed1)
 					return 1;
 				else
 					return 0;
-			case 10://grass seed formulation²İ×ÑÅä·½
+			case 10://grass seed formulationè‰ç±½é…æ–¹
 				if (Back->moneyOut() >= 5)
 					return 1;
 				else
 					return 0;
-			case 11://sugar ÌÇ
+			case 11://sugar ç³–
 				if (Back->moneyOut() >= 20)
 					return 1;
 				else
 					return 0;
-			case 12://barley flour ´óÂó·Û
+			case 12://barley flour å¤§éº¦ç²‰
 				if (Back->moneyOut() >= 25)
 					return 1;
 				else
 					return 0;
-			case 13://rice ´óÃ×
+			case 13://rice å¤§ç±³
 				if (Back->moneyOut() >= 50)
 					return 1;
 				else
 					return 0;
-			case 14://oil ÓÍ
+			case 14://oil æ²¹
 				if (Back->moneyOut() >= 20)
 					return 1;
 				else
 					return 0;
-			case 15://vinegar ´×
+			case 15://vinegar é†‹
 				if (Back->moneyOut() >= 15)
 					return 1;
 				else
 					return 0;
-			case 16://Basic Fertilizer³õ¼¶·ÊÁÏ
+			case 16://Basic Fertilizeråˆçº§è‚¥æ–™
 				if (Back->moneyOut() >= 30)
 					return 1;
 				else
 					return 0;
-			case 17://Senior Fertilizer¸ß¼‰·ÊÁÏ
+			case 17://Senior Fertilizeré«˜ç´šè‚¥æ–™
 				if (Back->moneyOut() >= 50)
 					return 1;
 				else
 					return 0;
-			case 18://Basic remaining soil³õ¼¶±£ÊªÍÁÈÀ
+			case 18://Basic remaining soilåˆçº§ä¿æ¹¿åœŸå£¤
 				if (Back->moneyOut() >= 50)
 					return 1;
 				else
 					return 0;
-			case 19://Senior remaining soil¸ß¼¶±£ÊªÍÁÈÀ
+			case 19://Senior remaining soilé«˜çº§ä¿æ¹¿åœŸå£¤
 				if (Back->moneyOut() >= 100)
 					return 1;
 				else
 					return 0;
-			case 20://Cherry saplingsÓ£ÌÒÊ÷Ãç
+			case 20://Cherry saplingsæ¨±æ¡ƒæ ‘è‹—
 				if (Back->moneyOut() >= cherrysaplings1)
 					return 1;
 				else
 					return 0;
-			case 21://Apricot saplingsĞÓ×ÓÊ÷Ãç
+			case 21://Apricot saplingsæå­æ ‘è‹—
 				if (Back->moneyOut() >= apricotsaplings1)
 					return 1;
 				else
 					return 0;
-			case 22://Orange saplings³È×ÓÊ÷Ãç
+			case 22://Orange saplingsæ©™å­æ ‘è‹—
 				if (Back->moneyOut() >= orangesaplings1)
 					return 1;
 				else
 					return 0;
-			case 23://Peach saplingsÌÒ×ÓÊ÷Ãç
+			case 23://Peach saplingsæ¡ƒå­æ ‘è‹—
 				if (Back->moneyOut() >= peachsaplings1)
 					return 1;
 				else
 					return 0;
-			case 24://Pomegranate saplingsÊ¯ÁñÊ÷Ãç
+			case 24://Pomegranate saplingsçŸ³æ¦´æ ‘è‹—
 				if (Back->moneyOut() >= pomegranatesaplings1)
 					return 1;
 				else
 					return 0;
-			case 25://Apple saplingsÆ»¹ûÊ÷Ãç
+			case 25://Apple saplingsè‹¹æœæ ‘è‹—
 				if (Back->moneyOut() >= applesaplings1)
 					return 1;
 				else
 					return 0;
-			case 26://flowers »¨Êø
+			case 26://flowers èŠ±æŸ
 				if (Back->moneyOut() >= 50)
 					return 1;
 				else
@@ -590,152 +590,152 @@ bool Pierre::isAffordable(backPack* Back, int itemToMake,int season) {
 		break;
 	case 2:
 		switch (itemToMake) {
-		case 0://melonÌğ¹Ï
+		case 0://melonç”œç“œ
 			if (Back->moneyOut() >= 80)
 				return 1;
 			else
 				return 0;
-		case 1://tomatoÎ÷ºìÊÁ
+		case 1://tomatoè¥¿çº¢æŸ¿
 			if (Back->moneyOut() >= 50)
 				return 1;
 			else
 				return 0;
-		case 2://blueburryÀ¶İ®
+		case 2://blueburryè“è“
 			if (Back->moneyOut() >= 80)
 				return 1;
 			else
 				return 0;
-		case 3://chili pepperÀ±½·
+		case 3://chili pepperè¾£æ¤’
 			if (Back->moneyOut() >= 40)
 				return 1;
 			else
 				return 0;
-		case 4://wheatĞ¡Âó
+		case 4://wheatå°éº¦
 			if (Back->moneyOut() >= 10)
 				return 1;
 			else
 				return 0;
-		case 5://turnipÂÜ²·
+		case 5://turnipèåœ
 			if (Back->moneyOut() >= 40)
 				return 1;
 			else
 				return 0;
-		case 6://Poppies ÓİÃÀÈË
+		case 6://Poppies è™ç¾äºº
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 7://Summer sequinsÏÄ¼¾ÁÁÆ¬
+		case 7://Summer sequinså¤å­£äº®ç‰‡
 			if (Back->moneyOut() >= 50)
 				return 1;
 			else
 				return 0;
-		case 8://hop Æ¡¾Æ»¨
+		case 8://hop å•¤é…’èŠ±
 			if (Back->moneyOut() >= 60)
 				return 1;
 			else
 				return 0;
-		case 9://cornÓñÃ×
+		case 9://cornç‰ç±³
 			if (Back->moneyOut() >= 150)
 				return 1;
 			else
 				return 0;
-		case 10://sunflowerÏòÈÕ¿û
+		case 10://sunflowerå‘æ—¥è‘µ
 			if (Back->moneyOut() >= 200)
 				return 1;
 			else
 				return 0;
-		case 11://Red leaf cabbageºìÒ¶¾íĞÄ²Ë
+		case 11://Red leaf cabbageçº¢å¶å·å¿ƒèœ
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 12://grass seed²İ×Ñ
+		case 12://grass seedè‰ç±½
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 13://grass seed formulation²İ×ÑÅä·½
+		case 13://grass seed formulationè‰ç±½é…æ–¹
 			if (Back->moneyOut() >= 1000)
 				return 1;
 			else
 				return 0;
-		case 14://sugar ÌÇ
+		case 14://sugar ç³–
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 15://barley flour ´óÂó·Û
+		case 15://barley flour å¤§éº¦ç²‰
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 16://rice ´óÃ×
+		case 16://rice å¤§ç±³
 			if (Back->moneyOut() >= 200)
 				return 1;
 			else
 				return 0;
-		case 17://oil ÓÍ
+		case 17://oil æ²¹
 			if (Back->moneyOut() >= 200)
 				return 1;
 			else
 				return 0;
-		case 18://vinegar ´×
+		case 18://vinegar é†‹
 			if (Back->moneyOut() >= 200)
 				return 1;
 			else
 				return 0;
-		case 19://Basic Fertilizer³õ¼¶·ÊÁÏ
+		case 19://Basic Fertilizeråˆçº§è‚¥æ–™
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 20://Senior Fertilizer¸ß¼‰·ÊÁÏ
+		case 20://Senior Fertilizeré«˜ç´šè‚¥æ–™
 			if (Back->moneyOut() >= 150)
 				return 1;
 			else
 				return 0;
-		case 21://Basic remaining soil³õ¼¶±£ÊªÍÁÈÀ
+		case 21://Basic remaining soilåˆçº§ä¿æ¹¿åœŸå£¤
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 22://Senior remaining soil¸ß¼¶±£ÊªÍÁÈÀ
+		case 22://Senior remaining soilé«˜çº§ä¿æ¹¿åœŸå£¤
 			if (Back->moneyOut() >= 150)
 				return 1;
 			else
 				return 0;
-		case 23://Cherry saplingsÓ£ÌÒÊ÷Ãç
+		case 23://Cherry saplingsæ¨±æ¡ƒæ ‘è‹—
 			if (Back->moneyOut() >= 3400)
 				return 1;
 			else
 				return 0;
-		case 24://Apricot saplingsĞÓ×ÓÊ÷Ãç
+		case 24://Apricot saplingsæå­æ ‘è‹—
 			if (Back->moneyOut() >= 2000)
 				return 1;
 			else
 				return 0;
-		case 25://Orange saplings³È×ÓÊ÷Ãç
+		case 25://Orange saplingsæ©™å­æ ‘è‹—
 			if (Back->moneyOut() >= 4000)
 				return 1;
 			else
 				return 0;
-		case 26://Peach saplingsÌÒ×ÓÊ÷Ãç
+		case 26://Peach saplingsæ¡ƒå­æ ‘è‹—
 			if (Back->moneyOut() >= 6000)
 				return 1;
 			else
 				return 0;
-		case 27://Pomegranate saplingsÊ¯ÁñÊ÷Ãç
+		case 27://Pomegranate saplingsçŸ³æ¦´æ ‘è‹—
 			if (Back->moneyOut() >= 6000)
 				return 1;
 			else
 				return 0;
-		case 28://Apple saplingsÆ»¹ûÊ÷Ãç
+		case 28://Apple saplingsè‹¹æœæ ‘è‹—
 			if (Back->moneyOut() >= 4000)
 				return 1;
 			else
 				return 0;
-		case 29://flowers »¨Êø
+		case 29://flowers èŠ±æŸ
 			if (Back->moneyOut() >= 200)
 				return 1;
 			else
@@ -746,152 +746,152 @@ bool Pierre::isAffordable(backPack* Back, int itemToMake,int season) {
 		break;
 	case 3:
 		switch (itemToMake) {
-		case 0://eggplantÇÑ×Ó
+		case 0://eggplantèŒ„å­
 			if (Back->moneyOut() >= 20)
 				return 1;
 			else
 				return 0;
-		case 1://cornÓñÃ×
+		case 1://cornç‰ç±³
 			if (Back->moneyOut() >= 150)
 				return 1;
 			else
 				return 0;
-		case 2://pumpkinÄÏ¹Ï
+		case 2://pumpkinå—ç“œ
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 3://Chinese cabbageĞ¡°×²Ë
+		case 3://Chinese cabbageå°ç™½èœ
 			if (Back->moneyOut() >= 50)
 				return 1;
 			else
 				return 0;
-		case 4://yamÉ½Ò©
+		case 4://yamå±±è¯
 			if (Back->moneyOut() >= 60)
 				return 1;
 			else
 				return 0;
-		case 5://CranberriesÂûÔ½İ®
+		case 5://Cranberriesè”“è¶Šè“
 			if (Back->moneyOut() >= 240)
 				return 1;
 			else
 				return 0;
-		case 6://sunflower ÏòÈÕ¿û
+		case 6://sunflower å‘æ—¥è‘µ
 			if (Back->moneyOut() >= 200)
 				return 1;
 			else
 				return 0;
-		case 7://Rose FairyÃµ¹åÏÉ×Ó
+		case 7://Rose Fairyç«ç‘°ä»™å­
 			if (Back->moneyOut() >= 200)
 				return 1;
 			else
 				return 0;
-		case 8://amaranthÜÈ²Ë
+		case 8://amaranthè‹‹èœ
 			if (Back->moneyOut() >= 70)
 				return 1;
 			else
 				return 0;
-		case 9://grapeÆÏÌÑ
+		case 9://grapeè‘¡è„
 			if (Back->moneyOut() >= 60)
 				return 1;
 			else
 				return 0;
-		case 10://wheatĞ¡Âó
+		case 10://wheatå°éº¦
 			if (Back->moneyOut() >= 10)
 				return 1;
 			else
 				return 0;
-		case 11://artichokeÑó¼»
+		case 11://artichokeæ´‹è“Ÿ
 			if (Back->moneyOut() >= 30)
 				return 1;
 			else
 				return 0;
-		case 12://grass seed²İ×Ñ
+		case 12://grass seedè‰ç±½
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 13://grass seed formulation²İ×ÑÅä·½
+		case 13://grass seed formulationè‰ç±½é…æ–¹
 			if (Back->moneyOut() >= 1000)
 				return 1;
 			else
 				return 0;
-		case 14://sugar ÌÇ
+		case 14://sugar ç³–
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 15://barley flour ´óÂó·Û
+		case 15://barley flour å¤§éº¦ç²‰
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 16://rice ´óÃ×
+		case 16://rice å¤§ç±³
 			if (Back->moneyOut() >= 200)
 				return 1;
 			else
 				return 0;
-		case 17://oil ÓÍ
+		case 17://oil æ²¹
 			if (Back->moneyOut() >= 200)
 				return 1;
 			else
 				return 0;
-		case 18://vinegar ´×
+		case 18://vinegar é†‹
 			if (Back->moneyOut() >= 200)
 				return 1;
 			else
 				return 0;
-		case 19://Basic Fertilizer³õ¼¶·ÊÁÏ
+		case 19://Basic Fertilizeråˆçº§è‚¥æ–™
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 20://Senior Fertilizer¸ß¼‰·ÊÁÏ
+		case 20://Senior Fertilizeré«˜ç´šè‚¥æ–™
 			if (Back->moneyOut() >= 150)
 				return 1;
 			else
 				return 0;
-		case 21://Basic remaining soil³õ¼¶±£ÊªÍÁÈÀ
+		case 21://Basic remaining soilåˆçº§ä¿æ¹¿åœŸå£¤
 			if (Back->moneyOut() >= 100)
 				return 1;
 			else
 				return 0;
-		case 22://Senior remaining soil¸ß¼¶±£ÊªÍÁÈÀ
+		case 22://Senior remaining soilé«˜çº§ä¿æ¹¿åœŸå£¤
 			if (Back->moneyOut() >= 150)
 				return 1;
 			else
 				return 0;
-		case 23://Cherry saplingsÓ£ÌÒÊ÷Ãç
+		case 23://Cherry saplingsæ¨±æ¡ƒæ ‘è‹—
 			if (Back->moneyOut() >= 3400)
 				return 1;
 			else
 				return 0;
-		case 24://Apricot saplingsĞÓ×ÓÊ÷Ãç
+		case 24://Apricot saplingsæå­æ ‘è‹—
 			if (Back->moneyOut() >= 2000)
 				return 1;
 			else
 				return 0;
-		case 25://Orange saplings³È×ÓÊ÷Ãç
+		case 25://Orange saplingsæ©™å­æ ‘è‹—
 			if (Back->moneyOut() >= 4000)
 				return 1;
 			else
 				return 0;
-		case 26://Peach saplingsÌÒ×ÓÊ÷Ãç
+		case 26://Peach saplingsæ¡ƒå­æ ‘è‹—
 			if (Back->moneyOut() >= 6000)
 				return 1;
 			else
 				return 0;
-		case 27://Pomegranate saplingsÊ¯ÁñÊ÷Ãç
+		case 27://Pomegranate saplingsçŸ³æ¦´æ ‘è‹—
 			if (Back->moneyOut() >= 6000)
 				return 1;
 			else
 				return 0;
-		case 28://Apple saplingsÆ»¹ûÊ÷Ãç
+		case 28://Apple saplingsè‹¹æœæ ‘è‹—
 			if (Back->moneyOut() >= 4000)
 				return 1;
 			else
 				return 0;
-		case 29://flowers »¨Êø
+		case 29://flowers èŠ±æŸ
 			if (Back->moneyOut() >= 200)
 				return 1;
 			else
@@ -994,94 +994,94 @@ std::string Pierre::itemMoneyOut(int posi,int season) {
 	}
 	case 2: {
 		switch (posi) {
-		case 0://melonÌğ¹Ï
+		case 0://melonç”œç“œ
 			return "80";
 			break;
-		case 1://tomatoÎ÷ºìÊÁ
+		case 1://tomatoè¥¿çº¢æŸ¿
 			return "50";
 			break;
-		case 2://blueburryÀ¶İ®
+		case 2://blueburryè“è“
 			return "80";
 			break;
-		case 3://chili pepperÀ±½·
+		case 3://chili pepperè¾£æ¤’
 			return "40";
 			break;
-		case 4://wheatĞ¡Âó
+		case 4://wheatå°éº¦
 			return "10";
 			break;
-		case 5://turnipÂÜ²·
+		case 5://turnipèåœ
 			return "40";
 			break;
-		case 6://Poppies ÓİÃÀÈË
+		case 6://Poppies è™ç¾äºº
 			return "100";
 			break;
-		case 7://Summer sequinsÏÄ¼¾ÁÁÆ¬
+		case 7://Summer sequinså¤å­£äº®ç‰‡
 			return "50";
 			break;
-		case 8://hop Æ¡¾Æ»¨
+		case 8://hop å•¤é…’èŠ±
 			return "60";
 			break;
-		case 9://cornÓñÃ×
+		case 9://cornç‰ç±³
 			return "150";
 			break;
-		case 10://sunflowerÏòÈÕ¿û
+		case 10://sunflowerå‘æ—¥è‘µ
 			return "200";
 			break;
-		case 11://Red leaf cabbageºìÒ¶¾íĞÄ²Ë
+		case 11://Red leaf cabbageçº¢å¶å·å¿ƒèœ
 			return "50";
 			break;
-		case 12://grass seed²İ×Ñ
+		case 12://grass seedè‰ç±½
 			return "5";
 			break;
-		case 13://grass seed formulation²İ×ÑÅä·½
+		case 13://grass seed formulationè‰ç±½é…æ–¹
 			return "50";
 			break;
-		case 14://sugar ÌÇ
+		case 14://sugar ç³–
 			return "20";
 			break;
-		case 15://barley flour ´óÂó·Û
+		case 15://barley flour å¤§éº¦ç²‰
 			return "25";
 			break;
-		case 16://rice ´óÃ×
+		case 16://rice å¤§ç±³
 			return "50";
 			break;
-		case 17://oil ÓÍ
+		case 17://oil æ²¹
 			return "20";
 			break;
-		case 18://vinegar ´×
+		case 18://vinegar é†‹
 			return "15";
 			break;
-		case 19://Basic Fertilizer³õ¼¶·ÊÁÏ
+		case 19://Basic Fertilizeråˆçº§è‚¥æ–™
 			return "30";
 			break;
-		case 20://Senior Fertilizer¸ß¼‰·ÊÁÏ
+		case 20://Senior Fertilizeré«˜ç´šè‚¥æ–™
 			return "50";
 			break;
-		case 21://Basic remaining soil³õ¼¶±£ÊªÍÁÈÀ
+		case 21://Basic remaining soilåˆçº§ä¿æ¹¿åœŸå£¤
 			return "50";
 			break;
-		case 22://Senior remaining soil¸ß¼¶±£ÊªÍÁÈÀ
+		case 22://Senior remaining soilé«˜çº§ä¿æ¹¿åœŸå£¤
 			return "100";
 			break;
-		case 23://Cherry saplingsÓ£ÌÒÊ÷Ãç
+		case 23://Cherry saplingsæ¨±æ¡ƒæ ‘è‹—
 			return "10";
 			break;
-		case 24://Apricot saplingsĞÓ×ÓÊ÷Ãç
+		case 24://Apricot saplingsæå­æ ‘è‹—
 			return "15";
 			break;
-		case 25://Orange saplings³È×ÓÊ÷Ãç
+		case 25://Orange saplingsæ©™å­æ ‘è‹—
 			return "25";
 			break;
-		case 26://Peach saplingsÌÒ×ÓÊ÷Ãç
+		case 26://Peach saplingsæ¡ƒå­æ ‘è‹—
 			return "35";
 			break;
-		case 27://Pomegranate saplingsÊ¯ÁñÊ÷Ãç
+		case 27://Pomegranate saplingsçŸ³æ¦´æ ‘è‹—
 			return "55";
 			break;
-		case 28://Apple saplingsÆ»¹ûÊ÷Ãç
+		case 28://Apple saplingsè‹¹æœæ ‘è‹—
 			return "55";
 			break;
-		case 29://flowers »¨Êø
+		case 29://flowers èŠ±æŸ
 			return "50";
 			break;
 		default:
@@ -1090,94 +1090,94 @@ std::string Pierre::itemMoneyOut(int posi,int season) {
 	}
 	case 3: {
 		switch (posi) {
-		case 0://eggplantÇÑ×Ó
+		case 0://eggplantèŒ„å­
 			return "20";
 			break;
-		case 1://cornÓñÃ×
+		case 1://cornç‰ç±³
 			return "150";
 			break;
-		case 2://pumpkinÄÏ¹Ï
+		case 2://pumpkinå—ç“œ
 			return "100";
 			break;
-		case 3://Chinese cabbageĞ¡°×²Ë
+		case 3://Chinese cabbageå°ç™½èœ
 			return "50";
 			break;
-		case 4://yamÉ½Ò©
+		case 4://yamå±±è¯
 			return "60";
 			break;
-		case 5://CranberriesÂûÔ½İ®
+		case 5://Cranberriesè”“è¶Šè“
 			return "240";
 			break;
-		case 6://sunflower ÏòÈÕ¿û
+		case 6://sunflower å‘æ—¥è‘µ
 			return "200";
 			break;
-		case 7://Rose FairyÃµ¹åÏÉ×Ó
+		case 7://Rose Fairyç«ç‘°ä»™å­
 			return "200";
 			break;
-		case 8://amaranthÜÈ²Ë
+		case 8://amaranthè‹‹èœ
 			return "70";
 			break;
-		case 9://grapeÆÏÌÑ
+		case 9://grapeè‘¡è„
 			return "60";
 			break;
-		case 10://wheatĞ¡Âó
+		case 10://wheatå°éº¦
 			return "10";
 			break;
-		case 11://artichokeÑó¼»
+		case 11://artichokeæ´‹è“Ÿ
 			return "30";
 			break;
-		case 12://grass seed²İ×Ñ
+		case 12://grass seedè‰ç±½
 			return "5";
 			break;
-		case 13://grass seed formulation²İ×ÑÅä·½
+		case 13://grass seed formulationè‰ç±½é…æ–¹
 			return "50";
 			break;
-		case 14://sugar ÌÇ
+		case 14://sugar ç³–
 			return "20";
 			break;
-		case 15://barley flour ´óÂó·Û
+		case 15://barley flour å¤§éº¦ç²‰
 			return "25";
 			break;
-		case 16://rice ´óÃ×
+		case 16://rice å¤§ç±³
 			return "50";
 			break;
-		case 17://oil ÓÍ
+		case 17://oil æ²¹
 			return "20";
 			break;
-		case 18://vinegar ´×
+		case 18://vinegar é†‹
 			return "15";
 			break;
-		case 19://Basic Fertilizer³õ¼¶·ÊÁÏ
+		case 19://Basic Fertilizeråˆçº§è‚¥æ–™
 			return "30";
 			break;
-		case 20://Senior Fertilizer¸ß¼‰·ÊÁÏ
+		case 20://Senior Fertilizeré«˜ç´šè‚¥æ–™
 			return "50";
 			break;
-		case 21://Basic remaining soil³õ¼¶±£ÊªÍÁÈÀ
+		case 21://Basic remaining soilåˆçº§ä¿æ¹¿åœŸå£¤
 			return "50";
 			break;
-		case 22://Senior remaining soil¸ß¼¶±£ÊªÍÁÈÀ
+		case 22://Senior remaining soilé«˜çº§ä¿æ¹¿åœŸå£¤
 			return "100";
 			break;
-		case 23://Cherry saplingsÓ£ÌÒÊ÷Ãç
+		case 23://Cherry saplingsæ¨±æ¡ƒæ ‘è‹—
 			return "10";
 			break;
-		case 24://Apricot saplingsĞÓ×ÓÊ÷Ãç
+		case 24://Apricot saplingsæå­æ ‘è‹—
 			return "15";
 			break;
-		case 25://Orange saplings³È×ÓÊ÷Ãç
+		case 25://Orange saplingsæ©™å­æ ‘è‹—
 			return "25";
 			break;
-		case 26://Peach saplingsÌÒ×ÓÊ÷Ãç
+		case 26://Peach saplingsæ¡ƒå­æ ‘è‹—
 			return "35";
 			break;
-		case 27://Pomegranate saplingsÊ¯ÁñÊ÷Ãç
+		case 27://Pomegranate saplingsçŸ³æ¦´æ ‘è‹—
 			return "55";
 			break;
-		case 28://Apple saplingsÆ»¹ûÊ÷Ãç
+		case 28://Apple saplingsè‹¹æœæ ‘è‹—
 			return "55";
 			break;
-		case 29://flowers »¨Êø
+		case 29://flowers èŠ±æŸ
 			return "50";
 			break;
 		default:
@@ -1774,142 +1774,142 @@ std::string Pierre::itemNameOut(int no, int season,bool choise) {
 		return outItem + ".png";
 }
 
-//ÂòÏÂÎïÆ·
+//ä¹°ä¸‹ç‰©å“
 Item* Pierre::getItem(backPack* Back, int itemToMake, int season) {
 	switch (season){
 	case 1:
 		switch (itemToMake) {
-		case 0://Parsnip·À·ç²İ
+		case 0://Parsnipé˜²é£è‰
 		{
 			Item* Parsnip = Seed::create("parsnipseed");
 			return Parsnip;
 		}
-		case 1://GreenBeanÇà¶¹
+		case 1://GreenBeané’è±†
 		{
 			Item* GreenBean = Seed::create("greenbean");
 			return GreenBean;
 		}
-		case 2://cauliflower»¨Ò¬²Ë
+		case 2://cauliflowerèŠ±æ¤°èœ
 		{
 			Item* Cauliflower = Seed::create("cauliflower");
 			return Cauliflower;
 		}
-		case 3://potatoÍÁ¶¹
+		case 3://potatoåœŸè±†
 		{
 			Item* Potato = Seed::create("potato");
 			return Potato;
 		}
-		case 4://Tulip bulbsÓô½ğÏãÇò¾¥
+		case 4://Tulip bulbséƒé‡‘é¦™çƒèŒ
 		{
 			Item* TulipBulbs = Seed::create("tulipbulbs");
 			return TulipBulbs;
 		}
-		case 5://cabbage¸ÊÀ¶
+		case 5://cabbageç”˜è“
 		{
 			Item* Cabbage = Seed::create("cabbage");
 			return Cabbage;
 		}
-		case 6://Blue Jazz À¶¾ôÊ¿
+		case 6://Blue Jazz è“çˆµå£«
 		{
 			Item* BlueJazz = Seed::create("bluejazz");
 			return BlueJazz;
 		}
-		case 7://Garlic´óËâ
+		case 7://Garlicå¤§è’œ
 		{
 			Item* Garlic = Seed::create("garlic");
 			return Garlic;
 		}
-		case 8://rice seedlingµ¾Ãç
+		case 8://rice seedlingç¨»è‹—
 		{
 			Item* RiceSeedling = Seed::create("riceseedling");
 			return RiceSeedling;
 		}
-		case 9://grass seed²İ×Ñ
+		case 9://grass seedè‰ç±½
 		{
 			Item* GrassSeed = Seed::create("grassseed");
 			return GrassSeed;
 		}
-		case 10://grass seed formulation²İ×ÑÅä·½
+		case 10://grass seed formulationè‰ç±½é…æ–¹
 		{
 			Item* GrassSeedFormulation = Tool::create("grassseedformulation");
 			return GrassSeedFormulation;
 		}
-		case 11://sugar ÌÇ
+		case 11://sugar ç³–
 		{
 			Item* Sugar = Tool::create("sugar");
 			return Sugar;
 		}
-		case 12://barley flour ´óÂó·Û
+		case 12://barley flour å¤§éº¦ç²‰
 		{
 			Item* BarleyFlour = Tool::create("barleyflour");
 			return BarleyFlour;
 		}
-		case 13://rice ´óÃ×
+		case 13://rice å¤§ç±³
 		{
 			Item* Rice = Tool::create("rice");
 			return Rice;
 		}
-		case 14://oil ÓÍ
+		case 14://oil æ²¹
 		{
 			Item* Oil = Tool::create("oil");
 			return Oil;
 		}
-		case 15://vinegar ´×
+		case 15://vinegar é†‹
 		{
 			Item* Vinegar = Tool::create("vinegar");
 			return Vinegar;
 		}
-		case 16://Basic Fertilizer³õ¼¶·ÊÁÏ
+		case 16://Basic Fertilizeråˆçº§è‚¥æ–™
 		{
 			Item* BasicFertilizer = Tool::create("basicfertilizer");
 			return BasicFertilizer;
 		}
-		case 17://Senior Fertilizer¸ß¼‰·ÊÁÏ
+		case 17://Senior Fertilizeré«˜ç´šè‚¥æ–™
 		{
 			Item* SeniorFertilizer = Tool::create("seniorfertilizer");
 			return SeniorFertilizer;
 		}
-		case 18://Basic remaining soil³õ¼¶±£ÊªÍÁÈÀ
+		case 18://Basic remaining soilåˆçº§ä¿æ¹¿åœŸå£¤
 		{
 			Item* BasicRemainingSoil = Tool::create("basicremainingsoil");
 			return BasicRemainingSoil;
 		}
-		case 19://Senior remaining soil¸ß¼¶±£ÊªÍÁÈÀ
+		case 19://Senior remaining soilé«˜çº§ä¿æ¹¿åœŸå£¤
 		{
 			Item* SeniorRemainingSoil = Tool::create("seniorremainingsoil");
 			return SeniorRemainingSoil;
 		}
-		case 20://Cherry saplingsÓ£ÌÒÊ÷Ãç
+		case 20://Cherry saplingsæ¨±æ¡ƒæ ‘è‹—
 		{
 			Item* CherrySaplings = Seed::create("cherrysaplings");
 			return CherrySaplings;
 		}
-		case 21://Apricot saplingsĞÓ×ÓÊ÷Ãç
+		case 21://Apricot saplingsæå­æ ‘è‹—
 		{
 			Item* ApricotSaplings = Seed::create("apricotsaplings");
 			return ApricotSaplings;
 		}
-		case 22://Orange saplings³È×ÓÊ÷Ãç
+		case 22://Orange saplingsæ©™å­æ ‘è‹—
 		{
 			Item* OrangeSaplings = Seed::create("orangesaplings");
 			return OrangeSaplings;
 		}
-		case 23://Peach saplingsÌÒ×ÓÊ÷Ãç
+		case 23://Peach saplingsæ¡ƒå­æ ‘è‹—
 		{
 			Item* PeachSaplings = Seed::create("peachsaplings");
 			return PeachSaplings;
 		}
-		case 24://Pomegranate saplingsÊ¯ÁñÊ÷Ãç
+		case 24://Pomegranate saplingsçŸ³æ¦´æ ‘è‹—
 		{
 			Item* PomegranateSaplings = Seed::create("pomegranatesaplings");
 			return PomegranateSaplings;
 		}
-		case 25://Apple saplingsÆ»¹ûÊ÷Ãç
+		case 25://Apple saplingsè‹¹æœæ ‘è‹—
 		{
 			Item* AppleSaplings = Seed::create("applesaplings");
 			return AppleSaplings;
 		}
-		case 26://flowers »¨Êø
+		case 26://flowers èŠ±æŸ
 		{
 			Item* Flowers = Tool::create("flowers");
 			return Flowers;
@@ -1920,152 +1920,152 @@ Item* Pierre::getItem(backPack* Back, int itemToMake, int season) {
 		break;
 	case 2:
 		switch (itemToMake) {
-		case 0://melonÌğ¹Ï
+		case 0://melonç”œç“œ
 		{
 			Item* Melon = Seed::create("melonseed");
 			return Melon;
 		}
-		case 1://tomatoÎ÷ºìÊÁ
+		case 1://tomatoè¥¿çº¢æŸ¿
 		{
 			Item* Tomato = Seed::create("tomatoseed");
 			return Tomato;
 		}
-		case 2://blueburryÀ¶İ®
+		case 2://blueburryè“è“
 		{
 			Item* Blueburry = Seed::create("blueburryseed");
 			return Blueburry;
 		}
-		case 3://chili pepperÀ±½·
+		case 3://chili pepperè¾£æ¤’
 		{
 			Item* ChiliPepper = Seed::create("chilipepperseed");
 			return ChiliPepper;
 		}
-		case 4://wheatĞ¡Âó
+		case 4://wheatå°éº¦
 		{
 			Item* Wheat = Seed::create("wheatseed");
 			return Wheat;
 		}
-		case 5://turnipÂÜ²·
+		case 5://turnipèåœ
 		{
 			Item* Turnip = Seed::create("turnipseed");
 			return Turnip;
 		}
-		case 6://Poppies ÓİÃÀÈË
+		case 6://Poppies è™ç¾äºº
 		{
 			Item* Poppies = Seed::create("poppiesseed");
 			return Poppies;
 		}
-		case 7://Summer sequinsÏÄ¼¾ÁÁÆ¬
+		case 7://Summer sequinså¤å­£äº®ç‰‡
 		{
 			Item* SummerSequins = Seed::create("summersequinsseed");
 			return SummerSequins;
 		}
-		case 8://hop Æ¡¾Æ»¨
+		case 8://hop å•¤é…’èŠ±
 		{
 			Item* Hop = Seed::create("hopseed");
 			return Hop;
 		}
-		case 9://cornÓñÃ×
+		case 9://cornç‰ç±³
 		{
 			Item* Corn = Seed::create("cornseedseed");
 			return Corn;
 		}
-		case 10://sunflowerÏòÈÕ¿û
+		case 10://sunflowerå‘æ—¥è‘µ
 		{
 			Item* Sunflower = Seed::create("sunflowerseed");
 			return Sunflower;
 		}
-		case 11://Red leaf cabbageºìÒ¶¾íĞÄ²Ë
+		case 11://Red leaf cabbageçº¢å¶å·å¿ƒèœ
 		{
 			Item* RedLeafCabbage = Seed::create("redleafcabbageseed");
 			return RedLeafCabbage;
 		}
-		case 12://grass seed²İ×Ñ
+		case 12://grass seedè‰ç±½
 		{
 			Item* GrassSeed = Seed::create("grassseed");
 			return GrassSeed;
 		}
-		case 13://grass seed formulation²İ×ÑÅä·½
+		case 13://grass seed formulationè‰ç±½é…æ–¹
 		{
 			Item* GrassSeedFormulation = Tool::create("grassseedformulation");
 			return GrassSeedFormulation;
 		}
-		case 14://sugar ÌÇ
+		case 14://sugar ç³–
 		{
 			Item* Sugar = Tool::create("sugar");
 			return Sugar;
 		}
-		case 15://barley flour ´óÂó·Û
+		case 15://barley flour å¤§éº¦ç²‰
 		{
 			Item* BarleyFlour = Tool::create("barleyflour");
 			return BarleyFlour;
 		}
-		case 16://rice ´óÃ×
+		case 16://rice å¤§ç±³
 		{
 			Item* Rice = Tool::create("rice");
 			return Rice;
 		}
-		case 17://oil ÓÍ
+		case 17://oil æ²¹
 		{
 			Item* Oil = Tool::create("oil");
 			return Oil;
 		}
-		case 18://vinegar ´×
+		case 18://vinegar é†‹
 		{
 			Item* Vinegar = Tool::create("vinegar");
 			return Vinegar;
 		}
-		case 19://Basic Fertilizer³õ¼¶·ÊÁÏ
+		case 19://Basic Fertilizeråˆçº§è‚¥æ–™
 		{
 			Item* BasicFertilizer = Tool::create("basicfertilizer");
 			return BasicFertilizer;
 		}
-		case 20://Senior Fertilizer¸ß¼‰·ÊÁÏ
+		case 20://Senior Fertilizeré«˜ç´šè‚¥æ–™
 		{
 			Item* SeniorFertilizer = Tool::create("seniorfertilizer");
 			return SeniorFertilizer;
 		}
-		case 21://Basic remaining soil³õ¼¶±£ÊªÍÁÈÀ
+		case 21://Basic remaining soilåˆçº§ä¿æ¹¿åœŸå£¤
 		{
 			Item* BasicRemainingSoil = Tool::create("basicremainingsoil");
 			return BasicRemainingSoil;
 		}
-		case 22://Senior remaining soil¸ß¼¶±£ÊªÍÁÈÀ
+		case 22://Senior remaining soilé«˜çº§ä¿æ¹¿åœŸå£¤
 		{
 			Item* SeniorRemainingSoil = Tool::create("seniorremainingsoil");
 			return SeniorRemainingSoil;
 		}
-		case 23://Cherry saplingsÓ£ÌÒÊ÷Ãç
+		case 23://Cherry saplingsæ¨±æ¡ƒæ ‘è‹—
 		{
 			Item* CherrySaplings = Seed::create("cherrysaplings");
 			return CherrySaplings;
 		}
-		case 24://Apricot saplingsĞÓ×ÓÊ÷Ãç
+		case 24://Apricot saplingsæå­æ ‘è‹—
 		{
 			Item* ApricotSaplings = Seed::create("apricotsaplings");
 			return ApricotSaplings;
 		}
-		case 25://Orange saplings³È×ÓÊ÷Ãç
+		case 25://Orange saplingsæ©™å­æ ‘è‹—
 		{
 			Item* OrangeSaplings = Seed::create("orangesaplings");
 			return OrangeSaplings;
 		}
-		case 26://Peach saplingsÌÒ×ÓÊ÷Ãç
+		case 26://Peach saplingsæ¡ƒå­æ ‘è‹—
 		{
 			Item* PeachSaplings = Seed::create("peachsaplings");
 			return PeachSaplings;
 		}
-		case 27://Pomegranate saplingsÊ¯ÁñÊ÷Ãç
+		case 27://Pomegranate saplingsçŸ³æ¦´æ ‘è‹—
 		{
 			Item* PomegranateSaplings = Seed::create("pomegranatesaplings");
 			return PomegranateSaplings;
 		}
-		case 28://Apple saplingsÆ»¹ûÊ÷Ãç
+		case 28://Apple saplingsè‹¹æœæ ‘è‹—
 		{
 			Item* AppleSaplings = Seed::create("applesaplings");
 			return AppleSaplings;
 		}
-		case 29://flowers »¨Êø
+		case 29://flowers èŠ±æŸ
 		{
 			Item* Flowers = Tool::create("flowers");
 			return Flowers;
@@ -2076,152 +2076,152 @@ Item* Pierre::getItem(backPack* Back, int itemToMake, int season) {
 		break;
 	case 3:
 		switch (itemToMake) {
-		case 0://eggplantÇÑ×Ó
+		case 0://eggplantèŒ„å­
 		{
 			Item* Eggplant = Seed::create("eggplantseed");
 			return Eggplant;
 		}
-		case 1://cornÓñÃ×
+		case 1://cornç‰ç±³
 		{
 			Item* Corn = Seed::create("cornseed");
 			return Corn;
 		}
-		case 2://pumpkinÄÏ¹Ï
+		case 2://pumpkinå—ç“œ
 		{
 			Item* Pumpkin = Seed::create("pumpkinseed");
 			return Pumpkin;
 		}
-		case 3://Chinese cabbageĞ¡°×²Ë
+		case 3://Chinese cabbageå°ç™½èœ
 		{
 			Item* ChineseCabbage = Seed::create("chinesecabbageseed");
 			return ChineseCabbage;
 		}
-		case 4://yamÉ½Ò©
+		case 4://yamå±±è¯
 		{
 			Item* Yam = Seed::create("yamseed");
 			return Yam;
 		}
-		case 5://CranberriesÂûÔ½İ®
+		case 5://Cranberriesè”“è¶Šè“
 		{
 			Item* Cranberries = Seed::create("cranberriesseed");
 			return Cranberries;
 		}
-		case 6://sunflower ÏòÈÕ¿û
+		case 6://sunflower å‘æ—¥è‘µ
 		{
 			Item* Sunflower = Seed::create("sunflowerseed");
 			return Sunflower;
 		}
-		case 7://Rose FairyÃµ¹åÏÉ×Ó
+		case 7://Rose Fairyç«ç‘°ä»™å­
 		{
 			Item* RoseFairy = Seed::create("rosefairyseed");
 			return RoseFairy;
 		}
-		case 8://amaranthÜÈ²Ë
+		case 8://amaranthè‹‹èœ
 		{
 			Item* Amaranth = Seed::create("amaranthseed");
 			return Amaranth;
 		}
-		case 9://grapeÆÏÌÑ
+		case 9://grapeè‘¡è„
 		{
 			Item* Grape = Seed::create("grapeseed");
 			return Grape;
 		}
-		case 10://wheatĞ¡Âó
+		case 10://wheatå°éº¦
 		{
 			Item* Wheat = Seed::create("wheatseed");
 			return Wheat;
 		}
-		case 11://artichokeÑó¼»
+		case 11://artichokeæ´‹è“Ÿ
 		{
 			Item* Artichoke = Seed::create("artichokeseed");
 			return Artichoke;
 		}
-		case 12://grass seed²İ×Ñ
+		case 12://grass seedè‰ç±½
 		{
 			Item* GrassSeed = Seed::create("grassseedseed");
 			return GrassSeed;
 		}
-		case 13://grass seed formulation²İ×ÑÅä·½
+		case 13://grass seed formulationè‰ç±½é…æ–¹
 		{
 			Item* GrassSeedFormulation = Tool::create("grassseedformulation");
 			return GrassSeedFormulation;
 		}
-		case 14://sugar ÌÇ
+		case 14://sugar ç³–
 		{
 			Item* Sugar = Tool::create("sugar");
 			return Sugar;
 		}
-		case 15://barley flour ´óÂó·Û
+		case 15://barley flour å¤§éº¦ç²‰
 		{
 			Item* BarleyFlour = Tool::create("barleyflour");
 			return BarleyFlour;
 		}
-		case 16://rice ´óÃ×
+		case 16://rice å¤§ç±³
 		{
 			Item* Rice = Tool::create("rice");
 			return Rice;
 		}
-		case 17://oil ÓÍ
+		case 17://oil æ²¹
 		{
 			Item* Oil = Tool::create("oil");
 			return Oil;
 		}
-		case 18://vinegar ´×
+		case 18://vinegar é†‹
 		{
 			Item* Vinegar = Tool::create("vinegar");
 			return Vinegar;
 		}
-		case 19://Basic Fertilizer³õ¼¶·ÊÁÏ
+		case 19://Basic Fertilizeråˆçº§è‚¥æ–™
 		{
 			Item* BasicFertilizer = Tool::create("basicfertilizer");
 			return BasicFertilizer;
 		}
-		case 20://Senior Fertilizer¸ß¼‰·ÊÁÏ
+		case 20://Senior Fertilizeré«˜ç´šè‚¥æ–™
 		{
 			Item* SeniorFertilizer = Tool::create("seniorfertilizer");
 			return SeniorFertilizer;
 		}
-		case 21://Basic remaining soil³õ¼¶±£ÊªÍÁÈÀ
+		case 21://Basic remaining soilåˆçº§ä¿æ¹¿åœŸå£¤
 		{
 			Item* BasicRemainingSoil = Tool::create("basicremainingsoil");
 			return BasicRemainingSoil;
 		}
-		case 22://Senior remaining soil¸ß¼¶±£ÊªÍÁÈÀ
+		case 22://Senior remaining soilé«˜çº§ä¿æ¹¿åœŸå£¤
 		{
 			Item* SeniorRemainingSoil = Tool::create("seniorremainingsoil");
 			return SeniorRemainingSoil;
 		}
-		case 23://Cherry saplingsÓ£ÌÒÊ÷Ãç
+		case 23://Cherry saplingsæ¨±æ¡ƒæ ‘è‹—
 		{
 			Item* CherrySaplings = Seed::create("cherrysaplings");
 			return CherrySaplings;
 		}
-		case 24://Apricot saplingsĞÓ×ÓÊ÷Ãç
+		case 24://Apricot saplingsæå­æ ‘è‹—
 		{
 			Item* ApricotSaplings = Seed::create("apricotsaplings");
 			return ApricotSaplings;
 		}
-		case 25://Orange saplings³È×ÓÊ÷Ãç
+		case 25://Orange saplingsæ©™å­æ ‘è‹—
 		{
 			Item* OrangeSaplings = Seed::create("orangesaplings");
 			return OrangeSaplings;
 		}
-		case 26://Peach saplingsÌÒ×ÓÊ÷Ãç
+		case 26://Peach saplingsæ¡ƒå­æ ‘è‹—
 		{
 			Item* PeachSaplings = Seed::create("peachsaplings");
 			return PeachSaplings;
 		}
-		case 27://Pomegranate saplingsÊ¯ÁñÊ÷Ãç
+		case 27://Pomegranate saplingsçŸ³æ¦´æ ‘è‹—
 		{
 			Item* PomegranateSaplings = Seed::create("pomegranatesaplings");
 			return PomegranateSaplings;
 		}
-		case 28://Apple saplingsÆ»¹ûÊ÷Ãç
+		case 28://Apple saplingsè‹¹æœæ ‘è‹—
 		{
 			Item* AppleSaplings = Seed::create("applesaplings");
 			return AppleSaplings;
 		}
-		case 29://flowers »¨Êø
+		case 29://flowers èŠ±æŸ
 		{
 			Item* Flowers = Tool::create("flowers");
 			return Flowers;
@@ -2235,175 +2235,175 @@ Item* Pierre::getItem(backPack* Back, int itemToMake, int season) {
 	return null;
 }
 
-void Pierre::seasonEx(int season0) {
+void Pierre::seasonEx(std::string season0) {
 	season = season0;
 	storeSeasonEx( season0);
 }
 
-int Pierre::seasonOut() {
+std::string Pierre::seasonOut() {
 	return season;
 }
 
-//Ìú½³ÆÌ²¿·Ö
+//é“åŒ é“ºéƒ¨åˆ†
 
-//ÎïÆ·¶ÔÓ¦Êı×Ö
-//  0--Í­¿óÊ¯
-//  1--Ìú¿óÊ¯
-//  2--ÃºÌ¿
-//  3--»Æ½ğ¿óÊ¯
-//  4--Í­¸«
-//  5--Í­Ë®ºø
-//  6--Í­¸ä
-//  7--Í­³ú
-//  8--Ìú¸«
-//  9--ÌúË®ºø
-//  10--Ìú¸ä
-//  11--Ìú³ú
-//  12--½ğ¸«
-//  13--½ğË®ºø
-//  14--½ğ¸ä
-//  15--½ğ³ú
-//  16--Ò¿¸«
-//  17--Ò¿Ë®ºø
-//  18--Ò¿¸ä
-//  19--Ò¿³ú
-//¶ÔÊÇ·ñÂòµÃÆğµÄÅĞ¶Ï
+//ç‰©å“å¯¹åº”æ•°å­—
+//  0--é“œçŸ¿çŸ³
+//  1--é“çŸ¿çŸ³
+//  2--ç…¤ç‚­
+//  3--é»„é‡‘çŸ¿çŸ³
+//  4--é“œæ–§
+//  5--é“œæ°´å£¶
+//  6--é“œé•
+//  7--é“œé”„
+//  8--é“æ–§
+//  9--é“æ°´å£¶
+//  10--é“é•
+//  11--é“é”„
+//  12--é‡‘æ–§
+//  13--é‡‘æ°´å£¶
+//  14--é‡‘é•
+//  15--é‡‘é”„
+//  16--é“±æ–§
+//  17--é“±æ°´å£¶
+//  18--é“±é•
+//  19--é“±é”„
+//å¯¹æ˜¯å¦ä¹°å¾—èµ·çš„åˆ¤æ–­
 bool BlackSmith::isAffordable(backPack* Back, int itemToMake) {
 	switch (itemToMake) {
-	case 0://copper ore Í­¿óÊ¯
+	case 0://copper ore é“œçŸ¿çŸ³
 	{
 		if (Back->moneyOut() >= 75)
 			return 1;
 		else
 			return 0;
 	}
-	case 1://iron ore Ìú¿óÊ¯
+	case 1://iron ore é“çŸ¿çŸ³
 	{
 		if (Back->moneyOut() >= 150)
 			return 1;
 		else
 			return 0;
 	}
-	case 2://coal ÃºÌ¿
+	case 2://coal ç…¤ç‚­
 	{
 		if (Back->moneyOut() >= 150)
 			return 1;
 		else
 			return 0;
 	}
-	case 3://gold ore »Æ½ğ¿óÊ¯
+	case 3://gold ore é»„é‡‘çŸ¿çŸ³
 	{
 		if (Back->moneyOut() >= 400)
 			return 1;
 		else
 			return 0;
 	}
-	case 4://copper axeÍ­¸«
+	case 4://copper axeé“œæ–§
 	{
 		if (Back->moneyOut() >= 2000)
 			return 1;
 		else
 			return 0;
 	}
-	case 5://copper wateringcan Í­Ë®ºø
+	case 5://copper wateringcan é“œæ°´å£¶
 	{
 		if (Back->moneyOut() >= 2000)
 			return 1;
 		else
 			return 0;
 	}
-	case 6://copper pickaxe Í­¸ä
+	case 6://copper pickaxe é“œé•
 	{
 		if (Back->moneyOut() >= 2000)
 			return 1;
 		else
 			return 0;
 	}
-	case 7://copper hoe Í­³ú
+	case 7://copper hoe é“œé”„
 	{
 		if (Back->moneyOut() >= 2000)
 			return 1;
 		else
 			return 0;
 	}
-	case 8://iron axe Ìú¸«
+	case 8://iron axe é“æ–§
 	{
 		if (Back->moneyOut() >= 5000)
 			return 1;
 		else
 			return 0;
 	}
-	case 9://iron wateringcan ÌúË®ºø
+	case 9://iron wateringcan é“æ°´å£¶
 	{
 		if (Back->moneyOut() >= 5000)
 			return 1;
 		else
 			return 0;
 	}
-	case 10://iron pickaxe Ìú¸ä
+	case 10://iron pickaxe é“é•
 	{
 		if (Back->moneyOut() >= 5000)
 			return 1;
 		else
 			return 0;
 	}
-	case 11://iron hoe Ìú³ú
+	case 11://iron hoe é“é”„
 	{
 		if (Back->moneyOut() >= 5000)
 			return 1;
 		else
 			return 0;
 	}
-	case 12://gold axe ½ğ¸«
+	case 12://gold axe é‡‘æ–§
 	{
 		if (Back->moneyOut() >= 10000)
 			return 1;
 		else
 			return 0;
 	}
-	case 13://gold wateringcan ½ğË®ºø
+	case 13://gold wateringcan é‡‘æ°´å£¶
 	{
 		if (Back->moneyOut() >= 10000)
 			return 1;
 		else
 			return 0;
 	}
-	case 14://gold pickaxe ½ğ¸ä
+	case 14://gold pickaxe é‡‘é•
 	{
 		if (Back->moneyOut() >= 10000)
 			return 1;
 		else
 			return 0;
 	}
-	case 15://gold hoe ½ğ³ú
+	case 15://gold hoe é‡‘é”„
 	{
 		if (Back->moneyOut() >= 10000)
 			return 1;
 		else
 			return 0;
 	}
-	case 16://iridium axe Ò¿¸«
+	case 16://iridium axe é“±æ–§
 	{
 		if (Back->moneyOut() >= 25000)
 			return 1;
 		else
 			return 0;
 	}
-	case 17://iridium wateringcan Ò¿Ë®ºø
+	case 17://iridium wateringcan é“±æ°´å£¶
 	{
 		if (Back->moneyOut() >= 25000)
 			return 1;
 		else
 			return 0;
 	}
-	case 18://iridium pickaxe Ò¿¸ä
+	case 18://iridium pickaxe é“±é•
 	{
 		if (Back->moneyOut() >= 25000)
 			return 1;
 		else
 			return 0;
 	}
-	case 19://iridium hoe Ò¿³ú
+	case 19://iridium hoe é“±é”„
 	{
 		if (Back->moneyOut() >= 25000)
 			return 1;
@@ -2414,105 +2414,105 @@ bool BlackSmith::isAffordable(backPack* Back, int itemToMake) {
 	return 0;
 }
 
-//ÂòÏÂÎïÆ·
+//ä¹°ä¸‹ç‰©å“
 Item* getItem(backPack* Back, int itemToMake) {
 	switch (itemToMake) {
-	case 0://copper ore Í­¿óÊ¯
+	case 0://copper ore é“œçŸ¿çŸ³
 	{
 		Item* CopperOre = terial::create("copperore");
 		return CopperOre;
 	}
-	case 1://iron ore Ìú¿óÊ¯
+	case 1://iron ore é“çŸ¿çŸ³
 	{
 		Item* IronOre = terial::create("ironore");
 		return IronOre;
 	}
-	case 2://coal ÃºÌ¿
+	case 2://coal ç…¤ç‚­
 	{
 		Item* Coal = terial::create("coal");
 		return Coal;
 	}
-	case 3://gold ore »Æ½ğ¿óÊ¯
+	case 3://gold ore é»„é‡‘çŸ¿çŸ³
 	{
 		Item* GoldOre = terial::create("goldore");
 		return GoldOre;
 	}
-	case 4://copper axeÍ­¸«
+	case 4://copper axeé“œæ–§
 	{
 		Item* CopperAxe = Tool::create("copperaxe");
 		return CopperAxe;
 	}
-	case 5://copper wateringcan Í­Ë®ºø
+	case 5://copper wateringcan é“œæ°´å£¶
 	{
 		Item* CopperWateringcan = Tool::create("copperwateringcan");
 		return CopperWateringcan;
 	}
-	case 6://copper pickaxe Í­¸ä
+	case 6://copper pickaxe é“œé•
 	{
 		Item* CopperPickaxe = Tool::create("copperpickaxe");
 		return CopperPickaxe;
 	}
-	case 7://copper hoe Í­³ú
+	case 7://copper hoe é“œé”„
 	{
 		Item* CopperHoe = Tool::create("copperhoe");
 		return CopperHoe;
 	}
-	case 8://iron axe Ìú¸«
+	case 8://iron axe é“æ–§
 	{
 		Item* IronAxe = Tool::create("ironaxe");
 		return IronAxe;
 	}
-	case 9://iron wateringcan ÌúË®ºø
+	case 9://iron wateringcan é“æ°´å£¶
 	{
 		Item* IronWateringcan = Tool::create("ironwateringcan");
 		return IronWateringcan;
 	}
-	case 10://iron pickaxe Ìú¸ä
+	case 10://iron pickaxe é“é•
 	{
 		Item* IronPickaxe = Tool::create("ironpickaxe");
 		return IronPickaxe;
 	}
-	case 11://iron hoe Ìú³ú
+	case 11://iron hoe é“é”„
 	{
 		Item* IronHoe = Tool::create("ironhoe");
 		return IronHoe;
 	}
-	case 12://gold axe ½ğ¸«
+	case 12://gold axe é‡‘æ–§
 	{
 		Item* GoldAxe = Tool::create("goldaxe");
 		return GoldAxe;
 	}
-	case 13://gold wateringcan ½ğË®ºø
+	case 13://gold wateringcan é‡‘æ°´å£¶
 	{
 		Item* GoldWateringcan = Tool::create("goldwateringcan");
 		return GoldWateringcan;
 	}
-	case 14://gold pickaxe ½ğ¸ä
+	case 14://gold pickaxe é‡‘é•
 	{
 		Item* GoldPickaxe = Tool::create("goldpickaxe");
 		return GoldPickaxe;
 	}
-	case 15://gold hoe ½ğ³ú
+	case 15://gold hoe é‡‘é”„
 	{
 		Item* GoldHoe= Tool::create("goldhoe");
 		return GoldHoe;
 	}
-	case 16://iridium axe Ò¿¸«
+	case 16://iridium axe é“±æ–§
 	{
 		Item* IridiumAxe = Tool::create("iridiumaxe");
 		return IridiumAxe;
 	}
-	case 17://iridium wateringcan Ò¿Ë®ºø
+	case 17://iridium wateringcan é“±æ°´å£¶
 	{
 		Item* IridiumWateringcan = Tool::create("iridiumwateringcan");
 		return IridiumWateringcan;
 	}
-	case 18://iridium pickaxe Ò¿¸ä
+	case 18://iridium pickaxe é“±é•
 	{
 		Item* IridiumPickaxe = Tool::create("iridiumpickaxe");
 		return IridiumPickaxe;
 	}
-	case 19://iridium hoe Ò¿³ú
+	case 19://iridium hoe é“±é”„
 	{
 		Item* IridiumHoe = Tool::create("iridiumhoe");
 		return IridiumHoe;
