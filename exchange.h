@@ -26,7 +26,9 @@ public:
 		grade = newGrade;
 	}
 	bool changeForCraft(backPack* Back, int itemToMake);
-	Item* getItem(backPack* Back, int itemToMake);
+	Item* getItem( int itemToMake);
+	void itemDelete(backPack* Back, int itemToMake);
+	std::string factorBack(int itemToMake);
 };
 
 //Pierre商店的实现类
