@@ -86,6 +86,7 @@ public:
 	void itemPositionChangeOn(bool isLeftKey, int position);
 	void itemPositionChangeOff(int position);
 	Item* itemOutSet();
+	int returnPosi(Item* itemin);
 	void itemChangeReset();
 	void packDisplay();
 	Item* bottomSelect(int NoX);
