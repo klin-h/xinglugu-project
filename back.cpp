@@ -14,8 +14,8 @@ USING_NS_CC;
 using namespace Constants;
 
 
-//±³°ü³õÊ¼»¯
-void backPack::init() {//³õÊ¼»¯
+//èƒŒåŒ…åˆå§‹åŒ–
+void backPack::init() {//åˆå§‹åŒ–
 	for (int i = 0; i < backpackCapacity/3; i++) {
 		positionIsAccessible[i] = 1;
 	}
@@ -25,7 +25,7 @@ void backPack::init() {//³õÊ¼»¯
 
 }
 
-//ÎïÆ·×ªÒÆµÄ¿ªÊ¼£¬Ñ¡ÔñÎïÆ·
+//ç‰©å“è½¬ç§»çš„å¼€å§‹ï¼Œé€‰æ‹©ç‰©å“
 void backPack::itemPositionChangeOn(bool isLeftKey,int position) {
 	if (position < 0 || position >= 36)
 		return;
@@ -53,7 +53,7 @@ void backPack::itemPositionChangeOn(bool isLeftKey,int position) {
 	}
 }
 
-//×ªÒÆµÄ½áÊø£¬·ÅÖÃ
+//è½¬ç§»çš„ç»“æŸï¼Œæ”¾ç½®
 void backPack::itemPositionChangeOff(int position) {
 	if (position < 0 || position >= 36)
 		return;
@@ -68,7 +68,7 @@ void backPack::itemPositionChangeOff(int position) {
 	}
 }
 
-//ÊÛ³öÎïÆ·¹¦ÄÜ
+//å”®å‡ºç‰©å“åŠŸèƒ½
 Item* backPack::itemOutSet() {
 	Item* item0;
 	item0 = itemToTransmit;
@@ -79,14 +79,14 @@ Item* backPack::itemOutSet() {
 	return item0;
 }
 
-//ÎïÆ·Çé¿öÖØÖÃ
+//ç‰©å“æƒ…å†µé‡ç½®
 void backPack::itemChangeReset() {
 	Item* item0 = new Item();
 	itemToTransmit = item0;
 	numToTransmit = 0;
 }
 
-//·µ»ØÌØ¶¨Î»ÖÃµÄÎïÆ·
+//è¿”å›ç‰¹å®šä½ç½®çš„ç‰©å“
 Item* backPack::bottomSelect(int NoX) {
 	if (NoX < 0 || NoX >= backpackCapacity)
 	{
@@ -98,7 +98,7 @@ Item* backPack::bottomSelect(int NoX) {
 	}
 }
 
-//ÌØ¶¨Î»ÖÃµÄÊıÁ¿
+//ç‰¹å®šä½ç½®çš„æ•°é‡
 int backPack::posiNumBack(int NoX) {
 	if (NoX < 0 || NoX >= backpackCapacity)
 	{
@@ -109,7 +109,7 @@ int backPack::posiNumBack(int NoX) {
 		return boxNum[NoX];
 }
 
-//±³°üÉı¼¶
+//èƒŒåŒ…å‡çº§
 bool backPack::upgrade() {
 	if (grade == 0)
 	{
@@ -137,7 +137,16 @@ bool backPack::upgrade() {
 	}
 }
 
-//ÎïÆ·µÄÌí¼Ó
+int backPack::returnPosi(Item* itemin) {
+	for (int i = 0; i < grade * (backpackCapacity / 3) + backpackCapacity / 3; i++) {
+		if (box[i]->name == itemin->name) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+//ç‰©å“çš„æ·»åŠ 
 bool backPack::itemAdd(Item* itemIn,int num) {
 	int ring = 0,posi=0;
 	bool isAlreadyInside = 0, isAlreadyFull = 0;
@@ -172,7 +181,7 @@ bool backPack::itemAdd(Item* itemIn,int num) {
 		return 1;
 }
 
-//ÅĞ¶ÏÊÇ·ñÓĞÖ¸¶¨ÊıÁ¿µÄÖ¸¶¨ÎïÆ·
+//åˆ¤æ–­æ˜¯å¦æœ‰æŒ‡å®šæ•°é‡çš„æŒ‡å®šç‰©å“
 bool backPack::matchJudge(Item* itemToMatch, int numToMatch) {
 	bool isMatchAble = 0;
 	int ring = 0;
@@ -193,7 +202,7 @@ bool backPack::matchJudge(Item* itemToMatch, int numToMatch) {
 		return 1;
 }
 
-//ÎïÆ·¼õÉÙ
+//ç‰©å“å‡å°‘
 void backPack::itemReduce(Item* itemToMatch, int numToMatch) {
 	for (int i = 0; i < grade * (backpackCapacity / 3) + backpackCapacity / 3; i++) {
 		if (box[i]->name == itemToMatch->name)
@@ -216,8 +225,8 @@ void backPack::itemReduce(Item* itemToMatch, int numToMatch) {
 	}
 }
 
-//Ç®µÄÔö¼õ
-//ways£º1--¼õ 0--Ôö
+//é’±çš„å¢å‡
+//waysï¼š1--å‡ 0--å¢
 void backPack::moneyChange(int addAmount,bool ways) {
 	if (ways == wayOfAdd)
 		money += addAmount;
@@ -225,12 +234,12 @@ void backPack::moneyChange(int addAmount,bool ways) {
 		money -= addAmount;
 }
 
-//·µ»ØÇ®µÄÖµ
+//è¿”å›é’±çš„å€¼
 int backPack::moneyOut() {
 	return money;
 }
 
-//Ç®µÄstringÊä³ö
+//é’±çš„stringè¾“å‡º
 std::string backPack::moneyStringOut() {
 	int money0 = money;
 	std::string moneyout="";
@@ -329,12 +338,12 @@ std::string backPack::numStringOut(int posi) {
 	return moneyout;
 }
 
-//·µ»ØÊÖ³ÖÎïÆ·µÄÃû³Æ
+//è¿”å›æ‰‹æŒç‰©å“çš„åç§°
 std::string backPack::handInItemOut() {
 	return handInItem->name;
 }
 
-//ÉèÖÃÊÖ³ÖÎïÆ·
+//è®¾ç½®æ‰‹æŒç‰©å“
 void backPack::sethandInItemOut(int no) {
 	if (no < 0 || no >= grade * (backpackCapacity / 3) + backpackCapacity / 3)
 		return;
