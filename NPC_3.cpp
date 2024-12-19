@@ -1,14 +1,15 @@
 #include "NPC_3.h"
 #include "NPC_1.h"
 #include "ui/CocosGUI.h"
-
 NPC_3::NPC_3() : taskList() {
     friendshipLevel = 0;
     isFriendWithNPC_1 = false;
     loveshipLevel = 0;
     isLoveWithNPC_1 = false;
     sprite = nullptr;
-    ontask = false;
+    onCollect = false;
+    onRepair= false;
+    Repaired = 0;
     mouseListener = nullptr;  
 }
 
@@ -78,6 +79,7 @@ void NPC_3::testAddNPC_3(const Size& visibleSize, Vec2 origin, std::string name,
     this->addChild(myNpc);
     myNpc->setup(visibleSize, origin,name,pos);
     myNpc->updateFriendshipStatus();
+    myNpc->updateLoveshipStatus();
 }
 
 
@@ -90,66 +92,103 @@ void NPC_3::onMouseClicked(cocos2d::Event* event) {
         CCLOG(": (%f, %f)", screenLocation.x, screenLocation.y);
         cocos2d::Rect rect_Harvey = cocos2d::Rect(Constants::HARVEYx, Constants::HARVEYy, Constants::Character_width, Constants::Character_height);
         cocos2d::Rect rect_Haley = cocos2d::Rect(Constants::HALEYx, Constants::HALEYy, Constants::Character_width, Constants::Character_height);
+        cocos2d::Rect rect_House = cocos2d::Rect(Constants::Housex, Constants::Housey, Constants::Housewidth, Constants::Househeight);
         if (rect_Harvey.containsPoint(screenLocation)) {
             CCLOG("Harvey instance has been clicked!");
             if (NPC_1::isNear3("Harvey")) {
-                if (!ontask) {
+                if (!onCollect) {
                     generateTask();
-                    ontask = true;
+                    onCollect = true;
                 }
                 else {
-                    checkTaskCompletion();
+                    if (checkTaskCompletion()) {
+                        onCollect = 0;
+                    }
                 }
             }
-            else {
-                CCLOG("not close enough");
-            }
+            
         }
         else if (rect_Haley.containsPoint(screenLocation)) {
             CCLOG("Haley instance has been clicked!");
             if (NPC_1::isNear3("Haley")) {
-                if (!ontask) {
-                    generateTask();
-                    ontask = true;
+                if (!onRepair) {
+                    Repairbuildings();
+                    onRepair = true;
                 }
                 else {
-                    checkTaskCompletion();
+                    if (checkRepair()) {
+                        onRepair = false;
+                    }
                 }
             }
-            else {
-                CCLOG("not close enough");
-            }
+            
         }
-        else {
-            CCLOG("Mouse click is outside of NPC's bounds.");
+        else if (rect_House.containsPoint(screenLocation)) {
+            
+            Repaired = true;
         }
+       
 
     }
     else if (touch == cocos2d::EventMouse::MouseButton::BUTTON_RIGHT) {
-        //送花，浪漫关系
+        cocos2d::Vec2 screenLocation = static_cast<cocos2d::EventMouse*>(event)->getLocation();
+        CCLOG(": (%f, %f)", screenLocation.x, screenLocation.y);
+        cocos2d::Rect rect_Harvey = cocos2d::Rect(Constants::HARVEYx, Constants::HARVEYy, Constants::Character_width, Constants::Character_height);
+        cocos2d::Rect rect_Haley = cocos2d::Rect(Constants::HALEYx, Constants::HALEYy, Constants::Character_width, Constants::Character_height);
+        if (rect_Harvey.containsPoint(screenLocation)) {
+            CCLOG("Harvey instance has been clicked!");
+            if (NPC_1::isNear3("Harvey")) {
+                Item* Flowers = Tool::create("flowers");
+              
+                if (pack1->matchJudge(Flowers, 1)) {
+                    loveshipLevel++;
+                    pack1->itemReduce(Flowers, 1);
+                }
+                else {
+                    showNotEnoughFlowersAlert();
+                   
+                  
+                }
+            }
+            
+        }
+        else if (rect_Haley.containsPoint(screenLocation)) {
+            CCLOG("Haley instance has been clicked!");
+            if (NPC_1::isNear3("Haley")) {
+                Item* Flowers = Tool::create("flowers");
+                if (pack1->matchJudge(Flowers, 1)!=0) {
+                    loveshipLevel++;
+                    pack1->itemReduce(Flowers, 1);
+                }
+                else {
+                    showNotEnoughFlowersAlert();
+                    pack1->itemAdd(Flowers, 1);
+                   
+                }
+            }
+            
+        }
+       
     }
 
 }
 
 
 
-// 判断是否与NPC_1建立友谊关系的函数
-bool NPC_3::hasFriendshipWithNPC_1() const {
-    return isFriendWithNPC_1;
-}
+
 
 // 更新友谊关系状态的函数
 void NPC_3::updateFriendshipStatus() {
     if (friendshipLevel >= 10) {
         if (!isFriendWithNPC_1) {
             isFriendWithNPC_1 = true;
-            CCLOG("NPC_3 and NPC_1 have established a friendship!");
+            
         }
     }
     else {
         if (isFriendWithNPC_1) {
             isFriendWithNPC_1 = false;
-            CCLOG("NPC_3 and NPC_1's friendship has ended due to low friendship level.");
+            
         }
     }
 }
@@ -159,13 +198,12 @@ void NPC_3::generateTask() {
     Task newTask;
     newTask.taskDescription = "TEN POTATOES";
     newTask.targetItemCount = 10;
-    newTask.rewardDescription = "50";
+    newTask.rewardDescription =50;
     newTask.completed = false;
     taskList.push_back(newTask);
    
     auto bulletinBoardLayer = cocos2d::Layer::create();
 
-    
     auto taskDescriptionLabel = cocos2d::Label::createWithTTF(newTask.taskDescription, "fonts/arial.ttf", 24);
     taskDescriptionLabel->setPosition(cocos2d::Vec2(bulletinBoardLayer->getContentSize().width / 2, bulletinBoardLayer->getContentSize().height * 0.6));
     
@@ -203,7 +241,7 @@ bool NPC_3::checkTaskCompletion() {
             if (myBackPack.matchJudge(PATATOES, task.targetItemCount)) {
                 myBackPack.itemReduce(PATATOES, task.targetItemCount);
                 task.completed = true;
-                giveReward(myBackPack);
+                giveReward("collect");
                 return true;
             }
             else {
@@ -216,15 +254,120 @@ bool NPC_3::checkTaskCompletion() {
 }
 
 // 给予任务奖励
-void NPC_3::giveReward(backPack myBackPack) {
+void NPC_3::giveReward(std::string name) {
     for (auto& task : taskList) {
         if (task.completed) {
             friendshipLevel += 2;
-            myBackPack.moneyChange(50, 0);
+
+            if (name == "collect") {
+                onCollect = false;
+            }
+            else if(name == "repair") {
+                onRepair = false;
+            }
+            pack1->moneyChange(50, 0);
             CCLOG("friendshipLevel added");
-            ontask = false;
+           
+        }
+    }
+}
+//花不够的提示
+void NPC_3::showNotEnoughFlowersAlert() {
+  
+    auto bulletinBoardLayer = cocos2d::Layer::create();
+    auto taskDescriptionLabel = cocos2d::Label::createWithTTF("Your flowers are not enough!", "fonts/arial.ttf", 24);
+    taskDescriptionLabel->setPosition(cocos2d::Vec2(bulletinBoardLayer->getContentSize().width / 2, bulletinBoardLayer->getContentSize().height * 0.6));
+
+    auto backgroundSprite = cocos2d::Sprite::create("background_image.png");
+    if (backgroundSprite) {
+
+        backgroundSprite->setPosition(taskDescriptionLabel->getPosition());
+        bulletinBoardLayer->addChild(backgroundSprite, -1);
+    }
+    bulletinBoardLayer->addChild(taskDescriptionLabel);
+
+    auto acceptButton = cocos2d::ui::Button::create("button_normal.png", "button_pressed.png");
+    acceptButton->setTitleText("OK");
+    acceptButton->setTitleFontSize(18);
+    acceptButton->setPosition(cocos2d::Vec2(bulletinBoardLayer->getContentSize().width / 2, bulletinBoardLayer->getContentSize().height * 0.3));
+    acceptButton->addTouchEventListener([this,  bulletinBoardLayer](cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType event) {
+        if (event == cocos2d::ui::Widget::TouchEventType::ENDED) {
+            bulletinBoardLayer->removeFromParent();
+        }
+        });
+    bulletinBoardLayer->addChild(acceptButton);
+    g_sharedScene->addChild(bulletinBoardLayer, INT_MAX);
+}
+
+
+// 更新浪漫关系状态的函数
+void NPC_3::updateLoveshipStatus() {
+    if (loveshipLevel >= 10) {
+        if (!isLoveWithNPC_1) {
+            isLoveWithNPC_1 = true;
+           
+        }
+    }
+    else {
+        if (isLoveWithNPC_1) {
+            isLoveWithNPC_1 = false;
+            
         }
     }
 }
 
+
 //修建筑任务
+void NPC_3::Repairbuildings() {
+
+    Task newTask;
+    newTask.taskDescription = "Repair the building";
+    newTask.targetItemCount =0;
+    newTask.rewardDescription = 100;
+    newTask.completed = false;
+    taskList.push_back(newTask);
+
+    auto bulletinBoardLayer = cocos2d::Layer::create();
+    auto taskDescriptionLabel = cocos2d::Label::createWithTTF(newTask.taskDescription, "fonts/arial.ttf", 24);
+    taskDescriptionLabel->setPosition(cocos2d::Vec2(bulletinBoardLayer->getContentSize().width / 2, bulletinBoardLayer->getContentSize().height * 0.6));
+    auto backgroundSprite = cocos2d::Sprite::create("background_image.png");
+    if (backgroundSprite) {
+
+        backgroundSprite->setPosition(taskDescriptionLabel->getPosition());
+        bulletinBoardLayer->addChild(backgroundSprite, -1);
+    }
+    bulletinBoardLayer->addChild(taskDescriptionLabel);
+
+    auto acceptButton = cocos2d::ui::Button::create("button_normal.png", "button_pressed.png");
+    acceptButton->setTitleText("ACCEPT");
+    acceptButton->setTitleFontSize(18);
+    acceptButton->setPosition(cocos2d::Vec2(bulletinBoardLayer->getContentSize().width / 2, bulletinBoardLayer->getContentSize().height * 0.3));
+    acceptButton->addTouchEventListener([this, &newTask, bulletinBoardLayer](cocos2d::Ref* sender, cocos2d::ui::Widget::TouchEventType event) {
+        if (event == cocos2d::ui::Widget::TouchEventType::ENDED) {
+            bulletinBoardLayer->removeFromParent();
+        }
+        });
+    bulletinBoardLayer->addChild(acceptButton);
+
+
+    g_sharedScene->addChild(bulletinBoardLayer, INT_MAX);
+}
+
+bool NPC_3::checkRepair() {
+    for (auto& task : taskList) {
+        if (task.taskDescription.find("Repair the building") != std::string::npos) {
+            if (Repaired) {
+                task.completed = true;
+                giveReward("repair");
+                return true;
+            }
+            else {
+                CCLOG("Task is not completed.");
+                break;
+            }
+        }
+    }
+    return false;
+}
+
+

@@ -8,6 +8,7 @@
 #include "back.h"
 
 USING_NS_CC;
+extern backPack* pack1;
 class NPC_1;
 class NPC_3 : public NPC {
 public:
@@ -24,12 +25,16 @@ public:
     // 处理鼠标点击事件的函数声明，将在.cpp文件中实现具体逻辑来响应点击并输出日志
     void onMouseClicked(cocos2d::Event* event);
 
-    bool hasFriendshipWithNPC_1() const;
+    
     void updateFriendshipStatus();
-
+    void updateLoveshipStatus();
     void generateTask();
     bool checkTaskCompletion();
-    void giveReward(backPack myBackPack);
+    void giveReward(std::string name);
+    
+    void Repairbuildings();
+    bool checkRepair();
+    void showNotEnoughFlowersAlert();
     std::vector<Task> taskList;
 
 private:
@@ -41,7 +46,9 @@ private:
     bool isFriendWithNPC_1;
     int loveshipLevel;
     bool isLoveWithNPC_1;
-    bool ontask;
+    bool onCollect;
+    bool onRepair;
+    bool Repaired;
 };
 
 #endif // NPC_3_H

@@ -304,5 +304,9 @@ namespace Constants {// 使用时要加命名空间
     constexpr float Haleyinmap_X = 952.0f;
     constexpr float Haleyinmap_Y = 200.0f;
     constexpr int InteractionDistance = 32;
+    constexpr float Housex = 990.0f;
+    constexpr float Housey = 0.0f;
+    constexpr float Housewidth = 120.0f;
+    constexpr float Househeight= 120.0f;
 }
 #endif // CONSTANTS_H

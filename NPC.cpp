@@ -58,13 +58,3 @@ NPC::~NPC() {
 }
 
 
-
-
-
-
-
-// NPC提供对话内容的方法实现
-std::string NPC::getDialogue() {
-    return "欢迎来到这里，希望你过得愉快！";
-}
-
