@@ -209,30 +209,17 @@ bool craftTable::changeForCraft(backPack* Back,int itemToMake) {
 			return 0;
 		break;
 	}
-	case 18://春日野种
-	{
-		Item* SpringSeed1 = Fruit::create("wildhorseradish");
-		Item* SpringSeed2 = Fruit::create("daffodil");
-		Item* SpringSeed3 = Fruit::create("leek");
-		Item* SpringSeed4 = Fruit::create("Dandelion");
-
-		if (Back->matchJudge(SpringSeed1, 1) && Back->matchJudge(SpringSeed2, 1) && Back->matchJudge(SpringSeed3, 1) && Back->matchJudge(SpringSeed4, 1))
-			return 1;
-		else
-			return 0;
-		break;
-	}
 	default:
 		break;
 	}
 }
 
 //合成物品
-Item* craftTable::getItem(backPack* Back, int itemToMake) {
+Item* craftTable::getItem(int itemToMake) {
 	switch (itemToMake) {
 	case 0:
 	{
-		Item* WoodenSign = Tool::create("woodensign");
+		Item* WoodenSign = Tool::create("woodsign");
 		return WoodenSign;
 		break;
 	}
@@ -250,7 +237,7 @@ Item* craftTable::getItem(backPack* Back, int itemToMake) {
 	}
 	case 3:
 	{
-		Item* GrassStarter = Tool::create("grassstarter");
+		Item* GrassStarter = Seed::create("grassseed");
 		return GrassStarter;
 		break;
 	}
@@ -262,7 +249,7 @@ Item* craftTable::getItem(backPack* Back, int itemToMake) {
 	}
 	case 5:
 	{
-		Item* CobblestonePath = Tool::create("cobblestonepath");
+		Item* CobblestonePath = Tool::create("stonepath");
 		return CobblestonePath;
 		break;
 	}
@@ -286,7 +273,7 @@ Item* craftTable::getItem(backPack* Back, int itemToMake) {
 	}
 	case 9:
 	{
-		Item* Furnace = Tool::create("furnace");
+		Item* Furnace = Tool::create("furnance");
 		return Furnace;
 		break;
 	}
@@ -338,19 +325,448 @@ Item* craftTable::getItem(backPack* Back, int itemToMake) {
 		return CampFire;
 		break;
 	}
-	case 18:
-	{
-		Item* SpringSeed = Tool::create("springseed");
-		return SpringSeed;
-		break;
-	}
 	default:
-		Item* SpringSeed = Tool::create("init");
-		return SpringSeed;
+		Item* init = new Item;
+		return init;
 		break;
 	}
 }
 
+void craftTable::itemDelete(backPack* Back, int itemToMake) {
+	switch (itemToMake) {
+	case 0://木牌
+	{
+		Item* WoodenSign = terial::create("wood");
+		int posi0 = Back->returnPosi(WoodenSign);
+		Back->itemReduce(WoodenSign, amountOfWoodForWoodenSign);
+		if (Back->returnPosi(WoodenSign) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(WoodenSign));
+		}
+		break;
+	}
+	case 1://木栅栏
+	{
+		Item* WoodFence = terial::create("wood");
+		int posi0 = Back->returnPosi(WoodFence);
+		Back->itemReduce(WoodFence, amountOfWoodForWoodFence);
+		if (Back->returnPosi(WoodFence) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(WoodFence));
+		}
+		break;
+	}
+	case 2://大门
+	{
+		Item* Gate = terial::create("wood");
+		int posi0 = Back->returnPosi(Gate);
+		Back->itemReduce(Gate, amountOfWoodForGate);
+		if (Back->returnPosi(Gate) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(Gate));
+		}
+		break;
+	}
+	case 3://草籽
+	{
+		Item* GrassStarter = terial::create("fibre");
+		int posi0 = Back->returnPosi(GrassStarter);
+		Back->itemReduce(GrassStarter, amountOfFibreForGrassStarter);
+		if (Back->returnPosi(GrassStarter) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(GrassStarter));
+		}
+		break;
+	}
+	case 4://木径
+	{
+		Item* WoodPath = terial::create("wood");
+		int posi0 = Back->returnPosi(WoodPath);
+		Back->itemReduce(WoodPath, amountOfWoodForWoodPath);
+		if (Back->returnPosi(WoodPath) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(WoodPath));
+		}
+		break;
+	}
+	case 5://石径
+	{
+		Item* CobblestonePath = terial::create("stone");
+		int posi0 = Back->returnPosi(CobblestonePath);
+		Back->itemReduce(CobblestonePath, amountOfStoneForCobblestonePath);
+		if (Back->returnPosi(CobblestonePath) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(CobblestonePath));
+		}
+		break;
+	}
+	case 6://火把
+	{
+		Item* Torch1 = terial::create("wood");
+		Item* Torch2 = terial::create("sap");
+		int posi0 = Back->returnPosi(Torch1);
+		int posi1 = Back->returnPosi(Torch2);
+		Back->itemReduce(Torch1, amountOfWoodForTorch);
+		Back->itemReduce(Torch2, amountOfSapForTorch);
+		if (Back->returnPosi(Torch1) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(Torch1));
+		}
+		if (Back->returnPosi(Torch2) == -1)
+		{
+			packPosi(posi1);
+		}
+		else {
+			numlabel2(Back->returnPosi(Torch2));
+		}
+		break;
+	}
+	case 7://基础肥料
+	{
+		Item* BasicFertilizer = terial::create("sap");
+		int posi0 = Back->returnPosi(BasicFertilizer);
+		Back->itemReduce(BasicFertilizer, amountOfSapForBasicFertilizer);
+		if (Back->returnPosi(BasicFertilizer) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(BasicFertilizer));
+		}
+		break;
+	}
+	case 8://宝箱
+	{
+		Item* Chest = terial::create("wood");
+		int posi0 = Back->returnPosi(Chest);
+		Back->itemReduce(Chest, amountOfWoodForChest);
+		if (Back->returnPosi(Chest) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(Chest));
+		}
+		break;
+	}
+	case 9://熔炉
+	{
+		Item* Furnace1 = terial::create("stone");
+		Item* Furnace2 = terial::create("copperore");
+		int posi0 = Back->returnPosi(Furnace1);
+		int posi1 = Back->returnPosi(Furnace2);
+		Back->itemReduce(Furnace1, amountOfStoneForFurnace); 
+		Back->itemReduce(Furnace2, amountOfCopperOreForFurnace);
+		if (Back->returnPosi(Furnace1) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(Furnace1));
+		}
+		if (Back->returnPosi(Furnace2) == -1)
+		{
+			packPosi(posi1);
+		}
+		else {
+			numlabel2(Back->returnPosi(Furnace2));
+		}
+		break;
+	}
+	case 10://石牌
+	{
+		Item* StoneSign = terial::create("stone");
+		Back->itemReduce(StoneSign, 25);
+		if (Back->returnPosi(StoneSign) == -1)
+		{
+			packPosi(Back->returnPosi(StoneSign));
+		}
+		else {
+			numlabel2(Back->returnPosi(StoneSign));
+		}
+		break;
+	}
+	case 11://水龙头 
+	{
+		Item* Sprinkle1 = terial::create("ironbar");
+		Item* Sprinkle2 = terial::create("copperbar");
+		int posi0 = Back->returnPosi(Sprinkle1);
+		int posi1 = Back->returnPosi(Sprinkle2);
+		Back->itemReduce(Sprinkle1, amountOfIronBarForSprinkle);
+		Back->itemReduce(Sprinkle2, amountOfCopperBarForSprinkle);
+		if (Back->returnPosi(Sprinkle1) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(Sprinkle1));
+		}
+		if (Back->returnPosi(Sprinkle2) == -1)
+		{
+			packPosi(posi1);
+		}
+		else {
+			numlabel2(Back->returnPosi(Sprinkle2));
+		}
+		break;
+	}
+	case 12://基础湿土
+	{
+		Item* BasicRetainingSoil = terial::create("stone");
+		int posi0 = Back->returnPosi(BasicRetainingSoil);
+		Back->itemReduce(BasicRetainingSoil, 2);
+		if (Back->returnPosi(BasicRetainingSoil) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(BasicRetainingSoil));
+		}
+		break;
+	}
+	case 13://稻草人
+	{
+		Item* ScareCrow1 = terial::create("wood");
+		Item* ScareCrow2 = terial::create("coal");
+		Item* ScareCrow3 = terial::create("fibre");
+		int posi0 = Back->returnPosi(ScareCrow1);
+		int posi1 = Back->returnPosi(ScareCrow2);
+		int posi2 = Back->returnPosi(ScareCrow3);
+		Back->itemReduce(ScareCrow1, amountOfWoodForScareCrow);
+		Back->itemReduce(ScareCrow2, amountOfCoalForScareCrow);
+		Back->itemReduce(ScareCrow3, amountOfFibreForScareCrow);
+		if (Back->returnPosi(ScareCrow1) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(ScareCrow1));
+		}
+		if (Back->returnPosi(ScareCrow2) == -1)
+		{
+			packPosi(posi1);
+		}
+		else {
+			numlabel2(Back->returnPosi(ScareCrow2));
+		}
+		if (Back->returnPosi(ScareCrow3) == -1)
+		{
+			packPosi(posi2);
+		}
+		else {
+			numlabel2(Back->returnPosi(ScareCrow3));
+		}
+		break;
+	}
+	case 14://鱼饵
+	{
+		Item* Bait = AnimalProduct::create("bugmeat");
+		int posi0 = Back->returnPosi(Bait);
+		Back->itemReduce(Bait, amountOfBugmeatForBait);
+		if (Back->returnPosi(Bait) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(Bait));
+		}
+		break;
+	}
+	case 15://樱桃炸弹
+	{
+		Item* CherryBomb1 = terial::create("coal");
+		Item* CherryBomb2 = terial::create("copperore");
+		int posi0 = Back->returnPosi(CherryBomb1);
+		int posi1 = Back->returnPosi(CherryBomb2);
+		Back->itemReduce(CherryBomb1, 2);
+		Back->itemReduce(CherryBomb2, 4);
+		if (Back->returnPosi(CherryBomb1) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(CherryBomb1));
+		}
+		if (Back->returnPosi(CherryBomb2) == -1)
+		{
+			packPosi(posi1);
+		}
+		else {
+			numlabel2(Back->returnPosi(CherryBomb2));
+		}
+		break;
+	}
+	case 16://阶梯
+	{
+		Item* StairCase = terial::create("stone");
+		int posi0 = Back->returnPosi(StairCase);
+		Back->itemReduce(StairCase, 99);
+		if (Back->returnPosi(StairCase) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(StairCase));
+		}
+		break;
+	}
+	case 17://篝火
+	{
+		Item* CampFire1 = terial::create("stone");
+		Item* CampFire2 = terial::create("wood");
+		Item* CampFire3 = terial::create("fibre");
+		int posi0 = Back->returnPosi(CampFire1);
+		int posi1 = Back->returnPosi(CampFire2);
+		int posi2 = Back->returnPosi(CampFire3);
+		Back->itemReduce(CampFire1, 10);
+		Back->itemReduce(CampFire2, 10);
+		Back->itemReduce(CampFire3, 10);
+		if (Back->returnPosi(CampFire1) == -1)
+		{
+			packPosi(posi0);
+		}
+		else {
+			numlabel2(Back->returnPosi(CampFire1));
+		}
+		if (Back->returnPosi(CampFire2) == -1)
+		{
+			packPosi(posi1);
+		}
+		else {
+			numlabel2(Back->returnPosi(CampFire2));
+		}
+		if (Back->returnPosi(CampFire3) == -1)
+		{
+			packPosi(posi2);
+		}
+		else {
+			numlabel2(Back->returnPosi(CampFire3));
+		}
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+std::string craftTable::factorBack(int itemToMake) {
+	switch (itemToMake) {
+	case 0:
+	{
+		return "25 wood";
+		break;
+	}
+	case 1:
+	{
+		return "2 wood";
+		break;
+	}
+	case 2:
+	{
+		return "10 wood";
+		break;
+	}
+	case 3:
+	{
+		return "10 fibre";
+		break;
+	}
+	case 4:
+	{
+		return "1 wood";
+		break;
+	}
+	case 5:
+	{
+		return "1 stone";
+		break;
+	}
+	case 6:
+	{
+		return "1 wood,1 sap";
+		break;
+	}
+	case 7:
+	{
+		return "2 sap";
+		break;
+	}
+	case 8:
+	{
+		return "50 wood";
+		break;
+	}
+	case 9:
+	{
+		return "25 stone,20 copperore";
+		break;
+	}
+	case 10:
+	{
+		return "25 stone";
+		break;
+	}
+	case 11:
+	{
+		return "1 ironbar,1 copperbar";
+		break;
+	}
+	case 12:
+	{
+		return "2 stone";
+		break;
+	}
+	case 13:
+	{
+		return "50 wood,1 coal,20 fibre";
+		break;
+	}
+	case 14:
+	{
+		return "1 bugmeat";
+		break;
+	}
+	case 15:
+	{
+		return "2 coal,4 copperore";
+		break;
+	}
+	case 16:
+	{
+		return "99 stone";
+		break;
+	}
+	case 17:
+	{
+		return "10 stone,10 wood,10 fibre";
+		break;
+	}
+	default:
+		return "0";
+		break;
+	}
+}
 //Pierre商店部分
 
 //物品对应数字
