@@ -22,6 +22,7 @@ void inventory(Scene* scene, backPack* pack1, Vec2 origin);
 
 void backItemAddDisplay(int no);
 
+void packPosi(int posi);
 
 void storePhoto(Scene* scene);
 
@@ -33,4 +34,3 @@ void labelDelete(int posi);
 
 void storeSeasonEx(std::string season);
 #endif // !__BACKPHOTO_H_
-
