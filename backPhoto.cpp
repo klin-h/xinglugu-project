@@ -26,6 +26,9 @@ bool backIsProed = BackPro1;
 bool storeIsStart = 0;
 bool storeIsOpen = 0;
 
+bool craftIsStart = 0;
+bool craftIsOpen = 0;
+
 bool solditemchosen = 0;
 
 RadioButton* Inventory[backpackCapacity];
@@ -40,6 +43,8 @@ RadioButton* ventory[backpackCapacity / 3];
 
 void storePhoto(Scene* scene);
 
+void craftPhoto(Scene* scene);
+
 void soldBox(Scene* scene);
 
 Sprite* displayItem;
@@ -49,11 +54,15 @@ Layer* packLayer;
 
 ScrollView* scrollview;
 
+ScrollView* Craftview;
+
 Sprite* moneyboard;
 
 extern backPack* pack1;
 
 Pierre* storeItem = new Pierre();
+
+craftTable* craftItem = new craftTable(1);
 
 //售卖箱操作
 void soldPerform(int posi) {
@@ -463,6 +472,21 @@ void setScroVisi(bool Set) {
     }
 }
 
+void setCraftVisi(bool Set) {
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    float tileWidth = visibleSize.width / 28;
+    float tileHeight = tileWidth;
+    if (Set == 0) {
+        packLayer->setPosition(Vec2(visibleSize.width / 3, visibleSize.height / 2));
+        packLayer->setVisible(Set);
+
+    }
+    else {
+        packLayer->setVisible(Set);
+        packLayer->setPosition(Craftview->getPositionX() + 3 * tileWidth, Craftview->getPositionY() - Craftview->getContentSize().height / 2);
+    }
+}
+
 void numberSet(int posi) {
     ventory[posi]->setSelected(1);
     for (int i = 0; i < backpackCapacity / 3; i++) {
@@ -698,6 +722,32 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                     packLayer->setPosition(Vec2(visibleSize.width / 3, visibleSize.height / 2));
                     packLayer->setVisible(0);
                 }
+                break;
+            }
+            case EventKeyboard::KeyCode::KEY_M: {
+                if (craftIsStart == 0) {
+                    craftIsStart = 1;
+                    craftIsOpen = 1;
+
+                    craftPhoto(scene);
+                }
+                else {
+                    if (craftIsOpen == 1) {
+                        craftIsOpen = 0;
+                        Craftview->setVisible(0);
+                        setCraftVisi(0);
+                        scene->getChildByTag(70)->setVisible(0);
+                        scene->getChildByTag(71)->setVisible(0);
+                    }
+                    else {
+                        craftIsOpen = 1;
+                        Craftview->setVisible(1);
+                        setCraftVisi(1);
+                        scene->getChildByTag(70)->setVisible(1);
+                        scene->getChildByTag(71)->setVisible(1);
+                    }
+                }
+                break;
             }
             case EventKeyboard::KeyCode::KEY_1: {
                 numberSet(0);
@@ -926,14 +976,24 @@ void backItemAddDisplay(int no) {
 //箭头设置声明
 void arrowSet();
 
+void arrow1Set();
+
 //商店功能设置
 void storeSoldSet(Scene* scene);
 
+void storeSoldSet1(Scene* scene);
+
 RadioButton* commodity[30];
+
+RadioButton* Craft[18];
 
 RadioButton* arrowBottom;
 
 RadioButton* arrowTop;
+
+RadioButton* arrowBottom1;
+
+RadioButton* arrowTop1;
 
 //商店界面设置
 void storePhoto(Scene* scene) {
@@ -1002,6 +1062,65 @@ void storePhoto(Scene* scene) {
     packLayer->setVisible(1);
 }
 
+void craftPhoto(Scene* scene) {
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    float tileWidth = visibleSize.width / 28;
+    float tileHeight = tileWidth;
+
+    Craftview = ScrollView::create();
+
+    Craftview->setContentSize(Size(750, 300));
+    Craftview->setInnerContainerSize(Size(750, 1350));
+    Craftview->setPosition(Vec2(visibleSize.width / 3, visibleSize.height * 1.8 / 3));
+
+    auto layout = Layout::create();
+    layout->setContentSize(Size(750, 1350));
+    layout->setPosition(Vec2(0, 0));
+    for (int i = 0; i < 18; i++) {
+        Craft[17 - i] = RadioButton::create("emptyBoard.png", "emptyBoard.png");
+        Craft[17 - i]->setScaleX(750 / Craft[17 - i]->getContentSize().width);
+        Craft[17 - i]->setScaleY(75 / Craft[17 - i]->getContentSize().height);
+        Craft[17 - i]->setPosition(Vec2(layout->getContentSize().width / 2, Craft[17 - i]->getContentSize().height / 4 + 10 + (i ) * 75));
+
+        auto goods = Sprite::create(craftItem->getItem(17-i)->filenameReturn());
+        auto goodsLabel1 = Label::create(craftItem->getItem(17 - i)->name, "Comic Sans MS.ttf", 50);
+        auto factorLabel = Label::create(craftItem->factorBack(17-i), "Comic Sans MS.ttf", 50);
+        if (factorLabel == nullptr)
+            continue;
+        if (goodsLabel1 == nullptr)
+            continue;
+        goodsLabel1->setColor(Color3B::BLACK);
+        factorLabel->setColor(Color3B::BLACK);
+        if (goods == nullptr)
+            continue;
+        Craft[17 - i]->addChild(goods, 1, 1);
+        Craft[17 - i]->addChild(goodsLabel1, 1, 2);
+        Craft[17 - i]->addChild(factorLabel, 1, 3);
+        goods->setPosition(Vec2(Craft[17 - i]->getContentSize().width / 20, Craft[17 - i]->getContentSize().height / 2));
+        goodsLabel1->setPosition(Vec2(Craft[17 - i]->getContentSize().width / 10 + goodsLabel1->getContentSize().width / 2, Craft[17 - i]->getContentSize().height / 2 + goodsLabel1->getContentSize().height / 5));
+        factorLabel->setPosition(Vec2(Craft[17 - i]->getContentSize().width * 18.5 / 20 - factorLabel->getContentSize().width / 2, Craft[17 - i]->getContentSize().height / 2 + factorLabel->getContentSize().height / 5));
+        layout->addChild(Craft[17 - i]);
+
+    }
+    arrowBottom1 = RadioButton::create("arrow1.png", "arrow1.png");
+    arrowTop1 = RadioButton::create("arrow2.png", "arrow2.png");
+    scene->addChild(arrowBottom1, 160, 70);
+    scene->addChild(arrowTop1, 160, 71);
+    arrowBottom1->setPosition(Vec2(Craftview->getPositionX() + Craftview->getContentSize().width + arrowBottom1->getContentSize().width / 2, Craftview->getPositionY()));
+    arrowTop1->setPosition(Vec2(Craftview->getPositionX() + Craftview->getContentSize().width + arrowBottom1->getContentSize().width / 2, Craftview->getPositionY() + Craftview->getContentSize().height));
+    layout->setVisible(1);
+    Craftview->getInnerContainer()->addChild(layout);
+    Craftview->setScrollBarEnabled(1);
+    Craftview->setDirection(ScrollView::Direction::VERTICAL);
+    Craftview->setScrollBarPositionFromCornerForVertical(Vec2(Craftview->getPositionX() + Craftview->getContentSize().width / 2, Craftview->getPositionY() + Craftview->getContentSize().height / 2));
+
+    scene->addChild(Craftview, 160);
+    arrow1Set();
+    storeSoldSet1(scene);
+    packLayer->setPosition(Craftview->getPositionX() + 3 * tileWidth, Craftview->getPositionY() - Craftview->getContentSize().height / 2);
+    packLayer->setVisible(1);
+}
+
 float moveMacket = 0.0;
 
 //箭头设置
@@ -1038,6 +1157,50 @@ void arrowSet() {
             if (moveMacket >= 100.0) {
                 moveMacket -= 100;
                 scrollview->scrollToPercentVertical(moveMacket * 100.0 / alltime, 0.1, 0);
+            }
+            else {
+                CCLOG("Already to the Top");
+            }
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+}
+
+float moveMacket1 = 0.0;
+
+void arrow1Set() {
+    arrowBottom1->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        float alltime = 1400.0f;
+        float block=1400.0f;
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            if (moveMacket1 < block) {
+                moveMacket1 += 100;
+                Craftview->scrollToPercentVertical(moveMacket1 * 100.0 / alltime, 0.1, 0);
+            }
+            else {
+                CCLOG("Already to the Bottom");
+            }
+            break;
+        case ui::Widget::TouchEventType::ENDED:
+            break;
+        default:
+            break;
+        }
+        });
+    arrowTop1->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        float alltime = 1400.0f;
+        switch (type)
+        {
+        case ui::Widget::TouchEventType::BEGAN:
+            if (moveMacket1 >= 100.0) {
+                moveMacket1 -= 100;
+                Craftview->scrollToPercentVertical(moveMacket1 * 100.0 / alltime, 0.1, 0);
             }
             else {
                 CCLOG("Already to the Top");
@@ -1103,6 +1266,27 @@ void storeSoldFor(Widget::TouchEventType type,int posi, Scene* scene) {
         break;
     }
 }
+
+void CraftFor(Widget::TouchEventType type, int posi, Scene* scene) {
+    switch (type)
+    {
+    case ui::Widget::TouchEventType::BEGAN: {
+        if (craftItem->changeForCraft(pack1, posi)) {
+            craftItem->itemDelete(pack1, posi);
+            pack1->itemAdd(craftItem->getItem(posi),1);
+        }
+        else {
+            CCLOG("not able to craft");
+        }
+    }
+    case ui::Widget::TouchEventType::ENDED:
+        break;
+    default:
+        break;
+    }
+}
+
+
 
 //商店商品栏设置
 void storeSoldSet(Scene* scene){
@@ -1189,6 +1373,63 @@ void storeSoldSet(Scene* scene){
         });
 }
 
+void storeSoldSet1(Scene* scene) {
+    Craft[0]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 0, scene);
+        });
+    Craft[1]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 1, scene);
+        });
+    Craft[2]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 2, scene);
+        });
+    Craft[3]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 3, scene);
+        });
+    Craft[4]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 4, scene);
+        });
+    Craft[5]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 5, scene);
+        });
+    Craft[6]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 6, scene);
+        });
+    Craft[7]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 7, scene);
+        });
+    Craft[8]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 8, scene);
+        });
+    Craft[9]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 9, scene);
+        });
+    Craft[10]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 10, scene);
+        });
+    Craft[11]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 11, scene);
+        });
+    Craft[12]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 12, scene);
+        });
+    Craft[13]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 13, scene);
+        });
+    Craft[14]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 14, scene);
+        });
+    Craft[15]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 1, scene);
+        });
+    Craft[16]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 16, scene);
+        });
+    Craft[17]->addTouchEventListener([&](Ref* sender, Widget::TouchEventType type) {
+        CraftFor(type, 17, scene);
+        });
+}
+
 //质物栏显示
 void soldBox(Scene* scene){
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -1243,6 +1484,14 @@ void numlabel2(int posi) {
         ventory[posi]->getChildByTag(1)->addChild(number1, 1, 2);
         number1->setColor(Color3B::BLACK);
         number1->setPosition(Vec2(ventory[posi]->getContentSize().width*0.8  + number->getContentSize().width / 2, number->getContentSize().height / 5));
+    }
+}
+
+void packPosi(int posi) {
+    Inventory[posi]->removeChildByTag(1);
+    
+    if (posi >= 0 && posi < backpackCapacity / 3) {
+        ventory[posi]->removeChildByTag(1);
     }
 }
 
