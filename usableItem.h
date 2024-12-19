@@ -414,14 +414,14 @@ public:
 		goldhoe,//金锄
 		rustysword,//生锈的剑
 		bonesword,//骨剑
-		woodensign,//木牌
+		woodsign,//木牌
 		woodfence,//木栅栏
 		gate,//大门
 		woodpath,//木径
-		cobblestonepath,//石径
+		stonepath,//石径
 		torch,//火把
 		chest,//宝箱
-		furnace,//熔炉
+		furnance,//熔炉
 		stonesign,//石牌
 		sprinkle,//水龙头
 		scarecrow,//稻草人
@@ -530,21 +530,65 @@ public:
 			currentSeed = ToolKind::bonesword;
 			pictureName = "bonesword.png";
 			break;
-		case hash_compile_time("woodensign"):
-			currentSeed = ToolKind::woodensign;
-			pictureName = "woodensign.png";
+		case hash_compile_time("woodsign"):
+			currentSeed = ToolKind::woodsign;
+			pictureName = "woodsign.png";
+			break;
+		case hash_compile_time("stonesign"):
+			currentSeed = ToolKind::stonesign;
+			pictureName = "stonesign.png";
 			break;
 		case hash_compile_time("woodfence"):
 			currentSeed = ToolKind::woodfence;
 			pictureName = "woodfence.png";
 		break;
 		case hash_compile_time("gate"):
-				currentSeed = ToolKind::gate;
+			currentSeed = ToolKind::gate;
 			pictureName = "gate.png";
+			break;
+		case hash_compile_time("scarecrow"):
+			currentSeed = ToolKind::scarecrow;
+			pictureName = "scarecrow.png";
+			break;
+		case hash_compile_time("bait"):
+			currentSeed = ToolKind::bait;
+			pictureName = "bait.png";
+			break;
+		case hash_compile_time("campfire"):
+			currentSeed = ToolKind::campfire;
+			pictureName = "campfire.png";
+			break;
+		case hash_compile_time("chest"):
+			currentSeed = ToolKind::chest;
+			pictureName = "chest.png";
+			break;
+		case hash_compile_time("furnance"):
+			currentSeed = ToolKind::furnance;
+			pictureName = "furnance.png";
+			break;
+		case hash_compile_time("staircase"):
+			currentSeed = ToolKind::staircase;
+			pictureName = "staircase.png";
+			break;
+		case hash_compile_time("sprinkle"):
+			currentSeed = ToolKind::sprinkle;
+			pictureName = "sprinkle.png";
+			break;
+		case hash_compile_time("torch"):
+			currentSeed = ToolKind::torch;
+			pictureName = "torch.png";
+			break;
+		case hash_compile_time("cherrybomb"):
+			currentSeed = ToolKind::cherrybomb;
+			pictureName = "cherrybomb.png";
 			break;
 		case hash_compile_time("woodpath"):
 			currentSeed = ToolKind::woodpath;
 			pictureName = "woodpath.png";
+			break;
+		case hash_compile_time("stonepath"):
+			currentSeed = ToolKind::stonepath;
+			pictureName = "stonepath.png";
 			break;
 		case hash_compile_time("grassseedformulation"):
 			currentSeed = ToolKind::grassseedformulation;
