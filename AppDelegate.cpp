@@ -56,7 +56,8 @@ static cocos2d::Size myResolutionSize = cocos2d::Size(Constants::kMapWidth, Cons
 cocos2d::TMXTiledMap* g_sharedTMXtwo = nullptr;
 cocos2d::TMXTiledMap* g_sharedTMXthree = nullptr;
 cocos2d::TMXTiledMap* g_sharedTMXcurrent = nullptr;
-
+cocos2d::TMXTiledMap* g_sharedTMXfour = nullptr;
+int g_time = 0;
 AppDelegate::AppDelegate()
 {
 }
@@ -129,9 +130,23 @@ bool AppDelegate::applicationDidFinishLaunching() {
     Director::getInstance()->setContentScaleFactor(1.0f);
 
     g_sharedTMXone = TMXTiledMap::create("nf.tmx");
+    if (!g_sharedTMXone) {
+        CCLOG("g_sharedTMXone  fail to creat");
+    }
     g_sharedTMXtwo = TMXTiledMap::create("mine.tmx");
-    g_sharedTMXthree = TMXTiledMap::create("forest01.tmx");
-
+    if (!g_sharedTMXtwo) {
+        CCLOG("g_sharedTMXone  fail to creat");
+    }
+    g_sharedTMXthree = TMXTiledMap::create("forest01.tmx"); 
+    if (!g_sharedTMXthree) {
+        CCLOG("g_sharedTMXone  fail to creat");
+    }
+    g_sharedTMXfour = TMXTiledMap::create("Festival(3).tmx");
+    if (!g_sharedTMXfour) {
+        CCLOG("g_sharedTMXone  fail to creat");
+    }
+  
+    
     auto map = g_sharedTMXone;
     CCLOG("g_sharedTMXone Anchor Point: %f, %f", map->getAnchorPoint().x, map->getAnchorPoint().y);
     CCLOG("g_sharedTMXone Position: %f, %f", map->getPosition().x, map->getPosition().y);
@@ -143,7 +158,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     if (g_sharedTMXone) g_sharedTMXone->retain();
     if (g_sharedTMXtwo) g_sharedTMXtwo->retain();
     if (g_sharedTMXthree) g_sharedTMXthree->retain();
-
+    if (g_sharedTMXfour) g_sharedTMXfour->retain();
     CCLOG("Initialized g_sharedTMXone: %p", g_sharedTMXone);
     CCLOG("Initialized g_sharedTMXtwo: %p", g_sharedTMXtwo);
     CCLOG("Initialized g_sharedTMXthree: %p", g_sharedTMXthree);
@@ -173,6 +188,10 @@ void AppDelegate::applicationWillTerminate() {
     if (g_sharedTMXthree) {
         g_sharedTMXthree->release();
         g_sharedTMXthree = nullptr;
+    }
+    if (g_sharedTMXfour) {
+        g_sharedTMXfour->release();
+        g_sharedTMXfour = nullptr;
     }
     CCLOG("Released global TMXTiledMap objects.");
 }
