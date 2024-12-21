@@ -21,6 +21,9 @@ namespace Constants {// 使用时要加命名空间
     constexpr int kMapLength = 896; // 地图长度
     constexpr float kScale = 1.0; // 地图缩放比例
 
+   //游戏时间相关定义
+   constexpr int kCelebrationTime = 20;
+
     // 动物相关默认值
     constexpr int kDefaultAnimalHunger = 100;    // 默认饥饿度
     constexpr int kDefaultAnimalMood = 100;      // 默认心情
@@ -303,8 +306,6 @@ namespace Constants {// 使用时要加命名空间
     constexpr float Harveyinmap_Y = 408.0f;
     constexpr float Haleyinmap_X = 952.0f;
     constexpr float Haleyinmap_Y = 200.0f;
-    constexpr float Haleyinmap_X_prior = 852.0f;
-    constexpr float Haleyinmap_Y_prior = 256.0f;
     constexpr int InteractionDistance = 32;
     constexpr float Housex = 990.0f;
     constexpr float Housey = 0.0f;
