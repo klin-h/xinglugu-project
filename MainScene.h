@@ -33,14 +33,17 @@ public:
     void MainScene::onFishingButtonClicked(Ref* sender);
     // 实现 CREATE_FUNC 宏
     CREATE_FUNC(MainScene);
+    void initScheduler();  // 初始化定时器的函数
 
     //bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);// 触摸事件监听器
 
     cocos2d::EventListenerCustom* interactListener;
 
 private:
-    std::vector<Land*> landGrid; 
-    std::vector<SceneObject*> objectGrid; 
+    void update(float dt);  // 每秒钟调用的定时函数
+    std::vector<Land*> landGrid;
+    std::vector<SceneObject*> objectGrid;
+ 
 };
 
 #endif // __MAIN_SCENE_H__
