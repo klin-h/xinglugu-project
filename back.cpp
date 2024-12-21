@@ -3,7 +3,7 @@
  * File back.cpp
  * File Function:
  * Author:Li Siyuan
- * Update Date:2024.12.10
+ * Update Date:2024.12.21
  * License:
  ****************************************************************/
 #include"back.h"
@@ -170,7 +170,7 @@ bool backPack::itemAdd(Item* itemIn,int num) {
 			box[ring] = itemIn;
 			boxNum[ring] += itemIn->quantity*num;
 			backItemAddDisplay(ring);
-			numlabel(posi);
+			numlabel2(ring);
 		}
 		else
 			isAlreadyFull = 1;
