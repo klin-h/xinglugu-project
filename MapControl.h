@@ -10,33 +10,34 @@
 
 using namespace cocos2d;
 
-// µØÍ¼¿ØÖÆÀà
+// åœ°å›¾æ§åˆ¶ç±»
 class MapControl {
 public:
-    // ¹¹Ôìº¯Êı
+    // æ„é€ å‡½æ•°
     MapControl(Node* parent, float mapScale, const std::vector<std::string>& mapFiles);
 
-    // ÇĞ»»µØÍ¼
+    // åˆ‡æ¢åœ°å›¾
     void switchMap(size_t mapIndex, const Vec2& spawnPoint);
 
-    // ±£´æµ±Ç°µØÍ¼×´Ì¬
+    // ä¿å­˜å½“å‰åœ°å›¾çŠ¶æ€
     void saveCurrentMapState();
 
-    // »Ö¸´µØÍ¼×´Ì¬
+    // æ¢å¤åœ°å›¾çŠ¶æ€
     void restoreMapState(size_t mapIndex);
 
-    // ¼ì²éÈËÎïÊÇ·ñÔÚÆÁÄ»·¶Î§ÄÚ
+    // æ£€æŸ¥äººç‰©æ˜¯å¦åœ¨å±å¹•èŒƒå›´å†…
     bool isPlayerWithinScreen(const Vec2& position, const Vec2& direction, const Size& visibleSize);
 
-    // »ñÈ¡µ±Ç°µØÍ¼
+    // è·å–å½“å‰åœ°å›¾
     TMXTiledMap* getCurrentMap() const;
 
 private:
-    TMXTiledMap* currentMap; // µ±Ç°µØÍ¼
-    std::vector<TMXTiledMap*> maps; // ´¢´æËùÓĞµØÍ¼Ö¸Õë
-    size_t currentMapIndex; // µ±Ç°µØÍ¼Ë÷Òı
-    Node* parentNode; // ¸¸½Úµã
-    float mapScale; // µØÍ¼Ëõ·Å±ÈÀı
+    TMXTiledMap* currentMap; // å½“å‰åœ°å›¾
+    std::vector<TMXTiledMap*> maps; // å‚¨å­˜æ‰€æœ‰åœ°å›¾æŒ‡é’ˆ
+    size_t currentMapIndex; // å½“å‰åœ°å›¾ç´¢å¼•
+    Node* parentNode; // çˆ¶èŠ‚ç‚¹
+    float mapScale; // åœ°å›¾ç¼©æ”¾æ¯”ä¾‹
 };
 
+void update(float dt);
 #endif // MAPCONTROL_H
