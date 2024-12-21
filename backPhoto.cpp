@@ -3,7 +3,7 @@
  * File Name:backPhoto.cpp
  * File Function: const define
  * Author:Li Siyuan
- * Update Date:12.12
+ * Update Date:12.21
  * License:
  ****************************************************************/
 #include "MainScene.h"
@@ -75,13 +75,15 @@ void soldPerform(int posi) {
     }
     int num = pack1->posiNumBack(posi);
     Item* item0 = pack1->bottomSelect(posi);
-
+ 
     auto solditem = Sprite::create(item0->filenameReturn());
     if (solditem == nullptr)
         return;
-    solditem->setScaleX(tileWidth / (solditem->getContentSize().width));
-    solditem->setScaleY(tileHeight / (solditem->getContentSize().height));
+    soldPosi->removeChildByTag(1);
+    solditem->setScaleX(tileWidth /1.3/ (solditem->getContentSize().width));
+    solditem->setScaleY(tileHeight /1.3/ (solditem->getContentSize().height));
     solditem->setPosition(Vec2(soldPosi->getContentSize().width / 2, soldPosi->getContentSize().width / 2));
+    soldPosi->addChild(solditem, 1, 1);
     pack1->itemReduce(pack1->bottomSelect(posi), num);
     Inventory[posi]->removeChildByTag(1);
     auto newitem = Sprite::create(pack1->bottomSelect(posi)->filenameReturn());
@@ -103,8 +105,8 @@ void soldPerform(int posi) {
         ventory[posi]->addChild(sinitem, 1, 1);
     }
     soldbox->singleDayInput(item0,num );
-    soldPosi->removeChildByTag(1);
-    soldPosi->addChild(solditem, 1, 1);
+
+
 }
 
 //卖格功能设计
@@ -122,17 +124,31 @@ void soldposiSet() {
                 return;
             }
             else {
-                pack1->itemAdd(soldbox->itemSingleOut(), soldbox->topNumOut());
-                soldPosi->removeChildByTag(1);
-                if (soldbox->topItemOut() == nullptr)
-                    break;
-                auto newItem = Sprite::create(soldbox->topItemOut()->filenameReturn());
-                if (newItem == nullptr)
-                    return;
-                newItem->setScaleX(tileWidth / (newItem->getContentSize().width));
-                newItem->setScaleY(tileHeight / (newItem->getContentSize().height));
-                newItem->setPosition(Vec2(soldPosi->getContentSize().width / 2, soldPosi->getContentSize().width / 2));
-                soldPosi->addChild(newItem, 1, 1);
+                pack1->itemAdd(soldbox->topItemOut(), soldbox->topNumOut());
+                soldbox->itemSingleOut();
+                
+                if (soldbox->isBoxEmpty() == 0)
+                {
+                    auto newItem = Sprite::create("null.png");
+                    soldPosi->removeChildByTag(1);
+                    soldPosi->addChild(newItem, 1, 1);
+                    if (newItem == nullptr)
+                        return;
+                    newItem->setScaleX(tileWidth / 1.3 / (newItem->getContentSize().width));
+                    newItem->setScaleY(tileHeight / 1.3 / (newItem->getContentSize().height));
+                    newItem->setPosition(Vec2(soldPosi->getContentSize().width / 2, soldPosi->getContentSize().width / 2));
+                }
+                else {
+                    auto newItem = Sprite::create(soldbox->topItemOut()->filenameReturn());
+                    soldPosi->removeChildByTag(1);
+                    soldPosi->addChild(newItem, 1, 1);
+                    if (newItem == nullptr)
+                        return;
+                    newItem->setScaleX(1/1.3);
+                    newItem->setScaleY(1/1.3);
+                    newItem->setPosition(Vec2(soldPosi->getContentSize().width / 2, soldPosi->getContentSize().width / 2));
+                }
+
             }
         }
         case ui::Widget::TouchEventType::ENDED:
@@ -500,6 +516,8 @@ void sethand(int posi) {
     pack1->sethandInItemOut(posi);
 }
 
+void initia(Scene* scene);
+
 //各键功能设定
 void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher) {
    
@@ -536,6 +554,8 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
         Inventory[i] = RadioButton::create("Inventory.png", "Inventory.png");
     }
 
+    initia(scene);
+
     keyListener->onKeyPressed = ([=](EventKeyboard::KeyCode code, Event* event)
         {
             switch (code)
@@ -546,97 +566,7 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                 if (backIsOpen == BackOpen1) {
 
                     backIsOpen = BackOpen2;
-                    if (backIsProed == BackPro1) {
-                        packLayer = Layer::create();
-                        auto group2 = RadioButtonGroup::create();
-                        float tileWidth = visibleSize.width / 28;
-                        float tileHeight = tileWidth;
-                        backIsProed = BackPro2;
-
-                        for (int i = 0; i < backpackCapacity / 3; i++) {
-                            Inventory[i] = RadioButton::create("Inventory.png", "Inventory.png");
-                            packLayer->addChild(Inventory[i]);
-                            Inventory[i]->setScaleX(tileWidth / Inventory[i]->getContentSize().width);
-                            Inventory[i]->setScaleY(tileHeight / Inventory[i]->getContentSize().height);
-                            Inventory[i]->setPosition(Vec2( tileWidth * (i) - Inventory[i]->getContentSize().width / 2,tileHeight * 2 + Inventory[i]->getContentSize().height / 2));
-                            auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
-
-
-
-                            //物品框内物品尺寸设置
-                            packItem->setScaleX(tileWidth /1.3/ (packItem->getContentSize().width));
-                            packItem->setScaleY(tileHeight /1.3/ (packItem->getContentSize().height));
-
-                            //图片坐标设置
-                            packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
-                            Inventory[i]->addChild(packItem, 1, 1);
-                            group2->addRadioButton(Inventory[i]);
-                            
-
-
-                        }
-
-                        listenSet();
-                        for (int i = backpackCapacity / 3; i < backpackCapacity * 2 / 3; i++) {
-                            Inventory[i] = RadioButton::create("Inventory.png", "Inventory.png");
-                            packLayer->addChild(Inventory[i]);
-                            Inventory[i]->setScaleX(tileWidth / Inventory[i]->getContentSize().width);
-                            Inventory[i]->setScaleY(tileHeight / Inventory[i]->getContentSize().height);
-                            Inventory[i]->setPosition(Vec2(tileWidth * ((i + 1)% (backpackCapacity / 3)) - Inventory[i]->getContentSize().width / 2, tileHeight + Inventory[i]->getContentSize().height / 2));
-                            auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
-
-                            //物品框内物品尺寸设置
-                            packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
-                            packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
-
-                            //图片坐标设置
-                            packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
-
-                            Inventory[i]->addChild(packItem);
-                            group2->addRadioButton(Inventory[i]);
-                        }
-
-                        for (int i = backpackCapacity * 2 / 3; i < backpackCapacity; i++) {
-                            Inventory[i] = RadioButton::create("Inventory.png", "Inventory.png");
-                            Inventory[i]->setScaleX(tileWidth / Inventory[i]->getContentSize().width);
-                            Inventory[i]->setScaleY(tileHeight / Inventory[i]->getContentSize().height);
-                            Inventory[i]->setPosition(Vec2(tileWidth * ((i + 1) % (backpackCapacity / 3)) - Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().height / 2));
-                            auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
-
-                            //物品框内物品尺寸设置
-                            packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
-                            packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
-
-                            //图片坐标设置
-                            packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
-
-                            Inventory[i]->addChild(packItem);
-                            group2->addRadioButton(Inventory[i]);
-                            packLayer->addChild(Inventory[i]);
-                        }
-                        
-                        displayItem = Sprite::create("Inventory.png");
-                        packLayer->addChild(displayItem);
-                        displayItem->setScaleX(tileWidth / displayItem->getContentSize().width);
-                        displayItem->setScaleY(tileHeight / displayItem->getContentSize().height);
-                        displayItem->setPosition(Vec2(tileWidth* (1+backpackCapacity/3)-Inventory[1]->getContentSize().width / 2, tileHeight*2  + Inventory[1]->getContentSize().height / 2));
-
-                        auto addItem = Sprite::create("null.png");
-                        addItem->setScaleX(tileWidth / (addItem->getContentSize().width));
-                        addItem->setScaleY(tileHeight / (addItem->getContentSize().height));
-                        addItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
-
-                        displayItem->addChild(addItem, 1, 1);
-                        
-
-                        scene->addChild(group2);
-                        packLayer->setPosition(Vec2(visibleSize.width/3,visibleSize.height/2));
-                        scene->addChild(packLayer,50,30);
-                        for (int i = 0; i < 12; i++) {
-                            scene->getChildByTag(100 + i)->setVisible(0);
-                        }
-                    }
-                    else {
+                   {
 
                         scene->getChildByTag(30)->setVisible(1);
                         
@@ -693,15 +623,7 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                         ;
                     else
                         soldPosi->removeChildByTag(1);
-                    pack1->moneyChange(soldbox->dayProfitOut(),0);
-                    if (moneyboard->getChildByTag(1) == nullptr)
-                        ;
-                    else
-                        moneyboard->removeChildByTag(1);
-                    Label* money = Label::create(pack1->moneyStringOut(), "Comic Sans MS.ttf", 40);
-                    money->setColor(Color3B::BLACK);
-                    money->setPosition(Vec2(moneyboard->getContentSize().width * 7 / 8 - money->getContentSize().width / 2, money->getContentSize().height / 2));
-                    moneyboard->addChild(money, 1, 1);
+                  
                     for (int i = 0; i < backpackCapacity / 3; i++)
                     {
                         if (!pack1->bottomSelect(i)->isSoldAble())
@@ -721,6 +643,16 @@ void backPhoto(Scene* scene, backPack* pack1, EventDispatcher* _eventDispatcher)
                     soldPosi->setVisible(0);
                     packLayer->setPosition(Vec2(visibleSize.width / 3, visibleSize.height / 2));
                     packLayer->setVisible(0);
+
+                    pack1->moneyChange(soldbox->dayProfitOut(), 0);
+                    if (moneyboard->getChildByTag(1) == nullptr)
+                        ;
+                    else
+                        moneyboard->removeChildByTag(1);
+                    Label* money = Label::create(pack1->moneyStringOut(), "Comic Sans MS.ttf", 40);
+                    money->setColor(Color3B::BLACK);
+                    money->setPosition(Vec2(moneyboard->getContentSize().width * 7 / 8 - money->getContentSize().width / 2, money->getContentSize().height / 2));
+                    moneyboard->addChild(money, 1, 1);
                 }
                 break;
             }
@@ -899,8 +831,6 @@ void ventorySet() {
         });
 }
 
-
-
 //物品栏显示
 void inventory(Scene* scene,backPack* pack1, Vec2 origin) {
     ItemBot = RadioButtonGroup::create();
@@ -941,6 +871,97 @@ void inventory(Scene* scene,backPack* pack1, Vec2 origin) {
     scene->addChild(ItemBot);
     ventorySet();
 
+}
+
+//背包初始化
+void initia(Scene* scene) {
+    packLayer = Layer::create();
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    auto group2 = RadioButtonGroup::create();
+    float tileWidth = visibleSize.width / 28;
+    float tileHeight = tileWidth;
+    backIsProed = BackPro2;
+
+    for (int i = 0; i < backpackCapacity / 3; i++) {
+        Inventory[i] = RadioButton::create("Inventory.png", "Inventory.png");
+        packLayer->addChild(Inventory[i]);
+        Inventory[i]->setScaleX(tileWidth / Inventory[i]->getContentSize().width);
+        Inventory[i]->setScaleY(tileHeight / Inventory[i]->getContentSize().height);
+        Inventory[i]->setPosition(Vec2(tileWidth * (i)-Inventory[i]->getContentSize().width / 2, tileHeight * 2 + Inventory[i]->getContentSize().height / 2));
+        auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
+
+
+
+        //物品框内物品尺寸设置
+        packItem->setScaleX(tileWidth / 1.3 / (packItem->getContentSize().width));
+        packItem->setScaleY(tileHeight / 1.3 / (packItem->getContentSize().height));
+
+        //图片坐标设置
+        packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
+        Inventory[i]->addChild(packItem, 1, 1);
+        group2->addRadioButton(Inventory[i]);
+
+
+
+    }
+
+    listenSet();
+    for (int i = backpackCapacity / 3; i < backpackCapacity * 2 / 3; i++) {
+        Inventory[i] = RadioButton::create("Inventory.png", "Inventory.png");
+        packLayer->addChild(Inventory[i]);
+        Inventory[i]->setScaleX(tileWidth / Inventory[i]->getContentSize().width);
+        Inventory[i]->setScaleY(tileHeight / Inventory[i]->getContentSize().height);
+        Inventory[i]->setPosition(Vec2(tileWidth * ((i + 1) % (backpackCapacity / 3)) - Inventory[i]->getContentSize().width / 2, tileHeight + Inventory[i]->getContentSize().height / 2));
+        auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
+
+        //物品框内物品尺寸设置
+        packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
+        packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
+
+        //图片坐标设置
+        packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
+
+        Inventory[i]->addChild(packItem);
+        group2->addRadioButton(Inventory[i]);
+    }
+
+    for (int i = backpackCapacity * 2 / 3; i < backpackCapacity; i++) {
+        Inventory[i] = RadioButton::create("Inventory.png", "Inventory.png");
+        Inventory[i]->setScaleX(tileWidth / Inventory[i]->getContentSize().width);
+        Inventory[i]->setScaleY(tileHeight / Inventory[i]->getContentSize().height);
+        Inventory[i]->setPosition(Vec2(tileWidth * ((i + 1) % (backpackCapacity / 3)) - Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().height / 2));
+        auto packItem = Sprite::create(pack1->bottomSelect(i)->filenameReturn());
+
+        //物品框内物品尺寸设置
+        packItem->setScaleX(tileWidth / (packItem->getContentSize().width));
+        packItem->setScaleY(tileHeight / (packItem->getContentSize().height));
+
+        //图片坐标设置
+        packItem->setPosition(Vec2(Inventory[i]->getContentSize().width / 2, Inventory[i]->getContentSize().width / 2));
+
+        Inventory[i]->addChild(packItem);
+        group2->addRadioButton(Inventory[i]);
+        packLayer->addChild(Inventory[i]);
+    }
+
+    displayItem = Sprite::create("Inventory.png");
+    packLayer->addChild(displayItem);
+    displayItem->setScaleX(tileWidth / displayItem->getContentSize().width);
+    displayItem->setScaleY(tileHeight / displayItem->getContentSize().height);
+    displayItem->setPosition(Vec2(tileWidth * (1 + backpackCapacity / 3) - Inventory[1]->getContentSize().width / 2, tileHeight * 2 + Inventory[1]->getContentSize().height / 2));
+
+    auto addItem = Sprite::create("null.png");
+    addItem->setScaleX(tileWidth / (addItem->getContentSize().width));
+    addItem->setScaleY(tileHeight / (addItem->getContentSize().height));
+    addItem->setPosition(Vec2(displayItem->getContentSize().width / 2, displayItem->getContentSize().width / 2));
+
+    displayItem->addChild(addItem, 1, 1);
+
+
+    scene->addChild(group2);
+    packLayer->setPosition(Vec2(visibleSize.width / 3, visibleSize.height / 2));
+    scene->addChild(packLayer, 50, 30);
+    packLayer->setVisible(0);
 }
 
 //背包物品更新
@@ -1246,14 +1267,7 @@ void storeSoldFor(Widget::TouchEventType type,int posi, Scene* scene) {
                 else
                     newitem = Tool::create(storeItem->itemNameOut(posi, seasonNum, 0));
             }
-            pack1->moneyChange(storeItem->itemMoneyBack(posi, seasonNum), 1);
-            moneyboard->removeChildByTag(1);
-            Label* money = Label::create(pack1->moneyStringOut(), "Comic Sans MS.ttf", 40);
-            if (money == nullptr)
-                return;
-            money->setColor(Color3B::BLACK);
-            money->setPosition(Vec2(moneyboard->getContentSize().width * 7 / 8 - money->getContentSize().width / 2, money->getContentSize().height / 2));
-            moneyboard->addChild(money, 1, 1);
+            moneyChange(storeItem->itemMoneyBack(posi, seasonNum), 1);
             pack1->itemAdd(newitem, 1);
             break;
         }
@@ -1430,6 +1444,17 @@ void storeSoldSet1(Scene* scene) {
         });
 }
 
+//1--减，0--加
+void moneyChange(int amount, bool way) {
+    pack1->moneyChange(amount, way);
+    moneyboard->removeChildByTag(1);
+    Label* money = Label::create(pack1->moneyStringOut(), "Comic Sans MS.ttf", 40);
+    if (money == nullptr)
+        return;
+    money->setColor(Color3B::BLACK);
+    money->setPosition(Vec2(moneyboard->getContentSize().width * 7 / 8 - money->getContentSize().width / 2, money->getContentSize().height / 2));
+    moneyboard->addChild(money, 1, 1);
+}
 //质物栏显示
 void soldBox(Scene* scene){
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -1468,22 +1493,24 @@ void numlabel(int posi) {
 }
 
 void numlabel2(int posi) {
-    Inventory[posi]->getChildByTag(1)->removeChildByTag(2);
-    auto number = Label::create(pack1->numStringOut(posi), "Comic Sans MS.ttf", 20);
-    if (number == nullptr)
-        return;
-    Inventory[posi]->getChildByTag(1)->addChild(number, 1, 2);
-    number->setColor(Color3B::BLACK);
-    
-    number->setPosition(Vec2(Inventory[posi]->getContentSize().width*0.8  + number->getContentSize().width / 2, number->getContentSize().height / 5));
-    if (posi >= 0 && posi < backpackCapacity / 3) {
-        ventory[posi]->getChildByTag(1)->removeChildByTag(2);
-        auto number1 = Label::create(pack1->numStringOut(posi), "Comic Sans MS.ttf", 20);
-        if (number1 == nullptr)
+    if (pack1->posiNumBack(posi) > 1) {
+        Inventory[posi]->getChildByTag(1)->removeChildByTag(2);
+        auto number = Label::create(pack1->numStringOut(posi), "Comic Sans MS.ttf", 20);
+        if (number == nullptr)
             return;
-        ventory[posi]->getChildByTag(1)->addChild(number1, 1, 2);
-        number1->setColor(Color3B::BLACK);
-        number1->setPosition(Vec2(ventory[posi]->getContentSize().width*0.8  + number->getContentSize().width / 2, number->getContentSize().height / 5));
+        Inventory[posi]->getChildByTag(1)->addChild(number, 1, 2);
+        number->setColor(Color3B::BLACK);
+
+        number->setPosition(Vec2(Inventory[posi]->getContentSize().width * 0.8 + number->getContentSize().width / 2, number->getContentSize().height / 5));
+        if (posi >= 0 && posi < backpackCapacity / 3) {
+            ventory[posi]->getChildByTag(1)->removeChildByTag(2);
+            auto number1 = Label::create(pack1->numStringOut(posi), "Comic Sans MS.ttf", 20);
+            if (number1 == nullptr)
+                return;
+            ventory[posi]->getChildByTag(1)->addChild(number1, 1, 2);
+            number1->setColor(Color3B::BLACK);
+            number1->setPosition(Vec2(ventory[posi]->getContentSize().width * 0.8 + number->getContentSize().width / 2, number->getContentSize().height / 5));
+        }
     }
 }
 
