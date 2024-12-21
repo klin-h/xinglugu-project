@@ -70,6 +70,10 @@ Item* SoldBox::itemSingleOut() {
 			AnimalProduct* animal = AnimalProduct::create(itemInput[itemList]->nameBack());
 			singleDayProfit -= itemnum[numList] * animal->moneyToSell();
 		}
+		if (itemInput[itemList]->itemtype == ItemType::terial) {
+			terial* animal = terial::create(itemInput[itemList]->nameBack());
+			singleDayProfit -= itemnum[numList] * animal->moneyToSell();
+		}
 		itemList--;
 		numList--;
 		return list1;
