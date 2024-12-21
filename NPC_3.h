@@ -6,6 +6,8 @@
 #include "cocos2d.h"
 #include "TaskList.h"
 #include "back.h"
+#include "Walking.h"
+#include "Character.h"
 
 USING_NS_CC;
 extern backPack* pack1;
@@ -23,8 +25,8 @@ public:
 
 
     // 处理鼠标点击事件的函数声明，将在.cpp文件中实现具体逻辑来响应点击并输出日志
-    void onMouseClicked(cocos2d::Event* event);
-
+    void onMouseClicked_Harvey(cocos2d::Event* event);
+    void onMouseClicked_Haley(cocos2d::Event* event);
     
     void updateFriendshipStatus();
     void updateLoveshipStatus();
@@ -35,9 +37,13 @@ public:
     void Repairbuildings();
     bool checkRepair();
     void showNotEnoughFlowersAlert();
+    void popupmessage(std::string message);
     std::vector<Task> taskList;
+  
 
 private:
+    std::mutex positionMutex;
+    std::mutex positionMutey;
     Vec2 position;
     Vec2 targetPosition;
     float speed;

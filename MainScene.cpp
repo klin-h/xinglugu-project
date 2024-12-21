@@ -92,7 +92,7 @@ bool MainScene::init() {
         }
     }
 
-    
+
 
     g_sharedScene = this;
     if (!map) {
@@ -104,12 +104,12 @@ bool MainScene::init() {
     inventory(this, pack1, origin);
 
     auto layerfish = Layer::create();
-    map->addChild(layerfish,3);
+    map->addChild(layerfish, 3);
     // 添加钓鱼按钮
     MainScene::addFishingButtonToScene(layerfish, visibleSize);
 
-   /* auto wheelGame = WheelGame::create();
-    this->addChild(wheelGame, 3);*/
+    /* auto wheelGame = WheelGame::create();
+     this->addChild(wheelGame, 3);*/
 
     setupAnimal(this);// 创建动物
 
@@ -134,26 +134,26 @@ bool MainScene::init() {
         CCLOG("NPC_1 position: (%f, %f)", npc1->getPosition().x, npc1->getPosition().y);
     }
 
-  
+
 
     auto npc3 = NPC_3::create();
     if (npc3) {
         g_sharedScene->addChild(npc3, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
         Vec2 pos;
         pos.x = visibleSize.width / 4 - 8;
-        pos.y =  visibleSize.height / 2 - 8;
-        npc3->testAddNPC_3(visibleSize, origin,"Harvey",pos);
+        pos.y = visibleSize.height / 2 - 8;
+        npc3->testAddNPC_3(visibleSize, origin, "Harvey", pos);
     }
     auto npc2 = NPC_3::create();
     if (npc2) {
-        g_sharedScene->addChild(npc2, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
+        g_sharedTMXone->addChild(npc2, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
         Vec2 pos;
-        pos.x = 3*visibleSize.width / 4 - 8;
-        pos.y =  visibleSize.height/4 -8;
+        pos.x = Constants::Haleyinmap_X;
+        pos.y = Constants::Haleyinmap_Y;
         npc2->testAddNPC_3(visibleSize, origin, "Haley", pos);
+
+
     }
-
-
 
 
 
@@ -252,3 +252,4 @@ void MainScene::update(float dt) {
     // 正确调用外部的 update 函数
     ::update(dt);  // 外部定义的 update 函数
 }
+
