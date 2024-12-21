@@ -21,8 +21,6 @@
 #include"Fishing.h"
 
 
-
-
 USING_NS_CC;
 USING_NS_CC::ui;
 using namespace CocosDenshion;
@@ -38,12 +36,7 @@ Scene* MainScene::createScene() {
     return MainScene::create();
 }
 
-
 bool MainScene::init() {
-
-    CCLOG("Initializing MainScene...");
-    initScheduler();// 在 init 中添加初始化逻辑，确保定时器能正确设置
-
     auto audio = SimpleAudioEngine::getInstance();
     // set the background music and continuously play it.
     audio->playBackgroundMusic("background.mp3", true);
@@ -59,7 +52,6 @@ bool MainScene::init() {
 
     // 创建并添加地图
     //auto map = TMXTiledMap::create("nf.tmx");
-    //auto map = g_sharedTMXone;
     auto map = g_sharedTMXone;
     CCLOG("g_sharedTMXone Anchor Point: %f, %f", map->getAnchorPoint().x, map->getAnchorPoint().y);
     CCLOG("g_sharedTMXone Position: %f, %f", map->getPosition().x, map->getPosition().y);
@@ -73,9 +65,6 @@ bool MainScene::init() {
     this->addChild(map, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE, "map01");
     this->addChild(g_sharedTMXtwo, Constants::MAP_BACKGROUND_LAYER_Z_BASIC, "map02");
     this->addChild(g_sharedTMXthree, Constants::MAP_BACKGROUND_LAYER_Z_MIDDLE, "map03");
-    if (g_sharedTMXfour) {
-        this->addChild(g_sharedTMXfour, Constants::MAP_BACKGROUND_LAYER_Z_MIDDLE, "map04");
-    }
 
     if (g_sharedTMXone) {
         auto mapSize = g_sharedTMXtwo->getMapSize();
@@ -108,10 +97,7 @@ bool MainScene::init() {
     // 添加钓鱼按钮
     MainScene::addFishingButtonToScene(layerfish, visibleSize);
 
-   /* auto wheelGame = WheelGame::create();
-    this->addChild(wheelGame, 3);*/
-
-    setupAnimal(this);// 创建动物
+    //setupAnimal(this);// 创建动物
 
     //setupWalkingCharacter(visibleSize, origin);
 
@@ -146,13 +132,15 @@ bool MainScene::init() {
     }
     auto npc2 = NPC_3::create();
     if (npc2) {
-        g_sharedScene->addChild(npc2, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
+        g_sharedTMXone->addChild(npc2, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
         Vec2 pos;
-        pos.x = 3*visibleSize.width / 4 - 8;
-        pos.y =  visibleSize.height/4 -8;
+        pos.x = Constants::Haleyinmap_X;
+        pos.y = Constants::Haleyinmap_Y;
         npc2->testAddNPC_3(visibleSize, origin, "Haley", pos);
-    }
+       
 
+    }
+    
 
 
 
@@ -243,12 +231,3 @@ void MainScene::onFishingButtonClicked(Ref* sender) {
     }
 }
 
-void MainScene::initScheduler() {
-    // 设定定时器，每秒调用一次 update 函数
-    schedule(CC_SCHEDULE_SELECTOR(MainScene::update), 1.0f, kRepeatForever, 0.0f);
-}
-
-void MainScene::update(float dt) {
-    // 正确调用外部的 update 函数
-    ::update(dt);  // 外部定义的 update 函数
-}
