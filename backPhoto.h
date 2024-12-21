@@ -30,6 +30,8 @@ void numlabel(int posi);
 
 void numlabel2(int posi);
 
+void moneyChange(int amount, bool way);
+
 void labelDelete(int posi);
 
 void storeSeasonEx(std::string season);
