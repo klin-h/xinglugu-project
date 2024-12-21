@@ -21,6 +21,9 @@ namespace Constants {// 使用时要加命名空间
     constexpr int kMapLength = 896; // 地图长度
     constexpr float kScale = 1.0; // 地图缩放比例
 
+   //游戏时间相关定义
+   constexpr int kCelebrationTime = 20;
+
     // 动物相关默认值
     constexpr int kDefaultAnimalHunger = 100;    // 默认饥饿度
     constexpr int kDefaultAnimalMood = 100;      // 默认心情
