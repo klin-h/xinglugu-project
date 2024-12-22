@@ -36,3 +36,4 @@ void labelDelete(int posi);
 
 void storeSeasonEx(std::string season);
 #endif // !__BACKPHOTO_H_
+
