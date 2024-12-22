@@ -9,6 +9,9 @@
 
 #include "SceneTouch.h"
 #include "cocos2d.h"
+#include "GlobalVariables.h"
+#include "Crop.h"
+#include"PlantingSystem.h"
 
 using namespace cocos2d;
 
@@ -259,7 +262,7 @@ bool checkPathLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, backPa
                 else if (type == "copper") {
                     CCLOG("Breaking %s with pickaxe", type.c_str());
                     replaceTileinMine(tileCoord, map, "source");
-                    Item* newitem = terial::create("copperbar");
+                    Item* newitem = terial::create("copperore");
                     if (newitem) {
                         pack->itemAdd(newitem, 1);
                     }
@@ -271,13 +274,16 @@ bool checkPathLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, backPa
                 else if (type == "gold") {
                     CCLOG("Breaking %s with pickaxe", type.c_str());
                     replaceTileinMine(tileCoord, map, "source");
-                    Item* newitem = terial::create("ironbar");
+                    Item* newitem = terial::create("goldore");
                     if (newitem) {
                         pack->itemAdd(newitem, 1);
                     }
                     else {
                         CCLOG("Fail to create the item");
                     }
+
+         
+
 
                     return true;
                 }
@@ -322,7 +328,7 @@ bool checkPathLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, backPa
     return false;
 }
 
-bool checkFarmlandLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, backPack* pack) {
+bool checkFarmlandLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, backPack* pack,Vec2 click_position) {
     TMXLayer* farmlandLayer = map->getLayer("farmland");
     if (!farmlandLayer) {
         CCLOG("Farmland layer not found!");
@@ -358,6 +364,20 @@ bool checkFarmlandLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, ba
                 CCLOG("Cultivating the land.");
                 return true;
             }
+            else if(currentTool == "parsnipseed")  {
+                auto plantingSystem = PlantingSystem::create();
+                if (plantingSystem && plantingSystem->init()) {
+                    g_sharedScene->addChild(plantingSystem, 4); // 添加植物系统到场景中
+                }
+
+                // 种植作物示例
+                if (plantingSystem) {
+                    // 假设 sprites 文件名和生长时间是有效的
+                    plantingSystem->plantCrop("cauliflower", 360.0f, "cauliflower_seed.png", click_position);
+                   
+                }
+
+            }
             else {
                 CCLOG("Tool does not match type or no valid type found in farmland layer.");
             }
@@ -370,7 +390,7 @@ bool checkFarmlandLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, ba
 
 bool onTouchBegan(Touch* touch, Event* event, cocos2d::TMXTiledMap* map, backPack* pack) {
     Vec2 touchLocation = touch->getLocation();
-
+  
     // 使用封装的函数计算瓦片坐标
     Vec2 tileCoord = calculateTileCoordinate(touchLocation, g_sharedTMXcurrent);
 
@@ -385,7 +405,7 @@ bool onTouchBegan(Touch* touch, Event* event, cocos2d::TMXTiledMap* map, backPac
         return true;
     }
 
-    if (checkFarmlandLayerInteraction(tileCoord, g_sharedTMXcurrent, pack)) {
+    if (checkFarmlandLayerInteraction(tileCoord, g_sharedTMXcurrent, pack, touchLocation)) {
         return true;
     }
 
