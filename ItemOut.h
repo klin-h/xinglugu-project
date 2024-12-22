@@ -20,30 +20,31 @@ private:
 
 public:
 
-	//¹¹Ôìº¯Êı
+	//æ„é€ å‡½æ•°
 	SoldBox() {
 		itemList = listInit;
 		numList = listInit;
 	}
 
-	//°Ñ¶«Î÷·ÅÈëÊÛÂôÏä
+	//æŠŠä¸œè¥¿æ”¾å…¥å”®å–ç®±
 	bool singleDayInput(Item* itemToSell, int num);
 
-	//È¡³ö¶«Î÷
+	//å–å‡ºä¸œè¥¿
 	Item* itemSingleOut();
 
 	int topNumOut();
 
 	Item* topItemOut();
 
-	//Ã¿ÈÕ×Ü½á,Çå¿ÕÏä×Ó
+	//æ¯æ—¥æ€»ç»“,æ¸…ç©ºç®±å­
 	int dayProfitOut();
 
-	//ÅĞ¶ÏÊÇ·ñÎª¿Õ
+	//åˆ¤æ–­æ˜¯å¦ä¸ºç©º
 	bool isBoxEmpty();
 };
 
 
 
 #endif
+
 
