@@ -1,4 +1,4 @@
-﻿/****************************************************************************
+/****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
  http://www.cocos2d-x.org
@@ -26,6 +26,8 @@
 #include "MainScene.h"
 #include "startScene.h"
 #include "Constants.h"
+#include "GlobalVariables.h"
+#include"PlantingSystem.h"
 
  // #define USE_AUDIO_ENGINE 1
  // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -44,20 +46,20 @@ using namespace CocosDenshion;
 
 USING_NS_CC;
 
-//static cocos2d::Size designResolutionSize = cocos2d::Size(1920, 1080);
+
 static cocos2d::Size designResolutionSize = cocos2d::Size(1280, 896);
-//static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 static cocos2d::Size myResolutionSize = cocos2d::Size(Constants::kMapWidth, Constants::kMapLength);
-//static cocos2d::Size myResolutionSize = cocos2d::Size(1280,1080);
+
 
 cocos2d::TMXTiledMap* g_sharedTMXtwo = nullptr;
 cocos2d::TMXTiledMap* g_sharedTMXthree = nullptr;
 cocos2d::TMXTiledMap* g_sharedTMXcurrent = nullptr;
 cocos2d::TMXTiledMap* g_sharedTMXfour = nullptr;
 int g_time = 0;
+
 AppDelegate::AppDelegate()
 {
 }
@@ -162,6 +164,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CCLOG("Initialized g_sharedTMXone: %p", g_sharedTMXone);
     CCLOG("Initialized g_sharedTMXtwo: %p", g_sharedTMXtwo);
     CCLOG("Initialized g_sharedTMXthree: %p", g_sharedTMXthree);
+
+    
 
     register_all_packages();
 
