@@ -8,6 +8,7 @@
 #include "WalkingCharacter.h"
 
 
+
 using namespace cocos2d;
 
 // 地图控制类
@@ -40,4 +41,5 @@ private:
 };
 
 void update(float dt);
+void updateProgressBars(Scene* scene, float g_time);
 #endif // MAPCONTROL_H
