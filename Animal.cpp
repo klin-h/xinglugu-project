@@ -15,26 +15,25 @@ Animal::Animal()
     mood_(Constants::kDefaultAnimalMood),
     health_(Constants::kDefaultAnimalHealth),
     walkingCharacterNode(nullptr)
-
-
 {
-    // ¿ÉÒÔÔÚÕâÀï½øĞĞÒ»Ğ©Í¨ÓÃµÄ³õÊ¼»¯£¨Èç¹ûĞèÒª£©
+
 }
 
 Animal::~Animal()
 {
-    // ÇåÀí×ÊÔ´£¨Èç¹ûÓĞ£©
+    // æ¸…ç†èµ„æºï¼ˆå¦‚æœæœ‰ï¼‰
 }
 
 void Animal::feed()
 {
-    // ÊµÏÖÎ¹ÑøÂß¼­
+    // å®ç°å–‚å…»é€»è¾‘
     hunger_ -= 10;
     if (hunger_ < 0) hunger_ = 0;
     mood_ += 5;
     if (mood_ > 100) mood_ = 100;
-
-    // ¿ÉÒÔ¸ù¾İĞèÒªÌí¼Ó¸ü¶àÂß¼­£¬ÀıÈç¸üĞÂÏÔÊ¾×´Ì¬
+    health_ += 30;
+    if (health_ > 100) health_ = 100;
+    // å¯ä»¥æ ¹æ®éœ€è¦æ·»åŠ æ›´å¤šé€»è¾‘ï¼Œä¾‹å¦‚æ›´æ–°æ˜¾ç¤ºçŠ¶æ€
     CCLOG("Animal has been fed. Hunger: %d, Mood: %d", hunger_, mood_);
 }
 
@@ -65,31 +64,35 @@ int Animal::getHealth() const
 
 void Animal::setHealth(int value)
 {
-    health_ = value;
+    health_ -= value;
+    if (health_ < 0) health_ = 0;
+    mood_ -= 5;
+   
+   
 }
 
 void Animal::moveTo(const Vec2& targetPosition) {
-    // ¼ÆËãÒÆ¶¯¾àÀë
+    // è®¡ç®—ç§»åŠ¨è·ç¦»
     float distance = this->getPosition().distance(targetPosition);
 
-    // ¸ù¾İ¾àÀëºÍËÙ¶È¼ÆËãÒÆ¶¯³ÖĞøÊ±¼ä
+    // æ ¹æ®è·ç¦»å’Œé€Ÿåº¦è®¡ç®—ç§»åŠ¨æŒç»­æ—¶é—´
     float duration = distance / Constants::kAnimalMoveSpeed;
 
-    // Æô¶¯ĞĞ×ß¶¯»­
+    // å¯åŠ¨è¡Œèµ°åŠ¨ç”»
     this->startWalkingAnimation();
 
-    // ´´½¨ÒÆ¶¯¶¯×÷
+    // åˆ›å»ºç§»åŠ¨åŠ¨ä½œ
     auto moveAction = MoveTo::create(duration, targetPosition);
 
-    // ÒÆ¶¯Íê³ÉºóÍ£Ö¹¶¯»­µÄ»Øµ÷
+    // ç§»åŠ¨å®Œæˆååœæ­¢åŠ¨ç”»çš„å›è°ƒ
     auto stopAnimation = CallFunc::create([this]() {
         this->stopWalkingAnimation();
         });
 
-    // ½«ÒÆ¶¯ºÍÍ£Ö¹¶¯»­µÄ¶¯×÷×éºÏ³ÉĞòÁĞ
+    // å°†ç§»åŠ¨å’Œåœæ­¢åŠ¨ç”»çš„åŠ¨ä½œç»„åˆæˆåºåˆ—
     auto sequence = Sequence::create(moveAction, stopAnimation, nullptr);
 
-    // ÔËĞĞ¶¯×÷
+    // è¿è¡ŒåŠ¨ä½œ
     this->runAction(sequence);
 }
 
@@ -97,34 +100,35 @@ void Animal::moveToSequence(const std::vector<Vec2>& positions) {
     Vector<FiniteTimeAction*> actions;
 
     for (const auto& position : positions) {
-        // ¼ÆËãÃ¿¶ÎÒÆ¶¯¾àÀë
+        // è®¡ç®—æ¯æ®µç§»åŠ¨è·ç¦»
         float distance = this->getPosition().distance(position);
 
-        // ¸ù¾İ¾àÀëºÍËÙ¶È¼ÆËãÒÆ¶¯³ÖĞøÊ±¼ä
+        // æ ¹æ®è·ç¦»å’Œé€Ÿåº¦è®¡ç®—ç§»åŠ¨æŒç»­æ—¶é—´
         float duration = distance / Constants::kAnimalMoveSpeed;
 
-        // Ìí¼ÓÒÆ¶¯¶¯×÷
+        // æ·»åŠ ç§»åŠ¨åŠ¨ä½œ
         actions.pushBack(MoveTo::create(duration, position));
     }
 
-    // Ìí¼ÓÍ£Ö¹¶¯»­µÄ»Øµ÷
+    // æ·»åŠ åœæ­¢åŠ¨ç”»çš„å›è°ƒ
     actions.pushBack(CallFunc::create([this]() {
         this->stopWalkingAnimation();
         }));
 
-    // Æô¶¯ĞĞ×ß¶¯»­
+    // å¯åŠ¨è¡Œèµ°åŠ¨ç”»
     this->startWalkingAnimation();
 
-    // ´´½¨¶¯×÷ĞòÁĞ²¢ÔËĞĞ
+    // åˆ›å»ºåŠ¨ä½œåºåˆ—å¹¶è¿è¡Œ
     this->runAction(Sequence::create(actions));
 }
 
 void Animal::startWalkingAnimation() {
-    // Ä¬ÈÏÊµÏÖ£¬×ÓÀà¿ÉÒÔÖØĞ´
+    // é»˜è®¤å®ç°ï¼Œå­ç±»å¯ä»¥é‡å†™
     CCLOG("Start walking animation (default)");
 }
 
 void Animal::stopWalkingAnimation() {
-    // Ä¬ÈÏÊµÏÖ£¬×ÓÀà¿ÉÒÔÖØĞ´
+    // é»˜è®¤å®ç°ï¼Œå­ç±»å¯ä»¥é‡å†™
     CCLOG("Stop walking animation (default)");
 }
+
