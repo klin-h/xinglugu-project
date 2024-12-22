@@ -1,17 +1,18 @@
 #include "SceneObject.h"
 #include "tree.h"
-//#include "Rock.h"
-//#include "Grass.h"
+
 
 USING_NS_CC;
 
- //¾²Ì¬±äÁ¿¶¨Òå
 std::vector<SceneObject::Point> SceneObject::treePositions;
 std::vector<SceneObject::Point> SceneObject::rockPositions;
 std::vector<SceneObject::Point> SceneObject::grassPositions;
+std::vector<SceneObject::Point> SceneObject::ironOrePositions;  // æ–°å¢ï¼šé“çŸ¿çŸ³åæ ‡
+std::vector<SceneObject::Point> SceneObject::silverOrePositions; // æ–°å¢ï¼šé“¶çŸ¿çŸ³åæ ‡
+std::vector<SceneObject::Point> SceneObject::goldOrePositions;  // æ–°å¢ï¼šé‡‘çŸ¿çŸ³åæ ‡
 
-// Ìí¼Ó×ø±êµ½¶ÔÓ¦µÄ vector
-void SceneObject::addObjectPosition(ObjectType type, const SceneObject:: Point& position) {
+// æ·»åŠ åæ ‡åˆ°å¯¹åº”çš„ vector
+void SceneObject::addObjectPosition(ObjectType type, const SceneObject::Point& position) {
     switch (type) {
         case ObjectType::Tree:
             treePositions.push_back(position);
@@ -22,19 +23,36 @@ void SceneObject::addObjectPosition(ObjectType type, const SceneObject:: Point& 
         case ObjectType::Grass:
             grassPositions.push_back(position);
             break;
+        case ObjectType::IronOre:
+            ironOrePositions.push_back(position);
+            break;
+        case ObjectType::SilverOre:
+            silverOrePositions.push_back(position);
+            break;
+        case ObjectType::GoldOre:
+            goldOrePositions.push_back(position);
+            break;
     }
 }
 
-void  SceneObject::setpoint() {
-    SceneObject::Point p1(5,5);
-    addObjectPosition(ObjectType::Tree,p1);
+void SceneObject::setpoint() {
+    SceneObject::Point p1(5, 5);
+    addObjectPosition(ObjectType::Tree, p1);
     SceneObject::Point p2(3, 3);
     addObjectPosition(ObjectType::Tree, p2);
-    SceneObject::Point p3(1,8);
-   addObjectPosition(ObjectType::Tree, p3);
+    SceneObject::Point p3(1, 8);
+    addObjectPosition(ObjectType::Tree, p3);
+
+    // æ–°å¢ä¸€äº›çŸ¿çŸ³çš„åæ ‡
+   /* SceneObject::Point ironOrePos(4, 6);
+    addObjectPosition(ObjectType::IronOre, ironOrePos);
+    SceneObject::Point silverOrePos(6, 7);
+    addObjectPosition(ObjectType::SilverOre, silverOrePos);
+    SceneObject::Point goldOrePos(2, 4);
+    addObjectPosition(ObjectType::GoldOre, goldOrePos);*/
 }
 
-// ³õÊ¼»¯ËùÓĞ³¡¾°ÎïÌå
+// åˆå§‹åŒ–æ‰€æœ‰åœºæ™¯ç‰©ä½“
 void SceneObject::initSceneObject(cocos2d::Node* parentNode, float tileWidth, float tileHeight, std::vector<SceneObject*>& objectGrid) {
     SceneObject::setpoint();
     for (const auto& position : treePositions) {
@@ -45,7 +63,7 @@ void SceneObject::initSceneObject(cocos2d::Node* parentNode, float tileWidth, fl
         }
     }
 
-    /*for (const auto& position : rockPositions) {
+    for (const auto& position : rockPositions) {
         auto rock = createObject(ObjectType::Rock, tileWidth, tileHeight, position);
         if (rock) {
             parentNode->addChild(rock);
@@ -59,39 +77,74 @@ void SceneObject::initSceneObject(cocos2d::Node* parentNode, float tileWidth, fl
             parentNode->addChild(grass);
             objectGrid.push_back(grass);
         }
-    }*/
+    }
+
+    // ä¸ºçŸ¿çŸ³ç‰©ä½“åˆ›å»ºå®ä¾‹
+    for (const auto& position : ironOrePositions) {
+        auto ironOre = createObject(ObjectType::IronOre, tileWidth, tileHeight, position);
+        if (ironOre) {
+            parentNode->addChild(ironOre);
+            objectGrid.push_back(ironOre);
+        }
+    }
+
+    for (const auto& position : silverOrePositions) {
+        auto silverOre = createObject(ObjectType::SilverOre, tileWidth, tileHeight, position);
+        if (silverOre) {
+            parentNode->addChild(silverOre);
+            objectGrid.push_back(silverOre);
+        }
+    }
+
+    for (const auto& position : goldOrePositions) {
+        auto goldOre = createObject(ObjectType::GoldOre, tileWidth, tileHeight, position);
+        if (goldOre) {
+            parentNode->addChild(goldOre);
+            objectGrid.push_back(goldOre);
+        }
+    }
 }
 
 SceneObject* SceneObject::createObject(ObjectType type, float tileWidth, float tileHeight, const Point& position) {
     SceneObject* object = nullptr;
 
-     //´´½¨¶ÔÓ¦ÀàĞÍµÄ¶ÔÏó
+    // åˆ›å»ºå¯¹åº”ç±»å‹çš„å¯¹è±¡
     switch (type) {
         case ObjectType::Tree:
             object = Tree::create("tree.png");
             break;
-       /* case ObjectType::Rock:
+        case ObjectType::Rock:
             object = Rock::create("rock.png");
             break;
         case ObjectType::Grass:
             object = Grass::create("grass.png");
-            break;*/
+            break;
+        case ObjectType::IronOre:
+            object = IronOre::create("iron_ore.png"); // é“çŸ¿çŸ³å›¾ç‰‡
+            break;
+        case ObjectType::SilverOre:
+            object = SilverOre::create("silver_ore.png"); // é“¶çŸ¿çŸ³å›¾ç‰‡
+            break;
+        case ObjectType::GoldOre:
+            object = GoldOre::create("gold_ore.png"); // é‡‘çŸ¿çŸ³å›¾ç‰‡
+            break;
     }
 
     if (object) {
-         //ÉèÖÃÃªµãÎª×óÏÂ½Ç
+        // è®¾ç½®é”šç‚¹ä¸ºå·¦ä¸‹è§’
         object->setAnchorPoint(cocos2d::Vec2(0, 0));
 
-         //¼ÆËãËõ·Å±ÈÀı
+        // è®¡ç®—ç¼©æ”¾æ¯”ä¾‹
         float scaleX = tileWidth / object->getContentSize().width;
         float scaleY = tileHeight / object->getContentSize().height;
         object->setScaleX(scaleX);
         object->setScaleY(scaleY);
 
-        float xPos = position.x * tileWidth + tileWidth / 2; 
-        float yPos = position.y * tileHeight + tileHeight / 2; 
+        float xPos = position.x * tileWidth + tileWidth / 2;
+        float yPos = position.y * tileHeight + tileHeight / 2;
         object->setPosition(cocos2d::Vec2(xPos, yPos));
     }
 
     return object;
 }
+
