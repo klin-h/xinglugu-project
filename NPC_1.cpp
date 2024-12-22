@@ -15,7 +15,7 @@
 #include "GlobalVariables.h"
 
 Vec2 convertToScreenOrigin(const Vec2& position, const Size& visibleSize) {
-    // Ô­µã×ª»»¹«Ê½
+    // åŸç‚¹è½¬æ¢å…¬å¼
     float x = position.x + (visibleSize.width / 2 - 8);
     float y = -position.y + (visibleSize.height / 2 - 8) - 16;
 
@@ -36,7 +36,7 @@ void NPC_1::moveUp(Vec2& Endposition, TMXTiledMap* map, float movelength, Sprite
     }
     CCLOG("Converted tile coordinate: (%f, %f)", tileCoord.x, tileCoord.y);
 
-    Vec2 targetTileCoord = Vec2(tileCoord.x, tileCoord.y - 1); // ÏòÉÏÒÆ¶¯ y-1
+    Vec2 targetTileCoord = Vec2(tileCoord.x, tileCoord.y - 1); // å‘ä¸Šç§»åŠ¨ y-1
     CCLOG("Target tile coordinate: (%f, %f)", targetTileCoord.x, targetTileCoord.y);
 
     TMXLayer* pathLayer = map->getLayer("path");
@@ -98,7 +98,7 @@ void NPC_1::moveDown(Vec2& Endposition, TMXTiledMap* map, float movelength, Spri
     }
     CCLOG("Converted tile coordinate: (%f, %f)", tileCoord.x, tileCoord.y);
 
-    Vec2 targetTileCoord = Vec2(tileCoord.x, tileCoord.y + 1); // ÏòÏÂÒÆ¶¯ y+1
+    Vec2 targetTileCoord = Vec2(tileCoord.x, tileCoord.y + 1); // å‘ä¸‹ç§»åŠ¨ y+1
     CCLOG("Target tile coordinate: (%f, %f)", targetTileCoord.x, targetTileCoord.y);
 
     TMXLayer* pathLayer = map->getLayer("path");
@@ -160,7 +160,7 @@ void NPC_1::moveLeft(Vec2& Endposition, TMXTiledMap* map, float movelength, Spri
     }
     CCLOG("Converted tile coordinate: (%f, %f)", tileCoord.x, tileCoord.y);
 
-    Vec2 targetTileCoord = Vec2(tileCoord.x - 1, tileCoord.y); // Ïò×óÒÆ¶¯ x-1
+    Vec2 targetTileCoord = Vec2(tileCoord.x - 1, tileCoord.y); // å‘å·¦ç§»åŠ¨ x-1
     CCLOG("Target tile coordinate: (%f, %f)", targetTileCoord.x, targetTileCoord.y);
 
     TMXLayer* pathLayer = map->getLayer("path");
@@ -222,7 +222,7 @@ void NPC_1::moveRight(Vec2& Endposition, TMXTiledMap* map, float movelength, Spr
     }
     CCLOG("Converted tile coordinate: (%f, %f)", tileCoord.x, tileCoord.y);
 
-    Vec2 targetTileCoord = Vec2(tileCoord.x + 1, tileCoord.y); // ÏòÓÒÒÆ¶¯ x+1
+    Vec2 targetTileCoord = Vec2(tileCoord.x + 1, tileCoord.y); // å‘å³ç§»åŠ¨ x+1
     CCLOG("Target tile coordinate: (%f, %f)", targetTileCoord.x, targetTileCoord.y);
 
     TMXLayer* pathLayer = map->getLayer("path");
@@ -319,23 +319,23 @@ void NPC_1::setup(const Size& visibleSize, Vec2 origin) {
 }
 
 bool isPlayerWithinScreen(const Vec2& position, const Vec2& direction, const Size& visibleSize, const TMXTiledMap* map, float scale) {
-    // ¼ÆËãËõ·ÅºóµÄµØÍ¼³ß´ç
+    // è®¡ç®—ç¼©æ”¾åçš„åœ°å›¾å°ºå¯¸
     Size mapSize = map->getMapSize();
     Size tileSize = map->getTileSize();
     Size mapContentSize = Size(mapSize.width * tileSize.width, mapSize.height * tileSize.height) * scale;
     Vec2 currentPosition = position;
     Vec2 screenCoord = convertToScreenOrigin(currentPosition, visibleSize);
-    // ¼ÆËãÈËÎïÒÆ¶¯ºóµÄÄ¿±êÎ»ÖÃ
+    // è®¡ç®—äººç‰©ç§»åŠ¨åçš„ç›®æ ‡ä½ç½®
     Vec2 targetPosition = screenCoord + direction;
 
-    // ¼ì²éÄ¿±êÎ»ÖÃÊÇ·ñÈÔÔÚÆÁÄ»·¶Î§ÄÚ
+    // æ£€æŸ¥ç›®æ ‡ä½ç½®æ˜¯å¦ä»åœ¨å±å¹•èŒƒå›´å†…
     if (targetPosition.x < 0 || targetPosition.x >= visibleSize.width ||
         targetPosition.y < 0 || targetPosition.y >= visibleSize.height) {
         CCLOG("Player will move out of the screen bounds. Movement blocked.");
         return false;
     }
 
-    // ¼ì²éÄ¿±êÎ»ÖÃÊÇ·ñÈÔÔÚµØÍ¼·¶Î§ÄÚ
+    // æ£€æŸ¥ç›®æ ‡ä½ç½®æ˜¯å¦ä»åœ¨åœ°å›¾èŒƒå›´å†…
     if (targetPosition.x < 0 || targetPosition.x >= mapContentSize.width ||
         targetPosition.y < 0 || targetPosition.y >= mapContentSize.height) {
         CCLOG("Player will move out of the map bounds. Movement blocked.");
@@ -349,27 +349,31 @@ bool isPlayerWithinScreen(const Vec2& position, const Vec2& direction, const Siz
 
 void NPC_1::checkAround(const Vec2& Endposition, TMXTiledMap* currentMap, MapControl* mapControl) {
     if (!currentMap) return;
+    static int time1 = 0;
+    static int time2 = 0;
     //Vec2 currentPosition = Endposition;
     Size visibleSize = Director::getInstance()->getVisibleSize(); 
     Vec2 screenCoord = convertToScreenOrigin(Endposition, visibleSize);
    
     Vec2 tileCoord = calculateTileCoordinate(screenCoord, currentMap);
-    // »ñÈ¡ÍßÆ¬´óĞ¡
+    // è·å–ç“¦ç‰‡å¤§å°
     Size tileSize = currentMap->getTileSize();
     CCLOG("CkeckAr::Converted tile coordinate: (%f, %f)", tileCoord.x, tileCoord.y);
-    // ½«ÈËÎï×ø±ê×ª»»ÎªÍßÆ¬×ø±ê
+    // å°†äººç‰©åæ ‡è½¬æ¢ä¸ºç“¦ç‰‡åæ ‡
     int playerTileX = tileCoord.x;
     int playerTileY = tileCoord.y;
 
-    // ¶¨ÒåÉÏÏÂ×óÓÒÏàÁÚÍßÆ¬µÄ×ø±ê
+    // å®šä¹‰ä¸Šä¸‹å·¦å³ç›¸é‚»ç“¦ç‰‡çš„åæ ‡
     Vec2 directions[] = {
-        Vec2(0, 1),  // ÉÏ
-        Vec2(0, -1), // ÏÂ
-        Vec2(-1, 0), // ×ó
-        Vec2(1, 0)   // ÓÒ
+        Vec2(0, 1),  // ä¸Š
+        Vec2(0, -1), // ä¸‹
+        Vec2(-1, 0), // å·¦
+        Vec2(1, 0)   // å³
     };
-   
-    if (abs(playerTileX-3)<2 || abs(playerTileY - 5) < 2) {
+    static float lastSwitchTime = -1000.0f; // åˆå§‹åŒ–ä¸ºä¸€ä¸ªè¿œæ—©äºæ¸¸æˆå¼€å§‹çš„æ—¶é—´
+
+    if (abs(playerTileX-3)<2 && abs(playerTileY - 5) < 2 && (g_time -lastSwitchTime>10)) {
+        lastSwitchTime = g_time;
         CCLOG("Switchto mine map");
         auto button = ui::Button::create("button_normal.png", "button_pressed.png");
         button->setTitleText("Switch mine  Map?");
@@ -380,50 +384,53 @@ void NPC_1::checkAround(const Vec2& Endposition, TMXTiledMap* currentMap, MapCon
         //this->addChild(button, 2);
         g_sharedScene->addChild(button, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE+1);
 
-        // ¶¨Ê±Æ÷ÒÆ³ı°´Å¥
+        // å®šæ—¶å™¨ç§»é™¤æŒ‰é’®
         g_sharedScene->scheduleOnce([button](float) {
             if (button && button->getParent()) {
                 CCLOG("Button removed after 3 seconds");
                 button->removeFromParent();
             }
-            button->release(); // ¼õÉÙÒıÓÃ¼ÆÊı
-            }, 1.0f, "removeButtonKey");
+            button->release(); // å‡å°‘å¼•ç”¨è®¡æ•°
+            }, 3.0f, "removeButtonKey");
 
-        // °´Å¥µã»÷ÊÂ¼ş
+        // æŒ‰é’®ç‚¹å‡»äº‹ä»¶
         button->addClickEventListener([=](Ref* sender) {
             CCLOG("Press");
-
+          
             TMXTiledMap* currentmap;
             TMXTiledMap* aimmap;
             if (g_sharedTMXcurrent == g_sharedTMXone) {
                 aimmap= g_sharedTMXtwo;
+                //setupAnimal(g_sharedScene);// åˆ›å»ºåŠ¨ç‰©
             }
             else if (g_sharedTMXcurrent == g_sharedTMXtwo) {
                 aimmap = g_sharedTMXone;
+                //cleanupAnimals(g_sharedScene, animalGrid);
             }
             else {
                 aimmap = g_sharedTMXone;
             }
-            // ÉèÖÃĞÂµØÍ¼µÄÊôĞÔ
-            g_sharedTMXtwo ->setPosition(Vec2(0, 0)); // ÉèÖÃµØÍ¼ÆğÊ¼Î»ÖÃÎªÆÁÄ»×óÏÂ½Ç
-            g_sharedTMXtwo->setScale(currentMap->getScale()); // ±£³ÖºÍµ±Ç°µØÍ¼ÏàÍ¬µÄËõ·Å±ÈÀı
+            // è®¾ç½®æ–°åœ°å›¾çš„å±æ€§
+            g_sharedTMXtwo ->setPosition(Vec2(0, 0)); // è®¾ç½®åœ°å›¾èµ·å§‹ä½ç½®ä¸ºå±å¹•å·¦ä¸‹è§’
+            g_sharedTMXtwo->setScale(currentMap->getScale()); // ä¿æŒå’Œå½“å‰åœ°å›¾ç›¸åŒçš„ç¼©æ”¾æ¯”ä¾‹
            
             /*g_sharedTMXcurrent = g_sharedTMXtwo;*/
-            // Ìí¼Óµ½¸¸½ÚµãÖĞ
+            // æ·»åŠ åˆ°çˆ¶èŠ‚ç‚¹ä¸­
             g_sharedTMXcurrent->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_BASIC);
             aimmap->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_SURFACE);
             g_sharedTMXcurrent = aimmap;
             button->removeFromParent();
-            button->release(); // ¼õÉÙÒıÓÃ¼ÆÊı
-            g_sharedScene->unschedule("removeButtonKey"); // È¡Ïû¶¨Ê±Æ÷
+            button->release(); // å‡å°‘å¼•ç”¨è®¡æ•°
+            g_sharedScene->unschedule("removeButtonKey"); // å–æ¶ˆå®šæ—¶å™¨
             });
        
     }
 
-    if (abs(playerTileX - 78) < 2 && abs(playerTileY - 9) < 2) {
+    if (abs(playerTileX - 78) < 2 && abs(playerTileY - 9) < 2 && (g_time - lastSwitchTime > 10)) {
+        lastSwitchTime = g_time;
         CCLOG("Switch map");
         auto button = ui::Button::create("button_normal.png", "button_pressed.png");
-        button->setTitleText("Switch to forest Map?");
+        button->setTitleText("Switch to forest Map?"); 
         button->setTitleFontSize(24);
         button->setPosition(Vec2(600, 400));
         button->retain();
@@ -431,58 +438,60 @@ void NPC_1::checkAround(const Vec2& Endposition, TMXTiledMap* currentMap, MapCon
         //this->addChild(button, 2);
         g_sharedScene->addChild(button, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE + 1);
 
-        // ¶¨Ê±Æ÷ÒÆ³ı°´Å¥
+        // å®šæ—¶å™¨ç§»é™¤æŒ‰é’®
         g_sharedScene->scheduleOnce([button](float) {
             if (button && button->getParent()) {
                 CCLOG("Button removed after 3 seconds");
                 button->removeFromParent();
             }
-            button->release(); // ¼õÉÙÒıÓÃ¼ÆÊı
-            }, 1.0f, "removeButtonKey");
+            button->release(); // å‡å°‘å¼•ç”¨è®¡æ•°
+            }, 3.0f, "removeButtonKey");
 
-        // °´Å¥µã»÷ÊÂ¼ş
+        // æŒ‰é’®ç‚¹å‡»äº‹ä»¶
         button->addClickEventListener([=](Ref* sender) {
             CCLOG("Press");
-
+            //setupAnimal(g_sharedScene);// åˆ›å»ºåŠ¨ç‰©
             TMXTiledMap* currentmap;
             TMXTiledMap* aimmap;
             if (g_sharedTMXcurrent == g_sharedTMXone) {
                 aimmap = g_sharedTMXthree;
+                setupAnimal(g_sharedScene);// åˆ›å»ºåŠ¨ç‰©
             }
             else if (g_sharedTMXcurrent == g_sharedTMXthree) {
                 aimmap = g_sharedTMXone;
+                cleanupAnimals(g_sharedScene, animalGrid);
             }
             else {
                 aimmap = g_sharedTMXone;
             }
-            // ÉèÖÃĞÂµØÍ¼µÄÊôĞÔ
-            g_sharedTMXtwo->setPosition(Vec2(0, 0)); // ÉèÖÃµØÍ¼ÆğÊ¼Î»ÖÃÎªÆÁÄ»×óÏÂ½Ç
-            g_sharedTMXtwo->setScale(currentMap->getScale()); // ±£³ÖºÍµ±Ç°µØÍ¼ÏàÍ¬µÄËõ·Å±ÈÀı
+            // è®¾ç½®æ–°åœ°å›¾çš„å±æ€§
+            g_sharedTMXtwo->setPosition(Vec2(0, 0)); // è®¾ç½®åœ°å›¾èµ·å§‹ä½ç½®ä¸ºå±å¹•å·¦ä¸‹è§’
+            g_sharedTMXtwo->setScale(currentMap->getScale()); // ä¿æŒå’Œå½“å‰åœ°å›¾ç›¸åŒçš„ç¼©æ”¾æ¯”ä¾‹
 
             /*g_sharedTMXcurrent = g_sharedTMXtwo;*/
-            // Ìí¼Óµ½¸¸½ÚµãÖĞ
+            // æ·»åŠ åˆ°çˆ¶èŠ‚ç‚¹ä¸­
             g_sharedTMXcurrent->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_BASIC);
             aimmap->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_SURFACE);
             g_sharedTMXcurrent = aimmap;
             button->removeFromParent();
-            button->release(); // ¼õÉÙÒıÓÃ¼ÆÊı
-            g_sharedScene->unschedule("removeButtonKey"); // È¡Ïû¶¨Ê±Æ÷
+            button->release(); // å‡å°‘å¼•ç”¨è®¡æ•°
+            g_sharedScene->unschedule("removeButtonKey"); // å–æ¶ˆå®šæ—¶å™¨
             });
 
     }
-    // ±éÀúÉÏÏÂ×óÓÒµÄÍßÆ¬
+    // éå†ä¸Šä¸‹å·¦å³çš„ç“¦ç‰‡
     //for (const auto& direction : directions) {
     //    Vec2 targetTileCoord = Vec2(playerTileX, playerTileY) + direction;
 
-    //    // ¼ì²éÄ¿±êÍßÆ¬ÊÇ·ñÔÚµØÍ¼·¶Î§ÄÚ
+    //    // æ£€æŸ¥ç›®æ ‡ç“¦ç‰‡æ˜¯å¦åœ¨åœ°å›¾èŒƒå›´å†…
     //    if (targetTileCoord.x < 0 || targetTileCoord.y < 0 ||
     //        targetTileCoord.x >= currentMap->getMapSize().width ||
     //        targetTileCoord.y >= currentMap->getMapSize().height) {
     //        continue;
     //    }
 
-    //    // »ñÈ¡Ä¿±êÍßÆ¬µÄ GID
-    //    TMXLayer* pathLayer = currentMap->getLayer("trigger"); // Ìæ»»Îª´¥·¢²ãÃû³Æ
+    //    // è·å–ç›®æ ‡ç“¦ç‰‡çš„ GID
+    //    TMXLayer* pathLayer = currentMap->getLayer("trigger"); // æ›¿æ¢ä¸ºè§¦å‘å±‚åç§°
     //    if (!pathLayer) {
     //        CCLOG("Trigger layer not found!");
     //        continue;
@@ -491,7 +500,7 @@ void NPC_1::checkAround(const Vec2& Endposition, TMXTiledMap* currentMap, MapCon
     //    int gid = pathLayer->getTileGIDAt(targetTileCoord);
     //    if (gid <= 0) continue;
 
-    //    // »ñÈ¡Ä¿±êÍßÆ¬µÄÊôĞÔ
+    //    // è·å–ç›®æ ‡ç“¦ç‰‡çš„å±æ€§
     //    Value properties = currentMap->getPropertiesForGID(gid);
     //    if (properties.getType() == Value::Type::MAP) {
     //        ValueMap propertiesMap = properties.asValueMap();
@@ -502,25 +511,25 @@ void NPC_1::checkAround(const Vec2& Endposition, TMXTiledMap* currentMap, MapCon
     //        if (targetMapIter != propertiesMap.end() &&
     //            spawnXIter != propertiesMap.end() &&
     //            spawnYIter != propertiesMap.end()) {
-    //            // ÏÔÊ¾°´Å¥Ñ¯ÎÊÍæ¼ÒÊÇ·ñÇĞ»»µØÍ¼
+    //            // æ˜¾ç¤ºæŒ‰é’®è¯¢é—®ç©å®¶æ˜¯å¦åˆ‡æ¢åœ°å›¾
                 //auto button = ui::Button::create("button_normal.png", "button_pressed.png");
                 //button->setTitleText("Switch Map?");
                 //button->setTitleFontSize(24);
-                //button->setPosition(playerSprite->getPosition() + Vec2(0, 50)); // °´Å¥ÏÔÊ¾ÔÚÈËÎïÉÏ·½
+                //button->setPosition(playerSprite->getPosition() + Vec2(0, 50)); // æŒ‰é’®æ˜¾ç¤ºåœ¨äººç‰©ä¸Šæ–¹
                 //parent->addChild(button);
 
-                //// °´Å¥µã»÷ÊÂ¼ş
+                //// æŒ‰é’®ç‚¹å‡»äº‹ä»¶
                 //button->addClickEventListener([=](Ref* sender) {
-                //    // ÇĞ»»µØÍ¼
+                //    // åˆ‡æ¢åœ°å›¾
                 //    std::string targetMap = targetMapIter->second.asString();
                 //    Vec2 spawnPoint(spawnXIter->second.asFloat(), spawnYIter->second.asFloat());
                 //    mapControl->switchMap(targetMap, spawnPoint, playerSprite);
 
-                //    // ÒÆ³ı°´Å¥
+                //    // ç§»é™¤æŒ‰é’®
                 //    button->removeFromParent();
                 //    });
 
-    //            return; // ÕÒµ½Ò»¸ö·ûºÏÌõ¼şµÄÍßÆ¬£¬½áÊø¼ì²é
+    //            return; // æ‰¾åˆ°ä¸€ä¸ªç¬¦åˆæ¡ä»¶çš„ç“¦ç‰‡ï¼Œç»“æŸæ£€æŸ¥
     //        }
     //    }
     //}
@@ -536,14 +545,14 @@ void NPC_1::movebyfour(NPC_1* P, TMXTiledMap* map) {
     float movelength = 16 * (Constants::kScale);
    
     if (keyboardListener) {
-        Size visibleSize = Director::getInstance()->getVisibleSize(); // »ñÈ¡ÆÁÄ»¿É¼û³ß´ç
+        Size visibleSize = Director::getInstance()->getVisibleSize(); // è·å–å±å¹•å¯è§å°ºå¯¸
         keyboardListener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event) {
             Vec2 currentPosition;
             Vec2 screenCoord;
             Vec2 direction;
             switch (keyCode) {
                 case EventKeyboard::KeyCode::KEY_UP_ARROW:
-                    direction = Vec2(0, movelength); // ÏòÉÏÒÆ¶¯
+                    direction = Vec2(0, movelength); // å‘ä¸Šç§»åŠ¨
                     if (isPlayerWithinScreen(Endposition, direction, visibleSize, g_sharedTMXcurrent, g_sharedTMXcurrent->getScale())) {
                         moveUp(Endposition, g_sharedTMXcurrent, movelength, sprite, npc_1_d, visibleSize);
                     } 
@@ -551,7 +560,7 @@ void NPC_1::movebyfour(NPC_1* P, TMXTiledMap* map) {
                     break;
 
                 case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-                    direction = Vec2(0, -movelength); // ÏòÏÂÒÆ¶¯
+                    direction = Vec2(0, -movelength); // å‘ä¸‹ç§»åŠ¨
                     if (isPlayerWithinScreen(Endposition, direction, visibleSize, g_sharedTMXcurrent, g_sharedTMXcurrent->getScale())) {
                         moveDown(Endposition, g_sharedTMXcurrent, movelength, sprite, npc_1_d, visibleSize);
                     } 
@@ -559,7 +568,7 @@ void NPC_1::movebyfour(NPC_1* P, TMXTiledMap* map) {
                     break;
 
                 case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-                    direction = Vec2(-movelength, 0); // Ïò×óÒÆ¶¯
+                    direction = Vec2(-movelength, 0); // å‘å·¦ç§»åŠ¨
                     if (isPlayerWithinScreen(Endposition, direction, visibleSize, g_sharedTMXcurrent, g_sharedTMXcurrent->getScale())) {
                         moveLeft(Endposition, g_sharedTMXcurrent, movelength, sprite, npc_1_d, visibleSize);
                     } 
@@ -567,7 +576,7 @@ void NPC_1::movebyfour(NPC_1* P, TMXTiledMap* map) {
                     break;
 
                 case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-                    direction = Vec2(movelength, 0); // ÏòÓÒÒÆ¶¯
+                    direction = Vec2(movelength, 0); // å‘å³ç§»åŠ¨
                     if (isPlayerWithinScreen(Endposition, direction, visibleSize, g_sharedTMXcurrent, g_sharedTMXcurrent->getScale())) {
                         moveRight(Endposition, g_sharedTMXcurrent, movelength, sprite, npc_1_d, visibleSize);
                     } 
@@ -590,7 +599,7 @@ void NPC_1::movebyfour(NPC_1* P, TMXTiledMap* map) {
 
 
 void NPC_1::testAddNPC_1(const Size& visibleSize, Vec2 origin, TMXTiledMap* map, Scene* mainscene) {
-    // ´´½¨NPC_1¶ÔÏóÊµÀı
+    // åˆ›å»ºNPC_1å¯¹è±¡å®ä¾‹
     auto myNpc = NPC_1::create();
     myNpc->setVisible(true);
     this->addChild(myNpc);
