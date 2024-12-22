@@ -6,34 +6,42 @@
 
 class Crop : public cocos2d::Node {
 public:
-    // ×÷Îï×´Ì¬Ã¶¾Ù
+    // ä½œç‰©çŠ¶æ€æšä¸¾
     enum class State {
-        SEED,      // ÖÖ×Ó
-        GROWING,   // ³É³¤ÖĞ
-        HARVESTABLE // ¿ÉÊÕ»ñ
+        SEED,      // ç§å­
+        GROWING,   // æˆé•¿ä¸­
+        HARVESTABLE // å¯æ”¶è·
     };
-    // ¹¹Ôìº¯Êı
+    // æ„é€ å‡½æ•°
     Crop(const std::string& cropName, float growthTime, const std::string& spriteFile);
 
-    // ´´½¨×÷Îï
+
+    // åˆ›å»ºä½œç‰©
     static Crop* create(const std::string& cropName, float growthTime, const std::string& spriteFile);
 
-    // ¸üĞÂ×÷Îï×´Ì¬
+    // æ›´æ–°ä½œç‰©çŠ¶æ€
     void update(float deltaTime);
 
-    // »ñÈ¡×÷Îï×´Ì¬
+    // è·å–ä½œç‰©çŠ¶æ€
     State getState() const;
 
-    // »ñÈ¡×÷ÎïÃû³Æ
+    // è·å–ä½œç‰©åç§°
     const std::string& getName() const;
 
-private:
-    std::string name;       // ×÷ÎïÃû³Æ
-    float growthTime;       // ³É³¤Ê±¼ä£¨Ãë£©
-    float currentTime;      // µ±Ç°Éú³¤Ê±¼ä
-    State state;            // µ±Ç°×´Ì¬
+    //è·å–ç²¾çµ
+    cocos2d::Sprite* getSprite() const;
 
-    cocos2d::Sprite* sprite; // ×÷Îï¾«Áé
+    // æ·»åŠ æ›´æ¢çº¹ç†çš„æ–¹æ³•
+    void changeSpriteTexture(const std::string& newSpriteFile);
+    // æ·»åŠ è§¦æ‘¸æ£€æµ‹çš„æ–¹æ³•
+    bool isTouched(const cocos2d::Vec2& touchPosition) const;
+private:
+    std::string name;       // ä½œç‰©åç§°
+    float growthTime;       // æˆé•¿æ—¶é—´ï¼ˆç§’ï¼‰
+    float currentTime;      // å½“å‰ç”Ÿé•¿æ—¶é—´
+    State state;            // å½“å‰çŠ¶æ€
+
+    cocos2d::Sprite* sprite; // ä½œç‰©ç²¾çµ
 };
 
 #endif 
