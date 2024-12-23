@@ -6,35 +6,35 @@
 
 using namespace cocos2d;
 Timer1::Timer1() : days_elapsed(0), season("Spring") {
-    // ³õÊ¼»¯¿ªÊ¼Ê±¼äÎªµ±Ç°Ê±¼ä
+    // åˆå§‹åŒ–å¼€å§‹æ—¶é—´ä¸ºå½“å‰æ—¶é—´
     start_time = std::chrono::steady_clock::now();
 }
 
-// »ñÈ¡ÒÑ¹ıÈ¥µÄÌìÊı
+// è·å–å·²è¿‡å»çš„å¤©æ•°
 int Timer1::getDaysElapsed() const {
     return days_elapsed;
 }
 
-// »ñÈ¡µ±Ç°¼¾½Ú
+// è·å–å½“å‰å­£èŠ‚
 std::string Timer1::getSeason() const {
     return season;
 }
 
-// ¸üĞÂ¼ÆÊ±Æ÷£º¼ÆËãÒÑ¹ıÌìÊı²¢¼ì²é¼¾½Ú¸üÌæ
+// æ›´æ–°è®¡æ—¶å™¨ï¼šè®¡ç®—å·²è¿‡å¤©æ•°å¹¶æ£€æŸ¥å­£èŠ‚æ›´æ›¿
 void Timer1::update() {
-    // »ñÈ¡µ±Ç°Ê±¼ä
+    // è·å–å½“å‰æ—¶é—´
     auto now = std::chrono::steady_clock::now();
-    // ¼ÆËãÒÑ¹ıÈ¥µÄÃëÊı
+    // è®¡ç®—å·²è¿‡å»çš„ç§’æ•°
     std::chrono::duration<double> elapsed_seconds = now - start_time;
 
-    // ¼ÆËãÒÑ¹ıÈ¥µÄÌìÊı
-    int new_days_elapsed = static_cast<int>(elapsed_seconds.count() / 1440);  // 1440Ãë »»Ëã³É 1Ìì
+    // è®¡ç®—å·²è¿‡å»çš„å¤©æ•°
+    int new_days_elapsed = static_cast<int>(elapsed_seconds.count() / 1440);  // 1440ç§’ æ¢ç®—æˆ 1å¤©
 
-    // Èç¹ûÌìÊı·¢Éú±ä»¯
+    // å¦‚æœå¤©æ•°å‘ç”Ÿå˜åŒ–
     if (new_days_elapsed > days_elapsed) {
         days_elapsed = new_days_elapsed;
 
-        // Ã¿¾­¹ı30Ìì¸ü»»¼¾½Ú
+        // æ¯ç»è¿‡30å¤©æ›´æ¢å­£èŠ‚
         if (days_elapsed >= 30) {
             if (season == "Spring") {
                 season = "Summer";
@@ -46,10 +46,10 @@ void Timer1::update() {
                 season = "Winter";
             }
             else {
-                season = "Spring";  // Èç¹ûµ±Ç°ÊÇ¶¬¼¾£¬ÖØĞÂ»Øµ½´º¼¾
+                season = "Spring";  // å¦‚æœå½“å‰æ˜¯å†¬å­£ï¼Œé‡æ–°å›åˆ°æ˜¥å­£
             }
 
-            // ÖØĞÂ¿ªÊ¼¼ÆÊ±
+            // é‡æ–°å¼€å§‹è®¡æ—¶
             start_time = std::chrono::steady_clock::now();
         }
     }
