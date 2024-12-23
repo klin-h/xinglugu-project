@@ -14,29 +14,29 @@
 class Chicken : public Animal
 {
 public:
-    // ¹¹Ôìº¯Êı
+    // æ„é€ å‡½æ•°
     Chicken();
 
-    // ĞéÎö¹¹º¯Êı
+    // è™šææ„å‡½æ•°
     virtual ~Chicken();
 
     static Chicken* create();
     virtual bool init() override;
 
-    // ÊµÏÖ²ú³ö·½·¨
+    // å®ç°äº§å‡ºæ–¹æ³•
     virtual void produce() override;
 
-    // ¼¦µÄÌØÓĞ·½·¨
-    void cluck(); // ¼¦½ĞÉù
+    // é¸¡çš„ç‰¹æœ‰æ–¹æ³•
+    void cluck(); // é¸¡å«å£°
 
-    // ¶¯»­¿ØÖÆ
+    // åŠ¨ç”»æ§åˆ¶
     virtual void startWalkingAnimation() override;
     virtual void stopWalkingAnimation() override;
 
-    // ÖÎÁÆ·½·¨
+    // æ²»ç–—æ–¹æ³•
     void heal(int amount);
 
-    bool isWalking_ = false; // ÊÇ·ñÔÚÒÆ¶¯×´Ì¬
+    bool isWalking_ = false; // æ˜¯å¦åœ¨ç§»åŠ¨çŠ¶æ€
 };
 
 #endif // CHICKEN_H
