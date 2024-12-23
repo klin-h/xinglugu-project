@@ -7,7 +7,7 @@ public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     void onEnter();
-    //bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);// ´¥ÃþÊÂ¼þ¼àÌýÆ÷
+    //bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);// Â´Â¥ÃƒÃ¾ÃŠÃ‚Â¼Ã¾Â¼Ã ÃŒÃ½Ã†Ã·
     CREATE_FUNC(startScene);
     cocos2d::EventListenerCustom* interactListener;
     void startScene::menuCloseCallback(Ref* pSender);
