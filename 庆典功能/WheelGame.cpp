@@ -5,7 +5,7 @@
 
 USING_NS_CC;
 
-float rest = 0; // È«¾Ö±äÁ¿ÓÃÓÚ´æ´¢ÉÏÒ»´ÎµÄ½Ç¶È
+float rest = 0; // å…¨å±€å˜é‡ç”¨äºå­˜å‚¨ä¸Šä¸€æ¬¡çš„è§’åº¦
 
 WheelGame* WheelGame::create() {
     WheelGame* ret = new WheelGame();
@@ -18,28 +18,28 @@ WheelGame* WheelGame::create() {
 }
 
 bool WheelGame::init() {
-    // »ñÈ¡´°¿ÚµÄ´óĞ¡
+    // è·å–çª—å£çš„å¤§å°
     auto visibleSize = Director::getInstance()->getVisibleSize();
 
-    // ³õÊ¼»¯×ªÅÌ¾«Áé
-    wheel = Sprite::create("wheel.png"); // Ê¹ÓÃÄãµÄ×ªÅÌÍ¼Ïñ
+    // åˆå§‹åŒ–è½¬ç›˜ç²¾çµ
+    wheel = Sprite::create("wheel.png"); // ä½¿ç”¨ä½ çš„è½¬ç›˜å›¾åƒ
     wheel->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
     this->addChild(wheel);
 
-    // ³õÊ¼»¯Ëæ»úÊıÉú³ÉÆ÷
-    std::random_device rd; // »ñÈ¡Ëæ»úÊıÖÖ×Ó
-    randomEngine = std::mt19937(rd()); // ³õÊ¼»¯Ëæ»úÊıÒıÇæ
-    distribution = std::uniform_int_distribution<>(0, 9); // ÉèÖÃ·Ö²¼·¶Î§
+    // åˆå§‹åŒ–éšæœºæ•°ç”Ÿæˆå™¨
+    std::random_device rd; // è·å–éšæœºæ•°ç§å­
+    randomEngine = std::mt19937(rd()); // åˆå§‹åŒ–éšæœºæ•°å¼•æ“
+    distribution = std::uniform_int_distribution<>(0, 9); // è®¾ç½®åˆ†å¸ƒèŒƒå›´
 
-    // ³õÊ¼»¯×´Ì¬
+    // åˆå§‹åŒ–çŠ¶æ€
     isSpinning = false;
     rotationSpeed = 0;
     totalRotation = 0;
 
-    // ´´½¨Ğı×ª°´Å¥
+    // åˆ›å»ºæ—‹è½¬æŒ‰é’®
     spinButton = MenuItemImage::create(
-        "spin_button_normal.png", // Õı³£×´Ì¬ÏÂµÄ°´Å¥Í¼Ïñ
-        "spin_button_clicked.png", // µã»÷×´Ì¬ÏÂµÄ°´Å¥Í¼Ïñ
+        "spin_button_normal.png", // æ­£å¸¸çŠ¶æ€ä¸‹çš„æŒ‰é’®å›¾åƒ
+        "spin_button_clicked.png", // ç‚¹å‡»çŠ¶æ€ä¸‹çš„æŒ‰é’®å›¾åƒ
         CC_CALLBACK_1(WheelGame::onSpinButtonClicked, this));
 
     spinButton->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 4));
@@ -60,46 +60,46 @@ void WheelGame::onSpinButtonClicked(Ref* sender) {
 void WheelGame::spinWheel() {
     isSpinning = true;
 
-    // ½«ÉÏÒ»´ÎµÄ½Ç¶È¼Óµ½ĞÂµÄĞı×ªËÙ¶ÈÉÏ
-    rotationSpeed = 50.0f + rest; // ÉèÖÃ³õÊ¼Ğı×ªËÙ¶È
-    totalRotation = rest; // ´ÓÉÏÒ»´ÎµÄ½Ç¶È¿ªÊ¼
+    // å°†ä¸Šä¸€æ¬¡çš„è§’åº¦åŠ åˆ°æ–°çš„æ—‹è½¬é€Ÿåº¦ä¸Š
+    rotationSpeed = 50.0f + rest; // è®¾ç½®åˆå§‹æ—‹è½¬é€Ÿåº¦
+    totalRotation = rest; // ä»ä¸Šä¸€æ¬¡çš„è§’åº¦å¼€å§‹
 
-    // ¸üĞÂĞı×ªÂß¼­µÄµ÷¶È
+    // æ›´æ–°æ—‹è½¬é€»è¾‘çš„è°ƒåº¦
     this->schedule(CC_SCHEDULE_SELECTOR(WheelGame::updateWheel), 0.016f);
 }
 
 void WheelGame::updateWheel(float dt) {
     if (rotationSpeed > 0) {
-        // ¸üĞÂ×ªÅÌµÄĞı×ª
+        // æ›´æ–°è½¬ç›˜çš„æ—‹è½¬
         wheel->setRotation(wheel->getRotation() + rotationSpeed);
         totalRotation += rotationSpeed;
 
-        // ¼õĞ¡ËÙ¶È£¨¼òµ¥µÄ¼õËÙÂß¼­£©
-        rotationSpeed *= 0.95f; // Öğ½¥¼õËÙ
+        // å‡å°é€Ÿåº¦ï¼ˆç®€å•çš„å‡é€Ÿé€»è¾‘ï¼‰
+        rotationSpeed *= 0.95f; // é€æ¸å‡é€Ÿ
 
-        // Ê¹ÓÃËæ»úÊıÉú³ÉÆ÷Éú³ÉÒ»¸öËæ»úÊı
+        // ä½¿ç”¨éšæœºæ•°ç”Ÿæˆå™¨ç”Ÿæˆä¸€ä¸ªéšæœºæ•°
         float ran = distribution(randomEngine);
         totalRotation += ran;
 
-        // Í£Ö¹Ğı×ªÊ±µÄÂß¼­
+        // åœæ­¢æ—‹è½¬æ—¶çš„é€»è¾‘
         if (rotationSpeed < 0.1f) {
             isSpinning = false;
             this->unschedule(CC_SCHEDULE_SELECTOR(WheelGame::updateWheel));
 
-            // ¸ù¾İ×ªÅÌµÄ×ÜĞı×ª½Ç¶ÈÅĞ¶ÏÊ¤¸º
-            float finalAngle = fmod(totalRotation, 360.0f); // »ñÈ¡×îÖÕµÄ½Ç¶È£¨0-360£©
+            // æ ¹æ®è½¬ç›˜çš„æ€»æ—‹è½¬è§’åº¦åˆ¤æ–­èƒœè´Ÿ
+            float finalAngle = fmod(totalRotation, 360.0f); // è·å–æœ€ç»ˆçš„è§’åº¦ï¼ˆ0-360ï¼‰
             CCLOG("Final Angle: %f", finalAngle);
 
-            // ½«½Ç¶È·ÖÎªÁ½¸öÇøÓò
+            // å°†è§’åº¦åˆ†ä¸ºä¸¤ä¸ªåŒºåŸŸ
             if (finalAngle > 90.0f && finalAngle < 270.0f) {
                 CCLOG("Success!");
-                moneyChange(100, 0); // ¼ÓÇ®
+                moneyChange(100, 0); // åŠ é’±
             }
             else {
                 CCLOG("Failed!");
-                moneyChange(100, 1); // ¿ÛÇ®
+                moneyChange(100, 1); // æ‰£é’±
             }
-            rest = finalAngle; // ¸üĞÂ rest Îªµ±Ç°µÄ finalAngle
+            rest = finalAngle; // æ›´æ–° rest ä¸ºå½“å‰çš„ finalAngle
         }
     }
 }
