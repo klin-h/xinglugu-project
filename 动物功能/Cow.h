@@ -14,30 +14,30 @@
 class Cow : public Animal
 {
 public:
-    // ¹¹Ôìº¯Êı
+    // æ„é€ å‡½æ•°
     Cow();
 
-    // ĞéÎö¹¹º¯Êı
+    // è™šææ„å‡½æ•°
     virtual ~Cow();
 
     static Cow* create();
     virtual bool init() override;
-    // ÊµÏÖ²ú³ö·½·¨
+    // å®ç°äº§å‡ºæ–¹æ³•
     virtual void produce() override;
 
-    // Å£µÄÌØÓĞ·½·¨
+    // ç‰›çš„ç‰¹æœ‰æ–¹æ³•
     void moo();
 
-    //void startWalkingAnimation(); //Æô¶¯ĞĞ×ß¶¯»­
+    //void startWalkingAnimation(); //å¯åŠ¨è¡Œèµ°åŠ¨ç”»
     //void stopWalkingAnimation();
     //void moveToSequence(const std::vector<cocos2d::Vec2>& positions, float durationPerMove);
-    //void moveTo(const cocos2d::Vec2& targetPosition, float duration);//¿ØÖÆÒÆ¶¯
+    //void moveTo(const cocos2d::Vec2& targetPosition, float duration);//æ§åˆ¶ç§»åŠ¨
     //void moveBy(const cocos2d::Vec2& offset, float duration);
     
     virtual void startWalkingAnimation() override;
     virtual void stopWalkingAnimation() override;
 
-    // ÖÎÁÆÅ£µÄ·½·¨
+    // æ²»ç–—ç‰›çš„æ–¹æ³•
     void heal(int amount);
     bool isWalking_ = false;
 };
