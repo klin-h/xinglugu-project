@@ -24,22 +24,22 @@ public:
     Sprite* sprite;
 
 
-    // 处理鼠标点击事件的函数声明，将在.cpp文件中实现具体逻辑来响应点击并输出日志
+    // 澶勭悊榧犳爣鐐瑰嚮浜嬩欢鐨勫嚱鏁板０鏄庯紝灏嗗湪.cpp鏂囦欢涓疄鐜板叿浣撻�昏緫鏉ュ搷搴旂偣鍑诲苟杈撳嚭鏃ュ織
     void onMouseClicked_Harvey(cocos2d::Event* event);
     void onMouseClicked_Haley(cocos2d::Event* event);
-    
+
     void updateFriendshipStatus();
     void updateLoveshipStatus();
     void generateTask();
     bool checkTaskCompletion();
     void giveReward(std::string name);
-    
+
     void Repairbuildings();
     bool checkRepair();
     void showNotEnoughFlowersAlert();
     void popupmessage(std::string message);
     std::vector<Task> taskList;
-  
+
 
 private:
     std::mutex positionMutex;

@@ -18,7 +18,7 @@ void Character::stopMoving(Sprite* sprite)
 
 void Character::Moving(Sprite* sprite, int direction,float t)
 {
-	CCLOG("½øÈëCharacter::Movingº¯Êý£¬ sprite: %p, direction: %d", sprite, direction);
+	CCLOG("è¿›å…¥Character::Movingå‡½æ•°ï¼Œ sprite: %p, direction: %d", sprite, direction);
 	switch (direction) {
 	case 0: {
 		sprite->runAction(Walking::createAnimation("Abigail", "f"));

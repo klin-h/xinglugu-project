@@ -8,7 +8,7 @@
  ****************************************************************/
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
-#include "GlobalVariables.h"
+
 
 namespace Constants {// 使用时要加命名空间
     // 地图相关常量
@@ -22,14 +22,14 @@ namespace Constants {// 使用时要加命名空间
     constexpr float kScale = 1.0; // 地图缩放比例
 
     //游戏时间相关定义
-    constexpr int kCelebrationTime = 20;
+    constexpr int kCelebrationTime = 200;
 
     // 动物相关默认值
     constexpr int kDefaultAnimalHunger = 100;    // 默认饥饿度
     constexpr int kDefaultAnimalMood = 100;      // 默认心情
     constexpr int kDefaultAnimalHealth = 100;    // 默认健康值
     constexpr float kAnimalMoveSpeed = 50.0f; // 动物每秒移动的像素距离  
-
+   
     constexpr int OriginHealth = 100;
     constexpr  float INTERACT_DISTANCE = 50.0f;
 
@@ -293,8 +293,7 @@ namespace Constants {// 使用时要加命名空间
     constexpr int copperbar1 = 80;
     constexpr int ironbar1 = 120;
     constexpr int goldbar1 = 140;
-    constexpr int ironore1 = 30;
-
+    constexpr int ironore1 = 30; 
 
 
     constexpr float HARVEYx = 300.0f;
@@ -307,12 +306,11 @@ namespace Constants {// 使用时要加命名空间
     constexpr float Harveyinmap_Y = 408.0f;
     constexpr float Haleyinmap_X = 952.0f;
     constexpr float Haleyinmap_Y = 200.0f;
-    constexpr float Haleyinmap_X_prior = 852.0f;
-    constexpr float Haleyinmap_Y_prior = 256.0f;
     constexpr int InteractionDistance = 32;
     constexpr float Housex = 990.0f;
     constexpr float Housey = 0.0f;
     constexpr float Housewidth = 120.0f;
-    constexpr float Househeight= 120.0f;
+    constexpr float Househeight = 120.0f;
+
 }
 #endif // CONSTANTS_H

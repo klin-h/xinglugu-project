@@ -16,59 +16,52 @@
 class Animal : public cocos2d::Sprite
 {
 public:
-    // ¹¹Ôìº¯Êı
+    // æ„é€ å‡½æ•°
     Animal();
 
-    // ĞéÎö¹¹º¯Êı£¬È·±£×ÓÀàµÄÎö¹¹º¯Êı±»ÕıÈ·µ÷ÓÃ
+    // è™šææ„å‡½æ•°ï¼Œç¡®ä¿å­ç±»çš„ææ„å‡½æ•°è¢«æ­£ç¡®è°ƒç”¨
     virtual ~Animal();
 
-    // Î¹Ñø¶¯ÎïµÄ·½·¨
+    // å–‚å…»åŠ¨ç‰©çš„æ–¹æ³•
     void feed();
 
-    // ²ú³ö·½·¨£¬´¿Ğéº¯Êı£¬ĞèÒªÔÚ×ÓÀàÖĞÊµÏÖ
+    // äº§å‡ºæ–¹æ³•ï¼Œçº¯è™šå‡½æ•°ï¼Œéœ€è¦åœ¨å­ç±»ä¸­å®ç°
     virtual void produce() = 0;
 
-    // »ñÈ¡¼¢¶ö¶È
+    // è·å–é¥¥é¥¿åº¦
     int getHunger() const;
 
-    // ÉèÖÃ¼¢¶ö¶È
+    // è®¾ç½®é¥¥é¥¿åº¦
     void setHunger(int value);
 
-    // »ñÈ¡ĞÄÇé
+    // è·å–å¿ƒæƒ…
     int getMood() const;
 
-    // ÉèÖÃĞÄÇé
+    // è®¾ç½®å¿ƒæƒ…
     void setMood(int value);
 
-    // »ñÈ¡ÑªÁ¿
+    // è·å–è¡€é‡
     int getHealth() const;
 
-    // ÉèÖÃÑªÁ¿
+    // è®¾ç½®è¡€é‡
     void setHealth(int value);
 
-    // Í¨ÓÃ·½·¨
-    void moveTo(const cocos2d::Vec2& targetPosition);              // ÒÆ¶¯µ½Ö¸¶¨Î»ÖÃ
-    void moveToSequence(const std::vector<cocos2d::Vec2>& positions); // Á¬ĞøÒÆ¶¯µ½¶à¸öÎ»ÖÃ
-    virtual void startWalkingAnimation();  // Æô¶¯ĞĞ×ß¶¯»­£¨Ğéº¯Êı£¬×ÓÀà¿ÉÒÔÖØĞ´£©
-    virtual void stopWalkingAnimation();   // Í£Ö¹ĞĞ×ß¶¯»­£¨Ğéº¯Êı£¬×ÓÀà¿ÉÒÔÖØĞ´£©
+    // é€šç”¨æ–¹æ³•
+    void moveTo(const cocos2d::Vec2& targetPosition);              // ç§»åŠ¨åˆ°æŒ‡å®šä½ç½®
+    void moveToSequence(const std::vector<cocos2d::Vec2>& positions); // è¿ç»­ç§»åŠ¨åˆ°å¤šä¸ªä½ç½®
+    virtual void startWalkingAnimation();  // å¯åŠ¨è¡Œèµ°åŠ¨ç”»ï¼ˆè™šå‡½æ•°ï¼Œå­ç±»å¯ä»¥é‡å†™ï¼‰
+    virtual void stopWalkingAnimation();   // åœæ­¢è¡Œèµ°åŠ¨ç”»ï¼ˆè™šå‡½æ•°ï¼Œå­ç±»å¯ä»¥é‡å†™ï¼‰
 
-    //void toggleMovement(); // ÇĞ»»ÒÆ¶¯×´Ì¬
-    //void stopMovement();   // Í£Ö¹ÒÆ¶¯
-    //void resumeMovement(); // »Ö¸´ÒÆ¶¯
-
-    //void moveRandomly();
-
-  /*  virtual bool init() override;*/
+  
 
 protected:
-    int hunger_ = Constants::kDefaultAnimalHunger;    // Ä¬ÈÏ¼¢¶ö¶È
-    int mood_ = Constants::kDefaultAnimalMood;        // Ä¬ÈÏĞÄÇé
-    int health_ = Constants::kDefaultAnimalHealth;    // Ä¬ÈÏÑªÁ¿
+    int hunger_ = Constants::kDefaultAnimalHunger;    // é»˜è®¤é¥¥é¥¿åº¦
+    int mood_ = Constants::kDefaultAnimalMood;        // é»˜è®¤å¿ƒæƒ…
+    int health_ = Constants::kDefaultAnimalHealth;    // é»˜è®¤è¡€é‡
     WalkingCharacter* walkingCharacterNode = nullptr;
 
-    //bool isMoving_;                      // µ±Ç°ÊÇ·ñÔÚÒÆ¶¯
-    //std::vector<cocos2d::Vec2> path_;    // µ±Ç°µÄÒÆ¶¯Â·¾¶
-    //size_t currentTargetIndex_;          // Â·¾¶ÖĞµÄµ±Ç°Î»ÖÃË÷Òı
+    
 };
+
 
 #endif // ANIMAL_H

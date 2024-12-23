@@ -15,10 +15,11 @@
 #include "GameScenePlayer.h"
 #include "ui/CocosGUI.h"
 #include <vector>
+#include "GlobalVariables.h"
 
 
 
-// NPCÀà£¬¼Ì³Ğ×Ô½ÇÉ«Àà
+// NPCç±»ï¼Œç»§æ‰¿è‡ªè§’è‰²ç±»
 class NPC : public Character {
 public:
     NPC();
@@ -26,7 +27,7 @@ public:
    
     NPC(const std::string& name, int health);
    
-    // NPCÌá¹©¶Ô»°ÄÚÈİµÄ·½·¨
+    // NPCæä¾›å¯¹è¯å†…å®¹çš„æ–¹æ³•
     std::string getDialogue();
 
 private:
@@ -34,18 +35,19 @@ private:
     bool isPlayerInRange;
    
     
-    std::string dialogueText;  // ¼ÇÂ¼¶Ô»°ÄÚÈİµÄ×Ö·û´®±äÁ¿
+    std::string dialogueText;  // è®°å½•å¯¹è¯å†…å®¹çš„å­—ç¬¦ä¸²å˜é‡
 
-    // Ê¹ÓÃ½á¹¹ÌåÀ´±íÊ¾Ò»¸öÈÎÎñµÄ¸÷ÏîÊôĞÔ
+    // ä½¿ç”¨ç»“æ„ä½“æ¥è¡¨ç¤ºä¸€ä¸ªä»»åŠ¡çš„å„é¡¹å±æ€§
     struct QuestInfo {
-        std::string name;  // ÈÎÎñÃû³Æ
-        std::string description;  // ÈÎÎñÃèÊö
-        int difficulty;  // ÈÎÎñÄÑ¶ÈµÈ¼¶
-        bool completed;  // ÈÎÎñÊÇ·ñÒÑÍê³É£¬¿ÉÓÃÓÚ¼ÇÂ¼ÈÎÎñ×´Ì¬
+        std::string name;  // ä»»åŠ¡åç§°
+        std::string description;  // ä»»åŠ¡æè¿°
+        int difficulty;  // ä»»åŠ¡éš¾åº¦ç­‰çº§
+        bool completed;  // ä»»åŠ¡æ˜¯å¦å·²å®Œæˆï¼Œå¯ç”¨äºè®°å½•ä»»åŠ¡çŠ¶æ€
     };
     std::vector<QuestInfo> quests;
 
 };
 
 #endif
+
 

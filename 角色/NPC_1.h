@@ -1,19 +1,6 @@
-/****************************************************************
- * Project Name: xinglugu-project
- * File:NPC_1.h
- * File Function:
- * Author: Sun Yining
- * Update Date: 2024.12.11
- * License:
- ****************************************************************/
-#ifndef NPC_1_H
-#define NPC_1_H
-
-#include "SceneTouch.h"
-#include "NPC.h"
-#include "NPC_3.h"
 #include "cocos2d.h"
 #include "MapControl.h"
+#include"initAnimalScene.h"
 
 USING_NS_CC;
 class NPC_2;
@@ -38,7 +25,7 @@ public:
     MapControl* mapControl;
     Sprite* sprite;
    
-   static bool isNear3(std::string);  // �ж��Ƿ񿿽� NPC3
+   static bool isNear3(std::string);  // 判断是否靠近 NPC3
     void testAddNPC_1(const Size& visibleSize, Vec2 origin, TMXTiledMap* map, Scene* scene);
     Vec2 mapposition;
 private:

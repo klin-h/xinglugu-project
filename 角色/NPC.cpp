@@ -11,7 +11,7 @@
 
 USING_NS_CC;
 
-//´´½¨ NPC ¶ÔÏó²¢½øÐÐ³õÊ¼»¯
+//åˆ›å»º NPC å¯¹è±¡å¹¶è¿›è¡Œåˆå§‹åŒ–
 NPC::NPC(const std::string& name, int health) : Character(name, health) 
 {
     dialogueText = "";
@@ -21,7 +21,7 @@ NPC::NPC(const std::string& name, int health) : Character(name, health)
 
 
 
-//³õÊ¼»¯ÒÔ¼°´¥ÃþÊÂ¼þÏà¹ØµÄÉèÖÃ
+//åˆå§‹åŒ–ä»¥åŠè§¦æ‘¸äº‹ä»¶ç›¸å…³çš„è®¾ç½®
 NPC::NPC()
     : isPlayerInRange(false)
 {
@@ -32,13 +32,13 @@ NPC::NPC()
         cocos2d::Vec2 touchLocation = this->convertToNodeSpace(touch->getLocation());
         cocos2d::Rect boundingBox = this->getBoundingBox();
         if (boundingBox.containsPoint(touchLocation)) {
-            // ¼ÙÉèNPC_1ÊÇÍæ¼Ò½ÇÉ«£¬Í¨¹ýÅÐ¶ÏÊµÀýÀàÐÍÀ´È·¶¨ÊÇ·ñÎªÍæ¼Ò½»»¥
+            // å‡è®¾NPC_1æ˜¯çŽ©å®¶è§’è‰²ï¼Œé€šè¿‡åˆ¤æ–­å®žä¾‹ç±»åž‹æ¥ç¡®å®šæ˜¯å¦ä¸ºçŽ©å®¶äº¤äº’
             if (dynamic_cast<NPC_1*>(this) != nullptr) {
-                // ÕâÀï¿ÉÒÔÌí¼ÓÍæ¼Ò½ÇÉ«´¥Ãþ¿ªÊ¼Ê±µÄ¾ßÌåÂß¼­£¬±ÈÈç´ò¿ª½»»¥²Ëµ¥µÈ
+                // è¿™é‡Œå¯ä»¥æ·»åŠ çŽ©å®¶è§’è‰²è§¦æ‘¸å¼€å§‹æ—¶çš„å…·ä½“é€»è¾‘ï¼Œæ¯”å¦‚æ‰“å¼€äº¤äº’èœå•ç­‰
                 return true;
             }
             else {
-                // ¶ÔÓÚ·ÇÍæ¼Ò½ÇÉ«µÄNPC£¨NPC_2¡¢NPC_3µÈ£©£¬¿ÉÒÔÌí¼ÓÏàÓ¦½»»¥Âß¼­£¬±ÈÈçÏÔÊ¾ÌáÊ¾ÐÅÏ¢µÈ
+                // å¯¹äºŽéžçŽ©å®¶è§’è‰²çš„NPCï¼ˆNPC_2ã€NPC_3ç­‰ï¼‰ï¼Œå¯ä»¥æ·»åŠ ç›¸åº”äº¤äº’é€»è¾‘ï¼Œæ¯”å¦‚æ˜¾ç¤ºæç¤ºä¿¡æ¯ç­‰
                 return false;
             }
         }

@@ -7,7 +7,6 @@
  * License:
  ****************************************************************/
 
-
 #include "MainScene.h"
 #include "simpleaudioengine.h"
 #include "Cow.h"
@@ -19,20 +18,16 @@
 #include "SceneTouch.h"
 #include "Constants.h"
 #include"Fishing.h"
-
-
+#include "GlobalVariables.h"
 
 
 USING_NS_CC;
 USING_NS_CC::ui;
 using namespace CocosDenshion;
+
 cocos2d::Scene* g_sharedScene = nullptr;
-
 cocos2d::TMXTiledMap* g_sharedTMXone = nullptr;
-
-
-//背包创建
-backPack* pack1 = backPack::create();
+extern backPack* pack1 = backPack::create();
 
 Scene* MainScene::createScene() {
     return MainScene::create();
@@ -57,9 +52,6 @@ bool MainScene::init() {
     // 确保内容缩放因子为 1.0
     Director::getInstance()->setContentScaleFactor(1.0f);
 
-    // 创建并添加地图
-    //auto map = TMXTiledMap::create("nf.tmx");
-    //auto map = g_sharedTMXone;
     auto map = g_sharedTMXone;
     CCLOG("g_sharedTMXone Anchor Point: %f, %f", map->getAnchorPoint().x, map->getAnchorPoint().y);
     CCLOG("g_sharedTMXone Position: %f, %f", map->getPosition().x, map->getPosition().y);
@@ -92,8 +84,6 @@ bool MainScene::init() {
         }
     }
 
-
-
     g_sharedScene = this;
     if (!map) {
         CCLOG("Failed to load TMX map.tmx");
@@ -104,22 +94,13 @@ bool MainScene::init() {
     inventory(this, pack1, origin);
 
     auto layerfish = Layer::create();
-    map->addChild(layerfish, 3);
+    map->addChild(layerfish,3);
     // 添加钓鱼按钮
     MainScene::addFishingButtonToScene(layerfish, visibleSize);
 
-    /* auto wheelGame = WheelGame::create();
-     this->addChild(wheelGame, 3);*/
-
-    setupAnimal(this);// 创建动物
-
-    //setupWalkingCharacter(visibleSize, origin);
-
+ 
     auto touchListener = EventListenerTouchOneByOne::create();
 
-
-
-    // backPack* localPack = pack1;
     touchListener->onTouchBegan = [map](Touch* touch, Event* event) {
         return onTouchBegan(touch, event, map, pack1);
         };
@@ -133,7 +114,6 @@ bool MainScene::init() {
         npc1->testAddNPC_1(visibleSize, origin, map, this);
         CCLOG("NPC_1 position: (%f, %f)", npc1->getPosition().x, npc1->getPosition().y);
     }
-
 
 
     auto npc3 = NPC_3::create();
@@ -155,23 +135,10 @@ bool MainScene::init() {
 
     }
 
-
-
     // 将监听器添加到事件分发器中
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
-    //auto button = ui::Button::create("button_normal.png", "button_pressed.png");
-    //button->setTitleText("Switch Map?");
-    //button->setTitleFontSize(24);
-    //button->setPosition(Vec2(50, 50));
-    //this->addChild(button, 100);
-
-    //// 按钮点击事件
-    //button->addClickEventListener([=](Ref* sender) {
-    //    CCLOG("Press");
-    //    button->removeFromParent();
-    //    });
-    //return true;
+    updateProgressBars(this, g_time);
 }
 
 //单选按钮集合
@@ -184,38 +151,6 @@ void MainScene::onEnter() {
 
 }
 
-
-void MainScene::setupWalkingCharacter(const Size& visibleSize, Vec2 origin) {
-
-    // 创建WalkingCharacter实例并添加到当前场景中
-    auto walkingCharacterNode = WalkingCharacter::create();
-    walkingCharacterNode->setVisible(true);  // 确保节点可见
-    this->addChild(walkingCharacterNode);
-
-    // 通过接口设置WalkingCharacter的图片路径，这里先用一只兔子测试，可根据实际需求修改
-    walkingCharacterNode->setImagePath("rabbit_test.png");
-    //walkingCharacterNode->setImagePath("Cow_move.png");
-    // 直接使用之前已经定义好的visibleSize和origin变量
-    // 获取画面中心位置坐标
-    Vec2 centerPosition = Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y);
-
-    // 设置WalkingCharacter的位置为画面中心位置
-    walkingCharacterNode->setPosition(centerPosition);
-
-    // 获取角色精灵（假设WalkingCharacter类中有获取精灵的方法）
-    auto characterSprite = walkingCharacterNode->getCharacterSprite();
-    if (characterSprite) {
-        // 创建移动动作，让角色先向右移动200像素，用时3秒
-        auto moveRightAction = MoveBy::create(3.0f, Vec2(200, 0));
-        // 再向下移动100像素，用时2秒
-        auto moveDownAction = MoveBy::create(2.0f, Vec2(0, -100));
-        // 创建动作序列，先执行向右移动，再执行向下移动
-        auto sequenceAction = Sequence::create(moveRightAction, moveDownAction, nullptr);
-        // 让角色精灵循环执行该动作序列，实现循环移动
-        characterSprite->runAction(RepeatForever::create(sequenceAction));
-
-    }
-}
 
 void MainScene::addFishingButtonToScene(Layer* layer, const Size& visibleSize) {
     // 创建钓鱼按钮
@@ -252,4 +187,3 @@ void MainScene::update(float dt) {
     // 正确调用外部的 update 函数
     ::update(dt);  // 外部定义的 update 函数
 }
-

@@ -13,7 +13,7 @@
 #include "back.h"
 USING_NS_CC;
 
-// º¯ÊıÉùÃ÷£¬ÓÃÓÚ´¦Àíµã»÷ÊÂ¼ş²¢Êä³ö¶ÔÓ¦Í¼¿éÊôĞÔ
+// å‡½æ•°å£°æ˜ï¼Œç”¨äºå¤„ç†ç‚¹å‡»äº‹ä»¶å¹¶è¾“å‡ºå¯¹åº”å›¾å—å±æ€§
 bool onTouchBegan(Touch* touch, Event* event, TMXTiledMap* map, backPack* pack);
 
 Vec2 calculateTileCoordinate(const Vec2& touchLocation, TMXTiledMap* map);

@@ -19,6 +19,7 @@
 #include "NPC_1.h"
 #include "NPC_3.h"
 #include "startScene.h"
+#include "MapControl.h"
 class MainScene : public cocos2d::Scene {
 public:
     static cocos2d::Scene* createScene();
@@ -27,7 +28,7 @@ public:
     void onEnter();
    
    
-    void setupWalkingCharacter(const cocos2d::Size& visibleSize, cocos2d::Vec2 origin);
+    
     // 初始化触摸监听器
     void MainScene::addFishingButtonToScene(Layer* layer, const Size& visibleSize);
     void MainScene::onFishingButtonClicked(Ref* sender);

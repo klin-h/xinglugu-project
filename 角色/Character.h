@@ -15,7 +15,7 @@
 class Player;
 
 
-// ·½ÏòµÄÃ¶¾Ù
+// æ–¹å‘çš„æšä¸¾
 enum class Direction {
     f,
     b,
@@ -45,31 +45,31 @@ public:
         animationState(AnimationState::IDLE) {}
 
 
-    //½ÇÉ«ÒÆ¶¯
+    //è§’è‰²ç§»åŠ¨
     void Moving(Sprite* sprite, int direction, float t);
     void MovingContenly(Sprite* sprite, int direction, float t);
-    //½ÇÉ«Í£Ö¹ÒÆ¶¯
+    //è§’è‰²åœæ­¢ç§»åŠ¨
     void stopMoving(Sprite* sprite);
 
-    //½ÇÉ«Í£Ö¹Ò»ÇĞ¶¯×÷
+    //è§’è‰²åœæ­¢ä¸€åˆ‡åŠ¨ä½œ
     void stop();
 
-    // »ñÈ¡½ÇÉ«Ãû³Æ
+    // è·å–è§’è‰²åç§°
     std::string getName() { return name; }
 
-    // ÉèÖÃ½ÇÉ«Ãû³Æ
+    // è®¾ç½®è§’è‰²åç§°
     void setName(int newName) { name = newName; }
 
-    // »ñÈ¡½ÇÉ«ÉúÃüÖµ
+    // è·å–è§’è‰²ç”Ÿå‘½å€¼
     int getHealth() const { return health; }
 
-    // ÉèÖÃ½ÇÉ«ÉúÃüÖµ
+    // è®¾ç½®è§’è‰²ç”Ÿå‘½å€¼
     void setHealth(int newHealth) { health = newHealth; }
 
-    // »ñÈ¡¶¯»­×´Ì¬
+    // è·å–åŠ¨ç”»çŠ¶æ€
     AnimationState getAnimationState() const { return animationState; }
 
-    // ÉèÖÃ¶¯»­×´Ì¬
+    // è®¾ç½®åŠ¨ç”»çŠ¶æ€
     void setAnimationState(AnimationState newState) { animationState = newState; }
 
 

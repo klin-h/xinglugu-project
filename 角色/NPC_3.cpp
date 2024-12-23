@@ -1,6 +1,9 @@
 #include "NPC_3.h"
 #include "NPC_1.h"
 #include "ui/CocosGUI.h"
+#include "GlobalVariables.h"
+
+
 NPC_3::NPC_3() : taskList() {
     friendshipLevel = 0;
     isFriendWithNPC_1 = false;
@@ -8,14 +11,14 @@ NPC_3::NPC_3() : taskList() {
     isLoveWithNPC_1 = false;
     sprite = nullptr;
     onCollect = false;
-    onRepair= false;
+    onRepair = false;
     Repaired = false;
-    mouseListener = nullptr;  
+    mouseListener = nullptr;
 }
 
 NPC_3::~NPC_3() {
     CC_SAFE_RELEASE_NULL(sprite);
-    
+
     if (mouseListener) {
         Director::getInstance()->getEventDispatcher()->removeEventListener(mouseListener);
         mouseListener = nullptr;
@@ -32,8 +35,8 @@ NPC_3* NPC_3::create() {
 }
 
 void NPC_3::setup(const Size& visibleSize, Vec2 origin, std::string name, Vec2 pos) {
-    
-    sprite = Sprite::create("resources/SYN/"+name+"f1.png");  
+
+    sprite = Sprite::create("resources/SYN/" + name + "f1.png");
     if (sprite) {
         CCLOG("NPC_3 sprite loaded successfully");
     }
@@ -41,7 +44,7 @@ void NPC_3::setup(const Size& visibleSize, Vec2 origin, std::string name, Vec2 p
         CCLOG("Failed to load NPC_3 sprite image");
     }
     if (sprite) {
-        // 设置初始位置
+        //    贸 始位  
         position = pos;
         sprite->setPosition(position);
         this->addChild(sprite);
@@ -63,22 +66,22 @@ void NPC_3::setup(const Size& visibleSize, Vec2 origin, std::string name, Vec2 p
         }
     }
 }
-    
 
 
-// 用于更新NPC_3位置的函数
+
+//    诟   NPC_3位 玫暮   
 void NPC_3::update(float dt) {
-    
+
     Vec2 direction = targetPosition - position;
-   
+
     if (direction.length() < speed * dt) {
         position = targetPosition;
         sprite->setPosition(position);
         return;
     }
-   
+
     direction.normalize();
-   
+
     position += direction * speed * dt;
     sprite->setPosition(position);
 }
@@ -88,11 +91,11 @@ void NPC_3::testAddNPC_3(const Size& visibleSize, Vec2 origin, std::string name,
     auto myNpc = NPC_3::create();
     myNpc->setVisible(true);
     this->addChild(myNpc);
-    myNpc->setup(visibleSize, origin,name,pos);
-   
+    myNpc->setup(visibleSize, origin, name, pos);
+
     myNpc->updateFriendshipStatus();
     myNpc->updateLoveshipStatus();
-   
+
 }
 
 
@@ -157,7 +160,7 @@ void NPC_3::onMouseClicked_Haley(cocos2d::Event* event) {
     if (touch == cocos2d::EventMouse::MouseButton::BUTTON_LEFT) {
 
         cocos2d::Vec2 screenLocation = static_cast<cocos2d::EventMouse*>(event)->getLocation();
-       
+
         cocos2d::Rect rect_Haley = cocos2d::Rect(Constants::HALEYx, Constants::HALEYy, Constants::Character_width, Constants::Character_height);
         cocos2d::Rect rect_House = cocos2d::Rect(Constants::Housex, Constants::Housey, Constants::Housewidth, Constants::Househeight);
         if (rect_Haley.containsPoint(screenLocation)) {
@@ -211,7 +214,7 @@ void NPC_3::onMouseClicked_Haley(cocos2d::Event* event) {
 
 
 
-// 更新友谊关系状态的函数
+//          系状态 暮   
 void NPC_3::updateFriendshipStatus() {
     if (friendshipLevel >= 10) {
         if (!isFriendWithNPC_1) {
@@ -225,20 +228,20 @@ void NPC_3::updateFriendshipStatus() {
         }
     }
 }
-// 生成收集物品（土豆为例）任务
+//      占   品      为        
 void NPC_3::generateTask() {
-    
+
     Task newTask;
     newTask.taskDescription = "TEN POTATOES";
     newTask.targetItemCount = 10;
-    newTask.rewardDescription =50;
+    newTask.rewardDescription = 50;
     newTask.completed = false;
     taskList.push_back(newTask);
-   
+
     popupmessage(newTask.taskDescription);
 }
 
-// 检查任务完成情况
+//              
 bool NPC_3::checkTaskCompletion() {
     for (auto& task : taskList) {
         if (task.taskDescription.find("TEN POTATOES") != std::string::npos) {
@@ -259,7 +262,7 @@ bool NPC_3::checkTaskCompletion() {
     return false;
 }
 
-// 给予任务奖励
+//           
 void NPC_3::giveReward(std::string name) {
     for (auto& task : taskList) {
         if (task.completed) {
@@ -268,24 +271,24 @@ void NPC_3::giveReward(std::string name) {
             if (name == "collect") {
                 onCollect = false;
             }
-            else if(name == "repair") {
+            else if (name == "repair") {
                 onRepair = false;
             }
             pack1->moneyChange(50, 0);
             popupmessage("friendshipLevel added");
-           
+
         }
     }
 }
-//花不够的提示
+//          示
 void NPC_3::showNotEnoughFlowersAlert() {
-  
+
     popupmessage("Your flowers are not enough!");
-    
+
 }
 
 
-// 更新浪漫关系状态的函数
+//           系状态 暮   
 void NPC_3::updateLoveshipStatus() {
     if (loveshipLevel >= 10) {
         if (!isLoveWithNPC_1) {
@@ -295,24 +298,24 @@ void NPC_3::updateLoveshipStatus() {
     }
     else {
         if (isLoveWithNPC_1) {
-            isLoveWithNPC_1 = false; 
+            isLoveWithNPC_1 = false;
         }
     }
 }
 
 
-//修建筑任务
+// 藿       
 void NPC_3::Repairbuildings() {
     Repaired = false;
     Task newTask;
     newTask.taskDescription = "Repair the building";
-    newTask.targetItemCount =0;
+    newTask.targetItemCount = 0;
     newTask.rewardDescription = 100;
     newTask.completed = false;
     taskList.push_back(newTask);
-    
+
     popupmessage(newTask.taskDescription);
-        
+
 }
 
 bool NPC_3::checkRepair() {
@@ -333,7 +336,7 @@ bool NPC_3::checkRepair() {
     return false;
 }
 
-//提示界面
+//  示    
 void NPC_3::popupmessage(std::string message) {
     auto bulletinBoardLayer = cocos2d::Layer::create();
     auto taskDescriptionLabel = cocos2d::Label::createWithTTF(message, "fonts/arial.ttf", 24);
@@ -359,5 +362,7 @@ void NPC_3::popupmessage(std::string message) {
     bulletinBoardLayer->addChild(acceptButton);
     g_sharedScene->addChild(bulletinBoardLayer, INT_MAX);
 }
+
+
 
 

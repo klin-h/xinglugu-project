@@ -11,8 +11,12 @@ public:
         Tree,
         Rock,
         Grass,
-        // ÆäËûÎïÌåÀàĞÍ
+        IronOre,   // æ–°å¢ï¼šé“çŸ¿çŸ³
+        SilverOre, // æ–°å¢ï¼šé“¶çŸ¿çŸ³
+        GoldOre,   // æ–°å¢ï¼šé‡‘çŸ¿çŸ³
+        // å…¶ä»–ç‰©ä½“ç±»å‹
     };
+
     struct Point {
         int x;
         int y;
@@ -21,31 +25,36 @@ public:
     };
 
     struct InteractResult {
-        SceneObject::ObjectType type; // ÎïÆ·ÀàĞÍ
-        int quantity;                // Íæ¼Ò»ñµÃµÄ×ÊÔ´ÊıÁ¿
-        bool success;                // ÊÇ·ñ³É¹¦½»»¥
+        SceneObject::ObjectType type;
+        int quantity;
+        bool success;
 
         InteractResult(SceneObject::ObjectType t, int q, bool s)
             : type(t), quantity(q), success(s) {}
     };
 
-    // ³õÊ¼»¯³¡¾°ÎïÌå
+    // åˆå§‹åŒ–åœºæ™¯ç‰©ä½“
     static void initSceneObject(cocos2d::Node* parentNode, float tileWidth, float tileHeight, std::vector<SceneObject*>& objectGrid);
 
-    // Ìí¼ÓÎïÌå×ø±ê
+    // æ·»åŠ ç‰©ä½“åæ ‡
     static void addObjectPosition(ObjectType type, const Point& position);
 
     virtual InteractResult interact() = 0;
 
 private:
-    // ´æ´¢²»Í¬ÀàĞÍÎïÌåµÄ×ø±ê
+    // å­˜å‚¨ä¸åŒç±»å‹ç‰©ä½“çš„åæ ‡
     static std::vector<Point> treePositions;
     static std::vector<Point> rockPositions;
     static std::vector<Point> grassPositions;
-   
-    // ´´½¨¾ßÌåÎïÌå
+    static std::vector<Point> ironOrePositions;  // æ–°å¢ï¼šé“çŸ¿çŸ³åæ ‡
+    static std::vector<Point> silverOrePositions; // æ–°å¢ï¼šé“¶çŸ¿çŸ³åæ ‡
+    static std::vector<Point> goldOrePositions;  // æ–°å¢ï¼šé‡‘çŸ¿çŸ³åæ ‡
+
+    // åˆ›å»ºå…·ä½“ç‰©ä½“
     static SceneObject* createObject(ObjectType type, float tileWidth, float tileHeight, const Point& position);
     static void setpoint();
 };
+
+
 
 #endif // SCENEOBJECT_H
