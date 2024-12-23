@@ -10,14 +10,14 @@
 
 USING_NS_CC;
 bool Cow::init() {
-    // µ÷ÓÃ¸¸ÀàµÄ initWithFile ·½·¨¼ÓÔØ×ÊÔ´
+    // è°ƒç”¨çˆ¶ç±»çš„ initWithFile æ–¹æ³•åŠ è½½èµ„æº
     if (!Sprite::initWithFile("Cow.png")) 
     {
         CCLOG("Failed to load Cow.png");
         return false;
     }
 
-    // ³õÊ¼»¯ÊôĞÔ
+    // åˆå§‹åŒ–å±æ€§
     hunger_ = Constants::kDefaultAnimalHunger;
     mood_ = Constants::kDefaultAnimalMood;
     health_ = Constants::kDefaultAnimalHealth;
@@ -37,7 +37,7 @@ Cow* Cow::create() {
 
 Cow::Cow()
 {
-    // ³õÊ¼»¯Å£µÄÊôĞÔ
+    // åˆå§‹åŒ–ç‰›çš„å±æ€§
     hunger_ = Constants::kDefaultAnimalHunger;
     mood_ = Constants::kDefaultAnimalMood;
     health_ = Constants::kDefaultAnimalHealth;
@@ -46,15 +46,15 @@ Cow::Cow()
 
 Cow::~Cow()
 {
-    // ÇåÀí×ÊÔ´£¨Èç¹ûÓĞ£©
+    // æ¸…ç†èµ„æºï¼ˆå¦‚æœæœ‰ï¼‰
 }
 
 void Cow::produce()
 {
     if (health_ > 0) {
-        // ÊµÏÖÅ£µÄ²úÄÌÂß¼­
+        // å®ç°ç‰›çš„äº§å¥¶é€»è¾‘
         CCLOG("Cow has produced milk.");
-        // ÀıÈç£¬Ôö¼ÓÅ£ÄÌ¿â´æ
+        // ä¾‹å¦‚ï¼Œå¢åŠ ç‰›å¥¶åº“å­˜
     }
     else {
         CCLOG("Cow is not healthy enough to produce milk.");
@@ -64,7 +64,7 @@ void Cow::produce()
 void Cow::moo()
 {
     CCLOG("Moo!");
-    // ¿ÉÒÔÌí¼Ó²¥·ÅÅ£½ĞÉùÒôµÄÂß¼­
+    // å¯ä»¥æ·»åŠ æ’­æ”¾ç‰›å«å£°éŸ³çš„é€»è¾‘
 }
 
 void Cow::heal(int amount)
@@ -78,14 +78,14 @@ void Cow::startWalkingAnimation() {
 
     Vector<SpriteFrame*> frames;
 
-    // ¼ÙÉèÄãÓĞ 4 ÕÅĞĞ×ßÍ¼Æ¬£ºCow_walk1.png, Cow_walk2.png, Cow_walk3.png, Cow_walk4.png
+    // å‡è®¾ä½ æœ‰ 4 å¼ è¡Œèµ°å›¾ç‰‡ï¼šCow_walk1.png, Cow_walk2.png, Cow_walk3.png, Cow_walk4.png
    
-        frames.pushBack(SpriteFrame::create("Cow_walk1.png", Rect(0, 0, 32, 32))); // ¼ÙÉèÃ¿ÕÅÍ¼Æ¬µÄ´óĞ¡Îª 32x32
+        frames.pushBack(SpriteFrame::create("Cow_walk1.png", Rect(0, 0, 32, 32))); // å‡è®¾æ¯å¼ å›¾ç‰‡çš„å¤§å°ä¸º 32x32
         frames.pushBack(SpriteFrame::create("Cow_walk2.png", Rect(0, 0, 32, 32)));
         frames.pushBack(SpriteFrame::create("Cow_walk3.png", Rect(0, 0, 32, 32)));
         frames.pushBack(SpriteFrame::create("Cow_walk1.png", Rect(0, 0, 32, 32)));
 
-        // ¼ì²éÊÇ·ñ³É¹¦¼ÓÔØÃ¿Ò»Ö¡
+        // æ£€æŸ¥æ˜¯å¦æˆåŠŸåŠ è½½æ¯ä¸€å¸§
         for (int i = 0; i < frames.size(); ++i) {
             if (frames.at(i) == nullptr) {
                 CCLOG("Failed to load frame %d", i + 1);
@@ -94,11 +94,11 @@ void Cow::startWalkingAnimation() {
 
         
 
-        // ´´½¨¶¯»­¶ÔÏó
-        Animation* animation = Animation::createWithSpriteFrames(frames, 0.2f); // Ã¿Ö¡ 0.2 Ãë
+        // åˆ›å»ºåŠ¨ç”»å¯¹è±¡
+        Animation* animation = Animation::createWithSpriteFrames(frames, 0.2f); // æ¯å¸§ 0.2 ç§’
         Animate* animate = Animate::create(animation);
 
-        //// ÎŞÏŞÑ­»·¶¯»­
+        //// æ— é™å¾ªç¯åŠ¨ç”»
         this->runAction(RepeatForever::create(animate));
 
         CCLOG("Cow walking animation started.");
@@ -106,94 +106,94 @@ void Cow::startWalkingAnimation() {
 }
 
 //void Cow::moveTo(const Vec2& targetPosition, float duration) {
-//    //// ´´½¨Ò»¸ö MoveTo ¶¯×÷
+//    //// åˆ›å»ºä¸€ä¸ª MoveTo åŠ¨ä½œ
 //    //auto moveToAction = MoveTo::create(duration, targetPosition);
 //
-//    //// Ìí¼ÓÒ»¸ö»Øµ÷£¬È·±£ÒÆ¶¯Íê³Éºó¿ÉÒÔ½øĞĞÒ»Ğ©²Ù×÷
+//    //// æ·»åŠ ä¸€ä¸ªå›è°ƒï¼Œç¡®ä¿ç§»åŠ¨å®Œæˆåå¯ä»¥è¿›è¡Œä¸€äº›æ“ä½œ
 //    //auto callback = CallFunc::create([this]() {
 //    //    CCLOG("Cow has moved to the target position.");
 //    //    });
 //
-//    //// ÔËĞĞĞòÁĞ¶¯×÷£¨ÒÆ¶¯ + »Øµ÷£©
+//    //// è¿è¡Œåºåˆ—åŠ¨ä½œï¼ˆç§»åŠ¨ + å›è°ƒï¼‰
 //    //this->runAction(Sequence::create(moveToAction, callback, nullptr));
 //    // 
 //    //this->startWalkingAnimation();
 //
-//    //// ´´½¨ÒÆ¶¯¶¯×÷
+//    //// åˆ›å»ºç§»åŠ¨åŠ¨ä½œ
 //    //auto moveAction = MoveTo::create(duration, targetPosition);
 //
-//    //// ÒÆ¶¯Íê³ÉºóÍ£Ö¹¶¯»­µÄ»Øµ÷
+//    //// ç§»åŠ¨å®Œæˆååœæ­¢åŠ¨ç”»çš„å›è°ƒ
 //    //auto stopAnimation = CallFunc::create([this]() {
 //    //    this->stopWalkingAnimation();
 //    //    });
 //
-//    //// ½«ÒÆ¶¯ºÍÍ£Ö¹¶¯»­µÄ¶¯×÷×éºÏ³ÉĞòÁĞ
+//    //// å°†ç§»åŠ¨å’Œåœæ­¢åŠ¨ç”»çš„åŠ¨ä½œç»„åˆæˆåºåˆ—
 //    //auto sequence = Sequence::create(moveAction, stopAnimation, nullptr);
 //
-//    //// ÔËĞĞ¶¯×÷
+//    //// è¿è¡ŒåŠ¨ä½œ
 //    //this->runAction(sequence);
 //    float distance = this->getPosition().distance(targetPosition);
 //
-//    // ¸ù¾İ¾àÀëºÍËÙ¶È¼ÆËãÒÆ¶¯³ÖĞøÊ±¼ä
+//    // æ ¹æ®è·ç¦»å’Œé€Ÿåº¦è®¡ç®—ç§»åŠ¨æŒç»­æ—¶é—´
 //    duration = distance / Constants::kAnimalMoveSpeed;
 //
-//    // Æô¶¯ĞĞ×ß¶¯»­
+//    // å¯åŠ¨è¡Œèµ°åŠ¨ç”»
 //    this->startWalkingAnimation();
 //
-//    // ´´½¨ÒÆ¶¯¶¯×÷
+//    // åˆ›å»ºç§»åŠ¨åŠ¨ä½œ
 //    auto moveAction = MoveTo::create(duration, targetPosition);
 //
-//    // ÒÆ¶¯Íê³ÉºóÍ£Ö¹¶¯»­µÄ»Øµ÷
+//    // ç§»åŠ¨å®Œæˆååœæ­¢åŠ¨ç”»çš„å›è°ƒ
 //    auto stopAnimation = CallFunc::create([this]() {
 //        this->stopWalkingAnimation();
 //        });
 //
-//    // ½«ÒÆ¶¯ºÍÍ£Ö¹¶¯»­µÄ¶¯×÷×éºÏ³ÉĞòÁĞ
+//    // å°†ç§»åŠ¨å’Œåœæ­¢åŠ¨ç”»çš„åŠ¨ä½œç»„åˆæˆåºåˆ—
 //    auto sequence = Sequence::create(moveAction, stopAnimation, nullptr);
 //
-//    // ÔËĞĞ¶¯×÷
+//    // è¿è¡ŒåŠ¨ä½œ
 //    this->runAction(sequence);
 //}
 //
 //void Cow::moveBy(const Vec2& offset, float duration) {
-//    // ´´½¨Ò»¸ö MoveBy ¶¯×÷
+//    // åˆ›å»ºä¸€ä¸ª MoveBy åŠ¨ä½œ
 //    auto moveByAction = MoveBy::create(duration, offset);
 //
-//    // Ìí¼ÓÒ»¸ö»Øµ÷£¬È·±£ÒÆ¶¯Íê³Éºó¿ÉÒÔ½øĞĞÒ»Ğ©²Ù×÷
+//    // æ·»åŠ ä¸€ä¸ªå›è°ƒï¼Œç¡®ä¿ç§»åŠ¨å®Œæˆåå¯ä»¥è¿›è¡Œä¸€äº›æ“ä½œ
 //    auto callback = CallFunc::create([this]() {
 //        CCLOG("Cow has moved by the offset.");
 //        });
 //
-//    // ÔËĞĞĞòÁĞ¶¯×÷£¨ÒÆ¶¯ + »Øµ÷£©
+//    // è¿è¡Œåºåˆ—åŠ¨ä½œï¼ˆç§»åŠ¨ + å›è°ƒï¼‰
 //    this->runAction(Sequence::create(moveByAction, callback, nullptr));
 //}
 
 //void Cow::moveToSequence(const std::vector<Vec2>& positions, float durationPerMove) {
-//    // ¼ì²éÊäÈëµÄÄ¿±êÎ»ÖÃÊı×éÊÇ·ñÎª¿Õ
+//    // æ£€æŸ¥è¾“å…¥çš„ç›®æ ‡ä½ç½®æ•°ç»„æ˜¯å¦ä¸ºç©º
 //    if (positions.empty()) {
 //        CCLOG("No positions provided for moveToSequence.");
 //        return;
 //    }
 //
-//    // ´´½¨Ò»¸öÊı×é£¬ÓÃÓÚ´æ´¢ËùÓĞµÄ¶¯×÷
+//    // åˆ›å»ºä¸€ä¸ªæ•°ç»„ï¼Œç”¨äºå­˜å‚¨æ‰€æœ‰çš„åŠ¨ä½œ
 //    Vector<FiniteTimeAction*> actions;
 //
-//    // ±éÀúÄ¿±êÎ»ÖÃÊı×é£¬ÎªÃ¿¸öÄ¿±ê´´½¨Ò»¸ö MoveTo ¶¯×÷
+//    // éå†ç›®æ ‡ä½ç½®æ•°ç»„ï¼Œä¸ºæ¯ä¸ªç›®æ ‡åˆ›å»ºä¸€ä¸ª MoveTo åŠ¨ä½œ
 //    for (const auto& targetPosition : positions) {
 //        auto moveToAction = MoveTo::create(durationPerMove, targetPosition);
 //        actions.pushBack(moveToAction);
 //    }
 //
-//    // Ìí¼ÓÒ»¸ö»Øµ÷¶¯×÷£¬×îºóÖ´ĞĞ
+//    // æ·»åŠ ä¸€ä¸ªå›è°ƒåŠ¨ä½œï¼Œæœ€åæ‰§è¡Œ
 //    auto callback = CallFunc::create([this]() {
 //        CCLOG("Cow has finished all movements.");
 //        });
 //    actions.pushBack(callback);
 //
-//    // ´´½¨ĞòÁĞ¶¯×÷
+//    // åˆ›å»ºåºåˆ—åŠ¨ä½œ
 //    auto sequence = Sequence::create(actions);
 //
-//    // ÔËĞĞ¶¯×÷ĞòÁĞ
+//    // è¿è¡ŒåŠ¨ä½œåºåˆ—
 //    this->runAction(sequence);
 //}
 
@@ -203,10 +203,10 @@ void Cow::startWalkingAnimation() {
 //        return;
 //    }
 //
-//    // ´´½¨Ò»¸ö¶¯×÷Êı×éÓÃÓÚ´æ´¢ËùÓĞÒÆ¶¯¶¯×÷
+//    // åˆ›å»ºä¸€ä¸ªåŠ¨ä½œæ•°ç»„ç”¨äºå­˜å‚¨æ‰€æœ‰ç§»åŠ¨åŠ¨ä½œ
 //    Vector<FiniteTimeAction*> actions;
 //
-//    // ÔÚÒÆ¶¯¿ªÊ¼Ê±Æô¶¯ĞĞ×ß¶¯»­
+//    // åœ¨ç§»åŠ¨å¼€å§‹æ—¶å¯åŠ¨è¡Œèµ°åŠ¨ç”»
 //    auto startWalking = CallFunc::create([this]() {
 //        if (!isWalking_) {
 //            this->startWalkingAnimation();
@@ -214,25 +214,25 @@ void Cow::startWalkingAnimation() {
 //        });
 //    actions.pushBack(startWalking);
 //
-//    // ±éÀúËùÓĞÄ¿±êÎ»ÖÃ£¬Ìí¼Ó MoveTo ¶¯×÷
+//    // éå†æ‰€æœ‰ç›®æ ‡ä½ç½®ï¼Œæ·»åŠ  MoveTo åŠ¨ä½œ
 //    for (const auto& targetPosition : positions) {
 //        auto moveToAction = MoveTo::create(durationPerMove, targetPosition);
 //        actions.pushBack(moveToAction);
 //    }
 //
-//    // ÔÚÒÆ¶¯½áÊøÊ±Í£Ö¹ĞĞ×ß¶¯»­
+//    // åœ¨ç§»åŠ¨ç»“æŸæ—¶åœæ­¢è¡Œèµ°åŠ¨ç”»
 //    auto stopWalking = CallFunc::create([this]() {
 //        this->stopWalkingAnimation();
 //        });
 //    actions.pushBack(stopWalking);
 //
-//    // ´´½¨Ò»¸öĞòÁĞ¶¯×÷²¢ÔËĞĞ
+//    // åˆ›å»ºä¸€ä¸ªåºåˆ—åŠ¨ä½œå¹¶è¿è¡Œ
 //    auto sequence = Sequence::create(actions);
 //    this->runAction(sequence);
 //}
 
 void Cow::stopWalkingAnimation() {
-    // Í£Ö¹ËùÓĞ¶¯»­£¬²¢ÉèÖÃÎªÄ¬ÈÏ¾²Ö¹Ö¡
+    // åœæ­¢æ‰€æœ‰åŠ¨ç”»ï¼Œå¹¶è®¾ç½®ä¸ºé»˜è®¤é™æ­¢å¸§
     this->stopAllActions();
     isWalking_ = false;
 
