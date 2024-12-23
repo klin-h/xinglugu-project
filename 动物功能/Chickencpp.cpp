@@ -11,13 +11,13 @@
 USING_NS_CC;
 
 bool Chicken::init() {
-    // µ÷ÓÃ¸¸ÀàµÄ initWithFile ·½·¨¼ÓÔØ×ÊÔ´
+    // è°ƒç”¨çˆ¶ç±»çš„ initWithFile æ–¹æ³•åŠ è½½èµ„æº
     if (!Sprite::initWithFile("Chicken.png")) {
         CCLOG("Failed to load Chicken.png");
         return false;
     }
 
-    // ³õÊ¼»¯ÊôĞÔ
+    // åˆå§‹åŒ–å±æ€§
     hunger_ = Constants::kDefaultAnimalHunger;
     mood_ = Constants::kDefaultAnimalMood;
     health_ = Constants::kDefaultAnimalHealth;
@@ -36,19 +36,19 @@ Chicken* Chicken::create() {
 }
 
 Chicken::Chicken() {
-    // ³õÊ¼»¯¼¦µÄÊôĞÔ
+    // åˆå§‹åŒ–é¸¡çš„å±æ€§
     hunger_ = Constants::kDefaultAnimalHunger;
     mood_ = Constants::kDefaultAnimalMood;
     health_ = Constants::kDefaultAnimalHealth;
 }
 
 Chicken::~Chicken() {
-    // ÇåÀí×ÊÔ´£¨Èç¹ûÓĞ£©
+    // æ¸…ç†èµ„æºï¼ˆå¦‚æœæœ‰ï¼‰
 }
 
 void Chicken::produce() {
     if (health_ > 0) {
-        // ÊµÏÖ¼¦µÄ²úµ°Âß¼­
+        // å®ç°é¸¡çš„äº§è›‹é€»è¾‘
         CCLOG("Chicken has laid an egg.");
     }
     else {
@@ -58,7 +58,7 @@ void Chicken::produce() {
 
 void Chicken::cluck() {
     CCLOG("Cluck cluck!");
-    // ¿ÉÒÔÌí¼Ó²¥·Å¼¦½ĞÉùÒôµÄÂß¼­
+    // å¯ä»¥æ·»åŠ æ’­æ”¾é¸¡å«å£°éŸ³çš„é€»è¾‘
 }
 
 void Chicken::heal(int amount) {
@@ -70,24 +70,24 @@ void Chicken::heal(int amount) {
 void Chicken::startWalkingAnimation() {
     Vector<SpriteFrame*> frames;
 
-    // ¼ÙÉèÄãÓĞ 4 ÕÅĞĞ×ßÍ¼Æ¬£ºChicken_walk1.png, Chicken_walk2.png, Chicken_walk3.png, Chicken_walk4.png
-    frames.pushBack(SpriteFrame::create("Chicken_walk1.png", Rect(0, 0, 32, 32))); // ¼ÙÉèÃ¿ÕÅÍ¼Æ¬µÄ´óĞ¡Îª 32x32
+    // å‡è®¾ä½ æœ‰ 4 å¼ è¡Œèµ°å›¾ç‰‡ï¼šChicken_walk1.png, Chicken_walk2.png, Chicken_walk3.png, Chicken_walk4.png
+    frames.pushBack(SpriteFrame::create("Chicken_walk1.png", Rect(0, 0, 32, 32))); // å‡è®¾æ¯å¼ å›¾ç‰‡çš„å¤§å°ä¸º 32x32
     frames.pushBack(SpriteFrame::create("Chicken_walk2.png", Rect(0, 0, 32, 32)));
     frames.pushBack(SpriteFrame::create("Chicken_walk3.png", Rect(0, 0, 32, 32)));
     frames.pushBack(SpriteFrame::create("Chicken_walk4.png", Rect(0, 0, 32, 32)));
 
-    // ¼ì²éÊÇ·ñ³É¹¦¼ÓÔØÃ¿Ò»Ö¡
+    // æ£€æŸ¥æ˜¯å¦æˆåŠŸåŠ è½½æ¯ä¸€å¸§
     for (int i = 0; i < frames.size(); ++i) {
         if (frames.at(i) == nullptr) {
             CCLOG("Failed to load frame %d", i + 1);
         }
     }
 
-    // ´´½¨¶¯»­¶ÔÏó
-    Animation* animation = Animation::createWithSpriteFrames(frames, 0.2f); // Ã¿Ö¡ 0.2 Ãë
+    // åˆ›å»ºåŠ¨ç”»å¯¹è±¡
+    Animation* animation = Animation::createWithSpriteFrames(frames, 0.2f); // æ¯å¸§ 0.2 ç§’
     Animate* animate = Animate::create(animation);
 
-    // ÎŞÏŞÑ­»·¶¯»­
+    // æ— é™å¾ªç¯åŠ¨ç”»
     this->runAction(RepeatForever::create(animate));
 
     isWalking_ = true;
@@ -95,7 +95,7 @@ void Chicken::startWalkingAnimation() {
 }
 
 void Chicken::stopWalkingAnimation() {
-    // Í£Ö¹ËùÓĞ¶¯»­£¬²¢ÉèÖÃÎªÄ¬ÈÏ¾²Ö¹Ö¡
+    // åœæ­¢æ‰€æœ‰åŠ¨ç”»ï¼Œå¹¶è®¾ç½®ä¸ºé»˜è®¤é™æ­¢å¸§
     this->stopAllActions();
     isWalking_ = false;
 
