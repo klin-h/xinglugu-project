@@ -2,7 +2,7 @@
 
 USING_NS_CC;
 
-// ´´½¨º¯Êı£¬×ñÑ­Cocos2d-xµÄ´´½¨¶ÔÏó¹æ·¶
+// åˆ›å»ºå‡½æ•°ï¼Œéµå¾ªCocos2d-xçš„åˆ›å»ºå¯¹è±¡è§„èŒƒ
 WalkingCharacter* WalkingCharacter::create() {
     WalkingCharacter* ret = new (std::nothrow) WalkingCharacter();
     if (ret && ret->init()) {
@@ -15,38 +15,38 @@ WalkingCharacter* WalkingCharacter::create() {
     }
 }
 
-// ³õÊ¼»¯º¯Êı
+// åˆå§‹åŒ–å‡½æ•°
 bool WalkingCharacter::init() {
     if (!Node::init()) {
         return false;
     }
 
-    // ´´½¨½ÇÉ«¾«Áé£¬ÏÈ²»¹ØÁª¾ßÌåÍ¼Æ¬£¬ºóÃæÍ¨¹ı¼ÓÔØÖ¡À´ÉèÖÃÍ¼Æ¬
+    // åˆ›å»ºè§’è‰²ç²¾çµï¼Œå…ˆä¸å…³è”å…·ä½“å›¾ç‰‡ï¼Œåé¢é€šè¿‡åŠ è½½å¸§æ¥è®¾ç½®å›¾ç‰‡
     _characterSprite = Sprite::create();
     if (_characterSprite) {
         this->addChild(_characterSprite);
     }
 
-    // ³õÊ¼»¯Ê±²»¼ÓÔØÍ¼Æ¬Â·¾¶£¬µÈ´ıÍâ²¿µ÷ÓÃsetImagePathÀ´ÉèÖÃ
+    // åˆå§‹åŒ–æ—¶ä¸åŠ è½½å›¾ç‰‡è·¯å¾„ï¼Œç­‰å¾…å¤–éƒ¨è°ƒç”¨setImagePathæ¥è®¾ç½®
     _currentFrameIndex = 0;
     return true;
 }
 
-// ĞÂÔöº¯ÊıÓÃÓÚÉèÖÃÍ¼Æ¬Â·¾¶²¢¼ÓÔØÖ¡
+// æ–°å¢å‡½æ•°ç”¨äºè®¾ç½®å›¾ç‰‡è·¯å¾„å¹¶åŠ è½½å¸§
 void WalkingCharacter::setImagePath(const std::string& imagePath) {
     loadWalkFramesFromImage(imagePath);
     playWalkAnimationOnce();
 }
 
-// ´Ó¸ø¶¨Í¼Æ¬Â·¾¶¼ÓÔØ×ßÂ·¶¯»­Ö¡£¨´¦ÀíÆ´Í¼Çé¿ö£©£¨Ò»°ã¶¼ÊÇ×ß»òÅÜµÄ¶¯×÷Á¬³ÉÒ»ÕÅÆ´Í¼£©
+// ä»ç»™å®šå›¾ç‰‡è·¯å¾„åŠ è½½èµ°è·¯åŠ¨ç”»å¸§ï¼ˆå¤„ç†æ‹¼å›¾æƒ…å†µï¼‰ï¼ˆä¸€èˆ¬éƒ½æ˜¯èµ°æˆ–è·‘çš„åŠ¨ä½œè¿æˆä¸€å¼ æ‹¼å›¾ï¼‰
 void WalkingCharacter::loadWalkFramesFromImage(const std::string& imagePath) {
-    // Ê¹ÓÃTextureCache»ñÈ¡ÎÆÀí£¬ÎÆÀí»º´æ¿ÉÒÔ±ÜÃâÖØ¸´¼ÓÔØÏàÍ¬ÎÆÀí£¬Ìá¸ßĞÔÄÜ
+    // ä½¿ç”¨TextureCacheè·å–çº¹ç†ï¼Œçº¹ç†ç¼“å­˜å¯ä»¥é¿å…é‡å¤åŠ è½½ç›¸åŒçº¹ç†ï¼Œæé«˜æ€§èƒ½
     auto texture = Director::getInstance()->getTextureCache()->addImage(imagePath);
 
-    // ¼ÙÉèËÄÕÅÍ¼Æ¬Á¬ÔÚÒ»Æğ£¬ÇÒÃ¿ÕÅÍ¼Æ¬´óĞ¡ÏàÍ¬£¨¿É¸ù¾İÊµ¼ÊÇé¿öµ÷ÕûÏÂÃæ¼ÆËã·½Ê½£©
+    // å‡è®¾å››å¼ å›¾ç‰‡è¿åœ¨ä¸€èµ·ï¼Œä¸”æ¯å¼ å›¾ç‰‡å¤§å°ç›¸åŒï¼ˆå¯æ ¹æ®å®é™…æƒ…å†µè°ƒæ•´ä¸‹é¢è®¡ç®—æ–¹å¼ï¼‰
     Size frameSize = Size(texture->getContentSize().width / 4, texture->getContentSize().height);
 
-    // Ñ­»·ÌáÈ¡ËÄÕÅÍ¼Æ¬×÷Îª¶¯»­Ö¡
+    // å¾ªç¯æå–å››å¼ å›¾ç‰‡ä½œä¸ºåŠ¨ç”»å¸§
     for (int i = 0; i < 4; ++i) {
         Rect rect(i * frameSize.width, 0, frameSize.width, frameSize.height);
         auto spriteFrame = SpriteFrame::createWithTexture(texture, rect);
@@ -54,36 +54,36 @@ void WalkingCharacter::loadWalkFramesFromImage(const std::string& imagePath) {
     }
 }
 
-// ²¥·Å×ßÂ·¶¯»­£¬ÊµÏÖÖ»²¥·ÅÒ»´ÎÀ´Ä£Äâ×ßÒ»²½
+// æ’­æ”¾èµ°è·¯åŠ¨ç”»ï¼Œå®ç°åªæ’­æ”¾ä¸€æ¬¡æ¥æ¨¡æ‹Ÿèµ°ä¸€æ­¥
 void WalkingCharacter::playWalkAnimationOnce() {
-    // ´´½¨Ò»¸ö¶¯»­¶ÔÏó£¬ÉèÖÃÒ»Ğ©²ÎÊı
+    // åˆ›å»ºä¸€ä¸ªåŠ¨ç”»å¯¹è±¡ï¼Œè®¾ç½®ä¸€äº›å‚æ•°
     auto animation = Animation::create();
-    animation->setDelayPerUnit(0.2f);  // Ã¿Ö¡¼ä¸ôÊ±¼ä£¬¿ØÖÆ×ßÂ·ËÙ¶È£¬¿É¸ù¾İÊµ¼Êµ÷Õû
+    animation->setDelayPerUnit(0.2f);  // æ¯å¸§é—´éš”æ—¶é—´ï¼Œæ§åˆ¶èµ°è·¯é€Ÿåº¦ï¼Œå¯æ ¹æ®å®é™…è°ƒæ•´
 
-    // ½«Ö®Ç°¼ÓÔØºÃµÄÖ¡Ìí¼Óµ½¶¯»­¶ÔÏóÖĞ
+    // å°†ä¹‹å‰åŠ è½½å¥½çš„å¸§æ·»åŠ åˆ°åŠ¨ç”»å¯¹è±¡ä¸­
     for (const auto& frame : _walkFrames) {
         animation->addSpriteFrame(frame);
     }
 
-    // ´´½¨Ò»¸ö¶¯»­¶¯×÷£¬¹ØÁªÇ°Ãæ´´½¨µÄ¶¯»­¶ÔÏó
+    // åˆ›å»ºä¸€ä¸ªåŠ¨ç”»åŠ¨ä½œï¼Œå…³è”å‰é¢åˆ›å»ºçš„åŠ¨ç”»å¯¹è±¡
     auto animateAction = Animate::create(animation);
 
-    // ´´½¨Ò»¸ö»Øµ÷º¯Êı¶¯×÷£¬ÔÚ¶¯»­²¥·ÅÍêºóÖ´ĞĞ
+    // åˆ›å»ºä¸€ä¸ªå›è°ƒå‡½æ•°åŠ¨ä½œï¼Œåœ¨åŠ¨ç”»æ’­æ”¾å®Œåæ‰§è¡Œ
     auto callbackAction = CallFunc::create([this]() {
         
         _characterSprite->stopAllActions();
-        // ¶¯»­²¥·ÅÍêºó£¬½«µ±Ç°Ö¡Ë÷ÒıÖØÖÃÎª0£¬ÒÔ±ãÏÂ´Î²¥·Å¶¯»­Ê±´ÓµÚÒ»Ö¡¿ªÊ¼
+        // åŠ¨ç”»æ’­æ”¾å®Œåï¼Œå°†å½“å‰å¸§ç´¢å¼•é‡ç½®ä¸º0ï¼Œä»¥ä¾¿ä¸‹æ¬¡æ’­æ”¾åŠ¨ç”»æ—¶ä»ç¬¬ä¸€å¸§å¼€å§‹
         _currentFrameIndex = 0;
         });
 
-    // Ê¹ÓÃË³Ğò¶¯×÷×éºÏ£¬ÏÈ²¥·Å¶¯»­¶¯×÷£¬È»ºóÖ´ĞĞ»Øµ÷º¯Êı¶¯×÷
+    // ä½¿ç”¨é¡ºåºåŠ¨ä½œç»„åˆï¼Œå…ˆæ’­æ”¾åŠ¨ç”»åŠ¨ä½œï¼Œç„¶åæ‰§è¡Œå›è°ƒå‡½æ•°åŠ¨ä½œ
     auto sequenceAction = Sequence::create(animateAction, callbackAction, nullptr);
 
-    // ÈÃ½ÇÉ«¾«ÁéÖ´ĞĞË³Ğò¶¯×÷×éºÏ
+    // è®©è§’è‰²ç²¾çµæ‰§è¡Œé¡ºåºåŠ¨ä½œç»„åˆ
     _characterSprite->runAction(sequenceAction);
 }
 
-// ÊµÏÖ»ñÈ¡½ÇÉ«¾«ÁéµÄº¯Êı£¬±£³Ö²»±ä£¬ÒòÎªÂß¼­¾ÍÊÇ¼òµ¥·µ»Ø³ÉÔ±±äÁ¿_characterSpriteµÄÖ¸Õë
+// å®ç°è·å–è§’è‰²ç²¾çµçš„å‡½æ•°ï¼Œä¿æŒä¸å˜ï¼Œå› ä¸ºé€»è¾‘å°±æ˜¯ç®€å•è¿”å›æˆå‘˜å˜é‡_characterSpriteçš„æŒ‡é’ˆ
 cocos2d::Sprite* WalkingCharacter::getCharacterSprite() {
     return _characterSprite;
 }
