@@ -1,7 +1,7 @@
 #include "Land.h"
 USING_NS_CC;
 
-// ´´½¨ÍÁµØ¶ÔÏó
+// åˆ›å»ºåœŸåœ°å¯¹è±¡
 Land* Land::create(const std::string& filename) {
     Land* land = new (std::nothrow) Land();
     if (land && land->initWithFile(filename)) {
@@ -12,27 +12,27 @@ Land* Land::create(const std::string& filename) {
     return nullptr;
 }
 
-// ÍÁµØµÄ½»»¥Âß¼­
+// åœŸåœ°çš„äº¤äº’é€»è¾‘
 void Land::interact() {
     switch (state) {
         case State::Empty:
             state = State::Planted;
             this->setTexture("land_planted.png");
-            //adjustScale();  // µ÷ÕûËõ·Å±ÈÀı
+            //adjustScale();  // è°ƒæ•´ç¼©æ”¾æ¯”ä¾‹
             break;
         case State::Planted:
             state = State::Watered;
             this->setTexture("land_watered.png");
-            //adjustScale();  // µ÷ÕûËõ·Å±ÈÀı
+            //adjustScale();  // è°ƒæ•´ç¼©æ”¾æ¯”ä¾‹
             break;
         case State::Watered:
             state = State::Harvested;
             this->setTexture("land_empty.png");
-            //adjustScale();  // µ÷ÕûËõ·Å±ÈÀı
+            //adjustScale();  // è°ƒæ•´ç¼©æ”¾æ¯”ä¾‹
             break;
         case State::Harvested:
             state = State::Empty;
-            // ²»ĞèÒª¸ü¸ÄÎÆÀíÊ±²»µ÷ÓÃ adjustScale
+            // ä¸éœ€è¦æ›´æ”¹çº¹ç†æ—¶ä¸è°ƒç”¨ adjustScale
             break;
     }
 }
