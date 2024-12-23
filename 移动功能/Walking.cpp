@@ -34,7 +34,7 @@ Animate* Walking::createAnimation(const std::string& name, const std::string& di
 		frameVec.pushBack(frame);
 
 	}
-	Animation* animation = Animation::createWithSpriteFrames(frameVec, 1.0f / 5, 1);//Ö¡µÄ¸ü»»ËÙ¶ÈÎª0.2Ãë
+	Animation* animation = Animation::createWithSpriteFrames(frameVec, 1.0f / 5, 1);//å¸§çš„æ›´æ¢é€Ÿåº¦ä¸º0.2ç§’
 	Animate* animate = Animate::create(animation);
 
 	return animate;
@@ -42,12 +42,12 @@ Animate* Walking::createAnimation(const std::string& name, const std::string& di
 
 Action* Walking::walkingContently(Sprite* targetSprite, const std::string& name, const std::string& direction) {
 	if (targetSprite) {
-		// ÏÈµ÷ÓÃcreateAnimationº¯Êı»ñÈ¡¶¯»­¶¯×÷
+		// å…ˆè°ƒç”¨createAnimationå‡½æ•°è·å–åŠ¨ç”»åŠ¨ä½œ
 		Animate* animate = Walking::createAnimation(name, direction);
 		if (animate) {
-			// Ê¹ÓÃRepeatForever½«¶¯»­¶¯×÷°ü×°³É¿ÉÎŞÏŞÑ­»·µÄ¶¯×÷
+			// ä½¿ç”¨RepeatForeverå°†åŠ¨ç”»åŠ¨ä½œåŒ…è£…æˆå¯æ— é™å¾ªç¯çš„åŠ¨ä½œ
 			auto repeatForever = RepeatForever::create(animate);
-			// ·µ»ØÕâ¸ö¿ÉÎŞÏŞÑ­»·µÄ¶¯×÷£¬ÀàĞÍÎªAction*£¬·ûºÏº¯Êı¶¨ÒåÒªÇó
+			// è¿”å›è¿™ä¸ªå¯æ— é™å¾ªç¯çš„åŠ¨ä½œï¼Œç±»å‹ä¸ºAction*ï¼Œç¬¦åˆå‡½æ•°å®šä¹‰è¦æ±‚
 			return repeatForever;
 		}
 	}
