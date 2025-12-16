@@ -6,8 +6,7 @@
 
 class Timer1 {
 public:
-    // 构造函数，初始化计时器
-    Timer1();
+    static Timer1& getInstance();
 
     // 获取已过去的天数
     int getDaysElapsed() const;
@@ -20,9 +19,15 @@ public:
 
 
 private:
+    Timer1();
+    Timer1(const Timer1&) = delete;
+    Timer1& operator=(const Timer1&) = delete;
+
+private:
     std::chrono::steady_clock::time_point start_time;  // 系统启动时间
     int days_elapsed;  // 已过去的天数
     std::string season;  // 当前季节
 };
 
 #endif // TIMER_H
+
