@@ -9,14 +9,115 @@
 
 #include"initAnimalScene.h"
 #include "SceneObject.h"
+#include "AnimalFactory.h"
+#include "Cow.h"
+#include "Pig.h"
 #include "Animal.h"
 #include "back.h"
 #include "backPhoto.h"
-
+#include "cocos2d.h"
+#include "json/document.h"
+#include "json/error/en.h"
 
 USING_NS_CC;
 extern backPack* pack1;
 std::vector<Animal*> animalGrid;
+
+// A simple description of where and which animal should spawn.
+struct AnimalSpawnSpec {
+    AnimalType type;
+    cocos2d::Vec2 position;
+};
+
+static AnimalType animalTypeFromString(const std::string& typeString, bool& ok) {
+    ok = true;
+    if (typeString == "cow") {
+        return AnimalType::Cow;
+    }
+    if (typeString == "pig") {
+        return AnimalType::Pig;
+    }
+    if (typeString == "sheep") {
+        return AnimalType::Sheep;
+    }
+    if (typeString == "rabbit") {
+        return AnimalType::Rabbit;
+    }
+    if (typeString == "chicken") {
+        return AnimalType::Chicken;
+    }
+    if (typeString == "dog") {
+        return AnimalType::Dog;
+    }
+    ok = false;
+    return AnimalType::Cow;
+}
+
+static std::vector<AnimalSpawnSpec> loadSpawnSpecsFromConfig(const cocos2d::Size& visibleSize, const cocos2d::Vec2& origin) {
+    std::vector<AnimalSpawnSpec> specs;
+    auto fileUtils = FileUtils::getInstance();
+    const std::string path = "config/animal_spawn_config.json";
+    if (!fileUtils->isFileExist(path)) {
+        return specs;
+    }
+    const auto jsonContent = fileUtils->getStringFromFile(path);
+    rapidjson::Document doc;
+    doc.Parse(jsonContent.c_str());
+    if (doc.HasParseError() || !doc.IsArray()) {
+        CCLOG("Failed to parse animal spawn config: %s", rapidjson::GetParseError_En(doc.GetParseError()));
+        return specs;
+    }
+    for (const auto& entry : doc.GetArray()) {
+        if (!entry.IsObject()) {
+            continue;
+        }
+        if (!entry.HasMember("type") || !entry.HasMember("x") || !entry.HasMember("y")) {
+            continue;
+        }
+        if (!entry["type"].IsString() || !entry["x"].IsNumber() || !entry["y"].IsNumber()) {
+            continue;
+        }
+        bool ok = false;
+        AnimalType type = animalTypeFromString(entry["type"].GetString(), ok);
+        if (!ok) {
+            continue;
+        }
+        float rx = entry["x"].GetFloat();
+        float ry = entry["y"].GetFloat();
+        rx = std::clamp(rx, 0.0f, 1.0f);
+        ry = std::clamp(ry, 0.0f, 1.0f);
+        const cocos2d::Vec2 position(origin.x + visibleSize.width * rx, origin.y + visibleSize.height * ry);
+        specs.push_back({ type, position });
+    }
+    return specs;
+}
+
+static std::vector<AnimalSpawnSpec> makeDefaultSpawnSpecs(const cocos2d::Size& visibleSize, const cocos2d::Vec2& origin) {
+    std::vector<AnimalSpawnSpec> specs;
+    const std::vector<std::pair<AnimalType, std::vector<std::pair<float, float>>>> templateRatios = {
+        { AnimalType::Cow, { {0.3f, 0.3f}, {0.5f, 0.4f}, {0.7f, 0.3f} } },
+        { AnimalType::Pig, { {0.4f, 0.6f}, {0.6f, 0.6f}, {0.5f, 0.7f} } },
+        { AnimalType::Sheep, { {0.2f, 0.5f}, {0.8f, 0.5f} } },
+        { AnimalType::Rabbit, { {0.25f, 0.2f}, {0.75f, 0.2f}, {0.35f, 0.8f}, {0.65f, 0.8f}, {0.5f, 0.9f} } },
+    };
+    for (const auto& [type, ratios] : templateRatios) {
+        for (const auto& [rx, ry] : ratios) {
+            const cocos2d::Vec2 position(origin.x + visibleSize.width * rx, origin.y + visibleSize.height * ry);
+            specs.push_back({ type, position });
+        }
+    }
+    return specs;
+}
+
+static std::vector<AnimalSpawnSpec> filterSpecs(const std::vector<AnimalSpawnSpec>& allSpecs, AnimalType type) {
+    std::vector<AnimalSpawnSpec> result;
+    for (const auto& spec : allSpecs) {
+        if (spec.type == type) {
+            result.push_back(spec);
+        }
+    }
+    return result;
+}
 
 
 void removeAnimal(Scene* scene, std::vector<Animal*>& animalGrid, Animal* animal) {
@@ -36,51 +137,30 @@ void removeAnimal(Scene* scene, std::vector<Animal*>& animalGrid, Animal* animal
 }
 
 void setupAnimal(Scene* scene) {
-    // 定义每种动物的数量
-    const int NUM_COWS = 3;
-    const int NUM_PIGS = 3;
-    const int NUM_SHEEPS = 2;
-    const int NUM_RABBITS = 5;
-
     // 获取可见区域大小和原点
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
 
-    // 定义每种动物的初始位置（确保每只动物的位置不同）
-    std::vector<Vec2> cowPositions = {
-        Vec2(origin.x + visibleSize.width * 0.3f, origin.y + visibleSize.height * 0.3f),
-        Vec2(origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.4f),
-        Vec2(origin.x + visibleSize.width * 0.7f, origin.y + visibleSize.height * 0.3f)
-    };
+    // Try loading spawn specs from configuration, fallback to built-in defaults.
+    auto spawnSpecs = loadSpawnSpecsFromConfig(visibleSize, origin);
+    if (spawnSpecs.empty()) {
+        spawnSpecs = makeDefaultSpawnSpecs(visibleSize, origin);
+    }
 
-    std::vector<Vec2> pigPositions = {
-        Vec2(origin.x + visibleSize.width * 0.4f, origin.y + visibleSize.height * 0.6f),
-        Vec2(origin.x + visibleSize.width * 0.6f, origin.y + visibleSize.height * 0.6f),
-        Vec2(origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.7f)
-    };
-
-    std::vector<Vec2> sheepPositions = {
-        Vec2(origin.x + visibleSize.width * 0.2f, origin.y + visibleSize.height * 0.5f),
-        Vec2(origin.x + visibleSize.width * 0.8f, origin.y + visibleSize.height * 0.5f)
-    };
-
-    std::vector<Vec2> rabbitPositions = {
-        Vec2(origin.x + visibleSize.width * 0.25f, origin.y + visibleSize.height * 0.2f),
-        Vec2(origin.x + visibleSize.width * 0.75f, origin.y + visibleSize.height * 0.2f),
-        Vec2(origin.x + visibleSize.width * 0.35f, origin.y + visibleSize.height * 0.8f),
-        Vec2(origin.x + visibleSize.width * 0.65f, origin.y + visibleSize.height * 0.8f),
-        Vec2(origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.9f)
-    };
+    auto cowSpecs = filterSpecs(spawnSpecs, AnimalType::Cow);
+    auto pigSpecs = filterSpecs(spawnSpecs, AnimalType::Pig);
+    auto sheepSpecs = filterSpecs(spawnSpecs, AnimalType::Sheep);
+    auto rabbitSpecs = filterSpecs(spawnSpecs, AnimalType::Rabbit);
 
     // 初始化牛（Cows）
-    for (int i = 0; i < NUM_COWS && i < cowPositions.size(); ++i) {
-        auto cow = Cow::create();
+    for (size_t i = 0; i < cowSpecs.size(); ++i) {
+        auto cow = static_cast<Cow*>(AnimalFactory::create(cowSpecs[i].type));
         if (!cow) {
             CCLOG("Failed to create cow %d", i + 1);
             continue;
         }
 
-        cow->setPosition(cowPositions[i]);
+        cow->setPosition(cowSpecs[i].position);
         scene->addChild(cow, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE + 1);
         animalGrid.push_back(cow);
 
@@ -121,14 +201,14 @@ void setupAnimal(Scene* scene) {
     }
 
     // 初始化猪（Pigs）
-    for (int i = 0; i < NUM_PIGS && i < pigPositions.size(); ++i) {
-        auto pig = Pig::create();
+    for (size_t i = 0; i < pigSpecs.size(); ++i) {
+        auto pig = static_cast<Pig*>(AnimalFactory::create(pigSpecs[i].type));
         if (!pig) {
             CCLOG("Failed to create pig %d", i + 1);
             continue;
         }
 
-        pig->setPosition(pigPositions[i]);
+        pig->setPosition(pigSpecs[i].position);
         scene->addChild(pig, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE + 1);
         animalGrid.push_back(pig);
 
@@ -165,14 +245,14 @@ void setupAnimal(Scene* scene) {
     }
 
     // 初始化羊（Sheeps）
-    for (int i = 0; i < NUM_SHEEPS && i < sheepPositions.size(); ++i) {
-        auto sheep = Sheep::create();
+    for (size_t i = 0; i < sheepSpecs.size(); ++i) {
+        auto sheep = static_cast<Sheep*>(AnimalFactory::create(sheepSpecs[i].type));
         if (!sheep) {
             CCLOG("Failed to create sheep %d", i + 1);
             continue;
         }
 
-        sheep->setPosition(sheepPositions[i]);
+        sheep->setPosition(sheepSpecs[i].position);
         scene->addChild(sheep, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE + 1);
         animalGrid.push_back(sheep);
 
@@ -213,14 +293,14 @@ void setupAnimal(Scene* scene) {
     }
 
     // 初始化兔子（Rabbits）
-    for (int i = 0; i < NUM_RABBITS && i < rabbitPositions.size(); ++i) {
-        auto rabbit = Rabbit::create();
+    for (size_t i = 0; i < rabbitSpecs.size(); ++i) {
+        auto rabbit = static_cast<Rabbit*>(AnimalFactory::create(rabbitSpecs[i].type));
         if (!rabbit) {
             CCLOG("Failed to create rabbit %d", i + 1);
             continue;
         }
 
-        rabbit->setPosition(rabbitPositions[i]);
+        rabbit->setPosition(rabbitSpecs[i].position);
         scene->addChild(rabbit, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE + 1);
         animalGrid.push_back(rabbit);
 
@@ -308,3 +388,4 @@ void cleanupAnimals(Scene* scene, std::vector<Animal*>& animalGrid) {
 
     CCLOG("All animals have been cleaned up.");
 }
+
