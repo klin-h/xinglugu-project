@@ -5,6 +5,12 @@
 #include "cocos2d.h"
 
 using namespace cocos2d;
+
+Timer1& Timer1::getInstance() {
+    static Timer1 instance;
+    return instance;
+}
+
 Timer1::Timer1() : days_elapsed(0), season("Spring") {
     // 初始化开始时间为当前时间
     start_time = std::chrono::steady_clock::now();
