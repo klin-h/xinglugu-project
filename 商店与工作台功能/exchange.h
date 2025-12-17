@@ -1,10 +1,25 @@
 /****************************************************************
  * Project Name: xinglugu-project
  * File exchange.h
- * File Function:
- * Author:Li Siyuan
- * Update Date:2024.12.4
+ * File Function: Shop subsystem classes (craftTable, Pierre, BlackSmith)
+ * Author: Li Siyuan
+ * Update Date: 2024.12.4
  * License:
+ * 
+ * ============================================================
+ * Note: This file contains subsystem classes that are encapsulated
+ * by the Facade Pattern implementation in ShopFacade.h/cpp
+ * 
+ * Refactored with Facade Pattern (外观模式重构)
+ * ============================================================
+ * 
+ * These classes (craftTable, Pierre, BlackSmith) form the subsystem
+ * that is wrapped by ShopFacade class. While these classes remain
+ * functional for backward compatibility, new code should preferably
+ * use ShopFacade for a simpler and more unified interface.
+ * 
+ * See ShopFacade.h for the facade implementation.
+ * 
  ****************************************************************/
 #ifndef __EXCHANGE_H_
 #define __EXCHANGE_H_
@@ -15,7 +30,21 @@
 USING_NS_CC;
 using namespace Constants;
 
-//合成台的实现类
+// ============================================================
+// Subsystem Class: craftTable (合成台)
+// Part of Facade Pattern - encapsulated by ShopFacade
+// ============================================================
+
+/**
+ * @class craftTable
+ * @brief Crafting workbench subsystem class
+ * 
+ * This class handles item crafting functionality.
+ * It is encapsulated by ShopFacade as part of the Facade Pattern.
+ * 
+ * @note For new code, consider using ShopFacade::craftItem() instead
+ *       of directly calling craftTable methods.
+ */
 class craftTable {
 public:
 	int grade;
@@ -31,7 +60,21 @@ public:
 	std::string factorBack(int itemToMake);
 };
 
-//Pierre商店的实现类
+// ============================================================
+// Subsystem Class: Pierre (皮埃尔商店)
+// Part of Facade Pattern - encapsulated by ShopFacade
+// ============================================================
+
+/**
+ * @class Pierre
+ * @brief Pierre's seed and supplies shop subsystem class
+ * 
+ * This class handles purchasing seeds and farming supplies.
+ * It is encapsulated by ShopFacade as part of the Facade Pattern.
+ * 
+ * @note For new code, consider using ShopFacade::purchaseItem(ShopType::PIERRE, itemId)
+ *       instead of directly calling Pierre methods.
+ */
 class Pierre {
 private:
 	std::string season;
@@ -53,7 +96,21 @@ public:
 
 	std::string seasonOut();
 };
-//铁匠铺的实现类
+// ============================================================
+// Subsystem Class: BlackSmith (铁匠铺)
+// Part of Facade Pattern - encapsulated by ShopFacade
+// ============================================================
+
+/**
+ * @class BlackSmith
+ * @brief Blacksmith shop subsystem class for tools and ores
+ * 
+ * This class handles purchasing ores and upgrading tools.
+ * It is encapsulated by ShopFacade as part of the Facade Pattern.
+ * 
+ * @note For new code, consider using ShopFacade::purchaseItem(ShopType::BLACKSMITH, itemId)
+ *       instead of directly calling BlackSmith methods.
+ */
 class BlackSmith {
 public:
 	BlackSmith() {
