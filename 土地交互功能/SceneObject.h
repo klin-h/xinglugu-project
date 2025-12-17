@@ -2,6 +2,9 @@
 #define SCENEOBJECT_H
 
 #include "cocos2d.h"
+#include "SceneObjectFlyweight.h"
+#include <memory>
+#include <map>
 
 class Tree;
 
@@ -41,14 +44,18 @@ public:
 
     virtual InteractResult interact() = 0;
 
+protected:
+    // 外部状态：由每个实例独立保存
+    ObjectType objectType_;
+    bool isInteracted_;
+    const SceneObjectFlyweight* flyweight_;
+
+    // 构造函数
+    SceneObject(ObjectType type);
+
 private:
     // 存储不同类型物体的坐标
-    static std::vector<Point> treePositions;
-    static std::vector<Point> rockPositions;
-    static std::vector<Point> grassPositions;
-    static std::vector<Point> ironOrePositions;  // 新增：铁矿石坐标
-    static std::vector<Point> silverOrePositions; // 新增：银矿石坐标
-    static std::vector<Point> goldOrePositions;  // 新增：金矿石坐标
+    static std::map<ObjectType, std::vector<Point>> objectPositions_;
 
     // 创建具体物体
     static SceneObject* createObject(ObjectType type, float tileWidth, float tileHeight, const Point& position);

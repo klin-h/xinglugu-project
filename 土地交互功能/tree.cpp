@@ -13,10 +13,10 @@ Tree* Tree::create(const std::string& filename) {
 
 
 SceneObject::InteractResult Tree::interact() {
-    CCLOG("Tree was interacted with!"); 
-    this->setTexture("tree_chopped.png"); // 改变树的纹理
-    //this->setTexture("land_empty.png");
-    return InteractResult(ObjectType::Tree, 5, true); // 玩家获得 5 单位木材
+    CCLOG("%s was interacted with!", flyweight_->objectName.c_str());
+    // 使用 Flyweight 中的共享数据，而不是硬编码
+    this->setTexture(flyweight_->interactedTexture);
+    return InteractResult(objectType_, flyweight_->dropQuantity, true);
 }
 
 Rock* Rock::create(const std::string& filename) {
@@ -30,9 +30,10 @@ Rock* Rock::create(const std::string& filename) {
 }
 
 SceneObject::InteractResult Rock::interact() {
-    CCLOG("Rock was interacted with!");
-    this->setTexture("rock_broken.png"); // 改变岩石的纹理
-    return InteractResult(ObjectType::Rock, 10, true); // 玩家获得 10 单位岩石
+    CCLOG("%s was interacted with!", flyweight_->objectName.c_str());
+    // 使用 Flyweight 中的共享数据
+    this->setTexture(flyweight_->interactedTexture);
+    return InteractResult(objectType_, flyweight_->dropQuantity, true);
 }
 
 // Grass 类实现
@@ -47,9 +48,10 @@ Grass* Grass::create(const std::string& filename) {
 }
 
 SceneObject::InteractResult Grass::interact() {
-    CCLOG("Grass was interacted with!");
-    this->setTexture("grass_harvested.png"); // 改变草的纹理
-    return InteractResult(ObjectType::Grass, 2, true); // 玩家获得 2 单位草
+    CCLOG("%s was interacted with!", flyweight_->objectName.c_str());
+    // 使用 Flyweight 中的共享数据
+    this->setTexture(flyweight_->interactedTexture);
+    return InteractResult(objectType_, flyweight_->dropQuantity, true);
 }
 
 // IronOre 类实现
@@ -64,9 +66,10 @@ IronOre* IronOre::create(const std::string& filename) {
 }
 
 SceneObject::InteractResult IronOre::interact() {
-    CCLOG("IronOre was interacted with!");
-    this->setTexture("iron_ore_mined.png"); // 改变铁矿石的纹理
-    return InteractResult(ObjectType::IronOre, 15, true); // 玩家获得 15 单位铁矿石
+    CCLOG("%s was interacted with!", flyweight_->objectName.c_str());
+    // 使用 Flyweight 中的共享数据
+    this->setTexture(flyweight_->interactedTexture);
+    return InteractResult(objectType_, flyweight_->dropQuantity, true);
 }
 
 // SilverOre 类实现
@@ -81,9 +84,10 @@ SilverOre* SilverOre::create(const std::string& filename) {
 }
 
 SceneObject::InteractResult SilverOre::interact() {
-    CCLOG("SilverOre was interacted with!");
-    this->setTexture("silver_ore_mined.png"); // 改变银矿石的纹理
-    return InteractResult(ObjectType::SilverOre, 20, true); // 玩家获得 20 单位银矿石
+    CCLOG("%s was interacted with!", flyweight_->objectName.c_str());
+    // 使用 Flyweight 中的共享数据
+    this->setTexture(flyweight_->interactedTexture);
+    return InteractResult(objectType_, flyweight_->dropQuantity, true);
 }
 
 // GoldOre 类实现
@@ -98,7 +102,8 @@ GoldOre* GoldOre::create(const std::string& filename) {
 }
 
 SceneObject::InteractResult GoldOre::interact() {
-    CCLOG("GoldOre was interacted with!");
-    this->setTexture("gold_ore_mined.png"); // 改变金矿石的纹理
-    return InteractResult(ObjectType::GoldOre, 25, true); // 玩家获得 25 单位金矿石
+    CCLOG("%s was interacted with!", flyweight_->objectName.c_str());
+    // 使用 Flyweight 中的共享数据
+    this->setTexture(flyweight_->interactedTexture);
+    return InteractResult(objectType_, flyweight_->dropQuantity, true);
 }

@@ -4,35 +4,20 @@
 
 USING_NS_CC;
 
-std::vector<SceneObject::Point> SceneObject::treePositions;
-std::vector<SceneObject::Point> SceneObject::rockPositions;
-std::vector<SceneObject::Point> SceneObject::grassPositions;
-std::vector<SceneObject::Point> SceneObject::ironOrePositions;  // 新增：铁矿石坐标
-std::vector<SceneObject::Point> SceneObject::silverOrePositions; // 新增：银矿石坐标
-std::vector<SceneObject::Point> SceneObject::goldOrePositions;  // 新增：金矿石坐标
+// 使用 std::map 代替多个独立的 vector，更易于维护
+std::map<SceneObject::ObjectType, std::vector<SceneObject::Point>> SceneObject::objectPositions_;
 
-// 添加坐标到对应的 vector
+SceneObject::SceneObject(ObjectType type)
+    : objectType_(type),
+      isInteracted_(false),
+      flyweight_(nullptr) {
+    // 从工厂获取对应的Flyweight对象
+    flyweight_ = &SceneObjectFlyweightFactory::instance().getFlyweight(static_cast<SceneObjectType>(type));
+}
+
+// 添加坐标到对应的 map
 void SceneObject::addObjectPosition(ObjectType type, const SceneObject::Point& position) {
-    switch (type) {
-        case ObjectType::Tree:
-            treePositions.push_back(position);
-            break;
-        case ObjectType::Rock:
-            rockPositions.push_back(position);
-            break;
-        case ObjectType::Grass:
-            grassPositions.push_back(position);
-            break;
-        case ObjectType::IronOre:
-            ironOrePositions.push_back(position);
-            break;
-        case ObjectType::SilverOre:
-            silverOrePositions.push_back(position);
-            break;
-        case ObjectType::GoldOre:
-            goldOrePositions.push_back(position);
-            break;
-    }
+    objectPositions_[type].push_back(position);
 }
 
 void SceneObject::setpoint() {
@@ -55,52 +40,15 @@ void SceneObject::setpoint() {
 // 初始化所有场景物体
 void SceneObject::initSceneObject(cocos2d::Node* parentNode, float tileWidth, float tileHeight, std::vector<SceneObject*>& objectGrid) {
     SceneObject::setpoint();
-    for (const auto& position : treePositions) {
-        auto tree = createObject(ObjectType::Tree, tileWidth, tileHeight, position);
-        if (tree) {
-            parentNode->addChild(tree);
-            objectGrid.push_back(tree);
-        }
-    }
-
-    for (const auto& position : rockPositions) {
-        auto rock = createObject(ObjectType::Rock, tileWidth, tileHeight, position);
-        if (rock) {
-            parentNode->addChild(rock);
-            objectGrid.push_back(rock);
-        }
-    }
-
-    for (const auto& position : grassPositions) {
-        auto grass = createObject(ObjectType::Grass, tileWidth, tileHeight, position);
-        if (grass) {
-            parentNode->addChild(grass);
-            objectGrid.push_back(grass);
-        }
-    }
-
-    // 为矿石物体创建实例
-    for (const auto& position : ironOrePositions) {
-        auto ironOre = createObject(ObjectType::IronOre, tileWidth, tileHeight, position);
-        if (ironOre) {
-            parentNode->addChild(ironOre);
-            objectGrid.push_back(ironOre);
-        }
-    }
-
-    for (const auto& position : silverOrePositions) {
-        auto silverOre = createObject(ObjectType::SilverOre, tileWidth, tileHeight, position);
-        if (silverOre) {
-            parentNode->addChild(silverOre);
-            objectGrid.push_back(silverOre);
-        }
-    }
-
-    for (const auto& position : goldOrePositions) {
-        auto goldOre = createObject(ObjectType::GoldOre, tileWidth, tileHeight, position);
-        if (goldOre) {
-            parentNode->addChild(goldOre);
-            objectGrid.push_back(goldOre);
+    
+    // 遍历所有对象类型和它们的位置
+    for (auto& [objectType, positions] : objectPositions_) {
+        for (const auto& position : positions) {
+            auto obj = createObject(objectType, tileWidth, tileHeight, position);
+            if (obj) {
+                parentNode->addChild(obj);
+                objectGrid.push_back(obj);
+            }
         }
     }
 }
