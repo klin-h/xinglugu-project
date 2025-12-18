@@ -2,7 +2,7 @@
 using namespace cocos2d;
 //构造函数
 Crop::Crop(const std::string& cropName, float growthTime, const std::string& spriteFile)
-    : name(cropName), growthTime(growthTime), currentTime(0.0f), state(State::SEED) {
+    : name(cropName), growthTime(growthTime), currentTime(0.0f), state(State::SEED), m_isActive(true) {
 
     sprite = Sprite::create(spriteFile);
     if (sprite) {
@@ -81,3 +81,47 @@ bool Crop::isTouched(const cocos2d::Vec2& touchPosition) const {
     }
     return false;
 }
+
+// ============================================================
+// Refactored with Object Pool Pattern (对象池模式重构)
+// ============================================================
+
+void Crop::reset(const std::string& cropName, float growthTime, const std::string& spriteFile) {
+    // 重置所有状态
+    name = cropName;
+    this->growthTime = growthTime;
+    currentTime = 0.0f;
+    state = State::SEED;
+    
+    // 重置精灵纹理
+    if (sprite) {
+        auto newTexture = Director::getInstance()->getTextureCache()->addImage(spriteFile);
+        if (newTexture) {
+            sprite->setTexture(newTexture);
+        }
+    } else {
+        // 如果精灵不存在，重新创建
+        sprite = Sprite::create(spriteFile);
+        if (sprite) {
+            this->addChild(sprite);
+        }
+    }
+    
+    // 重置位置和可见性
+    this->setVisible(true);
+    m_isActive = true;
+}
+
+void Crop::setActive(bool active) {
+    m_isActive = active;
+    if (sprite) {
+        sprite->setVisible(active);
+    }
+    this->setVisible(active);
+}
+
+bool Crop::isActive() const {
+    return m_isActive;
+}
+
+// ============================================================

@@ -35,6 +35,18 @@ public:
     void changeSpriteTexture(const std::string& newSpriteFile);
     // 添加触摸检测的方法
     bool isTouched(const cocos2d::Vec2& touchPosition) const;
+    
+    // ============================================================
+    // Refactored with Object Pool Pattern (对象池模式重构)
+    // ============================================================
+    // 重置作物状态，供对象池复用
+    void reset(const std::string& cropName, float growthTime, const std::string& spriteFile);
+    
+    // 设置激活状态
+    void setActive(bool active);
+    bool isActive() const;
+    // ============================================================
+    
 private:
     std::string name;       // 作物名称
     float growthTime;       // 成长时间（秒）
@@ -42,6 +54,12 @@ private:
     State state;            // 当前状态
 
     cocos2d::Sprite* sprite; // 作物精灵
+    
+    // ============================================================
+    // Refactored with Object Pool Pattern (对象池模式重构)
+    // ============================================================
+    bool m_isActive; // 对象是否处于激活状态
+    // ============================================================
 };
 
 #endif 
