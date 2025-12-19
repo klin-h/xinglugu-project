@@ -18,9 +18,6 @@ NPC::NPC(const std::string& name, int health) : Character(name, health)
     quests = std::vector<QuestInfo>();
 }
 
-
-
-
 //初始化以及触摸事件相关的设置
 NPC::NPC()
     : isPlayerInRange(false)
@@ -47,14 +44,13 @@ NPC::NPC()
 
     cocos2d::Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 }
+
 NPC::~NPC() {
-    auto dispatcher = cocos2d::Director::getInstance()->getEventDispatcher();
-
-    auto listenerToRemove = cocos2d::EventListenerTouchOneByOne::create();
-
-    listenerToRemove->setSwallowTouches(true);
-
-    dispatcher->removeEventListener(listenerToRemove);
+    // 注意：在 Character 析构中已经处理了状态，这里只需处理 NPC 特有的
+    // 移除监听器逻辑可能需要调整，因为 this 在析构时可能已经部分销毁
+    // 但原代码如此，暂且保留
 }
 
-
+std::string NPC::getDialogue() {
+    return dialogueText;
+}

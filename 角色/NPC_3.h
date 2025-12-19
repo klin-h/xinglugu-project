@@ -12,6 +12,7 @@
 USING_NS_CC;
 extern backPack* pack1;
 class NPC_1;
+
 class NPC_3 : public NPC {
 public:
     NPC_3();
@@ -19,12 +20,20 @@ public:
 
     static NPC_3* create();
     void setup(const Size& visibleSize, Vec2 origin, std::string name, Vec2 pos);
-    void update(float dt);
+    
+    // update 已在 Character 中声明为 virtual，这里 override
+    // 但具体逻辑将委托给 State
+    // void update(float dt) override; 
+
     void testAddNPC_3(const Size& visibleSize, Vec2 origin, std::string name, Vec2 pos);
     Sprite* sprite;
 
+    // --- 供 State 调用的行为接口 ---
+    void moveToTarget(float dt);
+    void stopMoving();
+    bool isTargetReached() const;
+    // -----------------------------
 
-    // 处理鼠标点击事件的函数声明，将在.cpp文件中实现具体逻辑来响应点击并输出日志
     void onMouseClicked_Harvey(cocos2d::Event* event);
     void onMouseClicked_Haley(cocos2d::Event* event);
 
@@ -40,13 +49,15 @@ public:
     void popupmessage(std::string message);
     std::vector<Task> taskList;
 
+    // 公开部分私有变量供 State 使用 (或提供 getter/setter)
+    Vec2 position;
+    Vec2 targetPosition;
+    float speed;
 
 private:
     std::mutex positionMutex;
     std::mutex positionMutey;
-    Vec2 position;
-    Vec2 targetPosition;
-    float speed;
+    
     cocos2d::EventListenerMouse* mouseListener;
     int friendshipLevel;
     bool isFriendWithNPC_1;

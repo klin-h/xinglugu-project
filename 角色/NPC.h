@@ -9,15 +9,10 @@
 #ifndef NPC_H
 #define NPC_H
 
-
 #include "Character.h"
-
-#include "GameScenePlayer.h"
 #include "ui/CocosGUI.h"
 #include <vector>
 #include "GlobalVariables.h"
-
-
 
 // NPC类，继承自角色类
 class NPC : public Character {
@@ -31,10 +26,7 @@ public:
     std::string getDialogue();
 
 private:
-   
     bool isPlayerInRange;
-   
-    
     std::string dialogueText;  // 记录对话内容的字符串变量
 
     // 使用结构体来表示一个任务的各项属性
@@ -45,9 +37,6 @@ private:
         bool completed;  // 任务是否已完成，可用于记录任务状态
     };
     std::vector<QuestInfo> quests;
-
 };
 
 #endif
-
-
