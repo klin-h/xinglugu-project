@@ -2,6 +2,7 @@
 #include "ui/CocosGUI.h"
 #include "WheelGame.h"
 #include "GlobalVariables.h"
+#include "ServiceLocator.h"
 #include "Animal.h"
 #include"initAnimalScene.h"
 
@@ -215,21 +216,29 @@ void update(float dt) {
 
     static int time = 0;
     static int time2 = 0;
-    //CCLOG("This function is called every second.");
-    g_time++;
-    //CCLOG("game time", g_time++);
+    
+    // 使用 ServiceLocator 获取游戏时间并递增
+    int currentTime = ServiceLocator::getInstance().getGameTime();
+    ServiceLocator::getInstance().setGameTime(currentTime + 1);
+    
     const std::string OVERLAY_NAME = "brightnessOverlay";
     const float MAX_OPACITY = 128.0f; // 最大透明度（0-255）
 
-   
-    auto overlay = dynamic_cast<LayerColor*>(g_sharedScene->getChildByName(OVERLAY_NAME));
+    // 使用 ServiceLocator 获取当前场景
+    auto scene = ServiceLocator::getInstance().getScene();
+    if (!scene) {
+        CCLOG("Error: Scene not registered in ServiceLocator");
+        return;
+    }
+
+    auto overlay = dynamic_cast<LayerColor*>(scene->getChildByName(OVERLAY_NAME));
     if (!overlay) {
         // 如果覆盖层不存在，尝试初始化
-        if (!initBrightnessOverlay(g_sharedScene)) {
+        if (!initBrightnessOverlay(scene)) {
             CCLOG("Failed to initialize brightnessOverlay");
             return;
         }
-        overlay = dynamic_cast<LayerColor*>(g_sharedScene->getChildByName(OVERLAY_NAME));
+        overlay = dynamic_cast<LayerColor*>(scene->getChildByName(OVERLAY_NAME));
         if (!overlay) {
             CCLOG("Brightness overlay could not be created.");
             return;
@@ -237,7 +246,7 @@ void update(float dt) {
     }
 
     // 计算当前一天的进度（0.0 - 1.0）
-    float currentDayTime = fmod(g_time, SECONDS_PER_DAY);
+    float currentDayTime = fmod(ServiceLocator::getInstance().getGameTime(), SECONDS_PER_DAY);
     float dayProgress = currentDayTime / SECONDS_PER_DAY;
 
     // 计算覆盖层的透明度
@@ -247,22 +256,27 @@ void update(float dt) {
     overlay->setOpacity(static_cast<GLubyte>(opacity));
 
 
-    if (g_time> Constants::kCelebrationTime &&time==0) {
+    if (ServiceLocator::getInstance().getGameTime() > Constants::kCelebrationTime && time == 0) {
         time++;
-        if (g_sharedTMXcurrent== g_sharedTMXthree) {
-            cleanupAnimals(g_sharedScene, animalGrid);
+        auto currentMap = ServiceLocator::getInstance().getCurrentTMXMap();
+        auto map3 = ServiceLocator::getInstance().getTMXMap("map3");
+        
+        if (currentMap == map3) {
+            auto animalGrid = ServiceLocator::getInstance().getAnimalGrid();
+            if (animalGrid) {
+                cleanupAnimals(scene, *animalGrid);
+            }
         }
+        
         auto button = ui::Button::create("button_normal.png", "button_pressed.png");
         button->setTitleText("The celebration begins,go to  celebration?");
         button->setTitleFontSize(14);
         button->setPosition(Vec2(600, 400));
         button->retain();
-        //this->addChild(button,2);
-        //this->addChild(button, 2);
-        g_sharedScene->addChild(button, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE + 1);
+        scene->addChild(button, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE + 1);
 
         // 定时器移除按钮
-        g_sharedScene->scheduleOnce([button](float) {
+        scene->scheduleOnce([button](float) {
             if (button && button->getParent()) {
                 CCLOG("Button removed after 3 seconds");
                 button->removeFromParent();
@@ -274,37 +288,38 @@ void update(float dt) {
         button->addClickEventListener([=](Ref* sender) {
             CCLOG("Press");
 
+            auto currentMap = ServiceLocator::getInstance().getCurrentTMXMap();
+            auto aimmap = ServiceLocator::getInstance().getTMXMap("map4");
             
-            TMXTiledMap* aimmap = g_sharedTMXfour;
-          
-            /*g_sharedTMXcurrent = g_sharedTMXtwo;*/
-            // 添加到父节点中
-            g_sharedTMXcurrent->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_BASIC);
-            aimmap->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_SURFACE);
-            g_sharedTMXcurrent = aimmap;
+            if (aimmap && currentMap) {
+                currentMap->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_BASIC);
+                aimmap->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_SURFACE);
+                ServiceLocator::getInstance().setCurrentTMXMap("map4");
+            }
 
             auto wheelGame = WheelGame::create();
-            g_sharedScene->addChild(wheelGame, 3);
+            auto scene = ServiceLocator::getInstance().getScene();
+            if (scene) {
+                scene->addChild(wheelGame, 3);
+            }
 
             button->removeFromParent();
             button->release(); // 减少引用计数
-            g_sharedScene->unschedule("removeButtonKey"); // 取消定时器
+            scene->unschedule("removeButtonKey"); // 取消定时器
             });
     }
 
-    if (g_time >2*( Constants::kCelebrationTime) && time2==0) {
+    if (ServiceLocator::getInstance().getGameTime() > 2 * (Constants::kCelebrationTime) && time2 == 0) {
         time2++;
         auto button = ui::Button::create("button_normal.png", "button_pressed.png");
         button->setTitleText("The celebration ends,go to  celebration?");
         button->setTitleFontSize(14);
         button->setPosition(Vec2(600, 400));
         button->retain();
-        //this->addChild(button,2);
-        //this->addChild(button, 2);
-        g_sharedScene->addChild(button, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE + 1);
+        scene->addChild(button, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE + 1);
 
         // 定时器移除按钮
-        g_sharedScene->scheduleOnce([button](float) {
+        scene->scheduleOnce([button](float) {
             if (button && button->getParent()) {
                 CCLOG("Button removed after 3 seconds");
                 button->removeFromParent();
@@ -316,18 +331,18 @@ void update(float dt) {
         button->addClickEventListener([=](Ref* sender) {
             CCLOG("Press");
 
-
-            TMXTiledMap* aimmap = g_sharedTMXone;
-
-            /*g_sharedTMXcurrent = g_sharedTMXtwo;*/
-            // 添加到父节点中
-            g_sharedTMXcurrent->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_BASIC);
-            aimmap->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_SURFACE);
-            g_sharedTMXcurrent = aimmap;
+            auto currentMap = ServiceLocator::getInstance().getCurrentTMXMap();
+            auto aimmap = ServiceLocator::getInstance().getTMXMap("map1");
+            
+            if (aimmap && currentMap) {
+                currentMap->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_BASIC);
+                aimmap->setLocalZOrder(Constants::MAP_BACKGROUND_LAYER_Z_SURFACE);
+                ServiceLocator::getInstance().setCurrentTMXMap("map1");
+            }
 
             button->removeFromParent();
             button->release(); // 减少引用计数
-            g_sharedScene->unschedule("removeButtonKey"); // 取消定时器
+            scene->unschedule("removeButtonKey"); // 取消定时器
             });
     }
    

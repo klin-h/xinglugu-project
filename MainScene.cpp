@@ -19,15 +19,18 @@
 #include "Constants.h"
 #include"Fishing.h"
 #include "GlobalVariables.h"
+#include "ServiceLocator.h"
 
 
 USING_NS_CC;
 USING_NS_CC::ui;
 using namespace CocosDenshion;
 
+// 注意: 这些全局变量现在已被ServiceLocator管理
+// 保留这些以支持向后兼容
 cocos2d::Scene* g_sharedScene = nullptr;
 cocos2d::TMXTiledMap* g_sharedTMXone = nullptr;
-extern backPack* pack1 = backPack::create();
+backPack* pack1 = nullptr;  // 全局背包指针
 
 Scene* MainScene::createScene() {
     return MainScene::create();
@@ -52,30 +55,62 @@ bool MainScene::init() {
     // 确保内容缩放因子为 1.0
     Director::getInstance()->setContentScaleFactor(1.0f);
 
-    auto map = g_sharedTMXone;
-    CCLOG("g_sharedTMXone Anchor Point: %f, %f", map->getAnchorPoint().x, map->getAnchorPoint().y);
-    CCLOG("g_sharedTMXone Position: %f, %f", map->getPosition().x, map->getPosition().y);
-    CCLOG("g_sharedTMXone Scale: %f", map->getScale());
-    CCLOG("g_sharedTMXone Content Size: %f x %f", map->getContentSize().width, map->getContentSize().height);
+    // =============== 使用ServiceLocator管理服务 ===============
+    // 注册场景服务
+    ServiceLocator::getInstance().registerScene(this);
+    
+    // 为向后兼容性维护全局变量
+    g_sharedScene = this;
+
+    // 创建地图
+    auto map = TMXTiledMap::create("farm.tmx");  // 假设主地图文件名
+    if (!map) {
+        CCLOG("Failed to load TMX map.tmx");
+        return false;
+    }
+    
+    // 注册所有地图
+    ServiceLocator::getInstance().registerTMXMap("map1", map);
+    ServiceLocator::getInstance().setCurrentTMXMap("map1");
+    g_sharedTMXone = map;  // 向后兼容
+    
+    // 创建和注册其他地图
+    auto map2 = TMXTiledMap::create("forest.tmx");
+    if (map2) {
+        ServiceLocator::getInstance().registerTMXMap("map2", map2);
+    }
+    
+    auto map3 = TMXTiledMap::create("mine.tmx");
+    if (map3) {
+        ServiceLocator::getInstance().registerTMXMap("map3", map3);
+    }
+    
+    auto map4 = TMXTiledMap::create("festival.tmx");
+    if (map4) {
+        ServiceLocator::getInstance().registerTMXMap("map4", map4);
+    }
+    
+    CCLOG("Map Anchor Point: %f, %f", map->getAnchorPoint().x, map->getAnchorPoint().y);
+    CCLOG("Map Position: %f, %f", map->getPosition().x, map->getPosition().y);
+    CCLOG("Map Scale: %f", map->getScale());
+    CCLOG("Map Content Size: %f x %f", map->getContentSize().width, map->getContentSize().height);
 
     map->setAnchorPoint(Vec2(0, 0)); // 左下角对齐
     map->setPosition(Vec2(0, 0));
     map->setScale(Constants::kScale); // 确保地图未被缩放
 
     this->addChild(map, Constants::MAP_BACKGROUND_LAYER_Z_SURFACE, "map01");
-    this->addChild(g_sharedTMXtwo, Constants::MAP_BACKGROUND_LAYER_Z_BASIC, "map02");
-    this->addChild(g_sharedTMXthree, Constants::MAP_BACKGROUND_LAYER_Z_MIDDLE, "map03");
-    if (g_sharedTMXfour) {
-        this->addChild(g_sharedTMXfour, Constants::MAP_BACKGROUND_LAYER_Z_MIDDLE, "map04");
-    }
+    if (map2) this->addChild(map2, Constants::MAP_BACKGROUND_LAYER_Z_BASIC, "map02");
+    if (map3) this->addChild(map3, Constants::MAP_BACKGROUND_LAYER_Z_MIDDLE, "map03");
+    if (map4) this->addChild(map4, Constants::MAP_BACKGROUND_LAYER_Z_MIDDLE, "map04");
 
-    if (g_sharedTMXone) {
-        auto mapSize = g_sharedTMXtwo->getMapSize();
-        auto tileSize = g_sharedTMXtwo->getTileSize();
+    if (map) {
+        auto mapSize = map->getMapSize();
+        auto tileSize = map->getTileSize();
 
         CCLOG("Map Size: %f x %f, Tile Size: %f x %f", mapSize.width, mapSize.height, tileSize.width, tileSize.height);
 
-        auto layer = g_sharedTMXtwo->getLayer("someLayerName");
+        auto layer = map->getLayer("someLayerName");
         if (layer) {
             CCLOG("Successfully accessed layer.");
         }
@@ -84,13 +119,13 @@ bool MainScene::init() {
         }
     }
 
-    g_sharedScene = this;
-    if (!map) {
-        CCLOG("Failed to load TMX map.tmx");
-        return false;
+
+    // =============== 初始化背包服务 ===============
+    if (pack1 == nullptr) {
+        pack1 = backPack::create();
+        ServiceLocator::getInstance().registerBackpack(pack1);
     }
-
-
+    
     inventory(this, pack1, origin);
 
     auto layerfish = Layer::create();
@@ -108,8 +143,8 @@ bool MainScene::init() {
 
     auto npc1 = NPC_1::create();
     if (npc1) {
-
-        g_sharedScene->addChild(npc1, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
+        auto scene = ServiceLocator::getInstance().getScene();
+        scene->addChild(npc1, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
         // 通过创建好的npc1Obj对象来调用testAddNPC_1函数
         npc1->testAddNPC_1(visibleSize, origin, map, this);
         CCLOG("NPC_1 position: (%f, %f)", npc1->getPosition().x, npc1->getPosition().y);
@@ -118,7 +153,8 @@ bool MainScene::init() {
 
     auto npc3 = NPC_3::create();
     if (npc3) {
-        g_sharedScene->addChild(npc3, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
+        auto scene = ServiceLocator::getInstance().getScene();
+        scene->addChild(npc3, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
         Vec2 pos;
         pos.x = visibleSize.width / 4 - 8;
         pos.y = visibleSize.height / 2 - 8;
@@ -126,7 +162,8 @@ bool MainScene::init() {
     }
     auto npc2 = NPC_3::create();
     if (npc2) {
-        g_sharedTMXone->addChild(npc2, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
+        auto map1 = ServiceLocator::getInstance().getTMXMap("map1");
+        if (map1) map1->addChild(npc2, Constants::MAP_BACKGROUND_LAYER_Z_ORDER + 10);
         Vec2 pos;
         pos.x = Constants::Haleyinmap_X;
         pos.y = Constants::Haleyinmap_Y;
@@ -145,10 +182,12 @@ bool MainScene::init() {
 
 void MainScene::onEnter() {
     Scene::onEnter();
-    backPhoto(this, pack1, _eventDispatcher);
+    auto backpack = ServiceLocator::getInstance().getBackpack();
+    backPhoto(this, backpack, _eventDispatcher);
     Item* newItem = terial::create("wood");
-    pack1->itemAdd(newItem, 1);
-
+    if (backpack) {
+        backpack->itemAdd(newItem, 1);
+    }
 }
 
 

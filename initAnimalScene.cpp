@@ -18,10 +18,15 @@
 #include "cocos2d.h"
 #include "json/document.h"
 #include "json/error/en.h"
+#include "ServiceLocator.h"
 
 USING_NS_CC;
 extern backPack* pack1;
-std::vector<Animal*> animalGrid;
+
+// ============================================================
+// 重构说明: 动物网格现在由ServiceLocator管理
+// 不再使用全局 std::vector<Animal*> animalGrid
+// ============================================================
 
 // A simple description of where and which animal should spawn.
 struct AnimalSpawnSpec {
@@ -140,6 +145,18 @@ void setupAnimal(Scene* scene) {
     // 获取可见区域大小和原点
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
+    
+    // =============== 使用ServiceLocator初始化动物网格 ===============
+    // 如果尚未注册，则创建和注册一个新的动物网格
+    auto animalGridPtr = ServiceLocator::getInstance().getAnimalGrid();
+    if (!animalGridPtr) {
+        // 创建一个新的动物网格并注册到ServiceLocator
+        static std::vector<Animal*> globalAnimalGrid;
+        ServiceLocator::getInstance().registerAnimalGrid(&globalAnimalGrid);
+        animalGridPtr = &globalAnimalGrid;
+    }
+    
+    std::vector<Animal*>& animalGrid = *animalGridPtr;
 
     // Try loading spawn specs from configuration, fallback to built-in defaults.
     auto spawnSpecs = loadSpawnSpecsFromConfig(visibleSize, origin);
@@ -187,7 +204,10 @@ void setupAnimal(Scene* scene) {
 
                 Item* newitem = AnimalProduct::create("milk");
                 if (newitem) {
-                    pack1->itemAdd(newitem, 2);
+                    auto backpack = ServiceLocator::getInstance().getBackpack();
+                    if (backpack) {
+                        backpack->itemAdd(newitem, 2);
+                    }
                 }
                 return true; // 消耗事件，停止传播
             }
@@ -277,7 +297,10 @@ void setupAnimal(Scene* scene) {
                
                 Item* newitem = AnimalProduct::create("animalfeather");
                 if (newitem) {
-                    pack1->itemAdd(newitem, 2);
+                    auto backpack = ServiceLocator::getInstance().getBackpack();
+                    if (backpack) {
+                        backpack->itemAdd(newitem, 2);
+                    }
                 }
                 sheep->stopWalkingAnimation();
                 return true; // 消耗事件，停止传播
@@ -327,33 +350,39 @@ void setupAnimal(Scene* scene) {
                 rabbit->hop(); // 调用 Rabbit 类的 hop 方法
                 rabbit->stopWalkingAnimation();
 
-                // 根据当前工具执行不同逻辑
-                std::string currentTool = pack1->handInItemOut();
-                if (currentTool == "axe") {
-                    rabbit->setHealth(50);
-                    if (rabbit->getHealth() == 0) {
-                        Item* newitem = AnimalProduct::create("rabbitleg");
-                        if (newitem) {
-                            pack1->itemAdd(newitem, 1);
+                auto backpack = ServiceLocator::getInstance().getBackpack();
+                if (backpack) {
+                    // 根据当前工具执行不同逻辑
+                    std::string currentTool = backpack->handInItemOut();
+                    if (currentTool == "axe") {
+                        rabbit->setHealth(50);
+                        if (rabbit->getHealth() == 0) {
+                            Item* newitem = AnimalProduct::create("rabbitleg");
+                            if (newitem) {
+                                backpack->itemAdd(newitem, 1);
+                            }
+                            auto animalGridPtr = ServiceLocator::getInstance().getAnimalGrid();
+                            if (animalGridPtr) {
+                                removeAnimal(scene, *animalGridPtr, rabbit);
+                            }
+                            CCLOG("Rabbit %d has been removed from the scene.", i + 1);
                         }
-                        removeAnimal(scene, animalGrid, rabbit);
-                        CCLOG("Rabbit %d has been removed from the scene.", i + 1);
                     }
-                }
-                else if (currentTool == "parsnipseed") {
-                    rabbit->feed();
-                    Item* newitem = AnimalProduct::create("parsnipseed");
-                    int posi = pack1->returnPosi(newitem);
-                    pack1->itemReduce(newitem, 1);
-                    if (pack1->returnPosi(newitem) == -1) {
-                        packPosi(posi);
+                    else if (currentTool == "parsnipseed") {
+                        rabbit->feed();
+                        Item* newitem = AnimalProduct::create("parsnipseed");
+                        int posi = backpack->returnPosi(newitem);
+                        backpack->itemReduce(newitem, 1);
+                        if (backpack->returnPosi(newitem) == -1) {
+                            packPosi(posi);
+                        }
+                        else {
+                            numlabel2(backpack->returnPosi(newitem));
+                        }
                     }
                     else {
-                        numlabel2(pack1->returnPosi(newitem));
+                        rabbit->stopWalkingAnimation();
                     }
-                }
-                else {
-                    rabbit->stopWalkingAnimation();
                 }
 
                 return true; // 消耗事件，停止传播
