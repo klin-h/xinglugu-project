@@ -3,6 +3,7 @@
 #include <thread>
 #include <iostream>
 #include "cocos2d.h"
+#include "core/GameEventDispatcher.h"
 
 using namespace cocos2d;
 
@@ -40,8 +41,15 @@ void Timer1::update() {
     if (new_days_elapsed > days_elapsed) {
         days_elapsed = new_days_elapsed;
 
+        // 广播天数推进事件
+        GameEvent dayEvt;
+        dayEvt.type = GameEventType::DayPassed;
+        dayEvt.payload["days"] = days_elapsed;
+        GameEventDispatcher::instance().post(dayEvt);
+
         // 每经过30天更换季节
         if (days_elapsed >= 30) {
+            std::string prevSeason = season;
             if (season == "Spring") {
                 season = "Summer";
             }
@@ -54,6 +62,14 @@ void Timer1::update() {
             else {
                 season = "Spring";  // 如果当前是冬季，重新回到春季
             }
+
+            // 广播季节变化事件（携带前后季节与天数）
+            GameEvent seasonEvt;
+            seasonEvt.type = GameEventType::SeasonChanged;
+            seasonEvt.payload["prev"] = prevSeason;
+            seasonEvt.payload["current"] = season;
+            seasonEvt.payload["days"] = days_elapsed;
+            GameEventDispatcher::instance().post(seasonEvt);
 
             // 重新开始计时
             start_time = std::chrono::steady_clock::now();

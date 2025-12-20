@@ -10,6 +10,7 @@
 #include"cocos2d.h"
 #include"Constants.h"
 #include"backPhoto.h"
+#include"core/GameEventDispatcher.h"
 USING_NS_CC;
 using namespace Constants;
 
@@ -150,6 +151,7 @@ int backPack::returnPosi(Item* itemin) {
 bool backPack::itemAdd(Item* itemIn,int num) {
 	int ring = 0,posi=0;
 	bool isAlreadyInside = 0, isAlreadyFull = 0;
+	int deltaCount = itemIn->quantity * num;
 	for (int i = 0; i < grade * (backpackCapacity / 3) + backpackCapacity / 3; i++) {
 		if (box[i]->name == itemIn->name) {
 			isAlreadyInside = 1;
@@ -175,10 +177,18 @@ bool backPack::itemAdd(Item* itemIn,int num) {
 		else
 			isAlreadyFull = 1;
 	}
-	if (isAlreadyFull == 0)
+	if (isAlreadyFull == 0) {
+		GameEvent evt;
+		evt.type = GameEventType::InventoryChanged;
+		evt.payload["item"] = itemIn->name;
+		evt.payload["delta"] = deltaCount;
+		evt.payload["total"] = boxNum[isAlreadyInside ? posi : ring];
+		GameEventDispatcher::instance().post(evt);
 		return 0;
-	else
+	}
+	else {
 		return 1;
+	}
 }
 
 //判断是否有指定数量的指定物品
@@ -204,17 +214,20 @@ bool backPack::matchJudge(Item* itemToMatch, int numToMatch) {
 
 //物品减少
 void backPack::itemReduce(Item* itemToMatch, int numToMatch) {
+	int reduced = 0;
 	for (int i = 0; i < grade * (backpackCapacity / 3) + backpackCapacity / 3; i++) {
 		if (box[i]->name == itemToMatch->name)
 		{
 			if (numToMatch < boxNum[i]) {
 				boxNum[i] -= numToMatch;			
+				reduced += numToMatch;
 			}
 			else {
 					Item* nullitem = new Item();
 				if (boxNum[i] == numToMatch) {
 					box[i] = nullitem;
 					boxNum[i] = 0;
+					reduced += numToMatch;
 				}
 				else {
 					CCLOG("The num is too large!");
@@ -223,15 +236,28 @@ void backPack::itemReduce(Item* itemToMatch, int numToMatch) {
 			}
 		}
 	}
+
+	if (reduced > 0) {
+		GameEvent evt;
+		evt.type = GameEventType::InventoryChanged;
+		evt.payload["item"] = itemToMatch->name;
+		evt.payload["delta"] = -reduced;
+		evt.payload["total"] = 0; // 简化：此处未统计总数
+		GameEventDispatcher::instance().post(evt);
+	}
 }
 
 //钱的增减
 //ways：1--减 0--增
 void backPack::moneyChange(int addAmount,bool ways) {
-	if (ways == wayOfAdd)
-		money += addAmount;
-	else
-		money -= addAmount;
+	int delta = (ways == wayOfAdd) ? addAmount : -addAmount;
+	money += delta;
+
+	GameEvent evt;
+	evt.type = GameEventType::MoneyChanged;
+	evt.payload["delta"] = delta;
+	evt.payload["money"] = money;
+	GameEventDispatcher::instance().post(evt);
 }
 
 //返回钱的值

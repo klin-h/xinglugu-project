@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <string>
+#include "core/GameEventDispatcher.h"
 
 class Timer1 {
 public:

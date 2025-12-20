@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Crop.h"
+#include "core/GameEventDispatcher.h"
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -58,11 +59,14 @@ public:
     bool plantCrop(const std::string& cropName, float growthTime, const std::string& spriteFileconst, const cocos2d::Vec2& position);
     void harvestCrop(cocos2d::Vec2 touchPosition);
     void update(float deltaTime);
+    virtual void onExit() override;
 
     CREATE_FUNC(PlantingSystem);
 
 private:
     std::vector<Crop*> crops; // 存储作物的容器
+    int handleDayPassed = -1;   // 订阅句柄：天数变化
+    int handleSeasonChanged = -1; // 订阅句柄：季节变化
 };
 
 #endif // __PLANTING_SYSTEM_H__

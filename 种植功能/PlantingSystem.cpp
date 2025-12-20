@@ -135,6 +135,31 @@ bool PlantingSystem::init() {
     // 每帧更新
     schedule([this](float delta) { update(delta); }, "update_key");
 
+    // 订阅全局事件：天数推进与季节变化（Observer 模式）
+    auto& bus = GameEventDispatcher::instance();
+    handleDayPassed = bus.subscribe(GameEventType::DayPassed, [this](const GameEvent& evt) {
+        int days = evt.payload.at("days").asInt();
+        // 简化示例：按天刷新作物生长（此处可扩展成长倍率）
+        for (auto* crop : crops) {
+            if (crop) {
+                crop->update(1.0f); // 每天推进一次生长 tick
+            }
+        }
+        CCLOG("[PlantingSystem] DayPassed event received: %d", days);
+    });
+
+    handleSeasonChanged = bus.subscribe(GameEventType::SeasonChanged, [this](const GameEvent& evt) {
+        std::string season = evt.payload.at("current").asString();
+        // 简化示例：根据季节调整作物生长速度或滤除不适作物
+        for (auto* crop : crops) {
+            if (crop && season == "Winter") {
+                // 冬季减缓生长：少量推进
+                crop->update(0.2f);
+            }
+        }
+        CCLOG("[PlantingSystem] SeasonChanged to %s", season.c_str());
+    });
+
     // 创建触摸事件监听器
     auto touchListener = EventListenerTouchOneByOne::create();
     touchListener->onTouchBegan = [this](Touch* touch, Event* event) {
@@ -148,6 +173,19 @@ bool PlantingSystem::init() {
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
     return true;
+}
+
+void PlantingSystem::onExit() {
+    Node::onExit();
+    auto& bus = GameEventDispatcher::instance();
+    if (handleDayPassed != -1) {
+        bus.unsubscribe(GameEventType::DayPassed, handleDayPassed);
+        handleDayPassed = -1;
+    }
+    if (handleSeasonChanged != -1) {
+        bus.unsubscribe(GameEventType::SeasonChanged, handleSeasonChanged);
+        handleSeasonChanged = -1;
+    }
 }
 
 // 种植作物
