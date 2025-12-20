@@ -15,6 +15,8 @@
 #include "CharacterState.h" // 引入状态接口
 
 class Player;
+class InteractionStrategy; // 前向声明交互策略类
+class backPack; // 前向声明背包类
 
 // 方向的枚举
 enum class Direction {
@@ -77,10 +79,34 @@ public:
     // 设置动画状态
     void setAnimationState(AnimationState newState) { animationState = newState; }
 
+    // ============================================================
+    // Refactored with Strategy Pattern (策略模式重构)
+    // ============================================================
+    // 设置交互策略：允许角色使用不同的交互策略（挖掘、浇水、种植等）
+    void setInteractionStrategy(InteractionStrategy* strategy);
+    
+    // 执行交互操作：使用当前设置的策略执行交互
+    // @param tileCoord 瓦片坐标
+    // @param map 地图对象
+    // @param pack 背包对象（用于获取当前手持物品）
+    // @param clickPosition 点击位置（用于种植时确定作物位置）
+    // @return 交互是否成功
+    bool executeInteraction(const cocos2d::Vec2& tileCoord,
+                           cocos2d::TMXTiledMap* map,
+                           backPack* pack,
+                           const cocos2d::Vec2& clickPosition = cocos2d::Vec2::ZERO);
+    // ============================================================
+
     std::string name;
 
 protected:
     CharacterState* m_currentState; // 当前状态指针
+    
+    // ============================================================
+    // Refactored with Strategy Pattern (策略模式重构)
+    // ============================================================
+    InteractionStrategy* m_interactionStrategy; // 当前交互策略指针
+    // ============================================================
     
     int health;
     AnimationState animationState;

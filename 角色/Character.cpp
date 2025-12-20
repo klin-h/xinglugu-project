@@ -7,6 +7,7 @@
  * License:
  ****************************************************************/
 #include "Character.h"
+#include "交互策略/InteractionStrategy.h" // Refactored with Strategy Pattern
 
 USING_NS_CC;
 
@@ -14,7 +15,8 @@ Character::Character()
     : name("DefaultCharacter"),
     health(Constants::OriginHealth),
     animationState(AnimationState::IDLE),
-    m_currentState(nullptr) 
+    m_currentState(nullptr),
+    m_interactionStrategy(nullptr) // Refactored with Strategy Pattern
 {
     this->scheduleUpdate(); // 启用 update
 }
@@ -23,7 +25,8 @@ Character::Character(const std::string& name, int health)
     : name(name),
     health(Constants::OriginHealth),
     animationState(AnimationState::IDLE),
-    m_currentState(nullptr)
+    m_currentState(nullptr),
+    m_interactionStrategy(nullptr) // Refactored with Strategy Pattern
 {
     this->scheduleUpdate(); // 启用 update
 }
@@ -32,6 +35,11 @@ Character::~Character() {
     if (m_currentState) {
         delete m_currentState;
         m_currentState = nullptr;
+    }
+    // Refactored with Strategy Pattern: 清理交互策略
+    if (m_interactionStrategy) {
+        delete m_interactionStrategy;
+        m_interactionStrategy = nullptr;
     }
 }
 
@@ -124,3 +132,30 @@ void Character::stop() {
     // 实现停止逻辑
     this->stopAllActions();
 }
+
+// ============================================================
+// Refactored with Strategy Pattern (策略模式重构)
+// ============================================================
+
+void Character::setInteractionStrategy(InteractionStrategy* strategy) {
+    // 如果已有策略，先释放
+    if (m_interactionStrategy) {
+        delete m_interactionStrategy;
+    }
+    m_interactionStrategy = strategy;
+}
+
+bool Character::executeInteraction(const Vec2& tileCoord,
+                                  TMXTiledMap* map,
+                                  backPack* pack,
+                                  const Vec2& clickPosition) {
+    if (!m_interactionStrategy) {
+        CCLOG("Character::executeInteraction - No interaction strategy set");
+        return false;
+    }
+    
+    // 委托给策略对象执行交互
+    return m_interactionStrategy->execute(tileCoord, map, pack, clickPosition);
+}
+
+// ============================================================

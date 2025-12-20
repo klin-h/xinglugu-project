@@ -12,6 +12,11 @@
 #include "GlobalVariables.h"
 #include "Crop.h"
 #include"PlantingSystem.h"
+// Refactored with Strategy Pattern
+#include "交互策略/InteractionStrategy.h"
+#include "交互策略/DiggingStrategy.h"
+#include "交互策略/WateringStrategy.h"
+#include "交互策略/PlantingStrategy.h"
 
 using namespace cocos2d;
 
@@ -336,8 +341,32 @@ bool checkFarmlandLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, ba
     }
 
     int gid = farmlandLayer->getTileGIDAt(tileCoord);
+    std::string currentTool = pack->handInItemOut();
+    
+    // ============================================================
+    // Refactored with Strategy Pattern (策略模式重构)
+    // ============================================================
+    // 根据当前工具选择相应的交互策略
+    InteractionStrategy* strategy = nullptr;
+    
+    if (currentTool == "hoe") {
+        strategy = new DiggingStrategy();
+    } else if (currentTool == "wateringcan") {
+        strategy = new WateringStrategy();
+    } else if (currentTool == "parsnipseed" || currentTool.find("seed") != std::string::npos) {
+        strategy = new PlantingStrategy();
+    }
+    
+    // 如果找到了合适的策略，使用策略执行交互
+    if (strategy) {
+        bool success = strategy->execute(tileCoord, map, pack, click_position);
+        delete strategy; // 释放策略对象
+        return success;
+    }
+    // ============================================================
+    
+    // 保留原有逻辑作为后备（用于不支持策略模式的工具）
     if (gid <= 0) {
-        std::string currentTool = pack->handInItemOut();
         if (currentTool == "hoe") {
             cultivateLand(tileCoord, map, "landmateri");
             CCLOG("Cultivating the land.");
@@ -352,7 +381,6 @@ bool checkFarmlandLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, ba
         auto typeIter = properties.find("type");
         if (typeIter != properties.end() && typeIter->second.getType() == Value::Type::STRING) {
             std::string type = typeIter->second.asString();
-            std::string currentTool = pack->handInItemOut();
 
             if (type == "farm_land_unwater" && currentTool == "wateringcan") {
                 CCLOG("Watering land");
