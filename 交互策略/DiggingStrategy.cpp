@@ -44,28 +44,33 @@ bool DiggingStrategy::execute(const Vec2& tileCoord,
     }
     
     // 执行土地耕种操作
-    cultivateLand(tileCoord, map, "landmateri");
-    CCLOG("DiggingStrategy::execute - Land cultivated at (%d, %d)", 
-          static_cast<int>(tileCoord.x), static_cast<int>(tileCoord.y));
+    bool success = cultivateLand(tileCoord, map, "landmateri");
+    if (success) {
+        CCLOG("DiggingStrategy::execute - Land cultivated at (%d, %d)", 
+              static_cast<int>(tileCoord.x), static_cast<int>(tileCoord.y));
+    } else {
+        CCLOG("DiggingStrategy::execute - Failed to cultivate land at (%d, %d)", 
+              static_cast<int>(tileCoord.x), static_cast<int>(tileCoord.y));
+    }
     
-    return true;
+    return success;
 }
 
-void DiggingStrategy::cultivateLand(const Vec2& tileCoord, 
+bool DiggingStrategy::cultivateLand(const Vec2& tileCoord, 
                                     TMXTiledMap* map, 
                                     const std::string& layerName) {
     // 从ScenceTouch.cpp中提取的cultivateLand逻辑
     auto targetLayer = map->getLayer("farmland");
     if (!targetLayer) {
         CCLOG("DiggingStrategy::cultivateLand - Layer 'farmland' not found!");
-        return;
+        return false;
     }
     
     // 获取素材图层
     auto materialLayer = map->getLayer(layerName);
     if (!materialLayer) {
         CCLOG("DiggingStrategy::cultivateLand - Layer '%s' not found!", layerName.c_str());
-        return;
+        return false;
     }
     
     // 从素材图层中获取 (0, 0) 的 GID
@@ -74,7 +79,7 @@ void DiggingStrategy::cultivateLand(const Vec2& tileCoord,
     if (materialGID == 0) {
         CCLOG("DiggingStrategy::cultivateLand - No tile found at (%d, %d) in layer '%s'",
             static_cast<int>(materialTileCoord.x), static_cast<int>(materialTileCoord.y), layerName.c_str());
-        return;
+        return false;
     }
     
     // 在目标图层中设置新的 GID
@@ -83,5 +88,7 @@ void DiggingStrategy::cultivateLand(const Vec2& tileCoord,
     CCLOG("DiggingStrategy::cultivateLand - Cultivated land at (%d, %d) in 'farmland' layer with tile from '%s' layer at (0, 0), GID: %d",
         static_cast<int>(tileCoord.x), static_cast<int>(tileCoord.y),
         layerName.c_str(), materialGID);
+    
+    return true;
 }
 

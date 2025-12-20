@@ -36,7 +36,8 @@ public:
 
 private:
     // 执行土地浇水操作（从ScenceTouch.cpp中提取的逻辑）
-    void waterLand(const cocos2d::Vec2& tileCoord, 
+    // @return 操作是否成功
+    bool waterLand(const cocos2d::Vec2& tileCoord, 
                   cocos2d::TMXTiledMap* map, 
                   const std::string& layerName);
 };

@@ -361,58 +361,13 @@ bool checkFarmlandLayerInteraction(Vec2 tileCoord, cocos2d::TMXTiledMap* map, ba
     if (strategy) {
         bool success = strategy->execute(tileCoord, map, pack, click_position);
         delete strategy; // 释放策略对象
+        // Refactored with Strategy Pattern: 策略执行后直接返回，不再执行原有的if-else逻辑
         return success;
     }
     // ============================================================
     
-    // 保留原有逻辑作为后备（用于不支持策略模式的工具）
-    if (gid <= 0) {
-        if (currentTool == "hoe") {
-            cultivateLand(tileCoord, map, "landmateri");
-            CCLOG("Cultivating the land.");
-        }
-        return false;
-    }
-
-    Value propertiesValue = map->getPropertiesForGID(gid);
-    if (propertiesValue.getType() == Value::Type::MAP) {
-        ValueMap properties = propertiesValue.asValueMap();
-
-        auto typeIter = properties.find("type");
-        if (typeIter != properties.end() && typeIter->second.getType() == Value::Type::STRING) {
-            std::string type = typeIter->second.asString();
-
-            if (type == "farm_land_unwater" && currentTool == "wateringcan") {
-                CCLOG("Watering land");
-                waterLand(tileCoord, map, "landmateri");
-                return true;
-            }
-            else if (currentTool == "hoe") {
-                cultivateLand(tileCoord, map, "landmateri");
-                CCLOG("Cultivating the land.");
-                return true;
-            }
-            else if(currentTool == "parsnipseed")  {
-                auto plantingSystem = PlantingSystem::create();
-                if (plantingSystem && plantingSystem->init()) {
-                    g_sharedScene->addChild(plantingSystem, 4); // 添加植物系统到场景中
-                }
-
-                // 种植作物示例
-                if (plantingSystem) {
-                    // 假设 sprites 文件名和生长时间是有效的
-                    plantingSystem->plantCrop("cauliflower", 360.0f, "cauliflower_seed.png", click_position);
-                   
-                }
-
-            }
-            else {
-                CCLOG("Tool does not match type or no valid type found in farmland layer.");
-            }
-        }
-    }
-
-    CCLOG("No valid 'type' property found or type is not a string in farmland layer.");
+    // 如果没有匹配的策略，说明工具不支持，记录日志并返回false
+    CCLOG("checkFarmlandLayerInteraction - No strategy found for tool '%s'", currentTool.c_str());
     return false;
 }
 

@@ -97,10 +97,28 @@ bool PlantingStrategy::execute(const Vec2& tileCoord,
     float growthTime = 360.0f; // 默认生长时间（可根据种子类型调整）
     std::string spriteFile = "cauliflower_seed.png"; // 默认精灵文件（可根据种子类型调整）
     
-    // 创建或获取种植系统
-    auto plantingSystem = PlantingSystem::create();
-    if (plantingSystem && plantingSystem->init()) {
-        g_sharedScene->addChild(plantingSystem, 4); // 添加植物系统到场景中
+    // 尝试从场景中获取已存在的PlantingSystem，避免重复创建
+    PlantingSystem* plantingSystem = nullptr;
+    if (g_sharedScene) {
+        // 查找场景中是否已存在PlantingSystem
+        plantingSystem = dynamic_cast<PlantingSystem*>(g_sharedScene->getChildByTag(999));
+        if (!plantingSystem) {
+            // 如果不存在，创建新的PlantingSystem
+            plantingSystem = PlantingSystem::create();
+            if (plantingSystem && plantingSystem->init()) {
+                plantingSystem->setTag(999); // 设置标签以便后续查找
+                g_sharedScene->addChild(plantingSystem, 4); // 添加植物系统到场景中
+                CCLOG("PlantingStrategy::execute - Created new PlantingSystem");
+            } else {
+                CCLOG("PlantingStrategy::execute - Failed to create PlantingSystem");
+                return false;
+            }
+        } else {
+            CCLOG("PlantingStrategy::execute - Reusing existing PlantingSystem");
+        }
+    } else {
+        CCLOG("PlantingStrategy::execute - g_sharedScene is null");
+        return false;
     }
     
     // 执行种植操作
@@ -115,9 +133,8 @@ bool PlantingStrategy::execute(const Vec2& tileCoord,
             CCLOG("PlantingStrategy::execute - Failed to plant crop '%s'", cropName.c_str());
             return false;
         }
-    } else {
-        CCLOG("PlantingStrategy::execute - Failed to create PlantingSystem");
-        return false;
     }
+    
+    return false;
 }
 

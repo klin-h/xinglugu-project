@@ -65,10 +65,16 @@ bool WateringStrategy::execute(const Vec2& tileCoord,
             
             // 只有当土地类型为未浇水状态时才执行浇水操作
             if (type == "farm_land_unwater") {
-                waterLand(tileCoord, map, "landmateri");
-                CCLOG("WateringStrategy::execute - Land watered at (%d, %d)", 
-                      static_cast<int>(tileCoord.x), static_cast<int>(tileCoord.y));
-                return true;
+                bool success = waterLand(tileCoord, map, "landmateri");
+                if (success) {
+                    CCLOG("WateringStrategy::execute - Land watered at (%d, %d)", 
+                          static_cast<int>(tileCoord.x), static_cast<int>(tileCoord.y));
+                    return true;
+                } else {
+                    CCLOG("WateringStrategy::execute - Failed to water land at (%d, %d)", 
+                          static_cast<int>(tileCoord.x), static_cast<int>(tileCoord.y));
+                    return false;
+                }
             } else {
                 CCLOG("WateringStrategy::execute - Land type '%s' is not suitable for watering", type.c_str());
                 return false;
@@ -80,21 +86,21 @@ bool WateringStrategy::execute(const Vec2& tileCoord,
     return false;
 }
 
-void WateringStrategy::waterLand(const Vec2& tileCoord, 
+bool WateringStrategy::waterLand(const Vec2& tileCoord, 
                                  TMXTiledMap* map, 
                                  const std::string& layerName) {
     // 从ScenceTouch.cpp中提取的waterLand逻辑
     auto targetLayer = map->getLayer("farmland");
     if (!targetLayer) {
         CCLOG("WateringStrategy::waterLand - Layer 'farmland' not found!");
-        return;
+        return false;
     }
     
     // 获取素材图层
     auto materialLayer = map->getLayer(layerName);
     if (!materialLayer) {
         CCLOG("WateringStrategy::waterLand - Layer '%s' not found!", layerName.c_str());
-        return;
+        return false;
     }
     
     // 从素材图层中获取 (1, 0) 的 GID（浇水后的土地）
@@ -103,7 +109,7 @@ void WateringStrategy::waterLand(const Vec2& tileCoord,
     if (materialGID == 0) {
         CCLOG("WateringStrategy::waterLand - No tile found at (%d, %d) in layer '%s'",
             static_cast<int>(materialTileCoord.x), static_cast<int>(materialTileCoord.y), layerName.c_str());
-        return;
+        return false;
     }
     
     // 在目标图层中设置新的 GID
@@ -112,5 +118,7 @@ void WateringStrategy::waterLand(const Vec2& tileCoord,
     CCLOG("WateringStrategy::waterLand - Watered land at (%d, %d) in 'farmland' layer with tile from '%s' layer at (1, 0), GID: %d",
         static_cast<int>(tileCoord.x), static_cast<int>(tileCoord.y),
         layerName.c_str(), materialGID);
+    
+    return true;
 }
 
