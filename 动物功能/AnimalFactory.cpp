@@ -1,3 +1,4 @@
+#Refactored with Factory Pattern
 #include "AnimalFactory.h"
 
 Animal* AnimalFactory::create(AnimalType type) {
